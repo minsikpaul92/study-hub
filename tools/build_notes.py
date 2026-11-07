@@ -34,10 +34,12 @@ def deps_for(code):
         pk|={'react-native-gesture-handler','react-native-reanimated','react-native-worklets'}
     if 'jotai' in pk: pk.add('@types/react')
     return sorted(pk)
+def snack_platform(code):
+    # web preview can't run these, so Snack opens on the iOS simulator instead
+    return 'ios' if re.search(r'react-native-maps|react-native-gesture-handler|Alert\.alert|PanResponder|Animated',code) else 'web'
 def snack(code,name):
     d=deps_for(code)
-    plat='web'
-    if re.search(r'react-native-maps|react-native-gesture-handler|Alert\.alert|PanResponder|Animated',code): plat='ios'
+    plat=snack_platform(code)
     q={'name':name[:60],'platform':plat,'sdkVersion':'54.0.0','code':code}
     if d: q['dependencies']=','.join(f"{p}@{VER.get(p,'*')}" for p in d)
     return 'https://snack.expo.dev/?'+up.urlencode(q,quote_via=up.quote)
@@ -53,7 +55,9 @@ def fix_body(text,name,kind,mark=None):
             while j<len(lines) and not re.match(r'^\s*```\s*$',lines[j]): j+=1
             code='\n'.join(lines[i+1:j])
             if not lang: lang='json' if code.lstrip().startswith('{') and '"dependencies"' in code else 'jsx'
+            marked=False
             if mark and lang in('jsx','js','tsx','ts') and (first or len(mark)>2 or 'export default' in code):
+                marked=True
                 no,todo=mark[:2]; ind=m.group(1)
                 idattr=f' id="practice-{no}"' if (first and no) else ''
                 tail=f': {html.escape(todo)}' if (first and todo) else ''
@@ -64,7 +68,8 @@ def fix_body(text,name,kind,mark=None):
             elif 'export default' in code and 'react-native' in code and re.search(r'''from\s+['"](@/|\.\.?/|expo-router)''',code):
                 out.append(''); out.append('▶ 이 코드는 다른 파일(또는 Expo Router의 app 폴더 구조)이 필요해서 Snack 한 파일로는 실행되지 않아요. VS Code 로컬 Expo 프로젝트에서 해당 파일에 붙여 넣어 실행하세요.')
             elif 'export default' in code and 'react-native' in code:
-                out.append(''); out.append(f'▶ **[Snack에서 바로 실행하기]({snack(code.strip()+chr(10),name)})** (SDK 54, 필요한 패키지 자동 포함)')
+                emb='' if marked or snack_platform(code)!='web' else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
+                out.append(''); out.append(f'▶ **[Snack에서 바로 실행하기]({snack(code.strip()+chr(10),name)})** (SDK 54, 필요한 패키지 자동 포함){emb}')
             elif re.search(r'createRoot|function MyApp|<div|<button',code) and 'react-native' not in code and lang in('jsx','js'):
                 out.append(''); out.append(f'▶ 웹 React 코드예요. [교수님 CodeSandbox 템플릿]({CSB})에 붙여넣어 실행하세요.')
             i=j+1; continue

@@ -115,7 +115,7 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){{var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){{navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){{c.textContent='복사됨';setTimeout(function(){{c.textContent='복사';}},1200);}});}};p.appendChild(c);}});
 }})();
 </script>
-<script src="{rel}assets/timer.js?v={V}"></script>{sc}
+<script src="{rel}assets/timer.js?v={V}"></script><script src="{rel}assets/snack.js?v={V}"></script>{sc}
 </body></html>"""
 
 
