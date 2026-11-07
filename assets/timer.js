@@ -64,16 +64,28 @@
     return ctx;
   }
   ["pointerdown", "keydown", "touchstart"].forEach((ev) => window.addEventListener(ev, audio, { capture: true, passive: true }));
-  function tones(mode) {
-    const c = audio(); if (!c) return false;
-    const t0 = c.currentTime + 0.05;
-    [0, 0.3, 0.6, 1.2, 1.5, 1.8].forEach((t, i) => {
+  // School chime ("딩동댕동"): the Westminster quarters melody, played with a bell-like tone.
+  const C = { do: 523.25, re: 587.33, mi: 659.25, sol: 392.0 };
+  const CHIME = [["mi", "do", "re", "sol"], ["sol", "re", "mi", "do"], ["mi", "re", "do", "sol"], ["sol", "re", "mi", "do"]];
+  function bell(c, out, f, at, len) {
+    // A struck bell: a few partials (some slightly off-harmonic) that fade at different speeds.
+    [[1, 0.5, 1], [2, 0.25, 0.7], [2.4, 0.12, 0.5], [3, 0.1, 0.45], [4.2, 0.06, 0.3], [0.5, 0.15, 1.2]].forEach(([r, amp, d]) => {
       const o = c.createOscillator(), g = c.createGain();
-      o.frequency.value = mode === "break" ? [523, 659, 784][i % 3] : [784, 659, 523][i % 3];
-      g.gain.setValueAtTime(0.0001, t0 + t);
-      g.gain.exponentialRampToValueAtTime(0.35, t0 + t + 0.02);
-      g.gain.exponentialRampToValueAtTime(0.0001, t0 + t + 0.45);
-      o.connect(g).connect(c.destination); o.start(t0 + t); o.stop(t0 + t + 0.5);
+      o.type = "sine"; o.frequency.value = f * r;
+      g.gain.setValueAtTime(0.0001, at);
+      g.gain.exponentialRampToValueAtTime(amp, at + 0.008);
+      g.gain.exponentialRampToValueAtTime(0.0001, at + len * d);
+      o.connect(g).connect(out); o.start(at); o.stop(at + len * d + 0.05);
+    });
+  }
+  function tones() {
+    const c = audio(); if (!c) return false;
+    const out = c.createGain(); out.gain.value = 0.55;
+    const comp = c.createDynamicsCompressor(); out.connect(comp).connect(c.destination);
+    let t = c.currentTime + 0.05;
+    CHIME.forEach((phrase) => {
+      phrase.forEach((n, i) => { const last = i === 3; bell(c, out, C[n], t, last ? 2.6 : 1.8); t += last ? 1.1 : 0.55; });
+      t += 0.2;
     });
     return c.state === "running";
   }
@@ -87,11 +99,11 @@
   }
   function chime(text) {
     if (!st.cfg.sound) return;
-    const ok = tones(st.mode);
+    const ok = tones();
     if (!ok) {
       flashTitle(text);
       // Retry once the user touches the page, so the chime still plays late instead of never.
-      const late = () => { tones(st.mode); window.removeEventListener("pointerdown", late); };
+      const late = () => { tones(); window.removeEventListener("pointerdown", late); };
       window.addEventListener("pointerdown", late);
     }
   }
@@ -127,7 +139,7 @@
     } else if (a === "reset") {
       st.mode = "study"; st.running = false; st.remain = dur("study");
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
-    else if (a === "test") { tones(st.mode === "break" ? "study" : "break"); return; }
+    else if (a === "test") { tones(); return; }
     save(); paint();
   }
 
