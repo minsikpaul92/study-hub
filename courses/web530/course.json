@@ -14,9 +14,18 @@
     "TEST": "materials/sample-tests"
   },
   "links": [
-    { "label": "코스노트 사이트", "href": "https://seneca-ictoer.github.io/WEB530/" },
-    { "label": "강의 저장소", "href": "https://github.com/nick-romanidis/web530-2267-nsa" },
-    { "label": "Expo Snack", "href": "https://snack.expo.dev/" }
+    {
+      "label": "코스노트 사이트",
+      "href": "https://seneca-ictoer.github.io/WEB530/"
+    },
+    {
+      "label": "강의 저장소",
+      "href": "https://github.com/nick-romanidis/web530-2267-nsa"
+    },
+    {
+      "label": "Expo Snack",
+      "href": "https://snack.expo.dev/"
+    }
   ],
   "toy_project": {
     "title": "Campus Spots",
@@ -24,20 +33,138 @@
     "snack_links": "toy-project/snack-links.json"
   },
   "exams": [
-    { "id": "test1", "title": "Test 1", "weeks": [1, 2, 3, 4] },
-    { "id": "test2", "title": "Test 2", "weeks": [5, 6, 7] }
+    {
+      "id": "test1",
+      "title": "Test 1",
+      "weeks": [
+        1,
+        2
+      ]
+    },
+    {
+      "id": "test2",
+      "title": "Test 2",
+      "weeks": [
+        3,
+        4
+      ]
+    },
+    {
+      "id": "test3",
+      "title": "Test 3",
+      "weeks": [
+        5,
+        6,
+        7
+      ]
+    }
   ],
   "mock_exams": [
-    { "title": "Mock Test 3 (Week 5~7)", "file": "exam-prep/mock-exams/test3-mock-week5-7.md", "answers": "exam-prep/mock-exams/test3-mock-week5-7-answers.md", "weeks": [5, 6, 7] }
+    {
+      "title": "Mock Test 3 (Week 5~7)",
+      "file": "exam-prep/mock-exams/test3-mock-week5-7.md",
+      "answers": "exam-prep/mock-exams/test3-mock-week5-7-answers.md",
+      "weeks": [
+        5,
+        6,
+        7
+      ]
+    }
   ],
   "weeks": [
-    { "n": 1, "title": "React 기초", "topics": ["컴포넌트", "JSX", "Props", "PropTypes"], "notes": "notes/week-01.md", "toy": "week01" },
-    { "n": 2, "title": "이벤트와 State", "topics": ["onPress", "useState", "useEffect", "Jotai"], "notes": "notes/week-02.md", "toy": "week02" },
-    { "n": 3, "title": "스타일과 레이아웃", "topics": ["StyleSheet", "Flexbox", "Platform"], "notes": "notes/week-03.md", "toy": "week03" },
-    { "n": 4, "title": "Navigation", "topics": ["Stack", "Tab", "Drawer", "화면 간 State"], "notes": "notes/week-04.md", "toy": "week04" },
-    { "n": 5, "title": "Lists", "topics": ["FlatList", "정렬/검색", "fetch", "Pull to Refresh"], "notes": "notes/week-05.md", "toy": "week05" },
-    { "n": 6, "title": "Touch", "topics": ["Pressable", "hitSlop", "ScrollView", "Swipeable"], "notes": "notes/week-06.md", "toy": "week06" },
-    { "n": 7, "title": "Location & Maps", "topics": ["expo-location", "MapView", "Marker", "Polygon"], "notes": "notes/week-07.md", "toy": "week07" },
-    { "n": 8, "title": "Expo + TypeScript + Expo Router", "topics": ["로컬 Expo", "TypeScript", "파일 기반 라우팅"], "notes": "notes/week-08.md", "toy": "week08" }
+    {
+      "n": 1,
+      "title": "React 기초",
+      "topics": [
+        "컴포넌트",
+        "JSX",
+        "Props",
+        "PropTypes"
+      ],
+      "notes": "notes/week-01.md",
+      "toy": "week01"
+    },
+    {
+      "n": 2,
+      "title": "이벤트와 State",
+      "topics": [
+        "onPress",
+        "useState",
+        "useEffect",
+        "Jotai"
+      ],
+      "notes": "notes/week-02.md",
+      "toy": "week02"
+    },
+    {
+      "n": 3,
+      "title": "스타일과 레이아웃",
+      "topics": [
+        "StyleSheet",
+        "Flexbox",
+        "Platform"
+      ],
+      "notes": "notes/week-03.md",
+      "toy": "week03"
+    },
+    {
+      "n": 4,
+      "title": "Navigation",
+      "topics": [
+        "Stack",
+        "Tab",
+        "Drawer",
+        "화면 간 State"
+      ],
+      "notes": "notes/week-04.md",
+      "toy": "week04"
+    },
+    {
+      "n": 5,
+      "title": "Lists",
+      "topics": [
+        "FlatList",
+        "정렬/검색",
+        "fetch",
+        "Pull to Refresh"
+      ],
+      "notes": "notes/week-05.md",
+      "toy": "week05"
+    },
+    {
+      "n": 6,
+      "title": "Touch",
+      "topics": [
+        "Pressable",
+        "hitSlop",
+        "ScrollView",
+        "Swipeable"
+      ],
+      "notes": "notes/week-06.md",
+      "toy": "week06"
+    },
+    {
+      "n": 7,
+      "title": "Location & Maps",
+      "topics": [
+        "expo-location",
+        "MapView",
+        "Marker",
+        "Polygon"
+      ],
+      "notes": "notes/week-07.md",
+      "toy": "week07"
+    },
+    {
+      "n": 8,
+      "title": "Expo + TypeScript + Expo Router",
+      "topics": [
+        "로컬 Expo",
+        "TypeScript",
+        "파일 기반 라우팅"
+      ],
+      "notes": "notes/week-08.md",
+      "toy": "week08"
+    }
   ]
 }

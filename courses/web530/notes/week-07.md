@@ -1,6 +1,6 @@
 # Week 7. Location & Maps: 위치 권한, 현재 위치, 실시간 추적, 지도, 마커, 도형
 
-> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 2 범위.**
+> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 3 범위.**
 
 ## 0. 이번 주 한눈에 보기
 
@@ -1079,7 +1079,7 @@ const styles = StyleSheet.create({
 
 **🇰🇷 한글 해설**
 
-**완성 코드 해설**: `[tracking]` 의존 effect 안에서 `cancelled` 깃발 + `subscription` 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscription?.remove();`. Pause/Resume 버튼. Test 2에서 "watcher 정리" 코드를 쓰라고 하면 이 패턴.
+**완성 코드 해설**: `[tracking]` 의존 effect 안에서 `cancelled` 깃발 + `subscription` 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscription?.remove();`. Pause/Resume 버튼. Test 3에서 "watcher 정리" 코드를 쓰라고 하면 이 패턴.
 
 ### 💻 Maps
 
@@ -1724,7 +1724,7 @@ const styles = StyleSheet.create({
 
 **🇰🇷 한글 해설**
 
-**완성 코드 해설**: CAMPUSES 배열 → `.map()` Marker(key, coordinate, title, onPress) → selected state → 하단 카드. POI 숨기기 두 prop. 목록(5주차) + 선택 state + 지도가 합쳐진 Test 2 스타일 코드예요.
+**완성 코드 해설**: CAMPUSES 배열 → `.map()` Marker(key, coordinate, title, onPress) → selected state → 하단 카드. POI 숨기기 두 prop. 목록(5주차) + 선택 state + 지도가 합쳐진 Test 3 스타일 코드예요.
 
 ### 💻 Example: Drawing on the Map
 

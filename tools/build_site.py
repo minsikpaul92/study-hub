@@ -76,7 +76,7 @@ def h1_of(text, fallback):
 
 
 # ---------- Page shell ----------
-THEME_JS = """<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>"""
+THEME_JS = """<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>"""
 
 
 def page(title, body, rel, crumbs=(), scripts=(), toc_toggle=False, desc=""):
@@ -95,11 +95,11 @@ def page(title, body, rel, crumbs=(), scripts=(), toc_toggle=False, desc=""):
 <header class="topbar"><div class="in">
 <a class="brand" href="{rel}index.html">study<span>-hub</span></a>
 <nav class="crumbs">{cr}</nav><div class="spacer"></div>{tt}
-<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙 다크</button>
 </div></header>
 {body}
 <script>
-(function(){{var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){{var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}}catch(e){{}}}};
+(function(){{var b=document.getElementById('theme');function lab(){{var d=document.documentElement.dataset.theme==='dark';b.textContent=d?'☀️ 라이트':'🌙 다크';b.title=d?'라이트 모드로':'다크 모드로';}}lab();b.onclick=function(){{var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{{localStorage.setItem('studyhub-theme',n);}}catch(e){{}}lab();}};
 var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){{t.onclick=function(){{toc.classList.toggle('open');}};toc.addEventListener('click',function(e){{if(e.target.closest('a'))toc.classList.remove('open');}});}}
 document.querySelectorAll('.md pre').forEach(function(p){{var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){{navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){{c.textContent='복사됨';setTimeout(function(){{c.textContent='복사';}},1200);}});}};p.appendChild(c);}});
 }})();

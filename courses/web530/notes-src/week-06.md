@@ -1,6 +1,6 @@
 # Week 6. Touch: Pressable, Hit Slop, 스크롤, 스와이프와 취소
 
-> 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 2 범위.**
+> 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 3 범위.**
 
 ## 0. 이번 주 한눈에 보기
 
@@ -197,7 +197,7 @@ View를 `Pressable`로 바꾸고 `onPress={() => setTaps((prev) => prev + 1)}`. 
 - 스타일 순서: `[styles.row, selected[id] && styles.selected, pressed && styles.pressed]` → pressed가 마지막이라 선택된 줄에서도 누름 피드백.
 - **`extraData={selected}`**: FlatList는 props가 안 바뀌면 줄을 다시 안 그려요. 줄 선택해도 `data`는 그대로라 "rows가 selected에도 의존한다"고 알려 줘야 해요. 이 예제는 renderItem이 인라인 함수라 우연히 동작하지만, memoized renderItem이면 선택이 안 보여요. **data 밖의 state를 읽으면 항상 extraData.**
 @@K Finished Code
-**완성 코드 해설**: `selected` 객체 state, `toggle` 함수, derived `count`, Pressable 줄 + 3단 스타일 배열, `extraData`. Test 2에 "선택 가능한 목록" 문제가 나오면 이 코드가 정답 패턴이에요.
+**완성 코드 해설**: `selected` 객체 state, `toggle` 함수, derived `count`, Pressable 줄 + 3단 스타일 배열, `extraData`. Test 3에 "선택 가능한 목록" 문제가 나오면 이 코드가 정답 패턴이에요.
 @@K Swipe and Cancel
 스와이프 = 가로 드래그. 조건: **취소 가능**(짧으면 원위치), **세로 스크롤을 막지 않기**(확실히 옆으로 갈 때만 가져가기). 폰 필요.
 @@K Example: Drag and Snap Back

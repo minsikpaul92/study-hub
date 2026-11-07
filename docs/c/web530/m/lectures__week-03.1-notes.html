@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Week 3.1 - Notes and Examples · WEB530</title><meta name="description" content="Week 3.1 - Notes and Examples · WEB530">
-<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <link rel="stylesheet" href="../../assets/site.css">
@@ -10,7 +10,7 @@
 <header class="topbar"><div class="in">
 <a class="brand" href="../../index.html">study<span>-hub</span></a>
 <nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Week 3.1 - Notes and Examples</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
-<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙 다크</button>
 </div></header>
 <div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#react-native-playground">React Native Playground</a></li><li class="l2"><a href="#example-inline-styles">Example: Inline Styles</a></li><li class="l2"><a href="#example-stylesheetcreate">Example: StyleSheet.create()</a></li><li class="l2"><a href="#example-layout-with-flexbox">Example: Layout with Flexbox</a></li><li class="l2"><a href="#example-platformos">Example: Platform.OS</a></li><li class="l2"><a href="#example-platform-specific-styles">Example: Platform-Specific Styles</a></li><li class="l2"><a href="#example-platformselect">Example: Platform.select()</a></li><li class="l2"><a href="#example-platform-specific-files">Example: Platform-Specific Files</a></li><li class="l2"><a href="#common-components">Common Components</a></li><li class="l3"><a href="#view">View</a></li><li class="l3"><a href="#text">Text</a></li><li class="l3"><a href="#button">Button</a></li><li class="l3"><a href="#image">Image</a></li><li class="l3"><a href="#scrollview">ScrollView</a></li><li class="l3"><a href="#textinput">TextInput</a></li><li class="l3"><a href="#switch">Switch</a></li></ol></nav>
 <article class="md"><h1 id="week-31---notes-and-examples">Week 3.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#week-31---notes-and-examples">#</a></h1>
@@ -598,7 +598,7 @@ MyButton.js
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
 document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
 <script>
-(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.textContent=d?'☀️ 라이트':'🌙 다크';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
 var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();

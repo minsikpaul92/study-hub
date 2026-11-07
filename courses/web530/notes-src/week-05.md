@@ -1,6 +1,6 @@
 # Week 5. Lists: FlatList, 정렬과 검색, 데이터 불러오기, 목록과 상세, 당겨서 새로고침
 
-> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 2 범위**라서 특히 꼼꼼하게 정리했어요.
+> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
 
 ## 0. 이번 주 한눈에 보기
 
@@ -205,7 +205,7 @@ props 2개:
 - 뒤로 가면 목록이 **그대로**(Posts 화면이 스택에 남아 있으니까, unmount 안 됨).
 - params는 **작고 직렬화 가능**(serializable, JSON으로 바꿀 수 있는)해야 해요. 큰 레코드는 **id만** 넘기고 상세가 fetch.
 @@K Finished Code
-**완성 코드 해설**: Fetching List Data 완성 코드 + Stack(Posts, Details) + Pressable row + Details 화면. 4주차와 5주차가 합쳐진 형태라 Test 2에 나오기 딱 좋은 구조예요.
+**완성 코드 해설**: Fetching List Data 완성 코드 + Stack(Posts, Details) + Pressable row + Details 화면. 4주차와 5주차가 합쳐진 형태라 Test 3에 나오기 딱 좋은 구조예요.
 @@K Example: Pull to Refresh
 `refreshing` + `onRefresh` 두 prop. 제스처 코드 없음. Web에서는 안 되니 iOS/Android/Expo Go.
 @@K Step 1 - Track the Refresh
@@ -219,7 +219,7 @@ API가 매번 같은 데이터를 줘서 바뀐 게 안 보이니, 받은 **시�
 
 @@LAB lab-5.md
 @@K _intro
-Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. **Test 2 대비 최고의 연습 문제**예요. 아래에 각 문제의 연결 예제와 주석에 쓸 "내 말로 설명" 포인트를 정리했어요.
+Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. **Test 3 대비 최고의 연습 문제**예요. 아래에 각 문제의 연결 예제와 주석에 쓸 "내 말로 설명" 포인트를 정리했어요.
 @@K A Note on AI
 AI는 막힐 때만. 주석으로 "내 말로 설명" 요구가 많은 랩이라 개념 이해가 중요해요.
 @@K Overview
@@ -291,7 +291,7 @@ Q1~5는 Web으로 충분, Q6(당겨서 새로고침)은 터치 필요.
 19. loading과 refreshing을 분리하는 이유?
 20. 무한 스크롤 prop? → `onEndReached`, `onEndReachedThreshold`
 
-**손으로 써 보기 과제**: Test 2 스타일 미니 앱. jsonplaceholder의 todos를 불러와서 검색, 완료/미완료 정렬, 빈 상태, 에러 + 재시도, 당겨서 새로고침까지. 보지 않고 써 본 뒤 비교하세요.
+**손으로 써 보기 과제**: Test 3 스타일 미니 앱. jsonplaceholder의 todos를 불러와서 검색, 완료/미완료 정렬, 빈 상태, 에러 + 재시도, 당겨서 새로고침까지. 보지 않고 써 본 뒤 비교하세요.
 
 ```jsx
 import { useEffect, useState } from "react";

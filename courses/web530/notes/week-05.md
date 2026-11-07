@@ -1,6 +1,6 @@
 # Week 5. Lists: FlatList, 정렬과 검색, 데이터 불러오기, 목록과 상세, 당겨서 새로고침
 
-> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 2 범위**라서 특히 꼼꼼하게 정리했어요.
+> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
 
 ## 0. 이번 주 한눈에 보기
 
@@ -2078,7 +2078,7 @@ const styles = StyleSheet.create({
 
 **🇰🇷 한글 해설**
 
-**완성 코드 해설**: Fetching List Data 완성 코드 + Stack(Posts, Details) + Pressable row + Details 화면. 4주차와 5주차가 합쳐진 형태라 Test 2에 나오기 딱 좋은 구조예요.
+**완성 코드 해설**: Fetching List Data 완성 코드 + Stack(Posts, Details) + Pressable row + Details 화면. 4주차와 5주차가 합쳐진 형태라 Test 3에 나오기 딱 좋은 구조예요.
 
 ### 💻 Example: Pull to Refresh
 
@@ -2278,7 +2278,7 @@ updated: { padding: 10, textAlign: "center", color: "#666" },
 
 **🇰🇷 들어가기 전에**
 
-Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. **Test 2 대비 최고의 연습 문제**예요. 아래에 각 문제의 연결 예제와 주석에 쓸 "내 말로 설명" 포인트를 정리했어요.
+Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. **Test 3 대비 최고의 연습 문제**예요. 아래에 각 문제의 연결 예제와 주석에 쓸 "내 말로 설명" 포인트를 정리했어요.
 
 ### 🧪 A Note on AI
 
@@ -2627,7 +2627,7 @@ Check this one on the **Android** or **iOS** tab, or on your phone. Pulling does
 19. loading과 refreshing을 분리하는 이유?
 20. 무한 스크롤 prop? → `onEndReached`, `onEndReachedThreshold`
 
-**손으로 써 보기 과제**: Test 2 스타일 미니 앱. jsonplaceholder의 todos를 불러와서 검색, 완료/미완료 정렬, 빈 상태, 에러 + 재시도, 당겨서 새로고침까지. 보지 않고 써 본 뒤 비교하세요.
+**손으로 써 보기 과제**: Test 3 스타일 미니 앱. jsonplaceholder의 todos를 불러와서 검색, 완료/미완료 정렬, 빈 상태, 에러 + 재시도, 당겨서 새로고침까지. 보지 않고 써 본 뒤 비교하세요.
 
 ```jsx
 import { useEffect, useState } from "react";

@@ -1,6 +1,6 @@
 # Week 6. Touch: Pressable, Hit Slop, 스크롤, 스와이프와 취소
 
-> 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 2 범위.**
+> 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 3 범위.**
 
 ## 0. 이번 주 한눈에 보기
 
@@ -1695,7 +1695,7 @@ const styles = StyleSheet.create({
 
 **🇰🇷 한글 해설**
 
-**완성 코드 해설**: `selected` 객체 state, `toggle` 함수, derived `count`, Pressable 줄 + 3단 스타일 배열, `extraData`. Test 2에 "선택 가능한 목록" 문제가 나오면 이 코드가 정답 패턴이에요.
+**완성 코드 해설**: `selected` 객체 state, `toggle` 함수, derived `count`, Pressable 줄 + 3단 스타일 배열, `extraData`. Test 3에 "선택 가능한 목록" 문제가 나오면 이 코드가 정답 패턴이에요.
 
 ### 💻 Swipe and Cancel
 

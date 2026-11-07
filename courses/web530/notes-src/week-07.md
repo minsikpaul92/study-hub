@@ -1,6 +1,6 @@
 # Week 7. Location & Maps: 위치 권한, 현재 위치, 실시간 추적, 지도, 마커, 도형
 
-> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 2 범위.**
+> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 3 범위.**
 
 ## 0. 이번 주 한눈에 보기
 
@@ -131,7 +131,7 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 - **Resume** → 새 watch. 권한 요청은 다시 실행되지만 이미 허락해서 대화상자 없이 즉시 응답. 새 watch는 항상 **현재 위치를 먼저** 보고해서 카운트가 바로 +1.
 - 2주차 Lab Q5 스톱워치(`[running]`)와 완전히 같은 구조예요!
 @@K Finished Code
-**완성 코드 해설**: `[tracking]` 의존 effect 안에서 `cancelled` 깃발 + `subscription` 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscription?.remove();`. Pause/Resume 버튼. Test 2에서 "watcher 정리" 코드를 쓰라고 하면 이 패턴.
+**완성 코드 해설**: `[tracking]` 의존 effect 안에서 `cancelled` 깃발 + `subscription` 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscription?.remove();`. Pause/Resume 버튼. Test 3에서 "watcher 정리" 코드를 쓰라고 하면 이 패턴.
 @@K Maps
 - 좌표 숫자는 읽기 어려워요. 지도로 보여 주면 관계가 보여요.
 - `MapView`는 **그림이 아니라 폰의 진짜 지도**를 감싼 것 → 이동, 확대, 회전이 Maps 앱처럼.
@@ -188,7 +188,7 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 - `customMapStyle={[{ featureType: "poi", stylers: [{ visibility: "off" }] }]}` → Google Maps 스타일 규칙. **poi** = point of interest.
 - `showsPointsOfInterest={false}` → iOS용, Android는 무시. `customMapStyle` → Android용, Apple은 무시. **둘이 합쳐야 양쪽 다.**
 @@K Finished Code
-**완성 코드 해설**: CAMPUSES 배열 → `.map()` Marker(key, coordinate, title, onPress) → selected state → 하단 카드. POI 숨기기 두 prop. 목록(5주차) + 선택 state + 지도가 합쳐진 Test 2 스타일 코드예요.
+**완성 코드 해설**: CAMPUSES 배열 → `.map()` Marker(key, coordinate, title, onPress) → selected state → 하단 카드. POI 숨기기 두 prop. 목록(5주차) + 선택 state + 지도가 합쳐진 Test 3 스타일 코드예요.
 @@K Example: Drawing on the Map
 - Marker는 **점**, Polygon은 **영역**(캠퍼스 경계, 배달 구역).
 - 지도는 사용자가 **탭한 좌표**도 알려 줘요(핀 꽂기, 영역 그리기).
