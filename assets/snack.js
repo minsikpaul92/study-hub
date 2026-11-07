@@ -15,7 +15,7 @@
       const p = b.closest("p"), a = p && p.querySelector("a.run");
       if (!a) return;
       const open = p.nextElementSibling && p.nextElementSibling.classList.contains("snack-frame") ? p.nextElementSibling : null;
-      if (open) { open.remove(); b.textContent = "👀 여기서 결과 보기"; return; }
+      if (open) { if (open.nextElementSibling && open.nextElementSibling.classList.contains("snack-tip")) open.nextElementSibling.remove(); open.remove(); b.textContent = "👀 여기서 결과 보기"; return; }
       const q = new URL(a.href).searchParams;
       const box = document.createElement("div");
       box.className = "snack-frame";
@@ -28,13 +28,16 @@
       d.dataset.snackSdkversion = q.get("sdkVersion") || "54.0.0";
       d.dataset.snackTheme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
       box.appendChild(d);
-      p.after(box);
+      const tip = document.createElement("p");
+      tip.className = "snack-tip";
+      tip.textContent = "오른쪽 결과 화면은 처음에 10초쯤 걸려요. 계속 하얗게 비어 있으면 위의 \"Snack에서 바로 실행하기\"로 열어 보세요.";
+      p.after(box); box.after(tip);
       b.textContent = "결과 닫기";
       try {
         await loadEmbed();
         if (window.ExpoSnack) {
-          window.ExpoSnack.append(d);
-          if (!box.querySelector("iframe")) window.ExpoSnack.initialize();
+          window.ExpoSnack.initialize();
+          if (!box.querySelector("iframe")) window.ExpoSnack.append(d);
         }
       } catch (e) {
         box.innerHTML = '<p class="snack-err">Snack을 불러오지 못했어요. 위의 "Snack에서 바로 실행하기"로 열어 보세요.</p>';

@@ -68,7 +68,7 @@ def fix_body(text,name,kind,mark=None):
             elif 'export default' in code and 'react-native' in code and re.search(r'''from\s+['"](@/|\.\.?/|expo-router)''',code):
                 out.append(''); out.append('▶ 이 코드는 다른 파일(또는 Expo Router의 app 폴더 구조)이 필요해서 Snack 한 파일로는 실행되지 않아요. VS Code 로컬 Expo 프로젝트에서 해당 파일에 붙여 넣어 실행하세요.')
             elif 'export default' in code and 'react-native' in code:
-                emb='' if marked or snack_platform(code)!='web' or deps_for(code) else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
+                emb='' if marked or snack_platform(code)!='web' else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
                 out.append(''); out.append(f'▶ **[Snack에서 바로 실행하기]({snack(code.strip()+chr(10),name)})** (SDK 54, 필요한 패키지 자동 포함){emb}')
             elif re.search(r'createRoot|function MyApp|<div|<button',code) and 'react-native' not in code and lang in('jsx','js'):
                 out.append(''); out.append(f'▶ 웹 React 코드예요. [교수님 CodeSandbox 템플릿]({CSB})에 붙여넣어 실행하세요.')

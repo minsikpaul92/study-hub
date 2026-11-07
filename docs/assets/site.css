@@ -256,3 +256,4 @@ article.md { overflow-x: hidden; }
 .md .snack-frame > div, .md .snack-frame iframe { width: 100%; height: 100%; border: 0; }
 .md .snack-err { padding: 16px; color: var(--muted); }
 @media (max-width: 700px) { .md .snack-frame { height: 640px; } }
+.md .snack-tip { margin: -10px 0 18px; font-size: 12.5px; color: var(--muted); }
