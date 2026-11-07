@@ -1428,6 +1428,9 @@ import { View, Text, Button, FlatList, StyleSheet } from "react-native";
 
 - Inside `MyApp`, above the `return`, add state for the direction and build the sorted array from it.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const [ascending, setAscending] = useState(true);
 
@@ -1438,6 +1441,9 @@ const visible = [...fruits].sort((a, b) =>
 
 - Add a button above the `FlatList`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 <Button
   title={ascending ? "Sort Z to A" : "Sort A to Z"}
@@ -1446,6 +1452,9 @@ const visible = [...fruits].sort((a, b) =>
 ```
 
 - Point the list at the sorted array.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 data={visible}
@@ -1485,6 +1494,9 @@ const visible = fruits
 - Filter first, then sort. Sorting a shorter list is less work, and the result is the same.
 - Add a controlled `TextInput` between the button and the list, as in Week 3.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 <TextInput
   style={styles.input}
@@ -1495,6 +1507,9 @@ const visible = fruits
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 input: {
@@ -1528,6 +1543,9 @@ ListEmptyComponent={<Text style={styles.empty}>No fruit matches.</Text>}
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 empty: { padding: 20, color: "#666" },
@@ -1727,11 +1745,17 @@ const [loading, setLoading] = useState(true);
 
 - Change the line inside the timer so it clears the flag when the request finishes.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 loadPosts().finally(() => setLoading(false));
 ```
 
 - Above the main `return`, return a different screen while loading.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 if (loading) {
@@ -1745,6 +1769,9 @@ if (loading) {
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 center: { flex: 1, justifyContent: "center", alignItems: "center" },
@@ -1775,6 +1802,9 @@ const [error, setError] = useState(null);
 
 - Replace `loadPosts`. It checks the response, stores the posts, and records a message if anything went wrong.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 function loadPosts() {
   return fetch(URL)
@@ -1796,6 +1826,9 @@ function loadPosts() {
 - The message is for the user. No status codes, say what happened and what to do.
 - Add a retry function under the effect. It shows the spinner again and reloads.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 function retry() {
   setLoading(true);
@@ -1804,6 +1837,9 @@ function retry() {
 ```
 
 - Add the error screen under the loading one.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 if (error) {
@@ -1817,6 +1853,9 @@ if (error) {
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 error: { color: "red", textAlign: "center", padding: 20 },
@@ -1846,6 +1885,9 @@ ListEmptyComponent={<Text style={styles.empty}>No posts yet.</Text>}
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 empty: { padding: 20, color: "#666" },
@@ -1990,11 +2032,17 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 - Create the stack under the imports, outside every component.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const Stack = createNativeStackNavigator();
 ```
 
 - Rename `MyApp` to `PostsScreen`, remove its `export default`, and give it the `navigation` prop.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 function PostsScreen({ navigation }) {
@@ -2003,7 +2051,7 @@ function PostsScreen({ navigation }) {
 - Add a new `MyApp` at the bottom, above the styles.
 
 
-<p class="typeit">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b></p>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 export default function MyApp() {
@@ -2020,6 +2068,9 @@ export default function MyApp() {
 ▶ 웹 React 코드예요. [교수님 CodeSandbox 템플릿](https://codesandbox.io/p/sandbox/react-basic-3rqll4)에 붙여넣어 실행하세요.
 
 - Remove `paddingTop` from `container`. The header provides the space now.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 container: { flex: 1 },
@@ -2087,6 +2138,9 @@ function DetailsScreen({ route }) {
 
 - Register it under the **Posts** screen, with the post's title in the header.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 <Stack.Screen
   name="Details"
@@ -2096,6 +2150,9 @@ function DetailsScreen({ route }) {
 ```
 
 - Add the styles.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 detail: { flex: 1, padding: 20 },
@@ -2273,6 +2330,9 @@ const styles = StyleSheet.create({
 const [refreshing, setRefreshing] = useState(false);
 ```
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 function refreshPosts() {
   setRefreshing(true);
@@ -2318,6 +2378,9 @@ const [updatedAt, setUpdatedAt] = useState(null);
 
 - Set it where the posts are stored, in `loadPosts`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 .then((json) => {
   setPosts(json);
@@ -2328,6 +2391,9 @@ const [updatedAt, setUpdatedAt] = useState(null);
 
 - Show it above the rows with `ListHeaderComponent`. It scrolls with the list, unlike a `Text` placed above the `FlatList`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 ListHeaderComponent={
   <Text style={styles.updated}>
@@ -2337,6 +2403,9 @@ ListHeaderComponent={
 ```
 
 - Add its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 updated: { padding: 10, textAlign: "center", color: "#666" },

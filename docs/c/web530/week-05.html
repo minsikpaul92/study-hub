@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=154d61ea">
+<link rel="stylesheet" href="../../assets/site.css?v=4e899625">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -1344,6 +1344,7 @@
 <ul>
 <li>Inside <code>MyApp</code>, above the <code>return</code>, add state for the direction and build the sorted array from it.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">ascending</span><span class="p">,</span><span class="w"> </span><span class="nx">setAscending</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[...</span><span class="nx">fruits</span><span class="p">].</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
@@ -1353,6 +1354,7 @@
 <ul>
 <li>Add a button above the <code>FlatList</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Button</span>
 <span class="w">  </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">ascending</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Sort Z to A"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Sort A to Z"</span><span class="p">}</span>
 <span class="w">  </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setAscending</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">prev</span><span class="p">)}</span>
@@ -1361,6 +1363,7 @@
 <ul>
 <li>Point the list at the sorted array.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">data</span><span class="o">=</span><span class="p">{</span><span class="nx">visible</span><span class="p">}</span>
 </code></pre>
 <ul>
@@ -1395,6 +1398,7 @@
 <li>Filter first, then sort. Sorting a shorter list is less work, and the result is the same.</li>
 <li>Add a controlled <code>TextInput</code> between the button and the list, as in Week 3.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">TextInput</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">input</span><span class="p">}</span>
 <span class="w">  </span><span class="na">placeholder</span><span class="o">=</span><span class="s">"Search"</span>
@@ -1405,6 +1409,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">input</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#ccc"</span><span class="p">,</span>
@@ -1434,6 +1439,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">empty</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1615,11 +1621,13 @@
 <ul>
 <li>Change the line inside the timer so it clears the flag when the request finishes.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">loadPosts</span><span class="p">().</span><span class="k">finally</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setLoading</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
 </code></pre>
 <ul>
 <li>Above the main <code>return</code>, return a different screen while loading.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">loading</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
@@ -1632,6 +1640,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span><span class="w"> </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1657,6 +1666,7 @@
 <ul>
 <li>Replace <code>loadPosts</code>. It checks the response, stores the posts, and records a message if anything went wrong.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">loadPosts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">URL</span><span class="p">)</span>
 <span class="w">    </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -1677,6 +1687,7 @@
 <li>The message is for the user. No status codes, say what happened and what to do.</li>
 <li>Add a retry function under the effect. It shows the spinner again and reloads.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">retry</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setLoading</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">loadPosts</span><span class="p">().</span><span class="k">finally</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setLoading</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
@@ -1685,6 +1696,7 @@
 <ul>
 <li>Add the error screen under the loading one.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
@@ -1697,6 +1709,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1722,6 +1735,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">empty</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1854,17 +1868,19 @@
 <ul>
 <li>Create the stack under the imports, outside every component.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">Stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createNativeStackNavigator</span><span class="p">();</span>
 </code></pre>
 <ul>
 <li>Rename <code>MyApp</code> to <code>PostsScreen</code>, remove its <code>export default</code>, and give it the <code>navigation</code> prop.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">PostsScreen</span><span class="p">({</span><span class="w"> </span><span class="nx">navigation</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 </code></pre>
 <ul>
 <li>Add a new <code>MyApp</code> at the bottom, above the styles.</li>
 </ul>
-<p class="typeit">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b></p>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">NavigationContainer</span><span class="p">&gt;</span>
@@ -1879,6 +1895,7 @@
 <ul>
 <li>Remove <code>paddingTop</code> from <code>container</code>. The header provides the space now.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1936,6 +1953,7 @@
 <ul>
 <li>Register it under the <strong>Posts</strong> screen, with the post's title in the header.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Stack</span><span class="p">.</span><span class="na">Screen</span>
 <span class="w">  </span><span class="na">name</span><span class="o">=</span><span class="s">"Details"</span>
 <span class="w">  </span><span class="na">component</span><span class="o">=</span><span class="p">{</span><span class="nx">DetailsScreen</span><span class="p">}</span>
@@ -1945,6 +1963,7 @@
 <ul>
 <li>Add the styles.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
 <span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">lineHeight</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
@@ -2109,6 +2128,7 @@
 <p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: refreshing state + refresh 함수(true → loadPosts → finally false)</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">refreshing</span><span class="p">,</span><span class="w"> </span><span class="nx">setRefreshing</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">refreshPosts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setRefreshing</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">loadPosts</span><span class="p">().</span><span class="k">finally</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setRefreshing</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
@@ -2143,6 +2163,7 @@
 <ul>
 <li>Set it where the posts are stored, in <code>loadPosts</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setPosts</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">setUpdatedAt</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">());</span>
@@ -2152,6 +2173,7 @@
 <ul>
 <li>Show it above the rows with <code>ListHeaderComponent</code>. It scrolls with the list, unlike a <code>Text</code> placed above the <code>FlatList</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">ListHeaderComponent</span><span class="o">=</span><span class="p">{</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">updated</span><span class="p">}&gt;</span>
 <span class="w">    </span><span class="nx">Updated</span><span class="w"> </span><span class="p">{</span><span class="nx">updatedAt</span><span class="o">?</span><span class="p">.</span><span class="nx">toLocaleTimeString</span><span class="p">()}</span>
@@ -2161,6 +2183,7 @@
 <ul>
 <li>Add its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">updated</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -2707,5 +2730,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=154d61ea"></script>
+<script src="../../assets/timer.js?v=4e899625"></script>
 </body></html>

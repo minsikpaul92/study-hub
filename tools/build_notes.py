@@ -53,11 +53,11 @@ def fix_body(text,name,kind,mark=None):
             while j<len(lines) and not re.match(r'^\s*```\s*$',lines[j]): j+=1
             code='\n'.join(lines[i+1:j])
             if not lang: lang='json' if code.lstrip().startswith('{') and '"dependencies"' in code else 'jsx'
-            if mark and lang in('jsx','js','tsx','ts') and (first or 'export default' in code):
-                no,todo=mark; ind=m.group(1)
+            if mark and lang in('jsx','js','tsx','ts') and (first or len(mark)>2 or 'export default' in code):
+                no,todo=mark[:2]; ind=m.group(1)
                 idattr=f' id="practice-{no}"' if (first and no) else ''
                 tail=f': {html.escape(todo)}' if (first and todo) else ''
-                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>{tail}</p>'); out.append('')
+                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>{tail}</p>' if first else f'{ind}<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>'); out.append('')
                 first=False
             out.append(m.group(1)+'```'+lang); out+=lines[i+1:j]; out.append(m.group(1)+'```')
             if RUNNER!='snack': pass
@@ -147,7 +147,7 @@ def build(annpath,outpath):
                 nm=c['h'] if c['lvl']==2 else parent+' › '+c['h']
                 if summ.get(norm(c['h'])):
                     kd,t=summ[norm(c['h'])].pop(0); todo,t=split_todo(t); no=None
-                    if kd=='type': no=len(plan)+1 if todo else None; marks[ci]=(no,todo)
+                    if kd=='type': no=len(plan)+1 if todo else None; marks[ci]=(no,todo,'all') if c['h'].startswith(('Step','Starter')) else (no,todo)
                     if no: plan.append((nm,todo))
                     items.append((kd,nm,t,todo,no))
             if dtext or items: out.append(doc_box(dk or (items[0][0] if items else ''),dtext,items))

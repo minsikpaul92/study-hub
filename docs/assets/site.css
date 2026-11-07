@@ -248,3 +248,4 @@ article.md { overflow-x: hidden; }
 .md .sum li { margin: 4px 0; }
 .md .typeit { background: var(--ok-soft); color: var(--text); border: 1px solid var(--ok); border-radius: 8px; padding: 8px 12px; margin: 14px 0 6px; font-size: 14px; scroll-margin-top: 80px; }
 .md .typeit b { color: var(--ok); }
+.md .typeit.sm { padding: 4px 10px; font-size: 13px; margin-top: 10px; }
