@@ -234,3 +234,13 @@ article.md { overflow-x: hidden; }
   #theme .t { display: none; }
   .md table { font-size: 13.5px; }
 }
+
+/* Short Korean preview shown before each original section */
+.md .sum { background: var(--accent-soft); border-left: 4px solid var(--accent); border-radius: 0 10px 10px 0; padding: 12px 16px 2px; margin: 4px 0 18px; }
+.md .sum > p:first-child strong { color: var(--accent); }
+.md .sum[data-kind="type"] { background: var(--ok-soft); border-left-color: var(--ok); }
+.md .sum[data-kind="type"] > p:first-child strong { color: var(--ok); }
+.md .sum[data-kind="lab"] { background: var(--warn-soft); border-left-color: var(--warn); }
+.md .sum[data-kind="lab"] > p:first-child strong { color: var(--warn); }
+.md .sum[data-kind="skim"] { background: var(--surface-2); border-left-color: var(--muted); }
+.md .sum[data-kind="skim"] > p:first-child strong { color: var(--muted); }

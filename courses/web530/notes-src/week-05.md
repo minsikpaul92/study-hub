@@ -1,6 +1,6 @@
 # Week 5. Lists: FlatList, 정렬과 검색, 데이터 불러오기, 목록과 상세, 당겨서 새로고침
 
-> 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
+> 이 노트 읽는 법: 챕터마다 **🧭 먼저 한국어로**(짧은 미리보기) → **📘/💻/🧪 원문**(영어 그대로) → **▶ Snack** → **🇰🇷 한글 해설** 순서예요. 미리보기의 **⌨️** 표시는 Snack에서 직접 쳐 볼 것, **👀** 표시는 읽고 이해만 하면 되는 것이에요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
 
 ## 0. 이번 주 한눈에 보기
 
@@ -24,9 +24,17 @@
 
 **fetch 최대 함정**: `fetch`는 **네트워크가 끊겼을 때만** 실패(reject)해요. 404나 500은 "성공한 응답"으로 와요. 그래서 반드시 **`if (!res.ok) throw new Error(...)`** 로 직접 에러를 던져야 catch로 가요.
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE E-Lists/working-with-lists.md
+@@S _doc | read
+코스노트의 FlatList 소개예요. 같은 내용을 아래 💻 인클래스 "Example: FlatList"에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
+@@S FlatList | read
+FlatList는 data, renderItem, keyExtractor 세 개로 목록을 그려요. 화면 근처만 그려서(virtualization) 긴 목록도 빨라요. 코드는 Snack으로 실행만 해 보세요.
+@@S Fixed Height Rows | read
+줄 높이가 모두 같으면 getItemLayout으로 미리 알려 줘서 더 빨라져요. 시험보다는 성능 팁이에요.
 @@K FlatList
 **FlatList** = iOS, Android 둘 다에서 목록을 보여 주는 **권장** 방법.
 - `.map()`은 아이템을 **전부 한 번에** 그려서 비효율. FlatList는 **virtualization**(화면에 보이는 것 위주로만 렌더링)으로 최적화.
@@ -41,6 +49,10 @@
 줄 높이가 **고정**이면 `getItemLayout`으로 미리 알려 줘요. `length`(줄 높이), `offset`(위에서부터 거리 = 높이 × index), `index`. 특정 위치로 스크롤할 때 빠르고, 레이아웃이 튀지 않아요.
 
 @@NOTE E-Lists/sorting-lists.md
+@@S _doc | read
+정렬과 검색을 useMemo로 묶는 코스노트 버전이에요. 같은 기능을 💻 "Example: Sorting and Filtering"에서 더 쉬운 코드로 쳐 보니까 여기서는 useMemo가 왜 쓰였는지만 이해하면 돼요.
+@@S _pre | read
+검색어로 filter, 버튼으로 sort, 결과를 useMemo로 기억해서 필요할 때만 다시 계산해요. 실행해서 검색과 정렬이 어떻게 반응하는지 확인만 해 보세요.
 @@K _pre
 **정렬과 검색의 원리**: FlatList는 `data` 배열을 그대로 그려요. 배열을 바꾸면(추가, 삭제, 정렬, 필터) 목록이 **자동으로** 다시 그려져요. UI를 건드릴 필요가 없어요.
 
@@ -55,6 +67,14 @@
 - 검색창은 **controlled TextInput**(3주차).
 
 @@NOTE E-Lists/fetching-list-data.md
+@@S _doc | read
+API에서 목록을 받아 오는 코스노트예요. 시험에 나오는 loading, error, empty 처리는 💻 "Example: Fetching List Data"에서 단계별로 쳐 봐요.
+@@S _pre | read
+useEffect에서 fetch → 받은 배열을 state에 저장 → FlatList에 넘겨요. 흐름만 이해하면 돼요.
+@@S Lazy Loading of List Data | read
+끝까지 스크롤하면 onEndReached로 다음 페이지를 더 불러오는 무한 스크롤이에요. 개념과 prop 이름만 알아 두세요.
+@@S Best practices for infinite scrolling | skim
+무한 스크롤 주의사항 목록이에요. 중복 요청 막기, 로딩 표시, 끝 처리 정도만 기억하세요.
 @@K _pre
 **API에서 목록 불러오기**. `useEffect`로 마운트될 때 비동기 요청, 결과는 state에 저장 → 그 뒤는 로컬 데이터처럼 정렬/검색 가능.
 
@@ -84,6 +104,26 @@
 - 서버 페이지네이션(pagination, 페이지 단위로 나눠 받기)과 같이 쓰기
 
 @@NOTE E-Lists/lists-and-detail-views.md
+@@S _doc | read
+목록에서 줄을 누르면 상세 화면으로 가는 코스노트예요. 같은 구조를 💻 "Example: List and Detail"에서 쳐 보니까 여기서는 읽기만 해요.
+@@S Introduction | skim
+목록은 요약, 상세는 전체를 보여 준다는 설명이에요.
+@@S Example | skim
+아래 하위 단계들의 큰 그림이에요: 네비게이션 → 목록 화면 → 상세 화면 → 데이터 전달.
+@@S Navigation | read
+Stack 두 개 화면(목록, 상세)을 등록하는 4주차 코드 그대로예요.
+@@S List Screen | read
+줄을 누르면 navigate("Details", { 데이터 })로 이동해요.
+@@S Detail Screen | read
+route.params에서 데이터를 꺼내서 보여 줘요.
+@@S Passing Data Between Screens | read
+객체 통째로 넘기기 vs id만 넘기기. 큰 데이터는 id만 넘기는 게 원칙이에요.
+@@S Fetching Detail Data | read
+id만 받은 상세 화면이 직접 fetch하는 방법이에요. 개념만 알아 두세요.
+@@S Full Solution (Local Data) | read
+지금까지 조각을 합친 완성 코드예요. Snack으로 실행해서 눌러 보기만 하세요.
+@@S Full Example (Fetching Remote Data) | read
+같은 앱을 API 데이터로 바꾼 버전이에요. 실행해서 흐름만 확인하세요.
 @@K Introduction
 **List → Detail 패턴**: 목록 보여 주기 → 하나를 탭 → 상세 화면. 메일함, 연락처, 쇼핑, 뉴스 모두 이 패턴. 재료 3개: **FlatList**(목록) + **Pressable**(터치) + **React Navigation**(화면 이동).
 @@K Example
@@ -110,6 +150,18 @@
 **완성 코드 해설**: 위 패턴 + 목록을 API(jsonplaceholder)에서 받아 오기. loading/error 처리와 Pressable → Detail 흐름이 한 파일에 다 들어 있어요. 시험 직전 복습용으로 이 코드를 처음부터 끝까지 따라 쳐 보세요.
 
 @@NOTE E-Lists/pull-to-refresh.md
+@@S _doc | read
+당겨서 새로고침 코스노트예요. 시험용 버전은 💻 "Example: Pull to Refresh"에서 쳐 봐요.
+@@S Introduction | skim
+목록을 아래로 당기면 다시 불러오는 익숙한 기능이에요.
+@@S How Pull to Refresh Works | read
+FlatList에 refreshing(지금 새로고침 중인지)과 onRefresh(당겼을 때 할 일) 두 prop만 주면 돼요.
+@@S Basic Pull‑to‑Refresh Example | read
+가짜 데이터로 만든 가장 작은 예제예요. 휴대폰(Expo Go)에서 실행해서 당겨 보세요.
+@@S Pull to Refresh with API Data | read
+API를 다시 fetch하는 버전이에요. 💻 예제와 거의 같아서 읽기만 해요.
+@@S Best Practices | skim
+새로고침 중 중복 요청 막기, 스크롤 위치 유지 같은 팁이에요.
 @@K Introduction
 **Pull to refresh(당겨서 새로고침)**: 목록 맨 위에서 아래로 끌어당기면 다시 불러오기. FlatList에 **내장**돼 있어서 제스처를 직접 감지할 필요 없어요.
 @@K How Pull to Refresh Works
@@ -130,6 +182,70 @@ props 2개:
 5. 필요하면 페이지네이션과 같이(새로고침은 위쪽, 페이지네이션은 아래쪽).
 
 @@LEC week-05.1-notes.md
+@@S _doc | type
+교수님이 수업에서 라이브 코딩한 순서예요. 이번 주에서 가장 중요한 부분이고, 아래 ⌨️ 표시된 곳은 Snack을 새로 열고 처음부터 직접 쳐 보세요. 시험 코딩 문제가 이 모양으로 나와요.
+@@S React Native Playground | skim
+예제에 필요한 패키지와 데이터(jsonplaceholder posts) 안내예요.
+@@S Why Lists? | read
+좋은 목록의 디자인 원칙이에요. 객관식, 서술 문제로 나올 수 있어서 읽어 두세요.
+@@S Example: FlatList | type
+할 일: 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너
+빈 Snack에서 과일 목록을 FlatList로 그려 보세요. renderItem에서 ({ item }) 구조분해, keyExtractor는 문자열, 컨테이너 flex: 1이 시험 단골 실수 포인트예요.
+@@S Example: Sorting and Filtering | type
+앞의 FlatList 코드에 정렬 버튼과 검색창을 단계별로 붙여요. Step 1부터 3까지 이어서 직접 쳐 보세요.
+@@S Step 1 - Sort with a Button | type
+할 일: ascending state + [...fruits].sort(localeCompare) + 정렬 버튼
+state는 방향 하나, 정렬된 배열은 매번 계산해요. 복사([...]) 후 sort가 포인트.
+@@S Step 2 - Filter with a TextInput | type
+할 일: query state + TextInput + filter 다음 sort
+검색어로 먼저 filter하고 그다음 sort해요.
+@@S Step 3 - Show an Empty State | type
+할 일: ListEmptyComponent 추가
+검색 결과가 없을 때 메시지를 보여 줘요.
+@@S Finished Code | read
+내가 친 코드와 비교해 보는 완성본이에요.
+@@S Example: Fetching List Data | type
+API에서 posts를 받아 오면서 로딩, 에러, 빈 목록을 모두 처리해요. Test 3 코딩 문제의 핵심 뼈대예요.
+@@S Starter Code | type
+할 일: posts state + useEffect에서 fetch + FlatList (시작 코드)
+여기서부터 Snack에 쳐서 시작해요. fetch → res.json() → setPosts 흐름.
+@@S Step 1 - Show a Spinner While Loading | type
+할 일: loading state(true로 시작) + finally에서 false + early return 스피너
+ActivityIndicator와 early return 패턴.
+@@S Step 2 - Handle Errors | type
+할 일: error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼
+fetch는 404여도 reject 안 해서 res.ok를 직접 확인해야 해요. 시험 최다 함정.
+@@S Step 3 - Show an Empty State | type
+할 일: ListEmptyComponent + ?userId=99로 빈 목록 테스트
+빈 응답도 사용자에게 알려 줘요.
+@@S Finished Code | read
+시험 직전에 다시 볼 완성본이에요. 내 코드와 비교하세요.
+@@S Example: List and Detail | type
+앞의 Fetching 코드를 Stack에 넣고 줄을 누르면 상세로 가게 만들어요. 4주차 + 5주차 합체 문제라 꼭 쳐 보세요.
+@@S Step 1 - Put the List in a Stack | type
+할 일: MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기
+화면 컴포넌트와 앱 루트를 나누는 연습.
+@@S Step 2 - Make Each Row Tappable | type
+할 일: 줄을 Pressable로 감싸고 navigate("Details", { post: item })
+numberOfLines={1}로 미리보기 한 줄.
+@@S Step 3 - Add the Details Screen | type
+할 일: DetailsScreen에서 const { post } = route.params
+넘겨받은 데이터를 보여 줘요.
+@@S Finished Code | read
+4주차와 5주차가 합쳐진 완성본이에요. 비교용.
+@@S Example: Pull to Refresh | type
+앞 코드에 당겨서 새로고침을 붙여요. 휴대폰 Expo Go에서 확인하세요(Web은 안 돼요).
+@@S Step 1 - Track the Refresh | type
+할 일: refreshing state + refresh 함수(true → loadPosts → finally false)
+loading과 refreshing을 따로 두는 이유가 Lab 5 Q6에 나와요.
+@@S Step 2 - Wire Up the List | type
+할 일: FlatList에 refreshing, onRefresh 연결
+prop 두 개면 끝.
+@@S Step 3 - Prove It Reloaded | type
+할 일: updated 시각 state + ListHeaderComponent로 표시
+목록과 같이 스크롤되는 헤더.
+@@S Finished PostsScreen | read
+state 5개짜리 최종본이에요. 비교용.
 @@K React Native Playground
 처음 세 예제는 `react-native`만 필요. List and Detail 예제부터 React Navigation 패키지가 필요해요(Snack 링크에 자동 포함). 데이터는 jsonplaceholder의 가짜 posts 100개(`userId`, `id`, `title`, `body`). 브라우저에서 주소를 열어 데이터 모양을 먼저 보세요.
 @@K Why Lists?
@@ -218,6 +334,32 @@ API가 매번 같은 데이터를 줘서 바뀐 게 안 보이니, 받은 **시�
 **완성 코드 해설**: state 5개(posts, loading, error, refreshing, updated). `loadPosts`가 성공 시 posts와 updated를 같이 set. `refresh`: `setRefreshing(true)` → loadPosts → finally `setRefreshing(false)`. FlatList에 refreshing, onRefresh, ListHeaderComponent, ListEmptyComponent.
 
 @@LAB lab-5.md
+@@S _doc | lab
+연락처 앱을 Q1부터 Q6까지 쌓아 가는 랩이에요. 💻 예제를 다 쳐 본 다음, 예제를 보지 않고 혼자 풀어 보세요. 막히면 아래 한글 해설의 힌트만 보세요.
+@@S A Note on AI | skim
+AI는 막혔을 때만, 내가 설명할 수 없는 코드는 내 것이 아니라는 안내예요.
+@@S Overview | skim
+문제 6개, 각 1점.
+@@S Setup | read
+시작 코드(연락처 데이터와 스타일)예요. Snack으로 열어서 시작하세요.
+@@S Styling Rules | skim
+StyleSheet.create 사용 등 스타일 규칙이에요.
+@@S Running Your App | skim
+실행 방법 안내예요.
+@@S Submission | skim
+제출 방법이에요.
+@@S Question 1 - FlatList (1 point) | lab
+💻 Example: FlatList와 같은 문제예요. 연락처를 FlatList로.
+@@S Question 2 - Sorting (1 point) | lab
+💻 Sorting Step 1과 같은 패턴이에요.
+@@S Question 3 - Search, Count and Empty State (1 point) | lab
+💻 Sorting Step 2, 3 + 몇 개 보이는지 개수 표시.
+@@S Question 4 - Fetching the Contacts (1 point) | lab
+💻 Fetching List Data 전체 흐름. res.ok 확인 잊지 말기.
+@@S Question 5 - Contact Screen (1 point) | lab
+💻 List and Detail과 같은 구조예요.
+@@S Question 6 - Pull to Refresh (1 point) | lab
+💻 Pull to Refresh와 같아요. loading과 refreshing 분리.
 @@K _intro
 Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. **Test 3 대비 최고의 연습 문제**예요. 아래에 각 문제의 연결 예제와 주석에 쓸 "내 말로 설명" 포인트를 정리했어요.
 @@K A Note on AI

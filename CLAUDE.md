@@ -51,8 +51,13 @@ courses/<id>/
 @@LEC week-05.1-notes.md                 인클래스 강의
 @@K _intro                               이 원문을 읽기 전에 보여 줄 안내
 @@LAB lab-5.md
+@@S FlatList | read                      원문 "FlatList" 제목 바로 아래, 원문보다 먼저 보일 짧은 한글 미리보기
+@@S _doc | type                          원문 전체 앞 미리보기 (_pre: 첫 제목 앞 본문용)
 @@TEXT                                   자유 마크다운 (체크리스트, 연습 코드)
 ```
+- 챕터 순서: 🧭 한글 미리보기(`@@S`) → 영어 원문 → ▶ Snack 링크 → 🇰🇷 한글 해설(`@@K`).
+- `@@S`의 종류: `type`(Snack에서 직접 쳐 보기), `read`(읽고 이해만), `lab`(혼자 풀기), `skim`(가볍게 훑기). 화면에서 색으로 구분된다.
+- `type` 미리보기 첫 줄을 `할 일: ...`로 쓰면, 주석 파일의 `{{PRACTICE}}` 자리에 "Snack에서 직접 쳐 볼 것" 순서표가 자동으로 생긴다.
 - 원문의 모든 h2, h3 제목마다 `@@K`가 있어야 한다. 빌드 시 `WARN no K for [...]`가 나오면 채운다. 같은 제목이 여러 번이면 `@@K`도 같은 순서로 여러 번.
 - 빌드: `python3 tools/build_notes.py courses/<id> [week-05]`
 - `course.json`의 `runner: "snack"`이면 `export default` + `react-native` 코드에 Snack 링크가 자동으로 붙는다. Snack `App.js`는 interface와 `: 타입`은 되지만 `값 as 타입`, `f<T>()` 제네릭 호출은 파싱 에러가 난다.

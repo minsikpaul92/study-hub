@@ -63,6 +63,15 @@ def fix_body(text,name,kind):
             i=j+1; continue
         out.append(l); i+=1
     return '\n'.join(out)
+KIND={'type':'⌨️ Snack에서 직접 쳐 보기','read':'👀 읽고 이해하기 (타이핑 안 해도 돼요)','lab':'🧪 혼자 풀어 보기','skim':'⏭️ 가볍게 훑기'}
+def summary(kind,text,where='',plan=None):
+    """원문 앞에 붙는 짧은 한글 미리보기. 첫 줄이 '할 일: ...'이면 연습 목록에 들어간다."""
+    lines=text.split('\n'); todo=''
+    if lines and lines[0].startswith('할 일:'):
+        todo=lines[0][4:].strip(); text='\n'.join(lines[1:]).strip()
+    if kind=='type' and todo and plan is not None: plan.append((where,todo))
+    badge=f' · {KIND[kind]}' if kind in KIND else ''
+    return f'<div class="sum" data-kind="{kind}">\n\n**🧭 먼저 한국어로**{badge}\n\n{text}\n\n'+(f'**할 일**: {todo}\n\n' if todo else '')+'</div>\n'
 def norm(h):
     return h.replace('\u2011','-').replace('\u2010','-').strip()
 def chunks(path):
@@ -86,22 +95,31 @@ def build(annpath,outpath):
     for p in parts[1:]:
         first,_,rest=p.partition('\n'); blocks.append((first.strip(),rest))
     m=re.search(r'^#\s+(.*)',header,re.M); wk=re.search(r'Week\s*(\d+)',m.group(1)).group(1) if m else '?'
-    out=[header.rstrip()]; toc=[]; sec=0; warn=[]
+    out=[header.rstrip()]; toc=[]; sec=0; warn=[]; plan=[]
     k=0
     while k<len(blocks):
         d,rest=blocks[k]
         typ,_,arg=d.partition(' ')
         if typ in SRC:
             path=SRC[typ]+arg.strip(); title,src,pre,chs=chunks(path)
-            kor={}; k+=1
-            while k<len(blocks) and blocks[k][0].startswith('K '):
-                kor.setdefault(norm(blocks[k][0][2:].strip()),[]).append(blocks[k][1].strip()); k+=1
+            kor={}; summ={}; k+=1
+            while k<len(blocks) and blocks[k][0].startswith(('K ','S ')):
+                key=blocks[k][0][2:].strip()
+                if blocks[k][0].startswith('S '):
+                    m=re.match(r'^(.*?)\s*\|\s*(\w+)\s*$',key)
+                    hk,kind=(m.group(1),m.group(2)) if m else (key,'')
+                    summ.setdefault(norm(hk),[]).append((kind,blocks[k][1].strip()))
+                else:
+                    kor.setdefault(norm(key),[]).append(blocks[k][1].strip())
+                k+=1
             sec+=1
             label={'NOTE':'📘 코스노트','LEC':'💻 인클래스 예제','LAB':'🧪 Lab','TEST':'📝 샘플 시험'}[typ]
             h=f'{sec}. {label}: {title}'; toc.append(h)
             out.append(f'\n---\n\n## {h}\n')
+            if summ.get('_doc'): out.append(summary(*summ['_doc'].pop(0)))
             out.append(f'> 원문 출처: {src or (ATTR + "  " + os.path.basename(path))}\n')
             if '_intro' in kor: out.append('**🇰🇷 들어가기 전에**\n\n'+kor.pop('_intro')[0]+'\n')
+            if pre and summ.get('_pre'): out.append(summary(*summ['_pre'].pop(0),where=f'{sec}. {title}',plan=plan))
             if pre: out.append(fix_body(pre,f'{CODE} W{wk} {title}',typ)+'\n')
             if '_pre' in kor: out.append('**🇰🇷 한글 해설**\n\n'+kor.pop('_pre')[0]+'\n')
             parent=''
@@ -111,10 +129,13 @@ def build(annpath,outpath):
                 hl='###' if c['lvl']==2 else '####'
                 ic={'NOTE':'📘','LEC':'💻','LAB':'🧪','TEST':'📝'}[typ]
                 out.append(f'{hl} {ic} {c["h"]}\n')
+                if summ.get(norm(c['h'])): out.append(summary(*summ[norm(c['h'])].pop(0),where=nm.replace(' - Step',' › Step').replace(' - Starter',' › Starter'),plan=plan))
                 out.append(fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ)+'\n')
                 if kor.get(norm(c['h'])):
                     out.append('**🇰🇷 한글 해설**\n\n'+kor[norm(c['h'])].pop(0)+'\n')
                 else: warn.append(f'{arg}: no K for [{c["h"]}]')
+            for kk,v in summ.items():
+                if v: warn.append(f'{arg}: unused S [{kk}] x{len(v)}')
             for kk,v in kor.items():
                 if v: warn.append(f'{arg}: unused K [{kk}] x{len(v)}')
         elif typ=='TEXT':
@@ -123,6 +144,10 @@ def build(annpath,outpath):
             k+=1
         else:
             warn.append('bad directive '+d); k+=1
+    if plan:
+        rows=[f'| {i} | {w} | {t} |' for i,(w,t) in enumerate(plan,1)]
+        planmd='\n**⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
+        out=[o.replace('{{PRACTICE}}',planmd) for o in out]
     tocmd='\n## 목차\n\n'+'\n'.join(f'- {t}' for t in toc)+'\n'
     body='\n'.join(out)
     body=body.replace('{{TOC}}',tocmd)

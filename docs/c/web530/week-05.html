@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=720567cf">
+<link rel="stylesheet" href="../../assets/site.css?v=15da739f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -15,7 +15,7 @@
 <div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-코스노트-working-with-item-lists">1. 📘 코스노트: Working with Item Lists</a></li><li class="l3"><a href="#flatlist">📘 FlatList</a></li><li class="l2"><a href="#2-코스노트-sorting-and-filtering-lists">2. 📘 코스노트: Sorting and filtering lists</a></li><li class="l2"><a href="#3-코스노트-fetching-list-data">3. 📘 코스노트: Fetching List Data</a></li><li class="l3"><a href="#lazy-loading-of-list-data">📘 Lazy Loading of List Data</a></li><li class="l2"><a href="#4-코스노트-data-lists-and-detail-views">4. 📘 코스노트: Data Lists and Detail Views</a></li><li class="l3"><a href="#introduction">📘 Introduction</a></li><li class="l3"><a href="#example">📘 Example</a></li><li class="l3"><a href="#full-solution-local-data">📘 Full Solution (Local Data)</a></li><li class="l3"><a href="#full-example-fetching-remote-data">📘 Full Example (Fetching Remote Data)</a></li><li class="l2"><a href="#5-코스노트-pull-to-refresh">5. 📘 코스노트: Pull to Refresh</a></li><li class="l3"><a href="#introduction-1">📘 Introduction</a></li><li class="l3"><a href="#how-pull-to-refresh-works">📘 How Pull to Refresh Works</a></li><li class="l3"><a href="#basic-pulltorefresh-example">📘 Basic Pull‑to‑Refresh Example</a></li><li class="l3"><a href="#pull-to-refresh-with-api-data">📘 Pull to Refresh with API Data</a></li><li class="l3"><a href="#best-practices">📘 Best Practices</a></li><li class="l2"><a href="#6-인클래스-예제-week-51---notes-and-examples">6. 💻 인클래스 예제: Week 5.1 - Notes and Examples</a></li><li class="l3"><a href="#react-native-playground">💻 React Native Playground</a></li><li class="l3"><a href="#why-lists">💻 Why Lists?</a></li><li class="l3"><a href="#example-flatlist">💻 Example: FlatList</a></li><li class="l3"><a href="#example-sorting-and-filtering">💻 Example: Sorting and Filtering</a></li><li class="l3"><a href="#example-fetching-list-data">💻 Example: Fetching List Data</a></li><li class="l3"><a href="#example-list-and-detail">💻 Example: List and Detail</a></li><li class="l3"><a href="#example-pull-to-refresh">💻 Example: Pull to Refresh</a></li><li class="l2"><a href="#7-lab-lab-5---lists">7. 🧪 Lab: Lab 5 - Lists</a></li><li class="l3"><a href="#a-note-on-ai">🧪 A Note on AI</a></li><li class="l3"><a href="#overview">🧪 Overview</a></li><li class="l3"><a href="#setup">🧪 Setup</a></li><li class="l3"><a href="#styling-rules">🧪 Styling Rules</a></li><li class="l3"><a href="#running-your-app">🧪 Running Your App</a></li><li class="l3"><a href="#submission">🧪 Submission</a></li><li class="l3"><a href="#question-1---flatlist-1-point">🧪 Question 1 - FlatList (1 point)</a></li><li class="l3"><a href="#question-2---sorting-1-point">🧪 Question 2 - Sorting (1 point)</a></li><li class="l3"><a href="#question-3---search-count-and-empty-state-1-point">🧪 Question 3 - Search, Count and Empty State (1 point)</a></li><li class="l3"><a href="#question-4---fetching-the-contacts-1-point">🧪 Question 4 - Fetching the Contacts (1 point)</a></li><li class="l3"><a href="#question-5---contact-screen-1-point">🧪 Question 5 - Contact Screen (1 point)</a></li><li class="l3"><a href="#question-6---pull-to-refresh-1-point">🧪 Question 6 - Pull to Refresh (1 point)</a></li><li class="l2"><a href="#week-5-시험-대비-체크리스트">✅ Week 5 시험 대비 체크리스트</a></li></ol></nav>
 <article class="md"><h1 id="week-5-lists-flatlist-정렬과-검색-데이터-불러오기-목록과-상세-당겨서-새로고침">Week 5. Lists: FlatList, 정렬과 검색, 데이터 불러오기, 목록과 상세, 당겨서 새로고침 <a class="anchor" aria-label="링크" href="#week-5-lists-flatlist-정렬과-검색-데이터-불러오기-목록과-상세-당겨서-새로고침">#</a></h1>
 <blockquote>
-<p>이 노트 읽는 법: <strong>📘/💻/🧪 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요. <strong>5~7주차는 Test 3 범위</strong>라서 특히 꼼꼼하게 정리했어요.</p>
+<p>이 노트 읽는 법: 챕터마다 <strong>🧭 먼저 한국어로</strong>(짧은 미리보기) → <strong>📘/💻/🧪 원문</strong>(영어 그대로) → <strong>▶ Snack</strong> → <strong>🇰🇷 한글 해설</strong> 순서예요. 미리보기의 <strong>⌨️</strong> 표시는 Snack에서 직접 쳐 볼 것, <strong>👀</strong> 표시는 읽고 이해만 하면 되는 것이에요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요. <strong>5~7주차는 Test 3 범위</strong>라서 특히 꼼꼼하게 정리했어요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p>앱 화면의 대부분은 <strong>목록</strong>이에요(메일함, 연락처, 피드). 이번 주는 목록을 빠르게 보여 주고, 정렬하고, 검색하고, 서버에서 받아 오고, 눌러서 상세로 가고, 당겨서 새로고침하는 것까지 배워요.</p>
@@ -74,12 +74,103 @@
 <p><strong>왜 <code>.map()</code> 대신 FlatList?</strong> <code>.map()</code>(ScrollView)은 <strong>전부 한꺼번에</strong> 그려요. FlatList는 <strong>virtualization(가상화)</strong> 으로 <strong>보이는 부분 근처만</strong> 그려요. 1000개여도 빨라요.</p>
 <p><strong>데이터 불러오기 4가지 상태 (시험 단골)</strong>: loading(스피너) → 성공(목록) / error(메시지 + 다시 시도) / empty(빈 목록 메시지)</p>
 <p><strong>fetch 최대 함정</strong>: <code>fetch</code>는 <strong>네트워크가 끊겼을 때만</strong> 실패(reject)해요. 404나 500은 &quot;성공한 응답&quot;으로 와요. 그래서 반드시 <strong><code>if (!res.ok) throw new Error(...)</code></strong> 로 직접 에러를 던져야 catch로 가요.</p>
+<p><strong>⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Example: FlatList</td>
+<td>과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Example: Sorting and Filtering › Step 1 - Sort with a Button</td>
+<td>ascending state + [...fruits].sort(localeCompare) + 정렬 버튼</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Example: Sorting and Filtering › Step 2 - Filter with a TextInput</td>
+<td>query state + TextInput + filter 다음 sort</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Example: Sorting and Filtering › Step 3 - Show an Empty State</td>
+<td>ListEmptyComponent 추가</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Example: Fetching List Data › Starter Code</td>
+<td>posts state + useEffect에서 fetch + FlatList (시작 코드)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Example: Fetching List Data › Step 1 - Show a Spinner While Loading</td>
+<td>loading state(true로 시작) + finally에서 false + early return 스피너</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Example: Fetching List Data › Step 2 - Handle Errors</td>
+<td>error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Example: Fetching List Data › Step 3 - Show an Empty State</td>
+<td>ListEmptyComponent + ?userId=99로 빈 목록 테스트</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Example: List and Detail › Step 1 - Put the List in a Stack</td>
+<td>MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Example: List and Detail › Step 2 - Make Each Row Tappable</td>
+<td>줄을 Pressable로 감싸고 navigate(&quot;Details&quot;, { post: item })</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Example: List and Detail › Step 3 - Add the Details Screen</td>
+<td>DetailsScreen에서 const { post } = route.params</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Example: Pull to Refresh › Step 1 - Track the Refresh</td>
+<td>refreshing state + refresh 함수(true → loadPosts → finally false)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Example: Pull to Refresh › Step 2 - Wire Up the List</td>
+<td>FlatList에 refreshing, onRefresh 연결</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Example: Pull to Refresh › Step 3 - Prove It Reloaded</td>
+<td>updated 시각 state + ListHeaderComponent로 표시</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-working-with-item-lists">1. 📘 코스노트: Working with Item Lists <a class="anchor" aria-label="링크" href="#1-코스노트-working-with-item-lists">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>코스노트의 FlatList 소개예요. 같은 내용을 아래 💻 인클래스 &quot;Example: FlatList&quot;에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists</p>
 </blockquote>
 <h3 id="flatlist">📘 FlatList <a class="anchor" aria-label="링크" href="#flatlist">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>FlatList는 data, renderItem, keyExtractor 세 개로 목록을 그려요. 화면 근처만 그려서(virtualization) 긴 목록도 빨라요. 코드는 Snack으로 실행만 해 보세요.</p>
+</div>
 <p>React Native provides the <code>FlatList</code> component as the recommended way to render lists on both iOS and Android. While you can render lists using JavaScript’s <code>.map()</code>, this quickly becomes inefficient because <code>.map()</code> renders every item at once. <code>FlatList</code> is optimized for mobile performance through virtualization, meaning it only renders what is visible on screen.</p>
 <p>To get started, pass an array of objects to the <code>data</code> prop. Each object must have a stable, unique key. The recommended pattern is to provide an <code>id</code> or <code>key</code> property, or tell the list which property to use with <code>keyExtractor</code>. If no key is found, React Native falls back to each item's position in the array and logs a warning, which can cause rows to update incorrectly when the list changes.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
@@ -128,6 +219,10 @@
 <li>💡 FlatList는 <strong>PureComponent</strong>: props가 <strong>얕게(shallow)</strong> 바뀌었을 때만 다시 렌더링. 그래서 row를 <code>React.memo()</code>로 감싸면 불필요한 업데이트를 막아요.</li>
 </ul>
 </div><h4 id="fixed-height-rows">📘 Fixed Height Rows <a class="anchor" aria-label="링크" href="#fixed-height-rows">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>줄 높이가 모두 같으면 getItemLayout으로 미리 알려 줘서 더 빨라져요. 시험보다는 성능 팁이에요.</p>
+</div>
 <p>If each row has a fixed height, you can add:</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">getItemLayout</span><span class="o">=</span><span class="p">{(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
 <span class="w">  </span><span class="nx">length</span><span class="o">:</span><span class="w"> </span><span class="mf">50</span><span class="p">,</span>
@@ -140,9 +235,17 @@
 <p>줄 높이가 <strong>고정</strong>이면 <code>getItemLayout</code>으로 미리 알려 줘요. <code>length</code>(줄 높이), <code>offset</code>(위에서부터 거리 = 높이 × index), <code>index</code>. 특정 위치로 스크롤할 때 빠르고, 레이아웃이 튀지 않아요.</p>
 </div><hr />
 <h2 id="2-코스노트-sorting-and-filtering-lists">2. 📘 코스노트: Sorting and filtering lists <a class="anchor" aria-label="링크" href="#2-코스노트-sorting-and-filtering-lists">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>정렬과 검색을 useMemo로 묶는 코스노트 버전이에요. 같은 기능을 💻 &quot;Example: Sorting and Filtering&quot;에서 더 쉬운 코드로 쳐 보니까 여기서는 useMemo가 왜 쓰였는지만 이해하면 돼요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists</p>
 </blockquote>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>검색어로 filter, 버튼으로 sort, 결과를 useMemo로 기억해서 필요할 때만 다시 계산해요. 실행해서 검색과 정렬이 어떻게 반응하는지 확인만 해 보세요.</p>
+</div>
 <p>The <code>FlatList</code> component renders whatever items you pass into its <code>data</code> array. If you modify the array, by adding, removing, sorting, or filtering items, the list automatically re-renders to reflect those changes. This makes <code>FlatList</code> ideal for building interactive UIs where users can search, filter, or reorder content.</p>
 <p>However, modern React Native best practices recommend <strong>avoiding sorting or filtering directly inside the render function</strong>. Instead, these operations should be memoized using <code>useMemo</code> so they only run when their inputs change. This improves performance and prevents unnecessary re-renders.</p>
 <p>Below is an example that demonstrates sorting and filtering using modern patterns.</p>
@@ -227,9 +330,17 @@
 </ul>
 </div><hr />
 <h2 id="3-코스노트-fetching-list-data">3. 📘 코스노트: Fetching List Data <a class="anchor" aria-label="링크" href="#3-코스노트-fetching-list-data">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>API에서 목록을 받아 오는 코스노트예요. 시험에 나오는 loading, error, empty 처리는 💻 &quot;Example: Fetching List Data&quot;에서 단계별로 쳐 봐요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data</p>
 </blockquote>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>useEffect에서 fetch → 받은 배열을 state에 저장 → FlatList에 넘겨요. 흐름만 이해하면 돼요.</p>
+</div>
 <p>Many applications need to load list data from a remote API. In this example, we fetch a list of user names and display them using a <code>FlatList</code>. We use the <code>useEffect()</code> hook to perform the asynchronous request when the component mounts, and we store the results in state so they can be sorted and filtered just like locally generated data.</p>
 <p>Modern React Native best practices recommend:</p>
 <ul>
@@ -369,6 +480,10 @@
 <li>이름 정렬은 <code>a.title.localeCompare(b.title)</code> (문자열 비교).</li>
 </ul>
 </div><h3 id="lazy-loading-of-list-data">📘 Lazy Loading of List Data <a class="anchor" aria-label="링크" href="#lazy-loading-of-list-data">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>끝까지 스크롤하면 onEndReached로 다음 페이지를 더 불러오는 무한 스크롤이에요. 개념과 prop 이름만 알아 두세요.</p>
+</div>
 <p>The <code>FlatList</code> component includes an <code>onEndReached</code> property that makes it easy to implement infinite scrolling. This pattern is common in social media feeds, where new content loads automatically as the user scrolls.</p>
 <p>To implement lazy loading:</p>
 <ol>
@@ -396,6 +511,10 @@
 <li>4단계: 처음 묶음 로드 → 바닥 근처 감지 → 더 가져오기 → 기존 목록 <strong>뒤에 붙이기</strong>.</li>
 </ul>
 </div><h4 id="best-practices-for-infinite-scrolling">📘 Best practices for infinite scrolling <a class="anchor" aria-label="링크" href="#best-practices-for-infinite-scrolling">#</a></h4>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>무한 스크롤 주의사항 목록이에요. 중복 요청 막기, 로딩 표시, 끝 처리 정도만 기억하세요.</p>
+</div>
 <ul>
 <li>Track a <code>loadingMore</code> state to avoid duplicate requests</li>
 <li>Append new items using <code>setItems(prev =&gt; [...prev, ...newItems])</code></li>
@@ -411,10 +530,18 @@
 </ul>
 </div><hr />
 <h2 id="4-코스노트-data-lists-and-detail-views">4. 📘 코스노트: Data Lists and Detail Views <a class="anchor" aria-label="링크" href="#4-코스노트-data-lists-and-detail-views">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>목록에서 줄을 누르면 상세 화면으로 가는 코스노트예요. 같은 구조를 💻 &quot;Example: List and Detail&quot;에서 쳐 보니까 여기서는 읽기만 해요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views</p>
 </blockquote>
 <h3 id="introduction">📘 Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>목록은 요약, 상세는 전체를 보여 준다는 설명이에요.</p>
+</div>
 <p>Many mobile apps follow a familiar pattern:</p>
 <ol>
 <li>Show a <strong>list</strong> of items</li>
@@ -438,9 +565,17 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>List → Detail 패턴</strong>: 목록 보여 주기 → 하나를 탭 → 상세 화면. 메일함, 연락처, 쇼핑, 뉴스 모두 이 패턴. 재료 3개: <strong>FlatList</strong>(목록) + <strong>Pressable</strong>(터치) + <strong>React Navigation</strong>(화면 이동).</p>
 </div><h3 id="example">📘 Example <a class="anchor" aria-label="링크" href="#example">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>아래 하위 단계들의 큰 그림이에요: 네비게이션 → 목록 화면 → 상세 화면 → 데이터 전달.</p>
+</div>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>아래 소단원들이 이 패턴을 조각조각 보여 줘요.</p>
 </div><h4 id="navigation">📘 Navigation <a class="anchor" aria-label="링크" href="#navigation">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Stack 두 개 화면(목록, 상세)을 등록하는 4주차 코드 그대로예요.</p>
+</div>
 <p>To navigate between screens, we use the <a href="https://seneca-ictoer.github.io/WEB530/D-Navigation/navigating" target="_blank" rel="noopener">Stack Navigator</a> from React Navigation.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">NavigationContainer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'@react-navigation/native'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createNativeStackNavigator</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'@react-navigation/native-stack'</span><span class="p">;</span>
@@ -461,6 +596,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>4주차 Stack Navigator 그대로. List와 Detail 두 화면 등록, Detail 헤더 제목은 params에서.</p>
 </div><h4 id="list-screen">📘 List Screen <a class="anchor" aria-label="링크" href="#list-screen">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>줄을 누르면 navigate(&quot;Details&quot;, { 데이터 })로 이동해요.</p>
+</div>
 <p>The list screen displays a list of items using <code>FlatList</code>. Each row is a <code>Pressable</code> that navigates to the detail screen.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
@@ -512,6 +651,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>각 줄을 <strong>Pressable</strong>로 감싸서 <code>onPress</code>에 <code>navigation.navigate('Detail', { item })</code>. Pressable은 6주차에 자세히.</p>
 </div><h4 id="detail-screen">📘 Detail Screen <a class="anchor" aria-label="링크" href="#detail-screen">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>route.params에서 데이터를 꺼내서 보여 줘요.</p>
+</div>
 <p>The detail screen receives the selected item through <code>route.params</code>.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
@@ -536,6 +679,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>route.params</code>에서 item을 꺼내 보여 줘요.</p>
 </div><h4 id="passing-data-between-screens">📘 Passing Data Between Screens <a class="anchor" aria-label="링크" href="#passing-data-between-screens">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>객체 통째로 넘기기 vs id만 넘기기. 큰 데이터는 id만 넘기는 게 원칙이에요.</p>
+</div>
 <p>React Navigation automatically passes parameters using:</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">navigation</span><span class="p">.</span><span class="nx">navigate</span><span class="p">(</span><span class="s1">'Detail'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">});</span>
 </code></pre>
@@ -554,6 +701,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>보내기 <code>navigate('Detail', { item })</code>, 받기 <code>const { item } = route.params;</code>. 문자열, 숫자, 객체, 배열, API 결과 등 무엇이든 넘길 수 있어요.</p>
 </div><h4 id="fetching-detail-data">📘 Fetching Detail Data <a class="anchor" aria-label="링크" href="#fetching-detail-data">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>id만 받은 상세 화면이 직접 fetch하는 방법이에요. 개념만 알아 두세요.</p>
+</div>
 <p>Sometimes you only pass an ID, and the detail screen fetches the rest:</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">navigation</span><span class="p">.</span><span class="nx">navigate</span><span class="p">(</span><span class="s1">'Detail'</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="p">});</span>
 </code></pre>
@@ -578,6 +729,10 @@
 <li>단점(비용): 상세 화면을 열 때마다 <strong>요청 한 번 더</strong>, 로딩 시간 발생. (Lab 5 Q5 주석으로 쓸 내용!)</li>
 </ul>
 </div><h3 id="full-solution-local-data">📘 Full Solution (Local Data) <a class="anchor" aria-label="링크" href="#full-solution-local-data">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>지금까지 조각을 합친 완성 코드예요. Snack으로 실행해서 눌러 보기만 하세요.</p>
+</div>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">NavigationContainer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'@react-navigation/native'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createNativeStackNavigator</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'@react-navigation/native-stack'</span><span class="p">;</span>
@@ -693,6 +848,10 @@
 <li>헤더 제목: <code>options={({ route }) =&gt; ({ title: route.params.item.title })}</code>.</li>
 </ul>
 </div><h3 id="full-example-fetching-remote-data">📘 Full Example (Fetching Remote Data) <a class="anchor" aria-label="링크" href="#full-example-fetching-remote-data">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>같은 앱을 API 데이터로 바꾼 버전이에요. 실행해서 흐름만 확인하세요.</p>
+</div>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useEffect</span><span class="p">,</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">,</span><span class="w"> </span><span class="nx">ActivityIndicator</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">NavigationContainer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'@react-navigation/native'</span><span class="p">;</span>
@@ -855,15 +1014,27 @@
 <p><strong>완성 코드 해설</strong>: 위 패턴 + 목록을 API(jsonplaceholder)에서 받아 오기. loading/error 처리와 Pressable → Detail 흐름이 한 파일에 다 들어 있어요. 시험 직전 복습용으로 이 코드를 처음부터 끝까지 따라 쳐 보세요.</p>
 </div><hr />
 <h2 id="5-코스노트-pull-to-refresh">5. 📘 코스노트: Pull to Refresh <a class="anchor" aria-label="링크" href="#5-코스노트-pull-to-refresh">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>당겨서 새로고침 코스노트예요. 시험용 버전은 💻 &quot;Example: Pull to Refresh&quot;에서 쳐 봐요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh</p>
 </blockquote>
 <h3 id="introduction-1">📘 Introduction <a class="anchor" aria-label="링크" href="#introduction-1">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>목록을 아래로 당기면 다시 불러오는 익숙한 기능이에요.</p>
+</div>
 <p>Mobile users expect lists to stay up‑to‑date. Whether checking email, refreshing a news feed, or reloading product data, the most common pattern is <strong>pull to refresh</strong>: the user drags downward at the top of a list to trigger a reload.</p>
 <p>React Native provides built‑in support for this pattern through the <code>FlatList</code> component. You do <strong>not</strong> need to detect gestures manually - the list handles the pull gesture for you.</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>Pull to refresh(당겨서 새로고침)</strong>: 목록 맨 위에서 아래로 끌어당기면 다시 불러오기. FlatList에 <strong>내장</strong>돼 있어서 제스처를 직접 감지할 필요 없어요.</p>
 </div><h3 id="how-pull-to-refresh-works">📘 How Pull to Refresh Works <a class="anchor" aria-label="링크" href="#how-pull-to-refresh-works">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>FlatList에 refreshing(지금 새로고침 중인지)과 onRefresh(당겼을 때 할 일) 두 prop만 주면 돼요.</p>
+</div>
 <p><code>FlatList</code> exposes two props that enable pull‑to‑refresh:</p>
 <ol>
 <li><code>refreshing</code> - A boolean that tells React Native whether the list is currently refreshing. When <code>true</code>, the list shows a spinner at the top.</li>
@@ -883,6 +1054,10 @@
 💡 터치가 필요해서 <strong>Web 미리보기에서는 안 돼요.</strong> iOS/Android 미리보기나 Expo Go 폰에서.</li>
 </ol>
 </div><h3 id="basic-pulltorefresh-example">📘 Basic Pull‑to‑Refresh Example <a class="anchor" aria-label="링크" href="#basic-pulltorefresh-example">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>가짜 데이터로 만든 가장 작은 예제예요. 휴대폰(Expo Go)에서 실행해서 당겨 보세요.</p>
+</div>
 <p>The example below shows how to refresh a list of items using a simulated network request.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
@@ -932,6 +1107,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설</strong>: <code>onRefresh</code>에서 <code>setRefreshing(true)</code> → (가짜 네트워크 대기) → 데이터 갱신 → <code>setRefreshing(false)</code>. 스피너를 켜고 끄는 건 <strong>내 책임</strong>.</p>
 </div><h3 id="pull-to-refresh-with-api-data">📘 Pull to Refresh with API Data <a class="anchor" aria-label="링크" href="#pull-to-refresh-with-api-data">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>API를 다시 fetch하는 버전이에요. 💻 예제와 거의 같아서 읽기만 해요.</p>
+</div>
 <p>Pull‑to‑refresh becomes most useful when combined with remote data. Here is a version that fetches posts from an API and reloads them when the user pulls down.</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">ActivityIndicator</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
@@ -1003,6 +1182,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설</strong>: 같은 패턴인데 실제 API(posts)를 다시 fetch. 처음 로드는 useEffect, 수동 새로고침은 onRefresh.</p>
 </div><h3 id="best-practices">📘 Best Practices <a class="anchor" aria-label="링크" href="#best-practices">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>새로고침 중 중복 요청 막기, 스크롤 위치 유지 같은 팁이에요.</p>
+</div>
 <ol>
 <li>Keep refresh actions fast - Users expect refresh to complete quickly. If your API is slow, show a spinner and consider caching.</li>
 <li>Avoid refreshing on every screen load - Use pull‑to‑refresh for manual reloads. Use <code>useEffect</code> for initial loads.</li>
@@ -1020,10 +1203,18 @@
 </ol>
 </div><hr />
 <h2 id="6-인클래스-예제-week-51---notes-and-examples">6. 💻 인클래스 예제: Week 5.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#6-인클래스-예제-week-51---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>교수님이 수업에서 라이브 코딩한 순서예요. 이번 주에서 가장 중요한 부분이고, 아래 ⌨️ 표시된 곳은 Snack을 새로 열고 처음부터 직접 쳐 보세요. 시험 코딩 문제가 이 모양으로 나와요.</p>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-05.1-notes.md</p>
 </blockquote>
 <h3 id="react-native-playground">💻 React Native Playground <a class="anchor" aria-label="링크" href="#react-native-playground">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>예제에 필요한 패키지와 데이터(jsonplaceholder posts) 안내예요.</p>
+</div>
 <p>React Native Playground (Snack)
 <em>Use this for the examples. Modify App.js</em>
 (https://snack.expo.dev)</p>
@@ -1047,6 +1238,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>처음 세 예제는 <code>react-native</code>만 필요. List and Detail 예제부터 React Navigation 패키지가 필요해요(Snack 링크에 자동 포함). 데이터는 jsonplaceholder의 가짜 posts 100개(<code>userId</code>, <code>id</code>, <code>title</code>, <code>body</code>). 브라우저에서 주소를 열어 데이터 모양을 먼저 보세요.</p>
 </div><h3 id="why-lists">💻 Why Lists? <a class="anchor" aria-label="링크" href="#why-lists">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>좋은 목록의 디자인 원칙이에요. 객관식, 서술 문제로 나올 수 있어서 읽어 두세요.</p>
+</div>
 <ul>
 <li>Most mobile apps are list-driven: messages, contacts, products, posts, notifications.</li>
 <li>A <code>ScrollView</code> with <code>.map()</code> from Week 3 renders every child at once. Fine for a page of content, a problem for a thousand rows.</li>
@@ -1056,6 +1251,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>목록 디자인 원칙</strong>: 줄마다 일관되게. 분명한 위계(제목, 부제목), 손가락으로 누르기 편한 간격, 시각적 구분(테두리나 카드). 어딘가로 이동하는 줄은 <strong>눌러질 것처럼 보여야</strong> 해요.</p>
 </div><h3 id="example-flatlist">💻 Example: FlatList <a class="anchor" aria-label="링크" href="#example-flatlist">#</a></h3>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>빈 Snack에서 과일 목록을 FlatList로 그려 보세요. renderItem에서 ({ item }) 구조분해, keyExtractor는 문자열, 컨테이너 flex: 1이 시험 단골 실수 포인트예요.</p>
+<p><strong>할 일</strong>: 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너</p>
+</div>
 <ul>
 <li>Show a list of fruit. Replace everything in <code>App.js</code>.</li>
 </ul>
@@ -1155,6 +1355,10 @@
 <li><code>windowSize={3}</code>으로 줄이면 로그가 확 줄지만, 빨리 튕기면 <strong>빈 칸이 번쩍</strong>. 그래서 기본이 21. <strong>3 미만 금지</strong>: <code>windowSize={1}</code>이면 처음 10줄 이후로 영영 안 그려져요.</li>
 </ul>
 </div><h3 id="example-sorting-and-filtering">💻 Example: Sorting and Filtering <a class="anchor" aria-label="링크" href="#example-sorting-and-filtering">#</a></h3>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>앞의 FlatList 코드에 정렬 버튼과 검색창을 단계별로 붙여요. Step 1부터 3까지 이어서 직접 쳐 보세요.</p>
+</div>
 <ul>
 <li>Users expect a predictable order, and a way to narrow a long list down.</li>
 <li>Neither one touches the UI. You change the array, and <code>FlatList</code> renders whatever it gets.</li>
@@ -1163,6 +1367,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>사용자는 예측 가능한 <strong>순서</strong>와 긴 목록을 <strong>좁히는 방법</strong>을 원해요. 둘 다 UI는 안 건드리고 <strong>배열만</strong> 바꿔요.</p>
 </div><h4 id="step-1---sort-with-a-button">💻 Step 1 - Sort with a Button <a class="anchor" aria-label="링크" href="#step-1---sort-with-a-button">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>state는 방향 하나, 정렬된 배열은 매번 계산해요. 복사([...]) 후 sort가 포인트.</p>
+<p><strong>할 일</strong>: ascending state + [...fruits].sort(localeCompare) + 정렬 버튼</p>
+</div>
 <ul>
 <li>Add <code>useState</code> and <code>Button</code> to the imports.</li>
 </ul>
@@ -1205,6 +1414,11 @@
 <li><code>localeCompare</code>: 사람이 기대하는 문자열 순서(&quot;apple&quot;이 &quot;Banana&quot;보다 앞). 숫자는 빼기 <code>a.price - b.price</code>.</li>
 </ul>
 </div><h4 id="step-2---filter-with-a-textinput">💻 Step 2 - Filter with a TextInput <a class="anchor" aria-label="링크" href="#step-2---filter-with-a-textinput">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>검색어로 먼저 filter하고 그다음 sort해요.</p>
+<p><strong>할 일</strong>: query state + TextInput + filter 다음 sort</p>
+</div>
 <ul>
 <li>Add <code>TextInput</code> to the <code>react-native</code> import.</li>
 <li>Add state for the search text, and filter before sorting. Replace the <code>visible</code> lines.</li>
@@ -1252,6 +1466,11 @@
 <li><code>zz</code> → 빈 화면에 <strong>아무 말도 없음</strong> → 고장 난 것처럼 보임 → Step 3.</li>
 </ul>
 </div><h4 id="step-3---show-an-empty-state">💻 Step 3 - Show an Empty State <a class="anchor" aria-label="링크" href="#step-3---show-an-empty-state">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>검색 결과가 없을 때 메시지를 보여 줘요.</p>
+<p><strong>할 일</strong>: ListEmptyComponent 추가</p>
+</div>
 <ul>
 <li>Add <code>ListEmptyComponent</code> to the <code>FlatList</code>. It renders only when <code>data</code> is empty.</li>
 </ul>
@@ -1268,6 +1487,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>ListEmptyComponent</code>는 data가 <strong>비었을 때만</strong> 렌더링. 빈 화면도 사용자가 보는 상태이니 <strong>말을 해 줘야</strong> 해요. 서버에서 빈 목록이 와도 같은 prop이 처리.</p>
 </div><h4 id="finished-code">💻 Finished Code <a class="anchor" aria-label="링크" href="#finished-code">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>내가 친 코드와 비교해 보는 완성본이에요.</p>
+</div>
 <ul>
 <li>Compare against this if something is not working.</li>
 </ul>
@@ -1352,6 +1575,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>완성 코드 해설</strong>: state는 <code>ascending</code>과 <code>query</code> 두 개뿐. <code>visible = fruits.filter(...).sort(...)</code>를 return 위에서 매번 계산 → <code>data={visible}</code>. 버튼, 검색창, FlatList, ListEmptyComponent. 이 구조가 Lab 5 Q2~Q3의 뼈대예요.</p>
 </div><h3 id="example-fetching-list-data">💻 Example: Fetching List Data <a class="anchor" aria-label="링크" href="#example-fetching-list-data">#</a></h3>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>API에서 posts를 받아 오면서 로딩, 에러, 빈 목록을 모두 처리해요. Test 3 코딩 문제의 핵심 뼈대예요.</p>
+</div>
 <ul>
 <li>Real lists come from an API, and that changes the component. The data is not there when the screen first renders, and it might never arrive.</li>
 <li>Fetching brings three states with it: loading, error and empty. The lifecycle is: start loading, show a spinner, fetch, render the list, and if it failed, say so and offer a retry.</li>
@@ -1359,6 +1586,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>실제 목록은 API에서 와요. 첫 렌더링 때는 데이터가 <strong>없고</strong>, 영영 안 올 수도 있어요. 그래서 상태 3개가 생겨요: <strong>loading, error, empty</strong>. 흐름: 로딩 시작 → 스피너 → fetch → 목록, 실패하면 메시지 + 다시 시도.</p>
 </div><h4 id="starter-code">💻 Starter Code <a class="anchor" aria-label="링크" href="#starter-code">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>여기서부터 Snack에 쳐서 시작해요. fetch → res.json() → setPosts 흐름.</p>
+<p><strong>할 일</strong>: posts state + useEffect에서 fetch + FlatList (시작 코드)</p>
+</div>
 <ul>
 <li>This is a new app, so replace everything in <code>App.js</code>. It fetches the posts and shows them, and nothing else.</li>
 </ul>
@@ -1430,6 +1662,11 @@
 <li>문제: 2초 동안 빈 화면, 실패하면 영원히 빈 화면.</li>
 </ul>
 </div><h4 id="step-1---show-a-spinner-while-loading">💻 Step 1 - Show a Spinner While Loading <a class="anchor" aria-label="링크" href="#step-1---show-a-spinner-while-loading">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>ActivityIndicator와 early return 패턴.</p>
+<p><strong>할 일</strong>: loading state(true로 시작) + finally에서 false + early return 스피너</p>
+</div>
 <ul>
 <li>Add <code>ActivityIndicator</code> to the <code>react-native</code> import.</li>
 <li>Add a <code>loading</code> state under <code>posts</code>. It starts as <code>true</code> because the first load starts right away.</li>
@@ -1471,6 +1708,11 @@
 <li><code>if (loading) return (스피너 화면);</code> <strong>early return</strong> → 메인 return은 데이터가 준비됐는지 신경 안 써도 됨.</li>
 </ul>
 </div><h4 id="step-2---handle-errors">💻 Step 2 - Handle Errors <a class="anchor" aria-label="링크" href="#step-2---handle-errors">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>fetch는 404여도 reject 안 해서 res.ok를 직접 확인해야 해요. 시험 최다 함정.</p>
+<p><strong>할 일</strong>: error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼</p>
+</div>
 <ul>
 <li>Add <code>Button</code> to the <code>react-native</code> import.</li>
 <li>Add an <code>error</code> state. <code>null</code> means no error.</li>
@@ -1536,6 +1778,11 @@
 <li><strong>early return 순서가 중요</strong>: loading을 먼저 검사해서, Try Again을 누르면 error가 아직 있어도 스피너가 보여요.</li>
 </ul>
 </div><h4 id="step-3---show-an-empty-state-1">💻 Step 3 - Show an Empty State <a class="anchor" aria-label="링크" href="#step-3---show-an-empty-state-1">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>빈 응답도 사용자에게 알려 줘요.</p>
+<p><strong>할 일</strong>: ListEmptyComponent + ?userId=99로 빈 목록 테스트</p>
+</div>
 <ul>
 <li>Add <code>ListEmptyComponent</code> to the <code>FlatList</code>, as in the previous example.</li>
 </ul>
@@ -1553,6 +1800,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>ListEmptyComponent</code> 추가. 테스트: <code>/posts?userId=99</code> → 서버가 <code>[]</code> 반환 → &quot;없음&quot; 메시지. 이로써 <strong>전체 생명주기 완성</strong>: 스피너 → 목록 → 에러 + 재시도 → 빈 목록 메시지.</p>
 </div><h4 id="finished-code-1">💻 Finished Code <a class="anchor" aria-label="링크" href="#finished-code-1">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>시험 직전에 다시 볼 완성본이에요. 내 코드와 비교하세요.</p>
+</div>
 <ul>
 <li>Compare against this if something is not working.</li>
 </ul>
@@ -1657,6 +1908,10 @@
 <li>렌더링: loading → error → 목록(ListEmptyComponent 포함) 순서의 early return.</li>
 </ul>
 </div><h3 id="example-list-and-detail">💻 Example: List and Detail <a class="anchor" aria-label="링크" href="#example-list-and-detail">#</a></h3>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>앞의 Fetching 코드를 Stack에 넣고 줄을 누르면 상세로 가게 만들어요. 4주차 + 5주차 합체 문제라 꼭 쳐 보세요.</p>
+</div>
 <ul>
 <li>Most mobile apps use this pattern. The list is the overview, and tapping a row opens the detail. Mail, Contacts and Instagram all work this way.</li>
 <li>It is progressive disclosure: show what the user needs right now, and reveal the rest when they ask for it. The list stays clean, and the detail has room.</li>
@@ -1666,6 +1921,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>Progressive disclosure(점진적 공개)</strong>: 지금 필요한 것만 보여 주고, 나머지는 요청할 때 보여 주기. 목록은 깔끔하게, 상세는 넉넉하게. 내부적으로는 4주차 스택 + row를 param으로 전달.</p>
 </div><h4 id="step-1---put-the-list-in-a-stack">💻 Step 1 - Put the List in a Stack <a class="anchor" aria-label="링크" href="#step-1---put-the-list-in-a-stack">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>화면 컴포넌트와 앱 루트를 나누는 연습.</p>
+<p><strong>할 일</strong>: MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기</p>
+</div>
 <ul>
 <li>Add the navigation imports under the <code>react-native</code> import.</li>
 </ul>
@@ -1707,6 +1967,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>MyApp</code>을 <code>PostsScreen</code>으로 이름 바꾸고(<code>export default</code> 제거, <code>navigation</code> prop 받기), 새 <code>MyApp</code>이 NavigationContainer + Stack을 return. 헤더가 공간을 만들어 주니 <code>paddingTop</code> 제거.</p>
 </div><h4 id="step-2---make-each-row-tappable">💻 Step 2 - Make Each Row Tappable <a class="anchor" aria-label="링크" href="#step-2---make-each-row-tappable">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>numberOfLines={1}로 미리보기 한 줄.</p>
+<p><strong>할 일</strong>: 줄을 Pressable로 감싸고 navigate(&quot;Details&quot;, { post: item })</p>
+</div>
 <ul>
 <li>Add <code>Pressable</code> to the <code>react-native</code> import.</li>
 <li>Replace the row. The <code>View</code> becomes a <code>Pressable</code> that navigates, and the body is cut to one line.</li>
@@ -1737,6 +2002,11 @@
 <li>아직 Details 화면이 없어서 누르면 콘솔에 <code>NAVIGATE</code> 미처리 메시지.</li>
 </ul>
 </div><h4 id="step-3---add-the-details-screen">💻 Step 3 - Add the Details Screen <a class="anchor" aria-label="링크" href="#step-3---add-the-details-screen">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>넘겨받은 데이터를 보여 줘요.</p>
+<p><strong>할 일</strong>: DetailsScreen에서 const { post } = route.params</p>
+</div>
 <ul>
 <li>Add the screen under <code>PostsScreen</code>. It reads the post from <code>route.params</code>, as in Week 4.</li>
 </ul>
@@ -1777,6 +2047,10 @@
 <li>params는 <strong>작고 직렬화 가능</strong>(serializable, JSON으로 바꿀 수 있는)해야 해요. 큰 레코드는 <strong>id만</strong> 넘기고 상세가 fetch.</li>
 </ul>
 </div><h4 id="finished-code-2">💻 Finished Code <a class="anchor" aria-label="링크" href="#finished-code-2">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>4주차와 5주차가 합쳐진 완성본이에요. 비교용.</p>
+</div>
 <ul>
 <li>Compare against this if something is not working.</li>
 </ul>
@@ -1912,6 +2186,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>완성 코드 해설</strong>: Fetching List Data 완성 코드 + Stack(Posts, Details) + Pressable row + Details 화면. 4주차와 5주차가 합쳐진 형태라 Test 3에 나오기 딱 좋은 구조예요.</p>
 </div><h3 id="example-pull-to-refresh">💻 Example: Pull to Refresh <a class="anchor" aria-label="링크" href="#example-pull-to-refresh">#</a></h3>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>앞 코드에 당겨서 새로고침을 붙여요. 휴대폰 Expo Go에서 확인하세요(Web은 안 돼요).</p>
+</div>
 <ul>
 <li>Users expect to refresh a list by pulling down on it. Social feeds, email and dashboards all do it.</li>
 <li><code>FlatList</code> has it built in through two props, <code>refreshing</code> and <code>onRefresh</code>. There is no gesture code to write. React Native handles the pull, you handle the data.</li>
@@ -1921,6 +2199,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>refreshing</code> + <code>onRefresh</code> 두 prop. 제스처 코드 없음. Web에서는 안 되니 iOS/Android/Expo Go.</p>
 </div><h4 id="step-1---track-the-refresh">💻 Step 1 - Track the Refresh <a class="anchor" aria-label="링크" href="#step-1---track-the-refresh">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>loading과 refreshing을 따로 두는 이유가 Lab 5 Q6에 나와요.</p>
+<p><strong>할 일</strong>: refreshing state + refresh 함수(true → loadPosts → finally false)</p>
+</div>
 <ul>
 <li>Add a <code>refreshing</code> state under <code>error</code>, and a function that reloads the posts, next to <code>retry</code>.</li>
 </ul>
@@ -1937,6 +2220,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong><code>loading</code>과 <code>refreshing</code>을 분리하는 이유</strong> (Lab 5 Q6 주석 내용!): 첫 로드는 <strong>화면 전체</strong>를 스피너로 바꾸고, 새로고침은 <strong>목록을 그대로 둔 채</strong> 위에서만 돌아야 해요. state 하나로는 두 가지 다른 화면을 구분할 수 없어요.</p>
 </div><h4 id="step-2---wire-up-the-list">💻 Step 2 - Wire Up the List <a class="anchor" aria-label="링크" href="#step-2---wire-up-the-list">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>prop 두 개면 끝.</p>
+<p><strong>할 일</strong>: FlatList에 refreshing, onRefresh 연결</p>
+</div>
 <ul>
 <li>Add the two props to the <code>FlatList</code>.</li>
 </ul>
@@ -1949,6 +2237,11 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><code>&lt;FlatList refreshing={refreshing} onRefresh={refresh} /&gt;</code>. 당기면 위에 스피너, 다시 로드, 스피너 사라짐, <strong>스크롤 위치 유지</strong>.</p>
 </div><h4 id="step-3---prove-it-reloaded">💻 Step 3 - Prove It Reloaded <a class="anchor" aria-label="링크" href="#step-3---prove-it-reloaded">#</a></h4>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>목록과 같이 스크롤되는 헤더.</p>
+<p><strong>할 일</strong>: updated 시각 state + ListHeaderComponent로 표시</p>
+</div>
 <ul>
 <li>The API returns the same 100 posts every time, so nothing visibly changed. Record when the data arrived.</li>
 <li>Add one more state.</li>
@@ -1985,6 +2278,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>API가 매번 같은 데이터를 줘서 바뀐 게 안 보이니, 받은 <strong>시각</strong>을 state로 기록(<code>new Date()</code>), <code>toLocaleTimeString()</code>으로 표시. 위치는 <strong><code>ListHeaderComponent</code></strong>: 목록과 <strong>같이 스크롤</strong>돼요(FlatList 위에 둔 Text는 안 따라옴).</p>
 </div><h4 id="finished-postsscreen">💻 Finished PostsScreen <a class="anchor" aria-label="링크" href="#finished-postsscreen">#</a></h4>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>state 5개짜리 최종본이에요. 비교용.</p>
+</div>
 <ul>
 <li>Only <code>PostsScreen</code> changed. Compare against this if something is not working.</li>
 </ul>
@@ -2081,16 +2378,28 @@
 <p><strong>완성 코드 해설</strong>: state 5개(posts, loading, error, refreshing, updated). <code>loadPosts</code>가 성공 시 posts와 updated를 같이 set. <code>refresh</code>: <code>setRefreshing(true)</code> → loadPosts → finally <code>setRefreshing(false)</code>. FlatList에 refreshing, onRefresh, ListHeaderComponent, ListEmptyComponent.</p>
 </div><hr />
 <h2 id="7-lab-lab-5---lists">7. 🧪 Lab: Lab 5 - Lists <a class="anchor" aria-label="링크" href="#7-lab-lab-5---lists">#</a></h2>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>연락처 앱을 Q1부터 Q6까지 쌓아 가는 랩이에요. 💻 예제를 다 쳐 본 다음, 예제를 보지 않고 혼자 풀어 보세요. 막히면 아래 한글 해설의 힌트만 보세요.</p>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-5.md</p>
 </blockquote>
 <div class="ko"><p><strong>🇰🇷 들어가기 전에</strong></p>
 <p>Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주차 인클래스 예제 순서와 거의 같아요. <strong>Test 3 대비 최고의 연습 문제</strong>예요. 아래에 각 문제의 연결 예제와 주석에 쓸 &quot;내 말로 설명&quot; 포인트를 정리했어요.</p>
 </div><h3 id="a-note-on-ai">🧪 A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>AI는 막혔을 때만, 내가 설명할 수 없는 코드는 내 것이 아니라는 안내예요.</p>
+</div>
 <p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished Snack. It is being able to put any array on screen as a list, and to handle everything that can happen while that array is on its way from a server.</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>AI는 막힐 때만. 주석으로 &quot;내 말로 설명&quot; 요구가 많은 랩이라 개념 이해가 중요해요.</p>
 </div><h3 id="overview">🧪 Overview <a class="anchor" aria-label="링크" href="#overview">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>문제 6개, 각 1점.</p>
+</div>
 <p>You build one app, a contact list, and each question adds to it. Plan for about 60 minutes.</p>
 <ul>
 <li>Questions 1 to 3 use a small array of contacts that is already in the starter.</li>
@@ -2101,6 +2410,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>연락처 앱 하나를 단계별로. Q1~3 로컬 배열, Q4 API, Q5 상세 화면, Q6 새로고침. 순서대로.</p>
 </div><h3 id="setup">🧪 Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h3>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>시작 코드(연락처 데이터와 스타일)예요. Snack으로 열어서 시작하세요.</p>
+</div>
 <ol>
 <li>Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.</li>
 <li>Rename the Snack to <code>WEB530 Lab 5 - Your Name</code> (click the name at the top left).</li>
@@ -2201,6 +2514,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>SDK 54 유지, <code>styles.js</code> 분리, starter 파일 3개 교체. 스택이 이미 있어서 marginTop 불필요. 도시가 <code>address</code> 객체 안에 있는 건 Q4의 API 모양과 맞추려고.</p>
 </div><h3 id="styling-rules">🧪 Styling Rules <a class="anchor" aria-label="링크" href="#styling-rules">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>StyleSheet.create 사용 등 스타일 규칙이에요.</p>
+</div>
 <ul>
 <li>Every style is in <code>styles.js</code>, created with <code>StyleSheet.create()</code>, as in Lab 3. There are <strong>no</strong> inline <code>style={{ ... }}</code> objects anywhere in <code>App.js</code>.</li>
 <li>Style names describe what they are for (<code>row</code>, <code>contactName</code>, <code>searchInput</code>), not what they look like (<code>bold</code>, <code>grey</code>, <code>box1</code>).</li>
@@ -2209,10 +2526,18 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>모든 스타일은 styles.js, <strong>인라인 스타일 0개</strong>, 스타일 이름은 용도로.</p>
 </div><h3 id="running-your-app">🧪 Running Your App <a class="anchor" aria-label="링크" href="#running-your-app">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>실행 방법 안내예요.</p>
+</div>
 <p>The <strong>Web</strong> preview is enough for Questions 1 to 5. Pull to refresh in Question 6 needs a touch screen, so check it on the <strong>Android</strong> or <strong>iOS</strong> tab, or on your phone with <strong>My Device</strong> and Expo Go.</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>Q1~5는 Web으로 충분, Q6(당겨서 새로고침)은 터치 필요.</p>
 </div><h3 id="submission">🧪 Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h3>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>제출 방법이에요.</p>
+</div>
 <ul>
 <li>Submit <strong>one</strong> Snack link to the <code>Lab 5</code> assessment in Blackboard. After you save, the link looks like <code>https://snack.expo.dev/@yourname/web530-lab-5-...</code>.</li>
 <li>The lab is due at the end of class. Submit before you leave.</li>
@@ -2222,6 +2547,10 @@
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>수업 끝나기 전 Snack 링크 제출, 시크릿 창으로 확인.</p>
 </div><h3 id="question-1---flatlist-1-point">🧪 Question 1 - FlatList (1 point) <a class="anchor" aria-label="링크" href="#question-1---flatlist-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 Example: FlatList와 같은 문제예요. 연락처를 FlatList로.</p>
+</div>
 <p>Replace the placeholder <code>Text</code> in <code>ContactsScreen</code> with a <code>FlatList</code> that shows every contact in <code>CONTACTS</code>.</p>
 <p>Each row shows:</p>
 <ul>
@@ -2244,6 +2573,10 @@
 <li>도시는 <code>item.address.city</code>. 구분선은 <code>borderBottomWidth</code>.</li>
 </ul>
 </div><h3 id="question-2---sorting-1-point">🧪 Question 2 - Sorting (1 point) <a class="anchor" aria-label="링크" href="#question-2---sorting-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 Sorting Step 1과 같은 패턴이에요.</p>
+</div>
 <p>Add two buttons above the list: <code>Sort by name</code> and <code>Sort by city</code>.</p>
 <ul>
 <li>The list starts sorted by name, A to Z.</li>
@@ -2267,6 +2600,10 @@
 <li>주석(내 말로): <code>.sort()</code>는 원본을 직접 바꾸니까, 원본 CONTACTS를 지키려고 <code>[...CONTACTS]</code> 복사본을 정렬한다.</li>
 </ul>
 </div><h3 id="question-3---search-count-and-empty-state-1-point">🧪 Question 3 - Search, Count and Empty State (1 point) <a class="anchor" aria-label="링크" href="#question-3---search-count-and-empty-state-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 Sorting Step 2, 3 + 몇 개 보이는지 개수 표시.</p>
+</div>
 <p>Add a controlled <code>TextInput</code> between the buttons and the list, with the placeholder <code>Search by name or city</code>.</p>
 <ul>
 <li>Typing filters the list. A contact stays in the list if the text appears in its <strong>name or its city</strong>. Upper and lower case do not matter: <code>tor</code>, <code>TOR</code> and <code>Tor</code> all find both Toronto contacts.</li>
@@ -2289,6 +2626,10 @@
 <li><code>No contacts match &quot;zz&quot;.</code> → <strong>ListEmptyComponent</strong>.</li>
 </ul>
 </div><h3 id="question-4---fetching-the-contacts-1-point">🧪 Question 4 - Fetching the Contacts (1 point) <a class="anchor" aria-label="링크" href="#question-4---fetching-the-contacts-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 Fetching List Data 전체 흐름. res.ok 확인 잊지 말기.</p>
+</div>
 <p>Replace the starter data with real data from this API, which returns ten users in the same shape as the starter array (plus a few extra fields):</p>
 <p><code>https://jsonplaceholder.typicode.com/users</code></p>
 <p>Open the link in a browser tab first and find <code>name</code>, <code>email</code> and <code>address.city</code> in the first user.</p>
@@ -2321,6 +2662,10 @@
 <li>세 가지 테스트(<code>/userz</code>, Try Again, <code>/users?id=99</code>)를 직접 해 보기.</li>
 </ul>
 </div><h3 id="question-5---contact-screen-1-point">🧪 Question 5 - Contact Screen (1 point) <a class="anchor" aria-label="링크" href="#question-5---contact-screen-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 List and Detail과 같은 구조예요.</p>
+</div>
 <p>Pressing a row opens a second screen in the stack that shows that contact's full details.</p>
 <ul>
 <li>Register a second screen in the stack named <code>Contact</code>. Its header title is the contact's name.</li>
@@ -2345,6 +2690,10 @@
 <li>주석(내 말로): id만 넘기면 params가 작고 상세 화면이 항상 최신 데이터를 보여 주지만, 화면을 열 때마다 요청을 한 번 더 보내고 로딩을 기다려야 한다(비용).</li>
 </ul>
 </div><h3 id="question-6---pull-to-refresh-1-point">🧪 Question 6 - Pull to Refresh (1 point) <a class="anchor" aria-label="링크" href="#question-6---pull-to-refresh-1-point">#</a></h3>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>💻 Pull to Refresh와 같아요. loading과 refreshing 분리.</p>
+</div>
 <p>Let the user reload the contacts by pulling down on the list.</p>
 <ul>
 <li>Pulling down on the list shows the refresh spinner at the top, reloads the contacts from the API, and hides the spinner when it is done.</li>
@@ -2503,5 +2852,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=720567cf"></script>
+<script src="../../assets/timer.js?v=15da739f"></script>
 </body></html>
