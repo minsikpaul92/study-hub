@@ -89,7 +89,7 @@ a.card:hover { transform: translateY(-2px); border-color: var(--accent); }
 article.md { min-width: 0; max-width: 820px; }
 
 @media (max-width: 960px) {
-  .doc { grid-template-columns: 1fr; gap: 0; }
+  .doc { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .toc { position: fixed; inset: 56px 0 auto 0; max-height: 70vh; background: var(--surface); border-bottom: 1px solid var(--line); padding: 12px 16px; z-index: 25; display: none; box-shadow: var(--shadow); }
   .toc.open { display: block; }
   .toc-toggle { display: inline-flex; align-items: center; }
@@ -228,7 +228,7 @@ footer.site { max-width: 1080px; margin: 0 auto; padding: 0 16px 40px; color: va
 
 /* Long inline code and URLs wrap instead of widening the page on phones */
 .md p, .md li, .md td, .md blockquote { overflow-wrap: anywhere; }
-.md :not(pre) > code { overflow-wrap: anywhere; word-break: break-word; }
+.md :not(pre) > code { overflow-wrap: anywhere; word-break: break-all; }
 article.md { overflow-x: hidden; }
 @media (max-width: 600px) {
   #theme .t { display: none; }

@@ -158,7 +158,13 @@ def build_course(cdir):
         os.makedirs(os.path.join(out, "toy"), exist_ok=True)
         g = open(os.path.join(cdir, toy["guide"]), encoding="utf-8").read()
         # Follow the site's theme choice and give a way back to the course page
-        g = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + THEME_JS, g, count=1)
+        head = '<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' + THEME_JS
+        if re.search(r"<head[\s>]", g):
+            g = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + head, g, count=1)
+        else:  # artifact-style fragment without a document skeleton
+            g = '<!doctype html>\n<html lang="ko"><head>' + head + "</head>\n" + g
+        if "</body>" not in g:
+            g += "</body></html>"
         back = (f'<a href="../index.html" style="position:fixed;left:16px;bottom:16px;z-index:60;padding:8px 14px;border-radius:999px;'
                 f'background:var(--surface);color:var(--ink);border:1px solid var(--line);text-decoration:none;font:600 14px system-ui,sans-serif;'
                 f'box-shadow:0 4px 16px rgba(0,0,0,.2)">← {html.escape(code)}</a>')
@@ -239,7 +245,7 @@ b.onclick=function(){{d[b.dataset.key]=!d[b.dataset.key];try{{localStorage.setIt
                 name = "m/" + relp[:-3].replace(os.sep, "__") + ".html"
                 text = open(f, encoding="utf-8").read()
                 t = h1_of(text, os.path.basename(f))
-                write(os.path.join(out, name), doc_page(f"{t} · {code}", render_md(text), rel, crumbs + [("자료", f"c/{cid}/materials.html"), (t, None)]))
+                write(os.path.join(out, name), doc_page(f"{t} · {code}", render_md(text), "../" + rel, crumbs + [("자료", f"c/{cid}/materials.html"), (t, None)]))
                 items.append((t, name, relp))
             mat_groups.append((labels.get(sub, sub), items))
     mat_body = '<main class="wrap"><section class="hero"><h1>수업 원본 자료</h1><p>해설노트가 참고한 영어 원문이에요. 출처는 각 페이지 맨 위에 있어요.</p></section>'
