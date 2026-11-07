@@ -1,0 +1,23 @@
+{
+  "code": "ABC123",
+  "title": "Course title in English",
+  "title_ko": "한글 수업 이름",
+  "term": "Winter 2027",
+  "school": "Seneca Polytechnic",
+  "language": "영어 원문 + 한글 해설",
+  "runner": null,
+  "source_attribution": "강의자료 출처 (예: 교수님 GitHub 레포 주소)",
+  "note_sources": {
+    "NOTE": "materials/course-notes",
+    "LEC": "materials/lectures",
+    "LAB": "materials/labs",
+    "TEST": "materials/sample-tests"
+  },
+  "links": [{ "label": "수업 사이트", "href": "https://example.com" }],
+  "toy_project": { "title": "토이 프로젝트 이름", "guide": null, "snack_links": null },
+  "exams": [{ "id": "test1", "title": "Test 1", "weeks": [1, 2, 3, 4] }],
+  "mock_exams": [],
+  "weeks": [
+    { "n": 1, "title": "주제", "topics": ["키워드1", "키워드2"], "notes": "notes/week-01.md", "toy": "week01" }
+  ]
+}

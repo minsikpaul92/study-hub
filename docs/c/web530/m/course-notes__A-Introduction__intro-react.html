@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to React · WEB530</title><meta name="description" content="Introduction to React · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Introduction to React</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-react">What is React</a></li><li class="l2"><a href="#react-components">React components</a></li><li class="l3"><a href="#javascript-xml-jsx">JavaScript XML (JSX)</a></li><li class="l3"><a href="#writing-components-using-jsx">Writing components using JSX</a></li><li class="l3"><a href="#using-javascript-expressions">Using JavaScript expressions</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react</a></p>
+<h1 id="introduction-to-react">Introduction to React <a class="anchor" aria-label="링크" href="#introduction-to-react">#</a></h1>
+<h2 id="what-is-react">What is React <a class="anchor" aria-label="링크" href="#what-is-react">#</a></h2>
+<p>If you visit the <a href="https://reactjs.org/" target="_blank" rel="noopener">reactjs.org</a> website, you will learn that <em>React is a JavaScript library for building user interfaces</em>. Released by <a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a> in 2013, React is used by companies big and small to develop user interfaces (UIs) for web, mobile and desktop applications. React is often compared to <a href="https://angular.io/" target="_blank" rel="noopener">Angular</a> but there are alot of differences between the two.</p>
+<ul>
+<li>Based on the Model-View-Controller (MVC) pattern, Angular is a front-end framework for building web applications. React, on the other hand, is for creating user interfaces (the &quot;View&quot; part of the MVC pattern).</li>
+<li>Angular works on the web page's DOM, updating the entire page when a change is made to the data driving our view. React implements a virtual DOM allowing for quicker updates since only the relevant portions are updated.</li>
+<li>Angular offers one-way and two-way binding but React only uses one-way. Since data only flows in one direction, React apps can be easier to debug.</li>
+</ul>
+<p>In this course, we will learn how to use React (and React Native) to produce cross-platform applications.</p>
+<p><strong>React is component-based.</strong></p>
+<p>Components are reusable pieces of code used to render HTML markup (what the user sees) to the browser DOM (the render target). Components are similar to views in Handlebars but they can manage their own state.</p>
+<p><strong>React is declarative.</strong></p>
+<p>React components mix <em>HTML</em> markup and JavaScript together using a syntax called JavaScript XML (or simply JSX). When developing React components, there is no need to execute steps using imperative approaches. Instead, programmers can easily build interactive user interfaces (UI) by describing what they should look like. In other words, programmers will decide what HTML elements each component will render, not how they will be rendered.</p>
+<p>💡 <strong>Declarative syntax</strong>
+A way of describing the code you want to write, without having to worry about how it's going to be implemented. In other words, you are specifying what needs to be done.</p>
+<p>💡 <strong>Imperative syntax</strong>
+You supply a set of instructions to follow and the computer does what you want. In other words, you are defining how a task should be performed.</p>
+<h2 id="react-components">React components <a class="anchor" aria-label="링크" href="#react-components">#</a></h2>
+<p>In React, we will build our UI using JSX. JSX is just static text that represents the resulting HTML. On the initial render, React components and their JSX are no different than other template libraries. For example, Handlebars will render a template to HTML and a React component will do the same. However, React becomes much more interesting when data is changed. When using Handlebars, if the data changes we need to render the view again. With React, changes to the page are made automatically.</p>
+<p>When data changes, refreshing a Handlebars view will take time but with React things update much more efficiently thanks to the virtual DOM. Reacts virtual DOM keeps a tally of the <em>real</em> DOM elements in memory and as data changes, it compares the new content with the already displayed content. Using diffing and patching, the virtual DOM can execute the imperative steps needed to update the HTML.</p>
+<p><em>Remember, we are going to declare our components using declarative code and not worry about how to refresh the page. React will figure out exactly how the UI should be rendered or updated.</em></p>
+<p>💡 <strong>Diffing</strong>
+Comparing old content with new content to figure out what's changed.</p>
+<p>💡 <strong>Patching</strong>
+Executing the necessary DOM operations to render the new content.</p>
+<h3 id="javascript-xml-jsx">JavaScript XML (JSX) <a class="anchor" aria-label="링크" href="#javascript-xml-jsx">#</a></h3>
+<p>Remember, we will build React components using JSX syntax. JSX allows us to mix HTML and JavaScript together. The code we write is extracted from the HTML and transpiled into JavaScript statements. Browsers have no idea what JSX is and they don't need to since they only see the pure JavaScript after it is transpiled.</p>
+<p>💡 <strong>Transpiler</strong>
+A <a href="https://en.wikipedia.org/wiki/Source-to-source_compiler" target="_blank" rel="noopener">source-to-source compiler</a> which takes the source code of a program written in some programming language and converts it into another programming language.</p>
+<p>Let's take a look at a simple &quot;hello world&quot; example. This is a React app, not a React Native app so the target is a web browser. As you study the example, you will notice a few things:</p>
+<ul>
+<li>The first few lines of the program will create a React DOM element from an HTML element in the browsers DOM.</li>
+<li>The last few lines build our UI, returning HTML to be rendered in the browser.</li>
+<li>The application combines JavaScript and XML. Since this is a React app the render target is the browser and so JSX has support for HTML tags. In other words, React already has components built-in for the common HTML elements that you use on a daily basis.</li>
+</ul>
+<p>💡 Want to try the examples yourself? Open <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">this CodeSandbox template</a> and start coding.</p>
+<p><strong>index.html</strong></p>
+<pre class="hl"><code class="language-text">&lt;div id="root"&gt;&lt;/div&gt;
+</code></pre>
+<p><strong>index.js</strong></p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const rootElement = document.getElementById('root');
+const root = createRoot(rootElement);
+
+root.render(
+  &lt;p&gt;
+    Hello, &lt;strong&gt;JSX&lt;/strong&gt;!
+  &lt;/p&gt;
+);
+</code></pre>
+<p>If you need to render multiple tags, they must be nested within a single tag. This is because React needs a root component to render. For example, you can't render adjacent elements like <code>&lt;p&gt;&lt;p&gt;&lt;p&gt;</code>. Look at the next code example and you will notice that the <code>&lt;p&gt;</code> and <code>&lt;button&gt;</code> have been placed into a single <code>&lt;div&gt;</code>.</p>
+<p>Tag names are case-sensitive. When writing HTML, as is done in the code example below, specify the tag names using only lowercase characters. When specifying non-html elements, start the tag with a capital letter. This convention makes it easier to scan the markup and spot the built-in HTML elements.</p>
+<p>We can also pass HTML elements any of their standard properties. In the code example, we are passing the &quot;foo&quot; property. Since this is not a standard property, a warning may be logged but the HTML will still render.</p>
+<pre class="hl"><code class="language-text">// React needs a root element to render.
+// Notice the tag names use lowercase letters.
+// Also notice the property "foo" added to the button.
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  &lt;div&gt;
+    &lt;p&gt;JSX is fun&lt;/p&gt;
+    &lt;button foo="bar"&gt;Click Me&lt;/button&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+<p>JSX is a great way to describe even complex UI structures.</p>
+<pre class="hl"><code class="language-text">// Render a much more complex UI
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  &lt;section&gt;
+    &lt;header&gt;
+      &lt;h1&gt;JSX&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;nav&gt;
+      &lt;a href="item"&gt;Link 1&lt;/a&gt;
+      &lt;br /&gt;
+      &lt;a href="item"&gt;Link 2&lt;/a&gt;
+    &lt;/nav&gt;
+
+    &lt;main&gt;
+      &lt;p&gt;This is a much more complex UI.&lt;/p&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+      &lt;small&gt;&amp;copy; SDSS&lt;/small&gt;
+    &lt;/footer&gt;
+  &lt;/section&gt;
+);
+</code></pre>
+<h3 id="writing-components-using-jsx">Writing components using JSX <a class="anchor" aria-label="링크" href="#writing-components-using-jsx">#</a></h3>
+<p>Components are the fundamental building blocks of React.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// "MyComponent" is simply a function that returns some JSX,
+// which defines the elements of our UI
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;My First Component&lt;/h1&gt;
+      &lt;p&gt;A component is the fundamental building block of React.&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+
+// Render the component
+root.render(&lt;MyComponent /&gt;);
+</code></pre>
+<p>In the above example, we are defining a component called <code>MyComponent</code>, which is literally just a function of that name. In line 18 we are rendering our custom tag. React replaces that tag with the JSX returned by <code>MyComponent</code>.</p>
+<p>Using JSX markup is not only useful for building reusable components but also for describing UI structures that have parent-child relationships. As an example, a <code>&lt;li&gt;</code> tag is useful as a child of a <code>&lt;ul&gt;</code>. To make this work, we can build our own components specifying the <code>children</code> property.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+// Renders a &lt;div&gt; element containing a heading, paragraph and unordered list.
+// The list is populated using {props.children}.
+function ParentComponent(props) {
+  return (
+    &lt;div&gt;
+      &lt;h1&gt;Parent Component&lt;/h1&gt;
+      &lt;p&gt;This component encapsulates a ul element containing the children&lt;/p&gt;
+      &lt;ul&gt;{props.children}&lt;/ul&gt;
+    &lt;/div&gt;
+  );
+}
+
+// Renders a &lt;li&gt; element. The text for the list item is populated using {props.children}
+function ChildComponent(props) {
+  return &lt;li&gt;{props.children}&lt;/li&gt;;
+}
+
+const root = createRoot(document.getElementById('root'));
+
+// Render the nested UI structure
+root.render(
+  &lt;ParentComponent&gt;
+    &lt;ChildComponent&gt;First child&lt;/ChildComponent&gt;
+    &lt;ChildComponent&gt;Second child&lt;/ChildComponent&gt;
+  &lt;/ParentComponent&gt;
+);
+</code></pre>
+<p>In the parent-child example, we are defining two React components. If you look at the JSX for the final render, you will notice that <code>&lt;ChildComponent&gt;</code> is a child of<code>&lt;ParentComponent&gt;</code>. You will also notice that <code>&lt;ChildComponent&gt;</code> accepts text as its child instead of additional JSX elements. In both components,<code>{props.children}</code> acts as a placeholder for the content.</p>
+<p>So, text is passed into the <code>&lt;ChildComponent&gt;</code> and multiple <code>&lt;ChildComponent&gt;</code> tags are passed into the <code>&lt;ParentComponent&gt;</code> yet the rendered output includes the <code>&lt;div&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, and three <code>&lt;li&gt;</code> tags. The browser shows something like this:</p>
+<h3 id="using-javascript-expressions">Using JavaScript expressions <a class="anchor" aria-label="링크" href="#using-javascript-expressions">#</a></h3>
+<p>The following examples shows how easy it is to mix JavaScript and HTML to build JSX. You will notice that JavaScript variables can be passed in to components. Any valid JavaScript expression can be placed between the <code>{ }</code>.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const enabled = false;
+const value = 'Test';
+const buttonText = 'GO';
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  &lt;div&gt;
+    &lt;input type="text" value={value} /&gt;
+    &lt;button disabled={!enabled}&gt;{buttonText}&lt;/button&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+<p>Even arrays can be used to build a dynamic UI:</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { createRoot } from 'react-dom/client';
+
+const optionArray = [
+  { id: 1, name: 'First' },
+  { id: 2, name: 'Second' },
+  { id: 3, name: 'Third' },
+];
+
+const root = createRoot(document.getElementById('root'));
+
+root.render(
+  &lt;div&gt;
+    &lt;h1&gt;Array&lt;/h1&gt;
+
+    {/* Maps "array" to an array of "&lt;option&gt;"s.
+        Note the "key" property on "&lt;option&gt;".
+        This is necessary for performance reasons,
+        and React will warn us if it's missing. */}
+    &lt;select size="3"&gt;
+      {optionArray.map((item) =&gt; (
+        &lt;option key={item.id} value={item.id}&gt;
+          {item.name}
+        &lt;/option&gt;
+      ))}
+    &lt;/select&gt;
+  &lt;/div&gt;
+);
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

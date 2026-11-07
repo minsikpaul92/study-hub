@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firebase Authentication · WEB530</title><meta name="description" content="Firebase Authentication · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Firebase Authentication</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#the-rest-identity-toolkit-architecture">The REST Identity Toolkit Architecture</a></li><li class="l3"><a href="#1-creating-an-account-sign-up">1. Creating an Account (Sign Up)</a></li><li class="l3"><a href="#2-validating-credentials-sign-in">2. Validating Credentials (Sign In)</a></li><li class="l2"><a href="#managing-session-state-with-jotai">Managing Session State with Jotai</a></li><li class="l2"><a href="#step-by-step-implementation-strategy">Step-by-Step Implementation Strategy</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-auth" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-auth</a></p>
+<h1 id="firebase-authentication">Firebase Authentication <a class="anchor" aria-label="링크" href="#firebase-authentication">#</a></h1>
+<p>Building a secure authentication system from scratch is notoriously difficult and risky. It requires setting up encryption layers, securely hashing passwords on a database server, generating random session tokens, and writing complex token expiration listeners.</p>
+<p><strong>Firebase Authentication</strong> provides an end-to-end, bank-grade user identity solution out of the box. Google securely handles password storage, hashing algorithms, and token provisioning on their servers so you can focus entirely on building your client application experience.</p>
+<h2 id="the-rest-identity-toolkit-architecture">The REST Identity Toolkit Architecture <a class="anchor" aria-label="링크" href="#the-rest-identity-toolkit-architecture">#</a></h2>
+<p>Because we are keeping our Expo application completely free of heavy, platform-specific native dependencies, we interact directly with Google's cloud identity gateway using standard HTTP <code>POST</code> requests.</p>
+<p>Instead of an ongoing background listener client, our authentication workflow relies on a secure exchange of network payloads using your project's unique <strong>Web API Key</strong>:</p>
+<h3 id="1-creating-an-account-sign-up">1. Creating an Account (Sign Up) <a class="anchor" aria-label="링크" href="#1-creating-an-account-sign-up">#</a></h3>
+<p>When a user submits a registration form, your application sends a <code>POST</code> request to Google's registration endpoint with their plaintext credentials:</p>
+<ul>
+<li><strong>Endpoint:</strong> <code>https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=YOUR_WEB_API_KEY</code></li>
+<li><strong>Payload Sent:</strong> A JSON object containing <code>email</code>, <code>password</code>, and a boolean flag <code>returnSecureToken: true</code>.</li>
+<li><strong>The Response:</strong> Firebase validates the password complexity, generates a permanent unique User ID (<code>localId</code>), and returns a secure, signed temporary session token.</li>
+</ul>
+<h3 id="2-validating-credentials-sign-in">2. Validating Credentials (Sign In) <a class="anchor" aria-label="링크" href="#2-validating-credentials-sign-in">#</a></h3>
+<p>When an existing user returns to log into your application, you send a <code>POST</code> request to the verification node:</p>
+<ul>
+<li><strong>Endpoint:</strong> <code>https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=YOUR_WEB_API_KEY</code></li>
+<li><strong>The Response:</strong> Firebase evaluates the email and password combination.
+<ul>
+<li>If valid, it returns a <code>200 OK</code> code containing a fresh token string.</li>
+<li>If invalid, it rejects the request with standard error messages like <code>EMAIL_NOT_FOUND</code> or <code>INVALID_PASSWORD</code> which you can catch and display directly to the user as form validation warnings.</li>
+</ul>
+</li>
+</ul>
+<h2 id="managing-session-state-with-jotai">Managing Session State with Jotai <a class="anchor" aria-label="링크" href="#managing-session-state-with-jotai">#</a></h2>
+<p>When using the raw REST API, we pipe the server's HTTP JSON response directly into our shared <strong>Jotai State Layer</strong>.</p>
+<p>We establish a global <code>authAtom</code> that tracks the presence of the user's session token:</p>
+<pre class="hl"><code class="language-text">              ┌───────────────────────────┐
+              │   User Launches App       │
+              └─────────────┬─────────────┘
+                            │
+             Is an auth token in Jotai?
+                            │
+           ┌────────────────┴────────────────┐
+           ▼ NO                              ▼ YES
+┌──────────────────────────────┐  ┌──────────────────────────────┐
+│  Render Login Screen         │  │  Render Main (tabs) Router   │
+│  (Blocks access to hardware) │  │  (Full access to catalog)    │
+└──────────────────────────────┘  └──────────────────────────────┘
+</code></pre>
+<p>By binding our layout directly to a Jotai atom, we achieve an instant, smooth user transition. The moment the token atom is updated via a successful <code>fetch()</code> login action, the interface automatically hides the public login forms and displays the protected native product catalog views.</p>
+<h2 id="step-by-step-implementation-strategy">Step-by-Step Implementation Strategy <a class="anchor" aria-label="링크" href="#step-by-step-implementation-strategy">#</a></h2>
+<p>In our upcoming coding lab, we will implement this architecture across the following steps:</p>
+<ol>
+<li><strong>Retrieve Your Web API Key:</strong> Locate your unique credential inside your Firebase Console project settings dashboard.</li>
+<li><strong>Create the Auth Atom:</strong> Establish a state file (<code>store/authAtom.ts</code>) to track the current user's token string and localized ID.</li>
+<li><strong>Build the Network Login Action:</strong> Write an asynchronous JavaScript utility using <code>fetch</code> to pass form payloads directly to Google's Identity endpoints.</li>
+<li><strong>Configure Conditional Routing:</strong> Update your root layout file to read the Jotai store value and dynamically swap user screen contexts based on their real-time authentication status.</li>
+<li><strong>Implement Sign-Out:</strong> Add a control action that clears out the stored Jotai state, instantly dropping the client back to the public login screen.</li>
+</ol>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

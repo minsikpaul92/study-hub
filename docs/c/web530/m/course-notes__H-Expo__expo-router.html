@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Expo Router · WEB530</title><meta name="description" content="Introduction to Expo Router · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Introduction to Expo Router</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-expo-router">What is Expo Router?</a></li><li class="l2"><a href="#why-use-expo-router">Why Use Expo Router?</a></li><li class="l2"><a href="#core-concepts-file-conventions">Core Concepts &amp; File Conventions</a></li><li class="l3"><a href="#1-the-entry-point-indextsx">1. The Entry Point: index.tsx</a></li><li class="l3"><a href="#2-layout-files-_layouttsx">2. Layout Files: _layout.tsx</a></li><li class="l3"><a href="#3-route-groups-directory-name">3. Route Groups: (directory-name)</a></li><li class="l3"><a href="#4-dynamic-routes-idtsx">4. Dynamic Routes: [id].tsx</a></li><li class="l2"><a href="#structural-visualization-layouts-vs-screens">Structural Visualization: Layouts vs. Screens</a></li><li class="l3"><a href="#example-directory-architecture">Example Directory Architecture</a></li><li class="l2"><a href="#setting-up-expo-router">Setting Up Expo Router</a></li><li class="l2"><a href="#running-your-new-app">Running Your New App</a></li><li class="l2"><a href="#understanding-the-default-file-architecture">Understanding the Default File Architecture</a></li><li class="l2"><a href="#begin-implementing-a-product-shop-application">Begin implementing a Product Shop application</a></li><li class="l3"><a href="#configure-tabs">Configure Tabs</a></li><li class="l3"><a href="#update-the-settings-screen">Update the Settings Screen</a></li><li class="l3"><a href="#install-jotai-and-configure-a-product-list">Install Jotai and Configure a Product List</a></li><li class="l3"><a href="#update-tab-one---make-it-the-product-shop">Update Tab One - Make it the Product Shop</a></li><li class="l3"><a href="#create-the-dynamic-product-details-screen">Create the Dynamic Product Details Screen</a></li><li class="l3"><a href="#checkpoint-architecture-review">Checkpoint &amp; Architecture Review</a></li><li class="l2"><a href="#resolving-the-issues-building-a-tab-nested-stack">Resolving the Issues: Building a Tab-Nested Stack</a></li><li class="l3"><a href="#step-1-restructure-your-directories">Step 1: Restructure Your Directories</a></li><li class="l3"><a href="#step-2-create-the-products-stack-layout">Step 2: Create the Products Stack Layout</a></li><li class="l3"><a href="#step-3-update-the-root-tabs-layout">Step 3: Update the Root Tabs Layout</a></li><li class="l3"><a href="#step-4-fix-relative-links">Step 4: Fix Relative Links</a></li><li class="l2"><a href="#summary-what-you-learned">Summary: What You Learned</a></li><li class="l3"><a href="#1-file-based-routing-with-expo-router">1. File-Based Routing with Expo Router</a></li><li class="l3"><a href="#2-state-splitting-with-jotai">2. State Splitting with Jotai</a></li><li class="l3"><a href="#3-dynamic-screen-rendering">3. Dynamic Screen Rendering</a></li><li class="l3"><a href="#4-advanced-tab-to-stack-architecture">4. Advanced Tab-to-Stack Architecture</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/H-Expo/expo-router" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/H-Expo/expo-router</a></p>
+<h1 id="introduction-to-expo-router">Introduction to Expo Router <a class="anchor" aria-label="링크" href="#introduction-to-expo-router">#</a></h1>
+<h2 id="what-is-expo-router">What is Expo Router? <a class="anchor" aria-label="링크" href="#what-is-expo-router">#</a></h2>
+<p>Expo Router is a powerful, file-based routing framework built on top of <strong>React Navigation</strong>. If you have ever used web frameworks like Next.js, Remix, or Nuxt, the concept will feel immediately familiar: <strong>your file structure determines your application's navigation structure.</strong></p>
+<p>Instead of writing hundreds of lines of boilerplate code to manually configure navigation containers, stacks, and screen listeners in JavaScript, you simply organize your files into directories. Expo Router automatically translates that directory structure into fully functioning native navigation paradigms for iOS and Android.</p>
+<h2 id="why-use-expo-router">Why Use Expo Router? <a class="anchor" aria-label="링크" href="#why-use-expo-router">#</a></h2>
+<ul>
+<li><strong>Screens are just files:</strong> The directory path of your code file matches the screen's route.</li>
+<li><strong>Deep Linking by Default:</strong> Because every screen has a distinct &quot;URL path&quot; under the hood, your app inherently supports deep linking (e.g., launching the app directly to a specific product page from a web link).</li>
+<li><strong>Native Performance:</strong> While it uses file paths like a web browser, it renders <strong>100% native platform components</strong> underneath. It utilizes standard iOS and Android transitions, gestures, and animations.</li>
+<li><strong>Type Safety:</strong> It can automatically generate TypeScript types for your routes, preventing broken links at compile time.</li>
+</ul>
+<h2 id="core-concepts-file-conventions">Core Concepts &amp; File Conventions <a class="anchor" aria-label="링크" href="#core-concepts-file-conventions">#</a></h2>
+<p>Expo Router relies on a dedicated directory at the root of your project named <code>app/</code>. Every file created inside this folder becomes a route.</p>
+<p>To build complex mobile interfaces (like tab bars, headers, and slide-out menus), Expo Router uses specific naming conventions:</p>
+<h3 id="1-the-entry-point-indextsx">1. The Entry Point: <code>index.tsx</code> <a class="anchor" aria-label="링크" href="#1-the-entry-point-indextsx">#</a></h3>
+<p>A file named <code>index</code> represents the root or &quot;homepage&quot; of that specific directory level.</p>
+<ul>
+<li><code>app/index.tsx</code> matches the root path <code>/</code> (the very first screen the user sees when opening the app).</li>
+<li><code>app/settings/index.tsx</code> matches the path <code>/settings</code>.</li>
+</ul>
+<h3 id="2-layout-files-_layouttsx">2. Layout Files: <code>_layout.tsx</code> <a class="anchor" aria-label="링크" href="#2-layout-files-_layouttsx">#</a></h3>
+<p>Layout files are used to wrap around a collection of child screens. They allow you to define a shared user interface element—such as a <strong>Native Stack Header</strong> or a <strong>Bottom Tab Bar</strong>, that persists across multiple pages.</p>
+<ul>
+<li>A <code>_layout</code> file applies to every single sibling file and sub-folder within its directory.</li>
+<li>Inside a layout file, you render a <code>&lt;Slot /&gt;</code> component (to simply pass through the current child screen) or specific structural components like <code>&lt;Stack /&gt;</code> or <code>&lt;Tabs /&gt;</code>.</li>
+</ul>
+<h3 id="3-route-groups-directory-name">3. Route Groups: <code>(directory-name)</code> <a class="anchor" aria-label="링크" href="#3-route-groups-directory-name">#</a></h3>
+<p>Sometimes you need to organize files into folders for shared layouts <em>without</em> altering the URL path. Parentheses tell Expo Router to completely ignore that folder name in the URL path.</p>
+<ul>
+<li><strong>Example:</strong> A folder named <code>app/(auth)/login.tsx</code> maps to the path <code>/login</code> (the <code>(auth)</code> is ignored in the route).</li>
+<li>This allows you to easily separate your user experience into logical sections, such as <code>(auth)</code> for login screens and <code>(tabs)</code> for your main dashboard, giving each section its own isolated layout configuration.</li>
+</ul>
+<h3 id="4-dynamic-routes-idtsx">4. Dynamic Routes: <code>[id].tsx</code> <a class="anchor" aria-label="링크" href="#4-dynamic-routes-idtsx">#</a></h3>
+<p>To capture dynamic parameters (like an ID for an article or a user profile handle), wrap the filename in square brackets.</p>
+<ul>
+<li><code>app/profile/[id].tsx</code> maps to <code>/profile/123</code> or <code>/profile/steve</code>.</li>
+<li>You can access that dynamic parameter inside the component using the <code>useLocalSearchParams()</code> hook.</li>
+</ul>
+<h2 id="structural-visualization-layouts-vs-screens">Structural Visualization: Layouts vs. Screens <a class="anchor" aria-label="링크" href="#structural-visualization-layouts-vs-screens">#</a></h2>
+<p>To understand how individual files assemble into a real mobile app, look at how an <code>app/</code> folder translates to the visual hierarchy on a device screen:</p>
+<h3 id="example-directory-architecture">Example Directory Architecture <a class="anchor" aria-label="링크" href="#example-directory-architecture">#</a></h3>
+<p>Here is what a typical, robust production app structure looks like using these conventions:</p>
+<pre class="hl"><code class="language-text">app/
+├── _layout.tsx         # Global configurations (Themes, Global Context providers)
+├── (auth)/             # Group for authentication screens
+│   ├── _layout.tsx     # Stack layout (hides headers for login)
+│   ├── login.tsx       # Maps to route: /login
+│   └── register.tsx    # Maps to route: /register
+├── (tabs)/             # Group for main application workflow
+│   ├── _layout.tsx     # Bottom Tabs Layout configuration
+│   ├── index.tsx       # Home Tab. Maps to route: /
+│   └── explore.tsx     # Explore Tab. Maps to route: /explore
+└── details/            # Standard sub-directory
+    └── [id].tsx        # Dynamic Route. Maps to route: /details/42
+</code></pre>
+<h2 id="setting-up-expo-router">Setting Up Expo Router <a class="anchor" aria-label="링크" href="#setting-up-expo-router">#</a></h2>
+<ol>
+<li>Start VS Code.</li>
+<li>Choose <code>File</code>, <code>Open Folder...</code>. It is recommended you choose an empty folder however you will create a new folder for your application in the next step.</li>
+<li>Create a project with Router included: <code>npx create-expo-app@latest MyRouterApp --template tabs</code> (where <code>MyRouterApp</code> refers to the name of the application folder you want to create).</li>
+</ol>
+<ul>
+<li><code>Ok to proceed? (y)</code> - You may be asked to install packages, press <code>y</code> or <code>ENTER</code> to install the packages and proceed.</li>
+<li><code>Select an Expo SDK version</code> - Choose <code>For learning with Expo Go (SDK 54)</code>.</li>
+<li>The installation may take a minute or two to complete.</li>
+</ul>
+<ol start="4">
+<li>Move into the project folder: <code>cd MyRouterApp</code>.</li>
+<li>Start the development server: <code>npx expo start --tunnel</code>.</li>
+</ol>
+<ul>
+<li>If asked, install <code>@expo/ngrok</code>.</li>
+</ul>
+<p>⚠️ It is not uncommon to receive an error like:
+<code>CommandError: Please install @expo/ngrok@^4.1.0 and try again</code></p>
+<p>💡If you receive the above message, try installing <code>ngrok</code> manually:
+<code>npm install -g @expo/ngrok@4.1.0</code>
+<code>npm install --save-dev @expo/ngrok@^4.1.0</code></p>
+<h2 id="running-your-new-app">Running Your New App <a class="anchor" aria-label="링크" href="#running-your-new-app">#</a></h2>
+<p>You can run your app in several ways:</p>
+<ul>
+<li>On your phone (recommended)
+<ul>
+<li>Install Expo Go from the App Store or Google Play</li>
+<li>Scan the QR code from Expo Dev Tools</li>
+<li>Your app loads instantly</li>
+</ul>
+</li>
+</ul>
+<p>On a simulator/emulator</p>
+<ul>
+<li>iOS Simulator (macOS only)</li>
+<li>Android Emulator (optional)</li>
+</ul>
+<p>💡 If you receive an error that Expo Go needs to be updated on your device,
+it may be that the version available in the store is outdated. You can manually
+install the latest version by going to (<a href="https://expo.dev/go" target="_blank" rel="noopener">https://expo.dev/go</a>).</p>
+<h2 id="understanding-the-default-file-architecture">Understanding the Default File Architecture <a class="anchor" aria-label="링크" href="#understanding-the-default-file-architecture">#</a></h2>
+<p>Open your project in VS Code. The default template structures your navigation files within the <code>app/</code> directory like this:</p>
+<pre class="hl"><code class="language-text">app/
+├── (tabs)/             &lt;-- Route Group for your main application screens
+│   ├── _layout.tsx     &lt;-- This file defines and configures the visual bottom tab bar.
+│   ├── index.tsx       &lt;-- Because this is named index, it acts as the default root path (/) for your application.
+│   └── two.tsx         &lt;-- This maps directly to the /two path. The _layout.tsx file hooks this up to show as the second icon on your bottom tab bar.
+├── _layout.tsx         &lt;-- Global Root Layout file.
+├── +html.tsx           &lt;-- Expo Router supports iOS, Android, and Web. This file is used strictly for web builds.
+├── +not-found.tsx      &lt;-- Custom fallback screen if a route does not exist
+└── modal.tsx           &lt;-- In the default template, usually configured to slide up from the bottom as a native modal overlay.
+</code></pre>
+<h2 id="begin-implementing-a-product-shop-application">Begin implementing a Product Shop application <a class="anchor" aria-label="링크" href="#begin-implementing-a-product-shop-application">#</a></h2>
+<h3 id="configure-tabs">Configure Tabs <a class="anchor" aria-label="링크" href="#configure-tabs">#</a></h3>
+<ol>
+<li>In the VS Code file explorer, expand the <code>app</code> folder, and then expand the <code>(tabs)</code> folder.</li>
+<li>Right-click on <code>two.tsx</code> and select <code>Rename</code>.</li>
+<li>Change the name to <code>settings.tsx</code> and press Enter.</li>
+</ol>
+<p>💡 What just happened? Expo Router instantly changed your app's internal URL route from <code>/two</code> to <code>/settings</code>. If you were to look at your app right now, the second tab might throw an error or disappear because the layout file is still looking for the old path! Let's fix that.</p>
+<ol start="4">
+<li>Open <code>app/(tabs)/_layout.tsx</code>.</li>
+<li>Look inside the file for the <code>&lt;Tabs&gt;</code> component. You will see a <code>&lt;Tabs.Screen&gt;</code> entry specifically configured for <code>two</code>.</li>
+<li>Change the <code>name</code> property from <code>two</code> to <code>settings</code>.</li>
+<li>Change the <code>title</code> property to <code>Settings</code> so the text under the icon looks correct on your screen.</li>
+<li>Change the icon to display as a gear.</li>
+</ol>
+<pre class="hl"><code class="language-text">&lt;Tabs.Screen
+  name="settings"
+  options={{
+    title: 'Settings',
+    tabBarIcon: ({ color }) =&gt; &lt;TabBarIcon name="cog" color={color} /&gt;,
+  }}
+/&gt;
+</code></pre>
+<ol start="9">
+<li>Locate the <code>&lt;Tabs.Screen&gt;</code> entry where <code>name=&quot;index&quot;</code>.</li>
+<li>Update the <code>title</code> to <code>Products</code> and swap out the <code>tabBarIcon</code> for a shopping cart icon.</li>
+</ol>
+<pre class="hl"><code class="language-text">tabBarIcon: ({ color }) =&gt; &lt;TabBarIcon name="shopping-cart" color={color} /&gt;;
+</code></pre>
+<h3 id="update-the-settings-screen">Update the Settings Screen <a class="anchor" aria-label="링크" href="#update-the-settings-screen">#</a></h3>
+<ol>
+<li>Open <code>app/(tabs)/settings.tsx</code>.</li>
+<li>Overwrite the contents of the file with the following TypeScript.</li>
+</ol>
+<ul>
+<li>Change component name to <code>SettingsScreen</code>.</li>
+<li>Clean up the copy, so that our screen appears as a settings screen instead.</li>
+</ul>
+<pre class="hl"><code class="language-text">import { StyleSheet } from 'react-native';
+
+import EditScreenInfo from '@/components/EditScreenInfo';
+import { Text, View } from '@/components/Themed';
+
+export default function SettingsScreen() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;Settings&lt;/Text&gt;
+      &lt;View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" /&gt;
+      &lt;EditScreenInfo path="app/(tabs)/settings.tsx" /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+});
+</code></pre>
+<h3 id="install-jotai-and-configure-a-product-list">Install Jotai and Configure a Product List <a class="anchor" aria-label="링크" href="#install-jotai-and-configure-a-product-list">#</a></h3>
+<p>Let's install Jotai and configure it to store our 'hardcoded' product list.</p>
+<ol>
+<li>Run the following command in your project terminal to install the package: <code>npm install jotai</code>.</li>
+<li>It is a best practice to keep your state files separated from your UI view files. Create a dedicated folder and file for your global atoms.</li>
+<li>In your project root, create a new folder named <code>store</code>.</li>
+<li>Inside that folder, create a new file named <code>productsAtom.ts</code>.</li>
+<li>Paste the following code into <code>/store/productsAtom.ts</code>.</li>
+</ol>
+<pre class="hl"><code class="language-text">import { atom } from 'jotai';
+
+// Define a TypeScript interface for your product structure
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+// Create a read-only atom containing your hardcoded list of products
+export const productsAtom = atom&lt;Product[]&gt;([
+  {
+    id: '1',
+    name: 'Wireless Noise-Canceling Headphones',
+    price: 299.99,
+    description: 'Immersive sound with premium comfort and long battery life.',
+  },
+  {
+    id: '2',
+    name: 'Mechanical Gaming Keyboard',
+    price: 129.99,
+    description: 'Tactile blue switches with customizable RGB backlighting.',
+  },
+  {
+    id: '3',
+    name: 'Ergonomic Wireless Mouse',
+    price: 79.99,
+    description: 'Precision tracking designed to reduce wrist strain during long sessions.',
+  },
+  {
+    id: '4',
+    name: 'Ultra-Wide 4K Monitor',
+    price: 449.99,
+    description: 'Stunning crystal-clear display perfect for multitasking and gaming.',
+  },
+]);
+</code></pre>
+<h3 id="update-tab-one---make-it-the-product-shop">Update Tab One - Make it the Product Shop <a class="anchor" aria-label="링크" href="#update-tab-one---make-it-the-product-shop">#</a></h3>
+<ol>
+<li>Open <code>app/(tabs)/index.tsx</code>.</li>
+<li>Overwrite the contents of the file with the following TypeScript to hook up your Jotai store.</li>
+</ol>
+<pre class="hl"><code class="language-text">import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAtomValue } from 'jotai';
+import { productsAtom } from '@/store/productsAtom';
+
+export default function ShopScreen() {
+  // Read the product list directly from your global Jotai store
+  const products = useAtomValue(productsAtom);
+
+  return (
+    &lt;SafeAreaView style={styles.container} edges={['left', 'right']}&gt;
+      &lt;Text style={styles.heading}&gt;Available Hardware&lt;/Text&gt;
+
+      &lt;FlatList
+        data={products}
+        keyExtractor={(item) =&gt; item.id}
+        renderItem={({ item }) =&gt; (
+          // Link navigates completely outside the tab directory to the product stack folder
+          &lt;Link href={`/product/${item.id}`} asChild&gt;
+            &lt;TouchableOpacity style={styles.card}&gt;
+              &lt;View style={styles.infoContainer}&gt;
+                &lt;Text style={styles.prodName}&gt;{item.name}&lt;/Text&gt;
+                {/* Dynamically formatting the numeric price from the atom */}
+                &lt;Text style={styles.prodPrice}&gt;${item.price.toFixed(2)}&lt;/Text&gt;
+              &lt;/View&gt;
+              &lt;Text style={styles.arrow}&gt;View →&lt;/Text&gt;
+            &lt;/TouchableOpacity&gt;
+          &lt;/Link&gt;
+        )}
+      /&gt;
+    &lt;/SafeAreaView&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingHorizontal: 16, backgroundColor: '#f5f5f7' },
+  heading: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 16,
+    marginBottom: 16,
+    color: '#1c1c1e',
+  },
+  card: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  infoContainer: {
+    flex: 1,
+    paddingRight: 8,
+  },
+  prodName: { fontSize: 16, fontWeight: '600', color: '#1c1c1e' },
+  prodPrice: { fontSize: 14, color: '#007AFF', marginTop: 4 },
+  arrow: { color: '#8e8e93', fontWeight: 'bold' },
+});
+</code></pre>
+<h3 id="create-the-dynamic-product-details-screen">Create the Dynamic Product Details Screen <a class="anchor" aria-label="링크" href="#create-the-dynamic-product-details-screen">#</a></h3>
+<p>To separate our detail view from our main navigation screens, we will create a dynamic route outside of the route group. This ensures the bottom tab bar hides when viewing a specific product.</p>
+<ol>
+<li>Inside your <code>app/</code> directory, create a new folder named <code>product</code>.</li>
+<li>Inside the <code>app/product/</code> folder, create a new file named <code>[id].tsx</code>.</li>
+<li>Overwrite the contents of <code>app/product/[id].tsx</code> with the following code to hook it into the global Jotai atom state:</li>
+</ol>
+<pre class="hl"><code class="language-text">import { StyleSheet, Text, View } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { useAtomValue } from 'jotai';
+import { productsAtom } from '@/store/productsAtom';
+
+export default function ProductDetailsScreen() {
+  // Capture the specific dynamic URL segment string parameter
+  const { id } = useLocalSearchParams&lt;{ id: string }&gt;();
+
+  // Fetch the full global product list from Jotai
+  const products = useAtomValue(productsAtom);
+
+  // Look up item data details from our global atom state
+  const product = products.find((p) =&gt; p.id === id);
+
+  if (!product) {
+    return (
+      &lt;View style={styles.container}&gt;
+        &lt;Text style={styles.errorText}&gt;Product Not Found&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;View style={styles.detailBox}&gt;
+        &lt;Text style={styles.idBadge}&gt;SKU Code: {product.id}&lt;/Text&gt;
+        &lt;Text style={styles.title}&gt;{product.name}&lt;/Text&gt;
+        &lt;Text style={styles.price}&gt;${product.price.toFixed(2)}&lt;/Text&gt;
+        &lt;Text style={styles.description}&gt;{product.description}&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20, backgroundColor: '#f5f5f7', justifyContent: 'center' },
+  detailBox: {
+    backgroundColor: '#fff',
+    padding: 24,
+    borderRadius: 16,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  idBadge: {
+    fontSize: 11,
+    color: '#8e8e93',
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textTransform: 'uppercase',
+  },
+  title: { fontSize: 24, fontWeight: 'bold', color: '#1c1c1e', marginBottom: 6 },
+  price: { fontSize: 20, fontWeight: '600', color: '#007AFF', marginBottom: 16 },
+  description: { fontSize: 15, color: '#48484a', lineHeight: 22 },
+  errorText: { fontSize: 18, color: '#ff3b30', textAlign: 'center' },
+});
+</code></pre>
+<h3 id="checkpoint-architecture-review">Checkpoint &amp; Architecture Review <a class="anchor" aria-label="링크" href="#checkpoint-architecture-review">#</a></h3>
+<p>At this point, your core application structure and data flow are fully functional:</p>
+<ul>
+<li>Two Distinct Tabs: A Products shop home screen and a Settings screen.</li>
+<li>Global State Management: Product data is safely lifted out of local UI components and centralized inside a Jotai atom.</li>
+<li>Dynamic Routing: Clicking any item in the <code>FlatList</code> reads its unique ID and redirects the user to a full-screen product breakdown.</li>
+</ul>
+<p>However, if you interact with the application in its current state, you will notice two major navigation quirks that affect the user experience. Let's look at why they happen and how a Stack Navigator resolves them.</p>
+<p><strong>Diagnosing the Core Navigation Issues</strong></p>
+<pre class="hl"><code class="language-text">Current Behavior (No Stack Container):
+[Products Tab Grid] ──(Click Product)──&gt; [Full Screen View]
+                                         ↳ ❌ Bottom Tabs Hidden
+                                         ↳ ❌ Header displays "product/[id]"
+</code></pre>
+<p><strong>Issue 1:</strong> Header displays <code>product/[id]</code> instead of a clean title</p>
+<ul>
+<li>Why it happens: When you navigate to a screen that doesn’t have a layout configuration file wrapping it, Expo Router has to guess what to show at the top of the screen. Because it has no instructions, it falls back to displaying the literal file system path of that page <code>product/[id]</code>.</li>
+<li>The Fix: By wrapping the dynamic file inside a native layout containing a <code>&lt;Stack&gt;</code> component, we can explicitly declare options (like title: &quot;Product Details&quot;) for that specific file name.</li>
+</ul>
+<p><strong>Issue 2:</strong> The bottom tab bar is completely hidden</p>
+<ul>
+<li>Why it happens: Right now, our <code>[id].tsx</code> file lives completely outside of the <code>(tabs)/</code> directory. Because it is a completely separate root-level folder, navigating to <code>/product/1</code> pushes the user entirely out of the Tab navigation context, making it impossible to switch back to Settings without hitting a back button.</li>
+<li>The Fix: To fix this, we can introduce an architecture called a <code>Tab-to-Stack</code> flow. Instead of placing the product details screen out on its own, we will nestedly wrap our Products tab inside a <code>Stack Navigator</code>. This way, when a user pushes a new screen onto the stack, it animates natively inside the tab interface, keeping the bottom tab bar visible.</li>
+</ul>
+<p><strong>The Strategy: Implementing a Stack Navigator</strong>
+To clean this up, we are going to modify our file architecture. We will introduce a local <code>_layout.tsx</code> file to group our store views and handle screen titles dynamically.</p>
+<p>Here is how our visual route tree will change:</p>
+<pre class="hl"><code class="language-text">Before (Loose Root Files):             After (Nested Stack Layout):
+app/                                   app/
+├── (tabs)/                            ├── (tabs)/
+│   ├── index.tsx                      │   ├── _layout.tsx
+│   └── settings.tsx                   │   ├── index.tsx  &lt;-- (Nested Stack Start)
+└── product/                           │   ├── [id].tsx   &lt;-- (Pushed onto Stack)
+    └── [id].tsx (Tabs hidden)         │   └── settings.tsx
+</code></pre>
+<h2 id="resolving-the-issues-building-a-tab-nested-stack">Resolving the Issues: Building a Tab-Nested Stack <a class="anchor" aria-label="링크" href="#resolving-the-issues-building-a-tab-nested-stack">#</a></h2>
+<p>To ensure that our product details screen preserves the bottom tab bar and displays a clean native header, we must restructure our folder tree. We will remove the root-level <code>product/</code> directory and nest a dynamic stack directly inside the first tab.</p>
+<h3 id="step-1-restructure-your-directories">Step 1: Restructure Your Directories <a class="anchor" aria-label="링크" href="#step-1-restructure-your-directories">#</a></h3>
+<ol>
+<li>Inside <code>app/(tabs)/</code>, create a new folder named <code>products</code>.</li>
+<li>Move your existing <code>app/(tabs)/index.tsx</code> file <em>into</em> this new <code>app/(tabs)/products/</code> folder.</li>
+<li>Move your existing <code>app/product/[id].tsx</code> file <em>into</em> this new <code>app/(tabs)/products/</code> folder.</li>
+<li>Delete the now-empty, root-level <code>app/product/</code> folder.</li>
+</ol>
+<p>Your updated <code>app/(tabs)/</code> directory should now look exactly like this:</p>
+<pre class="hl"><code class="language-text">app/
+└── (tabs)/
+├── products/          &lt;-- The nested Stack container folder
+│   ├── index.tsx      &lt;-- The product list grid (Main tab screen)
+│   └── [id].tsx       &lt;-- Dynamic product details (Pushes onto stack)
+├── _layout.tsx        &lt;-- The global tab bar controller
+└── settings.tsx       &lt;-- Standalone settings tab screen
+</code></pre>
+<h3 id="step-2-create-the-products-stack-layout">Step 2: Create the Products Stack Layout <a class="anchor" aria-label="링크" href="#step-2-create-the-products-stack-layout">#</a></h3>
+<p>Now we need to define a local sub-layout file inside the <code>products/</code> folder. This configures the Stack Navigator to handle headers and back-navigation within this specific tab.</p>
+<ol>
+<li>Inside <code>app/(tabs)/products/</code>, create a new file named <code>_layout.tsx</code>.</li>
+<li>Paste the following code into it:</li>
+</ol>
+<pre class="hl"><code class="language-text">import { Stack } from 'expo-router';
+
+export default function ProductsLayout() {
+  return (
+    &lt;Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: '#fff' },
+        headerTintColor: '#007AFF',
+        headerTitleStyle: { fontWeight: 'bold' },
+      }}
+    &gt;
+      {/* The main product list screen header */}
+      &lt;Stack.Screen name="index" options={{ title: 'Hardware Shop' }} /&gt;
+      {/* The dynamic detail view screen header */}
+      &lt;Stack.Screen name="[id]" options={{ title: 'Product Details' }} /&gt;
+    &lt;/Stack&gt;
+  );
+}
+</code></pre>
+<h3 id="step-3-update-the-root-tabs-layout">Step 3: Update the Root Tabs Layout <a class="anchor" aria-label="링크" href="#step-3-update-the-root-tabs-layout">#</a></h3>
+<p>Because we moved the root profile components into a subfolder, we must update our main tab controller file <code>app/(tabs)/_layout.tsx</code> so it targets the new folder directory name instead of the raw index file.</p>
+<ol>
+<li>Open <code>app/(tabs)/_layout.tsx</code>.</li>
+<li>Locate the first <code>&lt;Tabs.Screen&gt;</code> entry where <code>name=&quot;index&quot;</code>.</li>
+<li>Change the <code>name</code> property from &quot;index&quot; to &quot;products&quot;.</li>
+</ol>
+<p>Your updated tab configuration block should look like this:</p>
+<pre class="hl"><code class="language-text">&lt;Tabs.Screen
+  name="products" // &lt;-- Target the folder name instead of index
+  options={{
+    title: 'Products',
+    headerShown: false, // Hides the outer tab header to prevent double-headers!
+    tabBarIcon: ({ color }) =&gt; (
+      &lt;SymbolView
+        name={{
+          ios: 'cart.fill',
+          android: 'shopping_cart',
+          web: 'shopping-cart',
+        }}
+        tintColor={color}
+        size={28}
+      /&gt;
+    ),
+  }}
+/&gt;
+</code></pre>
+<h3 id="step-4-fix-relative-links">Step 4: Fix Relative Links <a class="anchor" aria-label="링크" href="#step-4-fix-relative-links">#</a></h3>
+<p>Finally, we need to update the navigation link inside our product list grid file. Because <code>index.tsx</code> and <code>[id].tsx</code> are now sibling files residing in the exact same directory, the path context becomes direct.</p>
+<ol>
+<li>Open <code>app/(tabs)/products/index.tsx</code>.</li>
+<li>Locate the <code>&lt;Link&gt;</code> component wrapping your <code>TouchableOpacity</code> card.</li>
+<li>Change the explicit root path link from <code>href={&quot;/product/&quot; + item.id}</code> to a dynamic, localized route template:</li>
+</ol>
+<pre class="hl"><code class="language-text">&lt;Link href={`/products/${item.id}`} asChild&gt;
+</code></pre>
+<p>Save all open files and press <code>r</code> in your terminal to clear the caching bundle.</p>
+<h2 id="summary-what-you-learned">Summary: What You Learned <a class="anchor" aria-label="링크" href="#summary-what-you-learned">#</a></h2>
+<p>Here is a summary of the core concepts, tools, and structural patterns you mastered in this lesson:</p>
+<h3 id="1-file-based-routing-with-expo-router">1. File-Based Routing with Expo Router <a class="anchor" aria-label="링크" href="#1-file-based-routing-with-expo-router">#</a></h3>
+<ul>
+<li><strong>Directory Layouts:</strong> You learned that the file tree directly translates into application screens. Folders wrap logical scopes, files represent separate rendering targets, and components like <code>_layout.tsx</code> orchestrate contextual layouts across directories.</li>
+<li><strong>Route Groups <code>(tabs)</code>:</strong> You leveraged parentheses to organically group code for structural clarity without affecting the app's clean URL matching patterns.</li>
+</ul>
+<h3 id="2-state-splitting-with-jotai">2. State Splitting with Jotai <a class="anchor" aria-label="링크" href="#2-state-splitting-with-jotai">#</a></h3>
+<ul>
+<li><strong>Centralized Store:</strong> You moved away from brittle local arrays inside screen layouts and decoupled the business logic.</li>
+<li><strong>Atomic Architecture:</strong> By using <strong>Atoms</strong>, you discovered a lightweight state layer that efficiently streams structured types across multiple UI components (such as a multi-item grid list and an isolated detail card view).</li>
+</ul>
+<h3 id="3-dynamic-screen-rendering">3. Dynamic Screen Rendering <a class="anchor" aria-label="링크" href="#3-dynamic-screen-rendering">#</a></h3>
+<ul>
+<li><strong>Variable Segments <code>[id].tsx</code>:</strong> You configured dynamic param matching using brackets. This enables a single file layout to act as a placeholder, reading matching parameters straight from the router context (<code>useLocalSearchParams</code>).</li>
+</ul>
+<h3 id="4-advanced-tab-to-stack-architecture">4. Advanced Tab-to-Stack Architecture <a class="anchor" aria-label="링크" href="#4-advanced-tab-to-stack-architecture">#</a></h3>
+<ul>
+<li><strong>Layout Isolation:</strong> You learned how loose, directory-separate screens break out of the tab viewer, hiding global core UI components.</li>
+<li><strong>Nested Stacks:</strong> By nesting a <code>&lt;Stack&gt;</code> navigator inside a single <code>&lt;Tabs.Screen&gt;</code> group folder, you completed an industry-standard navigation flow. This layout allows detail pages to natively animate, handles clean window titles, establishes system-provided back links, and preserves the visibility of the primary tab navigation bar at all times.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REST &amp; CRUD · WEB530</title><meta name="description" content="REST &amp; CRUD · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>REST &amp; CRUD</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#core-principles-of-a-restful-api">Core Principles of a RESTful API</a></li><li class="l2"><a href="#mapping-crud-operations-to-http-verbs">Mapping CRUD Operations to HTTP Verbs</a></li><li class="l3"><a href="#the-network-operations-matrix">The Network Operations Matrix</a></li><li class="l2"><a href="#understanding-cloud-firestore-nosql-data-structures">Understanding Cloud Firestore NoSQL Data Structures</a></li><li class="l3"><a href="#official-rest-architecture-url-mapping">Official REST Architecture URL Mapping</a></li><li class="l3"><a href="#document-architecture-vs-raw-json">Document Architecture vs. Raw JSON</a></li><li class="l3"><a href="#deconstructing-the-document-rules">Deconstructing the Document Rules:</a></li><li class="l2"><a href="#further-reference-official-resources">Further Reference &amp; Official Resources</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-rest-crud" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-rest-crud</a></p>
+<h1 id="rest-crud">REST &amp; CRUD <a class="anchor" aria-label="링크" href="#rest-crud">#</a></h1>
+<p>💡 CRUD and REST are the universal architectural building blocks of the modern web. Mastering them empowers you to connect any frontend interface to any backend database service in existence.</p>
+<p>To interact with Cloud Firestore without installing restrictive external software packages, we communicate with Google's servers using an architectural style called <strong>REST</strong> (Representational State Transfer).</p>
+<h2 id="core-principles-of-a-restful-api">Core Principles of a RESTful API <a class="anchor" aria-label="링크" href="#core-principles-of-a-restful-api">#</a></h2>
+<p>An API (Application Programming Interface) that follows the formal rules of REST is referred to as a <strong>RESTful API</strong>. It relies on four fundamental pillars:</p>
+<ul>
+<li><strong>Resource Identification (URIs):</strong> In a REST API, every piece of server data is treated as an isolated &quot;resource&quot; mapped to a completely unique URL path. The layout of the URL represents the actual physical hierarchy of your database collections.</li>
+<li><strong>Standard HTTP Methods:</strong> Instead of inventing custom proprietary command strings, you manipulate remote cloud items using universal web-browser actions: <code>GET</code>, <code>POST</code>, <code>PATCH</code>, and <code>DELETE</code>.</li>
+<li><strong>Stateless Communication:</strong> The server does not store memory of past network requests. Every single outbound request from your mobile app must contain 100% of the context, parameters, and credentials required for the server to process it.</li>
+<li><strong>Structured Data Representation:</strong> Information flowing back and forth over the wire is packed cleanly into standard <strong>JSON</strong> (JavaScript Object Notation) strings.</li>
+</ul>
+<h2 id="mapping-crud-operations-to-http-verbs">Mapping CRUD Operations to HTTP Verbs <a class="anchor" aria-label="링크" href="#mapping-crud-operations-to-http-verbs">#</a></h2>
+<p>In database management, <strong>CRUD</strong> stands for <strong>C</strong>reate, <strong>R</strong>ead, <strong>U</strong>pdate, and <strong>D</strong>elete. When mapping these local database tasks over an active internet connection to Cloud Firestore, we use specific <strong>HTTP Verbs</strong>:</p>
+<h3 id="the-network-operations-matrix">The Network Operations Matrix <a class="anchor" aria-label="링크" href="#the-network-operations-matrix">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>CRUD Action</th>
+<th>Meaning</th>
+<th>HTTP Verb</th>
+<th>Firestore Endpoint Path Context</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Create</strong></td>
+<td>Generates a brand-new database entry.</td>
+<td><strong><code>POST</code></strong></td>
+<td>Targets the parent collection folder.</td>
+</tr>
+<tr>
+<td><strong>Read</strong></td>
+<td>Retrieves current records from the cloud.</td>
+<td><strong><code>GET</code></strong></td>
+<td>Targets either a whole collection or a single file ID.</td>
+</tr>
+<tr>
+<td><strong>Update</strong></td>
+<td>Modifies selective fields without wiping the record.</td>
+<td><strong><code>PATCH</code></strong></td>
+<td>Targets a specific document ID.</td>
+</tr>
+<tr>
+<td><strong>Delete</strong></td>
+<td>Destroys a resource record permanently.</td>
+<td><strong><code>DELETE</code></strong></td>
+<td>Targets a specific document ID.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="understanding-cloud-firestore-nosql-data-structures">Understanding Cloud Firestore NoSQL Data Structures <a class="anchor" aria-label="링크" href="#understanding-cloud-firestore-nosql-data-structures">#</a></h2>
+<p>Unlike older database models that store information as a flat, single string-tree, <strong>Cloud Firestore</strong> organizes data hierarchically into explicit <strong>Collections</strong> and <strong>Documents</strong>.</p>
+<h3 id="official-rest-architecture-url-mapping">Official REST Architecture URL Mapping <a class="anchor" aria-label="링크" href="#official-rest-architecture-url-mapping">#</a></h3>
+<p>When targeting your database via network requests, your base URL string reflects this structured directory path exactly:</p>
+<p>https://firestore.googleapis.com/v1/projects/{YOUR_PROJECT_ID}/databases/(default)/documents/{collection_name}https://firestore.googleapis.com/v1/projects/{YOUR\_PROJECT\_ID}/databases/(default)/documents/{collection\_name}https://firestore.googleapis.com/v1/projects/{YOUR_PROJECT_ID}/databases/(default)/documents/{collection_name}</p>
+<h3 id="document-architecture-vs-raw-json">Document Architecture vs. Raw JSON <a class="anchor" aria-label="링크" href="#document-architecture-vs-raw-json">#</a></h3>
+<p>When you read a document from Firestore using the native REST API, Google wraps your custom properties inside an explicit internal metadata structure called <code>fields</code>. This structure preserves explicit data types (like numbers vs. strings) across the web.</p>
+<p>Here is an example of a raw document payload returned over HTTP from a <code>products</code> collection:</p>
+<pre class="hl"><code class="language-text">{
+  "name": "projects/my-hardware-shop/databases/(default)/documents/products/1",
+  "fields": {
+    "name": {
+      "stringValue": "Wireless Noise-Canceling Headphones"
+    },
+    "price": {
+      "doubleValue": 299.99
+    },
+    "description": {
+      "stringValue": "Immersive sound with premium comfort and long battery life."
+    }
+  },
+  "createTime": "2026-05-26T14:22:10.123456Z",
+  "updateTime": "2026-05-26T16:05:45.987654Z"
+}
+</code></pre>
+<h3 id="deconstructing-the-document-rules">Deconstructing the Document Rules: <a class="anchor" aria-label="링크" href="#deconstructing-the-document-rules">#</a></h3>
+<ul>
+<li>The Resource Identifier <code>name</code>: This is the absolute, unique systemic cloud route pinpointing this single product entry within the Google ecosystem.</li>
+<li>The Collections Scope <code>products/</code>: The parent grouping container. It functions exactly like a root folder holding files.</li>
+<li>The Document ID <code>1</code>: The explicit file target containing individual data attributes.</li>
+<li>Typed Values Layer <code>fields</code>: Notice that Firestore explicitly tags <code>stringValue</code> for text and <code>doubleValue</code> for numeric floats. When we fetch this into our application state layer, our code will parse this metadata block to map it back out into clean, usable client data types.</li>
+</ul>
+<h2 id="further-reference-official-resources">Further Reference &amp; Official Resources <a class="anchor" aria-label="링크" href="#further-reference-official-resources">#</a></h2>
+<p>To understand the core design choices behind Google's enterprise REST schemas and how parameters are structured, read through the official Google Cloud infrastructure developer documentation:</p>
+<ul>
+<li>Firestore REST API Reference Guides: <a href="https://firebase.google.com/docs/firestore/reference/rest" target="_blank" rel="noopener">Google Cloud Firestore REST Documentation</a></li>
+<li>Structuring Documents over Web API Vectors: <a href="https://firebase.google.com/docs/firestore/reference/rest/v1/projects.databases.documents" target="_blank" rel="noopener">Google Firestore REST API Datatypes and Methods</a></li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Working with Maps · WEB530</title><meta name="description" content="Working with Maps · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Working with Maps</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#adding-custom-markers">Adding Custom Markers</a></li><li class="l2"><a href="#drawing-shapes-polygons">Drawing Shapes (Polygons)</a></li><li class="l2"><a href="#what-you-should-remember">What You Should Remember</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps</a></p>
+<h1 id="working-with-maps">Working with Maps <a class="anchor" aria-label="링크" href="#working-with-maps">#</a></h1>
+<p>Interactive maps become much more useful when you add your own markers, shapes, and custom data. The <code>react-native-maps</code> library lets you place pins, draw polygons, and control what appears on the map so you can highlight the locations that matter to your app.</p>
+<h2 id="adding-custom-markers">Adding Custom Markers <a class="anchor" aria-label="링크" href="#adding-custom-markers">#</a></h2>
+<p>Markers let you point out specific places, campuses, stores, landmarks, or anything your app cares about.
+You can also hide the map's own points of interest (shops, restaurants, landmarks) to keep it focused. This is different on each platform: <code>showsPointsOfInterest={false}</code> works on iOS (Apple Maps), and a <code>customMapStyle</code> rule hides them on Android (Google Maps), so the example uses both. Setting <code>initialRegion</code> starts the map centred on the places you mark; the <code>Delta</code> values control how much of the map is visible (smaller is more zoomed in).</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+
+// Centre the map on Seneca's Newnham Campus.
+const newnham = {
+  latitude: 43.79457,
+  longitude: -79.35043,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
+// Google Maps (Android) hides points of interest with a style rule.
+const hidePlaces = [{ featureType: 'poi', stylers: [{ visibility: 'off' }] }];
+
+export default function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;MapView
+        style={styles.map}
+        initialRegion={newnham}
+        showsPointsOfInterest={false}
+        customMapStyle={hidePlaces}
+      &gt;
+        &lt;Marker
+          title="Seneca College Newnham Campus"
+          description="Educational Institute"
+          coordinate={{ latitude: 43.79457, longitude: -79.35043 }}
+        /&gt;
+      &lt;/MapView&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  map: { flex: 1 },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p><img src="https://seneca-ictoer.github.io/WEB530/assets/images/map-peg-645d5568cc61b35c9bec87113db7296c.webp" alt="Map with a marker on Newnham Campus" /></p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<h2 id="drawing-shapes-polygons">Drawing Shapes (Polygons) <a class="anchor" aria-label="링크" href="#drawing-shapes-polygons">#</a></h2>
+<p>Polygons are useful for outlining regions, campus boundaries, delivery zones, neighborhoods, or any custom area your app needs to highlight.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import MapView, { Polygon } from 'react-native-maps';
+
+// Centre the map on Seneca's Newnham Campus.
+const newnham = {
+  latitude: 43.79607,
+  longitude: -79.3487,
+  latitudeDelta: 0.01,
+  longitudeDelta: 0.01,
+};
+
+export default function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;MapView style={styles.map} initialRegion={newnham}&gt;
+        &lt;Polygon
+          coordinates={[
+            { latitude: 43.79701, longitude: -79.35178 },
+            { latitude: 43.79849, longitude: -79.3453 },
+            { latitude: 43.79483, longitude: -79.34612 },
+            { latitude: 43.79382, longitude: -79.35049 },
+          ]}
+          strokeWidth={3}
+          strokeColor="red"
+        /&gt;
+      &lt;/MapView&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  map: { flex: 1 },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p><img src="https://seneca-ictoer.github.io/WEB530/assets/images/map-poly-3d67e0b19e70066065d32717c1965d0e.webp" alt="Map with a polygon around Newnham Campus" /></p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<h2 id="what-you-should-remember">What You Should Remember <a class="anchor" aria-label="링크" href="#what-you-should-remember">#</a></h2>
+<ul>
+<li>Use <code>Marker</code> to highlight specific coordinates.</li>
+<li>Use <code>Polygon</code> to outline areas or regions.</li>
+<li>Hide default points of interest with <code>showsPointsOfInterest={false}</code> (iOS) and a <code>customMapStyle</code> rule (Android) for a cleaner map.</li>
+<li>All of these features work on a real device through Expo Go.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

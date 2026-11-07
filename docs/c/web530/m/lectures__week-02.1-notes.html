@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2.1 - Notes and Examples · WEB530</title><meta name="description" content="Week 2.1 - Notes and Examples · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Week 2.1 - Notes and Examples</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#react-native-playground">React Native Playground</a></li><li class="l2"><a href="#common-components">Common Components</a></li><li class="l2"><a href="#example-event-handlers">Example: Event Handlers</a></li><li class="l2"><a href="#example-passing-props">Example: Passing Props</a></li></ol></nav>
+<article class="md"><h1 id="week-21---notes-and-examples">Week 2.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#week-21---notes-and-examples">#</a></h1>
+<h2 id="react-native-playground">React Native Playground <a class="anchor" aria-label="링크" href="#react-native-playground">#</a></h2>
+<p>React Native Playground (Snack)
+<em>Use this for the examples. Modify App.js</em>
+(https://snack.expo.dev)</p>
+<h2 id="common-components">Common Components <a class="anchor" aria-label="링크" href="#common-components">#</a></h2>
+<ul>
+<li>These are covered in depth in a later week. For now, know they exist and how they differ from HTML.</li>
+<li>Build on the HTML to React Native table from Week 1.2.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>HTML</th>
+<th>React Native</th>
+<th>What is different</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;div&gt;</code></td>
+<td><code>View</code></td>
+<td>Container only, cannot hold bare text</td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;span&gt;</code></td>
+<td><code>Text</code></td>
+<td>The only place text can render. A <code>Text</code> inside a <code>Text</code> acts like a <code>&lt;span&gt;</code></td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;</code></td>
+<td><code>Button</code></td>
+<td>Label goes in the <code>title</code> prop. Uses <code>onPress</code>, not <code>onClick</code></td>
+</tr>
+<tr>
+<td><code>&lt;input type=&quot;text&quot;&gt;</code></td>
+<td><code>TextInput</code></td>
+<td>Uses <code>onChangeText</code>, which gives you the string, not an event object</td>
+</tr>
+<tr>
+<td><code>&lt;input type=&quot;checkbox&quot;&gt;</code></td>
+<td><code>Switch</code></td>
+<td>Renders as a toggle. Uses <code>value</code> and <code>onValueChange</code></td>
+</tr>
+<tr>
+<td><code>&lt;img&gt;</code></td>
+<td><code>Image</code></td>
+<td>Uses <code>source</code>, not <code>src</code>. Remote images need a width and height</td>
+</tr>
+<tr>
+<td>A scrolling page</td>
+<td><code>ScrollView</code></td>
+<td>Screens do not scroll by default, content must be wrapped</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Notice the event names change too: <code>onPress</code>, <code>onChangeText</code>, <code>onValueChange</code>. That leads into event handlers.</li>
+</ul>
+<h2 id="example-event-handlers">Example: Event Handlers <a class="anchor" aria-label="링크" href="#example-event-handlers">#</a></h2>
+<ul>
+<li>Create an app with a Button.</li>
+<li>Add the event handler using a function (defined in the component).</li>
+<li>Must run this on a device or emulator (Snack's iOS/Android preview or Expo Go). <code>Alert.alert</code> does nothing in the Web preview.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">handlePress</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"That felt good"</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">handlePress</span><span class="p">}</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"I'm a button"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Show that the function can use arrow notation too.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">handlePress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"That felt good"</span><span class="p">);</span>
+<span class="w">  </span><span class="p">};</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">handlePress</span><span class="p">}</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"I'm a button"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Now show the event handler can be defined inline as well.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"That felt good"</span><span class="p">)}</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"I'm a button"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="example-passing-props">Example: Passing Props <a class="anchor" aria-label="링크" href="#example-passing-props">#</a></h2>
+<ul>
+<li>Modify the button to accept props, <code>{text, enabled}</code>.</li>
+<li>Set a default value <code>enabled = true</code>.</li>
+<li>Set a default value <code>text = &quot;Button&quot;</code>.</li>
+<li>Wire the button to read the props.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Button"</span><span class="p">,</span><span class="w"> </span><span class="nx">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span>
+<span class="w">      </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enabled</span><span class="p">}</span>
+<span class="w">      </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span>
+<span class="w">      </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="s2">"That felt good"</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Pass in values from the parent.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">text</span><span class="o">=</span><span class="s">"Click Me!"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Add another prop <code>message</code> and set the default value to <code>That felt good</code>.</li>
+<li>Wire the alert to receive the message.</li>
+<li>NOTE: You are already in a JS code block, you don't need the <code>{ }</code> brackets.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Button"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"That felt good"</span><span class="p">,</span>
+<span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span>
+<span class="w">      </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enabled</span><span class="p">}</span>
+<span class="w">      </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">text</span><span class="p">}</span>
+<span class="w">      </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">Alert</span><span class="p">.</span><span class="nx">alert</span><span class="p">(</span><span class="nx">message</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">text</span><span class="o">=</span><span class="s">"Click Me!"</span><span class="w"> </span><span class="na">message</span><span class="o">=</span><span class="s">"That felt great!"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

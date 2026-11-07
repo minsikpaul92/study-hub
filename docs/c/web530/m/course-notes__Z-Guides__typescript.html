@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TypeScript for React Native · WEB530</title><meta name="description" content="TypeScript for React Native · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>TypeScript for React Native</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#why-use-typescript-in-react-native">Why Use TypeScript in React Native?</a></li><li class="l2"><a href="#introduction-to-typescript-syntax">Introduction to TypeScript Syntax</a></li><li class="l3"><a href="#variables-and-types">Variables and Types</a></li><li class="l3"><a href="#arrays">Arrays</a></li><li class="l3"><a href="#objects">Objects</a></li><li class="l2"><a href="#using-typescript-in-react-native-components">Using TypeScript in React Native Components</a></li><li class="l3"><a href="#functional-component-without-props">Functional Component Without Props</a></li><li class="l3"><a href="#typing-component-props-with-interfaces">Typing Component Props with Interfaces</a></li><li class="l2"><a href="#typing-state-with-usestate">Typing State with useState</a></li><li class="l2"><a href="#typing-event-handlers">Typing Event Handlers</a></li><li class="l2"><a href="#combining-props-state-and-events">Combining Props, State, and Events</a></li><li class="l2"><a href="#typing-api-data-beginner-level">Typing API Data (Beginner Level)</a></li><li class="l2"><a href="#when-you-dont-need-to-use-types">When You Don’t Need to Use Types</a></li><li class="l2"><a href="#summary">Summary</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript</a></p>
+<h1 id="typescript-for-react-native">TypeScript for React Native <a class="anchor" aria-label="링크" href="#typescript-for-react-native">#</a></h1>
+<p>TypeScript is a powerful extension of JavaScript that adds static typing. This means you can define the types of variables, function parameters, and component props ahead of time. This helps catch errors early, improve code readability, and make your React Native apps more robust and maintainable.</p>
+<h2 id="why-use-typescript-in-react-native">Why Use TypeScript in React Native? <a class="anchor" aria-label="링크" href="#why-use-typescript-in-react-native">#</a></h2>
+<p>TypeScript offers several benefits that make it a valuable tool for React Native development:</p>
+<ul>
+<li>Catch errors early: TypeScript checks your code for type errors before you even run your app, reducing runtime bugs.</li>
+<li>Better editor support: Tools like VS Code and Snack provide improved auto-completion and IntelliSense with TypeScript.</li>
+<li>Clearer components: By explicitly defining the types of props, your components become easier to understand and use.</li>
+<li>Scalability: TypeScript helps teams work together more effectively by making data structures and interfaces explicit.</li>
+</ul>
+<p>React Native fully supports TypeScript, and you can write your components in <code>.tsx</code> files, which are just like <code>.js</code> files but with type annotations.</p>
+<h2 id="introduction-to-typescript-syntax">Introduction to TypeScript Syntax <a class="anchor" aria-label="링크" href="#introduction-to-typescript-syntax">#</a></h2>
+<p>If you are new to TypeScript, here are some foundational concepts and syntax you should know.</p>
+<h3 id="variables-and-types">Variables and Types <a class="anchor" aria-label="링크" href="#variables-and-types">#</a></h3>
+<p>In TypeScript, you declare variables with explicit types to ensure they hold the expected kind of data.</p>
+<pre class="hl"><code class="language-text">let count: number = 0; // number type
+let name: string = 'Nicholas'; // string type
+let isActive: boolean = true; // boolean type
+</code></pre>
+<h3 id="arrays">Arrays <a class="anchor" aria-label="링크" href="#arrays">#</a></h3>
+<p>Arrays can be typed to hold only specific types of elements.</p>
+<pre class="hl"><code class="language-text">let scores: number[] = [10, 20, 30];
+let names: string[] = ['Ava', 'Ben', 'Chris'];
+</code></pre>
+<h3 id="objects">Objects <a class="anchor" aria-label="링크" href="#objects">#</a></h3>
+<p>You can define the shape of objects by specifying the types of their properties.</p>
+<pre class="hl"><code class="language-text">let user: { name: string; age: number } = {
+  name: 'Ava',
+  age: 21,
+};
+</code></pre>
+<h2 id="using-typescript-in-react-native-components">Using TypeScript in React Native Components <a class="anchor" aria-label="링크" href="#using-typescript-in-react-native-components">#</a></h2>
+<p>React Native components are typically written in <code>.tsx</code> files. These files allow you to add type annotations to your components and props.</p>
+<h3 id="functional-component-without-props">Functional Component Without Props <a class="anchor" aria-label="링크" href="#functional-component-without-props">#</a></h3>
+<p>Here is a simple example of a functional component written in TypeScript:</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { View, Text } from 'react-native';
+
+export default function MyBox() {
+  return (
+    &lt;View style={{ padding: 20, backgroundColor: 'lightblue' }}&gt;
+      &lt;Text&gt;Hello from TypeScript!&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h3 id="typing-component-props-with-interfaces">Typing Component Props with Interfaces <a class="anchor" aria-label="링크" href="#typing-component-props-with-interfaces">#</a></h3>
+<p>Interfaces in TypeScript let you define the expected structure of props passed to components.</p>
+<p>Example: Component with Typed Props</p>
+<pre class="hl"><code class="language-text">import { View, Text } from 'react-native';
+
+interface GreetingProps {
+  name: string; // required prop
+  excited?: boolean; // optional prop
+}
+
+function Greeting({ name, excited }: GreetingProps) {
+  return (
+    &lt;Text&gt;
+      Hello {name}
+      {excited ? '!!!' : '.'}
+    &lt;/Text&gt;
+  );
+}
+
+// Using the component
+export default function App() {
+  return (
+    &lt;View style={{ padding: 20 }}&gt;
+      &lt;Greeting name="Ava" /&gt;
+      &lt;Greeting name="Ben" excited={true} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>If you remove <code>name=&quot;Ava&quot;</code>, an editor that checks types (such as VS Code) marks the <code>&lt;Greeting&gt;</code> as an error, because a required prop is missing.</p>
+<h2 id="typing-state-with-usestate">Typing State with useState <a class="anchor" aria-label="링크" href="#typing-state-with-usestate">#</a></h2>
+<p>React hooks like <code>useState</code> can also be typed to specify the type of state variables.</p>
+<p>Example: Typed State</p>
+<pre class="hl"><code class="language-text">import React, { useState } from 'react';
+
+const [count, setCount] = useState&lt;number&gt;(0);
+</code></pre>
+<p>TypeScript can often infer the type automatically:</p>
+<pre class="hl"><code class="language-text">const [name, setName] = useState('Ava'); // inferred as string
+</code></pre>
+<h2 id="typing-event-handlers">Typing Event Handlers <a class="anchor" aria-label="링크" href="#typing-event-handlers">#</a></h2>
+<p>You can type event handler functions to ensure they receive the correct parameters.</p>
+<p>Example: Button Press Handler</p>
+<pre class="hl"><code class="language-text">const handlePress = (): void =&gt; {
+  console.log('Pressed!');
+};
+
+&lt;Button title="Press me" onPress={handlePress} /&gt;;
+</code></pre>
+<p>Example: TextInput Change Handler</p>
+<pre class="hl"><code class="language-text">const handleChange = (text: string) =&gt; {
+  setName(text);
+};
+
+&lt;TextInput value={name} onChangeText={handleChange} /&gt;;
+</code></pre>
+<h2 id="combining-props-state-and-events">Combining Props, State, and Events <a class="anchor" aria-label="링크" href="#combining-props-state-and-events">#</a></h2>
+<p>Here is a small but complete example that combines typed props, state, and event handlers.</p>
+<pre class="hl"><code class="language-text">import React, { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+
+interface CounterProps {
+  start: number;
+}
+
+function Counter({ start }: CounterProps) {
+  const [count, setCount] = useState(start);
+
+  return (
+    &lt;View style={{ padding: 20 }}&gt;
+      &lt;Text style={{ fontSize: 24 }}&gt;Count: {count}&lt;/Text&gt;
+      &lt;Button title="+1" onPress={() =&gt; setCount((prev) =&gt; prev + 1)} /&gt;
+    &lt;/View&gt;
+  );
+}
+
+export default function App() {
+  return &lt;Counter start={5} /&gt;;
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="typing-api-data-beginner-level">Typing API Data (Beginner Level) <a class="anchor" aria-label="링크" href="#typing-api-data-beginner-level">#</a></h2>
+<p>When fetching data from an API, it is helpful to define interfaces for the expected response data.</p>
+<pre class="hl"><code class="language-text">interface Post {
+  id: number;
+  title: string;
+  body: string;
+}
+
+const [posts, setPosts] = useState&lt;Post[]&gt;([]);
+</code></pre>
+<h2 id="when-you-dont-need-to-use-types">When You Don’t Need to Use Types <a class="anchor" aria-label="링크" href="#when-you-dont-need-to-use-types">#</a></h2>
+<p>While TypeScript is very useful, you don’t need to type everything. Here are some guidelines:</p>
+<p><strong>Skip typing when:</strong></p>
+<ul>
+<li>The type is obvious (e.g., useState(0))</li>
+<li>You are prototyping quickly</li>
+<li>You are writing simple UI components</li>
+</ul>
+<p><strong>Use types when:</strong></p>
+<ul>
+<li>Passing props to components</li>
+<li>Handling API data</li>
+<li>Managing complex state</li>
+</ul>
+<h2 id="summary">Summary <a class="anchor" aria-label="링크" href="#summary">#</a></h2>
+<ul>
+<li>TypeScript adds safety and clarity to React Native apps.</li>
+<li>Use interfaces to type props.</li>
+<li>Use typed state when needed.</li>
+<li>TypeScript works naturally with Snack and Expo.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

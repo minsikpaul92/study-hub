@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>React Native StyleSheets · WEB530</title><meta name="description" content="React Native StyleSheets · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>React Native StyleSheets</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l3"><a href="#building-responsive-layouts-using-flexbox">Building responsive layouts using Flexbox</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets</a></p>
+<h1 id="react-native-stylesheets">React Native StyleSheets <a class="anchor" aria-label="링크" href="#react-native-stylesheets">#</a></h1>
+<p>When building web pages, we use CSS StyleSheets to describe the presentation of elements. We will continue this trend as we work with React Native applications. By moving styles out of the JSX, you will keep the code concise and easier to understand.</p>
+<p>Check out the following example. We are building a new StyleSheet by passing a JavaScript object to the <code>StyleSheet.create()</code> function. The stylesheet contains two styles: <code>container</code> and <code>title</code>. To assign a style to the appropriate component, we set the <code>style</code> property, for example <code>&lt;View style={styles.container}&gt;</code>.</p>
+<pre class="hl"><code class="language-text">import { View, Text, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: '#eaeaea',
+  },
+  title: {
+    marginTop: 16,
+    paddingVertical: 8,
+    borderWidth: 4,
+    borderColor: '#20232a',
+    borderRadius: 6,
+    backgroundColor: '#61dafb',
+    color: '#20232a',
+    textAlign: 'center',
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+});
+
+export default function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;React Native&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p></p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>Depending on the platform, we may need to fine-tune our styles. For example, you may need to apply different padding to prevent components from rendering below the status bar of the device. React Native contains a Platform interface that allows us to learn about the underlying OS. Let's take advantage of Platform and rewrite the container style so that it renders a different UI depending on the device used.</p>
+<pre class="hl"><code class="language-text">import { View, Text, StyleSheet, Platform, StatusBar } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#eaeaea',
+    ...Platform.select({
+      ios: { padding: 20 },
+      android: { paddingTop: StatusBar.currentHeight },
+    }),
+  },
+  // ...
+});
+</code></pre>
+<p>On android devices, we can determine the height of the status bar by reading from <code>StatusBar.currentHeight</code> but this is not possible on iOS. To workaround the differences in the platform, we use <code>Platform.select()</code> to add conditional styles that render different interfaces on different devices.</p>
+<h3 id="building-responsive-layouts-using-flexbox"><strong>Building responsive layouts using Flexbox</strong> <a class="anchor" aria-label="링크" href="#building-responsive-layouts-using-flexbox">#</a></h3>
+<p>Before the flexbox layout model was introduced, approaches used to build layouts were hacky and prone to errors. Flexbox provides a simple and elegant way to build layouts by abstracting many of the properties that are required in order to make the layout work.</p>
+<p>The Flexible Layout module (or flexbox) is a box model that allows a one-dimensional layout method for arranging items in rows or columns. Items grow to fill additional space or shrink to fit into smaller spaces.</p>
+<p>The main idea is to give a container the ability to alter its items' width, height and order to best fill the available space. The flexbox layout is direction-agnostic, as opposed to regular layouts, and works very well for components of an application.</p>
+<p>If you haven't had an opportunity to work with Flexbox, check out the <a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="noopener">Complete Guide to Flexbox</a>. The article is a great place to start learning to build flexible layouts.</p>
+<p>Let's implement a simple layout with three sections that flex from the top to bottom of the screen. We use <code>flex</code> as a short hand for <code>flex-grow</code>, <code>flex-shrink</code>, and <code>flex-basis</code>. Using this shorthand is recommended rather than setting individual properties since it will set other values intelligently.</p>
+<p>As you review the example, you may notice that the <code>flexDirection</code> is set to <code>column</code> yet our output shows three rows. We use <code>column</code> because that is the direction in which the items will be rendered. That is, they are contained vertically, in a column.</p>
+<p>It is important to realize that the output will look correct regardless of the device orientation. When a device is rotated the UI will adjust appropriately.</p>
+<pre class="hl"><code class="language-text">import { View, Text, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+  },
+
+  cell: {
+    flexGrow: 1,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgray',
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: 'darkslategray',
+  },
+
+  cellText: {
+    color: 'darkslategray',
+    fontWeight: 'bold',
+  },
+});
+
+export default function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;View style={styles.cell}&gt;
+        &lt;Text style={styles.cellText}&gt;Top&lt;/Text&gt;
+      &lt;/View&gt;
+      &lt;View style={styles.cell}&gt;
+        &lt;Text style={styles.cellText}&gt;Middle&lt;/Text&gt;
+      &lt;/View&gt;
+      &lt;View style={styles.cell}&gt;
+        &lt;Text style={styles.cellText}&gt;Bottom&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p><img src="https://seneca-ictoer.github.io/WEB530/assets/images/ex2-flex-col-c065189e92ff284af15d6c251358b546.png" alt="Flexbox Column" /></p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>If we change the <code>flexDirection</code> to <code>row</code> instead, we get the following output. Try it in the example above: run it, then change <code>'column'</code> to <code>'row'</code>.</p>
+<p><img src="https://seneca-ictoer.github.io/WEB530/assets/images/ex2-flex-row-804d467c17e5b512d95419bb39bb351c.png" alt="Flexbox Row" /></p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

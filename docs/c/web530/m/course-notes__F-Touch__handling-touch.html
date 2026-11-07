@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handling Touch · WEB530</title><meta name="description" content="Handling Touch · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Handling Touch</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#pressable">Pressable</a></li><li class="l2"><a href="#long-press-press-in-and-press-out">Long Press, Press In, and Press Out</a></li><li class="l2"><a href="#improving-touch-targets-with-hitslop">Improving Touch Targets with hitSlop</a></li><li class="l2"><a href="#android-ripple-effects">Android Ripple Effects</a></li><li class="l2"><a href="#when-to-use-gesture-handler">When to Use Gesture Handler</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch</a></p>
+<h1 id="handling-touch">Handling Touch <a class="anchor" aria-label="링크" href="#handling-touch">#</a></h1>
+<h2 id="pressable">Pressable <a class="anchor" aria-label="링크" href="#pressable">#</a></h2>
+<p>Mobile apps rely heavily on touch interactions. Users tap, press, scroll, swipe, and perform multi‑touch gestures. React Native includes a built‑in <strong>Gesture Responder System (GRS)</strong> that interprets these interactions and decides whether the user intends to tap, scroll, or perform another gesture. While the GRS is powerful, most apps rarely interact with it directly. Instead, React Native provides higher‑level components that simplify touch handling.</p>
+<p>In modern React Native, the recommended way to handle taps and presses is the <strong>Pressable</strong> component. Pressable replaces the older <code>TouchableOpacity</code>, <code>TouchableHighlight</code>, <code>TouchableWithoutFeedback</code>, and <code>TouchableNativeFeedback</code> components. These legacy components still work, but they are no longer recommended for new code.</p>
+<p><code>Pressable</code> provides:</p>
+<ul>
+<li><code>onPress</code> — simple tap</li>
+<li><code>onLongPress</code> — long press</li>
+<li><code>onPressIn</code> / <code>onPressOut</code> — press lifecycle events</li>
+<li><code>android_ripple</code> — native ripple effects on Android</li>
+<li><code>hitSlop</code> — makes touch targets easier to tap</li>
+<li>A <strong>style callback</strong> that lets you change appearance when pressed</li>
+</ul>
+<p>This makes <code>Pressable</code> flexible enough to build custom buttons, cards, list items, and any other interactive UI element.</p>
+<p>The examples on this page show feedback in a <code>Text</code> component rather than with <code>Alert.alert()</code>. Alerts work on phones, but they do nothing in the web preview.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { Pressable, Text, StyleSheet, View } from 'react-native';
+
+export default function App() {
+  const [message, setMessage] = useState('Not pressed yet');
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Pressable
+        onPress={() =&gt; setMessage('You tapped the button.')}
+        style={({ pressed }) =&gt; [
+          styles.button,
+          { backgroundColor: pressed ? '#1976D2' : '#2196F3' },
+        ]}
+      &gt;
+        &lt;Text style={styles.buttonText}&gt;Press Me&lt;/Text&gt;
+      &lt;/Pressable&gt;
+      &lt;Text style={styles.message}&gt;{message}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 60,
+    alignItems: 'center',
+  },
+  button: {
+    padding: 20,
+    borderRadius: 6,
+    width: 260,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  message: {
+    marginTop: 20,
+    fontSize: 16,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>This example demonstrates the most important modern pattern: <strong>Pressable’s style can change based on whether the component is pressed.</strong></p>
+<h2 id="long-press-press-in-and-press-out">Long Press, Press In, and Press Out <a class="anchor" aria-label="링크" href="#long-press-press-in-and-press-out">#</a></h2>
+<p><code>Pressable</code> supports additional events that help you build richer interactions. The example lists each event as it fires, so you can see their order: a tap fires <code>onPressIn</code>, <code>onPressOut</code>, then <code>onPress</code>, while holding the button fires <code>onLongPress</code> instead of <code>onPress</code>. Sliding your finger off the button before lifting it cancels the press: only <code>onPressIn</code> and <code>onPressOut</code> fire, so a user who changes their mind does not trigger anything.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [events, setEvents] = useState([]);
+
+  // Keep the five most recent events, newest first.
+  const log = (name) =&gt; setEvents((prev) =&gt; [name, ...prev].slice(0, 5));
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Pressable
+        onPress={() =&gt; log('onPress (tap)')}
+        onLongPress={() =&gt; log('onLongPress (held)')}
+        onPressIn={() =&gt; log('onPressIn (finger down)')}
+        onPressOut={() =&gt; log('onPressOut (finger lifted)')}
+        style={({ pressed }) =&gt; [styles.button, { backgroundColor: pressed ? '#ddd' : '#eee' }]}
+      &gt;
+        &lt;Text&gt;Press or Hold&lt;/Text&gt;
+      &lt;/Pressable&gt;
+      {events.map((event, i) =&gt; (
+        &lt;Text key={i}&gt;{event}&lt;/Text&gt;
+      ))}
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 60,
+    alignItems: 'center',
+  },
+  button: {
+    padding: 20,
+    borderRadius: 6,
+    width: 260,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="improving-touch-targets-with-hitslop">Improving Touch Targets with <code>hitSlop</code> <a class="anchor" aria-label="링크" href="#improving-touch-targets-with-hitslop">#</a></h2>
+<p>Touch targets should be at least 44×44 points for accessibility. If your UI element is small, you can expand its touch area:</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { Pressable, Text, View, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [taps, setTaps] = useState(0);
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Pressable hitSlop={20} onPress={() =&gt; setTaps((prev) =&gt; prev + 1)}&gt;
+        &lt;Text style={styles.smallText}&gt;Small Icon&lt;/Text&gt;
+      &lt;/Pressable&gt;
+      &lt;Text&gt;Taps: {taps}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 60,
+    alignItems: 'center',
+  },
+  smallText: {
+    fontSize: 14,
+    padding: 10,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p><code>hitSlop={20}</code> adds 20 points of invisible padding around the element, so the touch area grows without changing the layout. It also accepts an object such as <code>{ top: 10, bottom: 10 }</code> to extend one side at a time. Keep the slop smaller than the gap to the next touch target, or a tap may land on the wrong one.</p>
+<p>The web preview ignores <code>hitSlop</code>, so a click just outside the text does nothing there. Choose <strong>My Device</strong> and run the example on your phone to feel the difference.</p>
+<h2 id="android-ripple-effects">Android Ripple Effects <a class="anchor" aria-label="링크" href="#android-ripple-effects">#</a></h2>
+<p><code>Pressable</code> supports native Android ripple feedback:</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { Pressable, Text, View, StyleSheet, Platform } from 'react-native';
+
+export default function App() {
+  const [taps, setTaps] = useState(0);
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Pressable
+        onPress={() =&gt; setTaps((prev) =&gt; prev + 1)}
+        android_ripple={{
+          color: 'rgba(0,0,0,0.3)',
+          foreground: true,
+        }}
+        style={styles.rippleButton}
+      &gt;
+        &lt;Text style={styles.text}&gt;Android Ripple (Visible)&lt;/Text&gt;
+      &lt;/Pressable&gt;
+      &lt;Text&gt;Taps: {taps}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 60,
+    alignItems: 'center',
+    gap: 20,
+  },
+  rippleButton: {
+    padding: 20,
+    borderRadius: 8,
+    backgroundColor: '#E3F2FD', // light background so ripple is visible
+    overflow: Platform.OS === 'android' ? 'hidden' : 'visible', // required for ripple clipping
+  },
+  text: {
+    fontSize: 16,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>Ripple effects automatically adapt to Material Design guidelines. They only appear on Android, so switch the preview to <strong>Android</strong> (or use <strong>My Device</strong> with an Android phone) to see one.</p>
+<h2 id="when-to-use-gesture-handler">When to Use Gesture Handler <a class="anchor" aria-label="링크" href="#when-to-use-gesture-handler">#</a></h2>
+<p><code>Pressable</code> is perfect for:</p>
+<ul>
+<li>Buttons</li>
+<li>Cards</li>
+<li>List items</li>
+<li>Simple taps and long presses</li>
+</ul>
+<p>For more advanced gestures, use the Gesture Handler library:</p>
+<ul>
+<li>Swipes</li>
+<li>Drags</li>
+<li>Panning</li>
+<li>Pinch‑to‑zoom</li>
+<li>Complex gesture combinations</li>
+</ul>
+<p>Gesture Handler describes each gesture with the <code>Gesture</code> API and attaches it to a component with <code>GestureDetector</code>:</p>
+<ul>
+<li><code>Gesture.Tap()</code></li>
+<li><code>Gesture.LongPress()</code></li>
+<li><code>Gesture.Pan()</code> (drags and swipes)</li>
+<li><code>Gesture.Pinch()</code></li>
+</ul>
+<p>These are ideal for building custom gesture‑driven UI.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

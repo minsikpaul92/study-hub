@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 5 - Lists · WEB530</title><meta name="description" content="Lab 5 - Lists · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Lab 5 - Lists</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-note-on-ai">A Note on AI</a></li><li class="l2"><a href="#overview">Overview</a></li><li class="l2"><a href="#setup">Setup</a></li><li class="l2"><a href="#styling-rules">Styling Rules</a></li><li class="l2"><a href="#running-your-app">Running Your App</a></li><li class="l2"><a href="#submission">Submission</a></li><li class="l2"><a href="#question-1---flatlist-1-point">Question 1 - FlatList (1 point)</a></li><li class="l2"><a href="#question-2---sorting-1-point">Question 2 - Sorting (1 point)</a></li><li class="l2"><a href="#question-3---search-count-and-empty-state-1-point">Question 3 - Search, Count and Empty State (1 point)</a></li><li class="l2"><a href="#question-4---fetching-the-contacts-1-point">Question 4 - Fetching the Contacts (1 point)</a></li><li class="l2"><a href="#question-5---contact-screen-1-point">Question 5 - Contact Screen (1 point)</a></li><li class="l2"><a href="#question-6---pull-to-refresh-1-point">Question 6 - Pull to Refresh (1 point)</a></li></ol></nav>
+<article class="md"><h1 id="lab-5---lists">Lab 5 - Lists <a class="anchor" aria-label="링크" href="#lab-5---lists">#</a></h1>
+<h2 id="a-note-on-ai">A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h2>
+<p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished Snack. It is being able to put any array on screen as a list, and to handle everything that can happen while that array is on its way from a server.</p>
+<h2 id="overview">Overview <a class="anchor" aria-label="링크" href="#overview">#</a></h2>
+<p>You build one app, a contact list, and each question adds to it. Plan for about 60 minutes.</p>
+<ul>
+<li>Questions 1 to 3 use a small array of contacts that is already in the starter.</li>
+<li>Question 4 swaps that array for real data from an API.</li>
+<li>Questions 5 and 6 add a contact screen and pull to refresh.</li>
+</ul>
+<p>Because every question builds on the one before, do them in order. Your submitted Snack shows the finished app, and it is marked against all six questions.</p>
+<h2 id="setup">Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h2>
+<ol>
+<li>Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.</li>
+<li>Rename the Snack to <code>WEB530 Lab 5 - Your Name</code> (click the name at the top left).</li>
+<li>Keep Snack on SDK 54 (the default). SDK 55 does not load <code>react-native-screens</code>, so the navigation in this lab does not run on it.</li>
+<li>In the file list on the left, add a new file named <code>styles.js</code> in the same folder as <code>App.js</code>.</li>
+<li>Replace the contents of <code>package.json</code>, <code>App.js</code> and <code>styles.js</code> with the three starter files below.</li>
+<li>Click <strong>Save</strong> so the Snack gets a permanent link.</li>
+</ol>
+<p>Starter for <code>package.json</code>:</p>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@react-navigation/native"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^7.0.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@react-navigation/native-stack"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^7.0.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-screens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~4.16.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-safe-area-context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~5.6.0"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Starter for <code>App.js</code>:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">NavigationContainer</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@react-navigation/native"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createNativeStackNavigator</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@react-navigation/native-stack"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"./styles"</span><span class="p">;</span>
+
+<span class="c1">// Questions 1 to 3 use this array. Question 4 replaces it with the API.</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">CONTACTS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Priya Shah"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"priya@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Toronto"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Marcus Lee"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"marcus@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Ottawa"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Ana Costa"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"ana@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Toronto"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Liam O'Brien"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"liam@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Halifax"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">5</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Sofia Rossi"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"sofia@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Vancouver"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Daniel Kim"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="s2">"daniel@example.com"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">city</span><span class="o">:</span><span class="w"> </span><span class="s2">"Montreal"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">Stack</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createNativeStackNavigator</span><span class="p">();</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">ContactsScreen</span><span class="p">({</span><span class="w"> </span><span class="nx">navigation</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Your</span><span class="w"> </span><span class="nx">list</span><span class="w"> </span><span class="nx">goes</span><span class="w"> </span><span class="nx">here</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">NavigationContainer</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stack</span><span class="p">.</span><span class="na">Navigator</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Stack</span><span class="p">.</span><span class="na">Screen</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Contacts"</span><span class="w"> </span><span class="na">component</span><span class="o">=</span><span class="p">{</span><span class="nx">ContactsScreen</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Stack</span><span class="p">.</span><span class="na">Navigator</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">NavigationContainer</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>Starter for <code>styles.js</code>:</p>
+<pre class="hl"><code class="language-js"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#fff"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<p>The stack navigator is already there, so the app has a <strong>Contacts</strong> header from the start and you do not need <code>marginTop</code> to get below the status bar. Look at the shape of each contact: the city is inside an <code>address</code> object. That is on purpose. It matches the API you switch to in Question 4.</p>
+<h2 id="styling-rules">Styling Rules <a class="anchor" aria-label="링크" href="#styling-rules">#</a></h2>
+<ul>
+<li>Every style is in <code>styles.js</code>, created with <code>StyleSheet.create()</code>, as in Lab 3. There are <strong>no</strong> inline <code>style={{ ... }}</code> objects anywhere in <code>App.js</code>.</li>
+<li>Style names describe what they are for (<code>row</code>, <code>contactName</code>, <code>searchInput</code>), not what they look like (<code>bold</code>, <code>grey</code>, <code>box1</code>).</li>
+<li>Keep the styling simple. This lab is about lists, not looks.</li>
+</ul>
+<h2 id="running-your-app">Running Your App <a class="anchor" aria-label="링크" href="#running-your-app">#</a></h2>
+<p>The <strong>Web</strong> preview is enough for Questions 1 to 5. Pull to refresh in Question 6 needs a touch screen, so check it on the <strong>Android</strong> or <strong>iOS</strong> tab, or on your phone with <strong>My Device</strong> and Expo Go.</p>
+<h2 id="submission">Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h2>
+<ul>
+<li>Submit <strong>one</strong> Snack link to the <code>Lab 5</code> assessment in Blackboard. After you save, the link looks like <code>https://snack.expo.dev/@yourname/web530-lab-5-...</code>.</li>
+<li>The lab is due at the end of class. Submit before you leave.</li>
+<li>Only students who participate in class and hand in a lab slip can receive marks for this lab. If you miss the class, you are still encouraged to complete it as practice.</li>
+<li>Before submitting, save one last time and open your link in a private browser window to confirm it loads without signing in.</li>
+</ul>
+<h2 id="question-1---flatlist-1-point">Question 1 - FlatList (1 point) <a class="anchor" aria-label="링크" href="#question-1---flatlist-1-point">#</a></h2>
+<p>Replace the placeholder <code>Text</code> in <code>ContactsScreen</code> with a <code>FlatList</code> that shows every contact in <code>CONTACTS</code>.</p>
+<p>Each row shows:</p>
+<ul>
+<li>The contact's <strong>name</strong>, large and bold, with the <strong>email</strong> under it in a smaller grey font.</li>
+<li>The contact's <strong>city</strong> on the right-hand side of the row, in a colour of your choice.</li>
+<li>A thin line under each row to separate it from the next.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Use <code>FlatList</code> with <code>data</code>, <code>renderItem</code> and <code>keyExtractor</code>. Do not use <code>ScrollView</code> or <code>.map()</code> for the rows.</li>
+<li>The <code>id</code>s are numbers. Your <code>keyExtractor</code> must return a string.</li>
+<li>The name and email sit on the left, the city on the right, and a long name must not push the city off the screen. Use flexbox from week 3, not a fixed <code>width</code>.</li>
+</ul>
+<p>Hint: Make the row a <code>View</code> with <code>flexDirection: &quot;row&quot;</code>. Wrap the name and email in their own <code>View</code> and give it <code>flex: 1</code>, so it takes all the space the city does not need. The city is at <code>item.address.city</code>.</p>
+<h2 id="question-2---sorting-1-point">Question 2 - Sorting (1 point) <a class="anchor" aria-label="링크" href="#question-2---sorting-1-point">#</a></h2>
+<p>Add two buttons above the list: <code>Sort by name</code> and <code>Sort by city</code>.</p>
+<ul>
+<li>The list starts sorted by name, A to Z.</li>
+<li><code>Sort by city</code> sorts the list by city, A to Z. Contacts in the <strong>same city</strong> are sorted by name. With the starter data, Ana Costa must come before Priya Shah, even though Priya is first in the array.</li>
+<li>The button for the order that is already showing is <strong>disabled</strong>. When the app starts, <code>Sort by name</code> is disabled.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>One piece of state holds which sort is active, for example <code>&quot;name&quot;</code> or <code>&quot;city&quot;</code>.</li>
+<li>The sorted array is <strong>not</strong> stored in state. Build it from <code>CONTACTS</code> and the sort state on every render, above the <code>return</code>.</li>
+<li>The original <code>CONTACTS</code> array must never be changed. Add a comment above your sort explaining, in your own words, why you copy the array before calling <code>.sort()</code> instead of sorting <code>CONTACTS</code> itself.</li>
+<li>Lay out the two buttons side by side in a row.</li>
+</ul>
+<p>Hint: <code>localeCompare</code> returns <code>0</code> when two strings are equal, and <code>0</code> is falsy. So <code>a.address.city.localeCompare(b.address.city) || a.name.localeCompare(b.name)</code> compares cities first, and only compares names when the cities are the same.</p>
+<h2 id="question-3---search-count-and-empty-state-1-point">Question 3 - Search, Count and Empty State (1 point) <a class="anchor" aria-label="링크" href="#question-3---search-count-and-empty-state-1-point">#</a></h2>
+<p>Add a controlled <code>TextInput</code> between the buttons and the list, with the placeholder <code>Search by name or city</code>.</p>
+<ul>
+<li>Typing filters the list. A contact stays in the list if the text appears in its <strong>name or its city</strong>. Upper and lower case do not matter: <code>tor</code>, <code>TOR</code> and <code>Tor</code> all find both Toronto contacts.</li>
+<li>The search and the sort work together. Search <code>o</code> and then switch the sort, and the filtered list re-sorts.</li>
+<li>Above the first row, show <code>Showing N of M contacts</code>, where <code>N</code> is the number of rows on screen and <code>M</code> is the total number of contacts. This text must scroll with the list.</li>
+<li>When nothing matches, the list shows <code>No contacts match &quot;TEXT&quot;.</code> with the search text in it, for example <code>No contacts match &quot;zz&quot;.</code></li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Filter first, then sort, in the same derived array as Question 2. There is still only the sort state and the search text in state.</li>
+<li><code>.filter()</code> returns a new array, so the copy from Question 2 is no longer needed. Keep your Question 2 comment and update it to say what keeps the original array safe now.</li>
+<li>Use <code>ListHeaderComponent</code> for the count and <code>ListEmptyComponent</code> for the empty message. A <code>Text</code> placed above the <code>FlatList</code> does not scroll with it, so it does not count.</li>
+</ul>
+<h2 id="question-4---fetching-the-contacts-1-point">Question 4 - Fetching the Contacts (1 point) <a class="anchor" aria-label="링크" href="#question-4---fetching-the-contacts-1-point">#</a></h2>
+<p>Replace the starter data with real data from this API, which returns ten users in the same shape as the starter array (plus a few extra fields):</p>
+<p><code>https://jsonplaceholder.typicode.com/users</code></p>
+<p>Open the link in a browser tab first and find <code>name</code>, <code>email</code> and <code>address.city</code> in the first user.</p>
+<ul>
+<li><strong>Delete</strong> the <code>CONTACTS</code> array. The contacts now live in state, start as an empty array, and are loaded once when the screen first renders.</li>
+<li>While the first load is running, the whole screen shows an <code>ActivityIndicator</code> and the text <code>Loading contacts...</code> instead of the list.</li>
+<li>If the load fails, the whole screen shows a message for the user and a <code>Try Again</code> button that shows the spinner and loads again. The message must say what happened and what to do. No status codes.</li>
+<li>If the load succeeds but the API returns no contacts, the list shows <code>No contacts yet.</code> instead of <code>No contacts match &quot;&quot;.</code> The match message from Question 3 is only for when the user has typed something.</li>
+<li><code>Showing N of M contacts</code> still works, now out of 10.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Use <code>useEffect</code> with an empty dependency array, and <code>fetch</code>.</li>
+<li>Check <code>res.ok</code> before calling <code>res.json()</code>. Add a comment above that check explaining, in your own words, why <code>.catch()</code> alone is not enough.</li>
+<li>Test all three cases before you move on, and put the URL back after each one:
+<ul>
+<li>The error screen: change the end of the URL to <code>/userz</code>. The API answers 404.</li>
+<li><code>Try Again</code>: with the URL still broken, press it. The spinner shows, then the error comes back.</li>
+<li>The empty list: change the end of the URL to <code>/users?id=99</code>. No user has that id, so the API returns <code>[]</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Hint: This is the Fetching List Data example from the week 5 notes. Use the same three pieces of state and the same early <code>return</code>s, then check that your Question 1 to 3 code still works with <code>contacts</code> in place of <code>CONTACTS</code>.</p>
+<h2 id="question-5---contact-screen-1-point">Question 5 - Contact Screen (1 point) <a class="anchor" aria-label="링크" href="#question-5---contact-screen-1-point">#</a></h2>
+<p>Pressing a row opens a second screen in the stack that shows that contact's full details.</p>
+<ul>
+<li>Register a second screen in the stack named <code>Contact</code>. Its header title is the contact's name.</li>
+<li>Each row is a <code>Pressable</code>. Pressing it navigates to <code>Contact</code> with <strong>two params only</strong>: the contact's <code>id</code> and <code>name</code>. Do <strong>not</strong> pass the whole contact object.</li>
+<li>The contact screen fetches that one contact itself from <code>https://jsonplaceholder.typicode.com/users/ID</code>, where <code>ID</code> is the <code>id</code> param. While it loads, the screen shows an <code>ActivityIndicator</code>.</li>
+<li>When it has loaded, the screen shows the contact's name as a large heading, then their email, phone, website, street and city, and company name, each with a label (<code>Email:</code>, <code>Phone:</code> and so on). The company catch phrase goes last, in italics.</li>
+<li>If the request fails, the screen shows <code>Could not load this contact.</code> To check it, temporarily change the URL on this screen to end in <code>/users/99</code>.</li>
+<li>Going back keeps the list as it was: the same sort, the same search text.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>The contact screen's <code>useEffect</code> has <code>[id]</code> as its dependency array.</li>
+<li>Add a comment above your <code>navigate</code> call explaining, in your own words, why this app passes only the <code>id</code> instead of the whole contact, and what it costs.</li>
+</ul>
+<p>Hint: <code>options</code> can be a function that receives <code>route</code>, as in week 4. The phone and website are at the top level of the user, the street is <code>address.street</code>, and the company fields are <code>company.name</code> and <code>company.catchPhrase</code>. A <code>Text</code> inside a <code>Text</code>, from Lab 3, lets you make only the label bold.</p>
+<h2 id="question-6---pull-to-refresh-1-point">Question 6 - Pull to Refresh (1 point) <a class="anchor" aria-label="링크" href="#question-6---pull-to-refresh-1-point">#</a></h2>
+<p>Let the user reload the contacts by pulling down on the list.</p>
+<ul>
+<li>Pulling down on the list shows the refresh spinner at the top, reloads the contacts from the API, and hides the spinner when it is done.</li>
+<li>During a refresh the list <strong>stays on screen</strong>. The full-screen <code>Loading contacts...</code> spinner from Question 4 is only for the first load and for <code>Try Again</code>.</li>
+<li>The search text and the sort survive a refresh.</li>
+<li>Under <code>Showing N of M contacts</code>, show <code>Updated</code> and the time the contacts last arrived, for example <code>Updated 10:42:07 AM</code>. Every successful load or refresh updates it.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Use the <code>refreshing</code> and <code>onRefresh</code> props of <code>FlatList</code>. Do not write any gesture code.</li>
+<li>The refresh has its own piece of state, separate from the loading state. Add a comment above it explaining, in your own words, why one <code>loading</code> state cannot do both jobs.</li>
+<li>Store the time in state where the contacts are stored, and show it with <code>toLocaleTimeString()</code>.</li>
+</ul>
+<p>Check this one on the <strong>Android</strong> or <strong>iOS</strong> tab, or on your phone. Pulling does nothing in the web preview. The API returns the same ten users every time, so the updated time is how you know the refresh worked.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

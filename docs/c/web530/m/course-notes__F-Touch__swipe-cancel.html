@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Swipeable and Cancellable · WEB530</title><meta name="description" content="Swipeable and Cancellable · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Swipeable and Cancellable</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#swipe-gestures">Swipe Gestures</a></li><li class="l2"><a href="#building-a-cancellable-swipe">Building a Cancellable Swipe</a></li><li class="l3"><a href="#understanding-the-example">Understanding the Example</a></li><li class="l2"><a href="#swipeable-rows">Swipeable Rows</a></li><li class="l3"><a href="#understanding-the-example-1">Understanding the Example</a></li><li class="l2"><a href="#when-to-use-swipe-actions">When to Use Swipe Actions</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel</a></p>
+<h1 id="swipeable-and-cancellable">Swipeable and Cancellable <a class="anchor" aria-label="링크" href="#swipeable-and-cancellable">#</a></h1>
+<h2 id="swipe-gestures">Swipe Gestures <a class="anchor" aria-label="링크" href="#swipe-gestures">#</a></h2>
+<p>Swipe gestures are a common pattern in mobile apps. Email clients, messaging apps, and task managers often allow users to swipe a row to reveal quick actions such as <strong>Delete</strong>, <strong>Archive</strong>, or <strong>Mark as Read</strong>.</p>
+<p>A swipe is a horizontal drag, and it must be <strong>cancellable</strong>. Users often start a swipe and change their mind, so a short swipe should snap back and do nothing. Only a deliberate swipe should act. This prevents accidental destructive actions and matches how native iOS and Android apps behave.</p>
+<p>A swipe must also share the screen with scrolling. A row that swipes sideways should only take the gesture once the finger is clearly moving sideways, and leave vertical drags to the list.</p>
+<p>Swipes need a touch screen. The web preview only has a mouse, so run the examples on this page on your phone with <strong>My Device</strong>.</p>
+<h2 id="building-a-cancellable-swipe">Building a Cancellable Swipe <a class="anchor" aria-label="링크" href="#building-a-cancellable-swipe">#</a></h2>
+<p>React Native includes two tools for building gestures by hand. <code>PanResponder</code> reports where the finger is, and <code>Animated</code> moves a view smoothly without re-rendering the component on every frame. The example below lets you drag a card sideways. A short drag snaps back; a drag past 120 points slides the card off the screen.</p>
+<pre class="hl"><code class="language-text">import { useRef, useState } from 'react';
+import { View, Text, Button, Animated, PanResponder, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [dismissed, setDismissed] = useState(false);
+  const translateX = useRef(new Animated.Value(0)).current;
+
+  const pan = useRef(
+    PanResponder.create({
+      // Only take the gesture once the finger moves sideways.
+      onMoveShouldSetPanResponder: (_, gesture) =&gt; Math.abs(gesture.dx) &gt; 10,
+      onPanResponderMove: (_, gesture) =&gt; {
+        translateX.setValue(gesture.dx);
+      },
+      onPanResponderRelease: (_, gesture) =&gt; {
+        if (Math.abs(gesture.dx) &gt; 120) {
+          // Far enough: commit, and slide the card off the screen.
+          Animated.timing(translateX, {
+            toValue: gesture.dx &gt; 0 ? 500 : -500,
+            duration: 200,
+            useNativeDriver: true,
+          }).start(() =&gt; setDismissed(true));
+        } else {
+          // Not far enough: cancel, and spring back.
+          Animated.spring(translateX, {
+            toValue: 0,
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  function reset() {
+    translateX.setValue(0);
+    setDismissed(false);
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      {dismissed ? (
+        &lt;Button title="Bring It Back" onPress={reset} /&gt;
+      ) : (
+        &lt;Animated.View {...pan.panHandlers} style={[styles.card, { transform: [{ translateX }] }]}&gt;
+          &lt;Text style={styles.text}&gt;Swipe Me&lt;/Text&gt;
+        &lt;/Animated.View&gt;
+      )}
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 100,
+    paddingHorizontal: 20,
+  },
+  card: {
+    padding: 20,
+    borderRadius: 8,
+    backgroundColor: '#eef',
+  },
+  text: {
+    fontSize: 18,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h3 id="understanding-the-example">Understanding the Example <a class="anchor" aria-label="링크" href="#understanding-the-example">#</a></h3>
+<ol>
+<li><code>useRef</code> keeps the same object for the whole life of the component. Without it, <code>new Animated.Value(0)</code> would create a fresh value, back at 0, on every render. Changing a ref does not cause a re-render.</li>
+<li><code>onMoveShouldSetPanResponder</code> decides whether the card takes the gesture. It only says yes after 10 points of sideways movement, so taps and vertical drags are left for other components, such as a scroll view.</li>
+<li><code>onPanResponderMove</code> sets the card's offset to <code>gesture.dx</code>, the distance the finger has moved sideways.</li>
+<li><code>onPanResponderRelease</code> is where the swipe is either committed or cancelled. <code>Animated.spring</code> returns the card to 0 with a small bounce, and <code>Animated.timing</code> slides it off the screen. The <code>start</code> callback changes state only after the animation ends.</li>
+<li><code>useNativeDriver: true</code> runs the animation on the native side, so it stays smooth even when JavaScript is busy.</li>
+</ol>
+<h2 id="swipeable-rows">Swipeable Rows <a class="anchor" aria-label="링크" href="#swipeable-rows">#</a></h2>
+<p>Writing a <code>PanResponder</code> for every list row would be a lot of work. In practice, apps use the <strong>Swipeable</strong> component from the <code>react-native-gesture-handler</code> library, which Expo includes.</p>
+<p><code>Swipeable</code> provides:</p>
+<ul>
+<li>Smooth, physics‑based swipe gestures</li>
+<li>Left and right action panels</li>
+<li>Automatic cancellation when the swipe is not far enough</li>
+<li>Callbacks when a swipe passes a threshold</li>
+<li>Full support for iOS and Android</li>
+</ul>
+<p>The example below shows an inbox of swipeable rows. Swiping a row left reveals a <strong>Delete</strong> button underneath it. A short swipe snaps back; a swipe past about half the button's width leaves the row open, and tapping <strong>Delete</strong> removes the message.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+
+const inbox = [
+  { id: '1', from: 'Registrar', subject: 'Your timetable is ready' },
+  { id: '2', from: 'Library', subject: 'Book due Friday' },
+  { id: '3', from: 'Campus Store', subject: 'Textbook back in stock' },
+  { id: '4', from: 'IT Services', subject: 'Password expires in 7 days' },
+  { id: '5', from: 'Study Group', subject: 'Room 2104 at 3 PM' },
+  { id: '6', from: 'Athletics', subject: 'Intramural sign-ups open' },
+  { id: '7', from: 'Career Centre', subject: 'Resume workshop Thursday' },
+  { id: '8', from: 'Student Union', subject: 'Free pancakes Monday' },
+];
+
+function MessageRow({ item, onDelete }) {
+  return (
+    &lt;Swipeable
+      overshootRight={false}
+      renderRightActions={() =&gt; (
+        &lt;Pressable style={styles.deleteButton} onPress={() =&gt; onDelete(item.id)}&gt;
+          &lt;Text style={styles.actionText}&gt;Delete&lt;/Text&gt;
+        &lt;/Pressable&gt;
+      )}
+    &gt;
+      &lt;View style={styles.row}&gt;
+        &lt;Text style={styles.from}&gt;{item.from}&lt;/Text&gt;
+        &lt;Text style={styles.subject}&gt;{item.subject}&lt;/Text&gt;
+      &lt;/View&gt;
+    &lt;/Swipeable&gt;
+  );
+}
+
+export default function App() {
+  const [messages, setMessages] = useState(inbox);
+
+  function deleteMessage(id) {
+    setMessages((prev) =&gt; prev.filter((item) =&gt; item.id !== id));
+  }
+
+  return (
+    &lt;GestureHandlerRootView style={styles.container}&gt;
+      &lt;FlatList
+        data={messages}
+        keyExtractor={(item) =&gt; item.id}
+        renderItem={({ item }) =&gt; &lt;MessageRow item={item} onDelete={deleteMessage} /&gt;}
+        ListEmptyComponent={&lt;Text style={styles.empty}&gt;No messages.&lt;/Text&gt;}
+      /&gt;
+    &lt;/GestureHandlerRootView&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 60,
+  },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+    backgroundColor: 'white',
+  },
+  from: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  subject: {
+    fontSize: 14,
+    color: '#666',
+  },
+  deleteButton: {
+    justifyContent: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: '#E53935',
+  },
+  actionText: {
+    color: 'white',
+    fontWeight: '600',
+  },
+  empty: {
+    padding: 20,
+    color: '#666',
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h3 id="understanding-the-example-1">Understanding the Example <a class="anchor" aria-label="링크" href="#understanding-the-example-1">#</a></h3>
+<ol>
+<li><code>GestureHandlerRootView</code> - All gesture‑handler components must be inside this root view. Put it once, around the whole app.</li>
+<li><code>MessageRow</code> - Each row is wrapped in a <code>Swipeable</code>, which handles dragging, cancelling, snapping back and staying open. <code>MessageRow</code> is declared at the top level, outside <code>App</code>. A component declared inside another one is a new component on every render, so every row would be rebuilt, and lose its swipe position, each time the list changed.</li>
+<li>Right action panel - <code>renderRightActions</code> returns the panel underneath the right edge of the row. Swiping left reveals it. The row has a white background so the panel stays hidden until the swipe.</li>
+<li><code>overshootRight={false}</code> - Stops the row at the edge of the panel instead of letting it stretch further.</li>
+<li>Deleting - Tapping <strong>Delete</strong> calls <code>onDelete</code>, which removes the message with the updater form of <code>setMessages</code>.</li>
+<li>Gesture priority - Dragging up and down scrolls the list. A row only takes the gesture when the finger moves sideways.</li>
+</ol>
+<p>The swipe only reveals the button; the tap deletes. Deleting is destructive, so it takes two deliberate actions. <code>Swipeable</code> also has an <code>onSwipeableOpen</code> callback that could delete the row as soon as it opens, but then a slightly long swipe would lose a message with no way back. Save that pattern for actions that can be undone, such as archiving.</p>
+<h2 id="when-to-use-swipe-actions">When to Use Swipe Actions <a class="anchor" aria-label="링크" href="#when-to-use-swipe-actions">#</a></h2>
+<p>Use swipe actions when:</p>
+<ul>
+<li>The action is secondary, such as delete or archive</li>
+<li>The user performs it frequently</li>
+<li>You want to keep the list clean</li>
+<li>You want fast, one‑handed interactions</li>
+</ul>
+<p>Avoid swipe actions when:</p>
+<ul>
+<li>The action is critical and the swipe is the only way to do it</li>
+<li>The user needs a confirmation step that a swipe cannot give</li>
+<li>The gesture might conflict with other horizontal scrolling on the screen</li>
+</ul>
+<p>Swipes are hidden: nothing on screen tells the user they exist. Always offer another way to reach the same action, such as a button on the detail screen.</p>
+<p>💡 Note: <code>Swipeable</code> Is Deprecated</p>
+<p>The <code>Swipeable</code> component used in this example still works, but it has been officially marked as deprecated in <code>react-native-gesture-handler</code>. This means it may be removed in a future release and should not be used in new production apps.</p>
+<p><strong>What this means for you</strong></p>
+<ul>
+<li>You can safely use <code>Swipeable</code> for learning purposes in this course.</li>
+<li>It helps you understand the idea of “swipeable and cancellable” UI elements.</li>
+<li>It keeps the example simple and avoids extra setup.</li>
+</ul>
+<p><strong>What modern apps use instead</strong></p>
+<p>Newer React Native projects typically build swipe gestures using:</p>
+<ul>
+<li><code>ReanimatedSwipeable</code>, the replacement component, with a very similar API</li>
+<li>The Gesture API (<code>Gesture.Pan()</code>, <code>GestureDetector</code>) for custom gestures</li>
+<li>Reanimated for smooth, native‑driven animations</li>
+</ul>
+<p>This approach gives developers more control and better performance, especially for complex interactions like Gmail‑style swipe actions.</p>
+<p><strong>Why this example stays as‑is</strong></p>
+<ul>
+<li>It works reliably in the course environment (Snack).</li>
+<li>It clearly demonstrates the swipe‑to‑delete pattern.</li>
+<li>It avoids the complexity of Reanimated and Worklets, which are beyond the scope of this module.</li>
+</ul>
+<p>As you continue learning, you’ll see how the newer Gesture API can be used to build the same interaction with more flexibility and modern tooling.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

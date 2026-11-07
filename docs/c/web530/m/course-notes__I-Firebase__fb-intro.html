@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Firebase Introduction · WEB530</title><meta name="description" content="Firebase Introduction · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Firebase Introduction</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-firebase">What is Firebase?</a></li><li class="l2"><a href="#what-is-cloud-firestore">What is Cloud Firestore?</a></li><li class="l2"><a href="#architectural-choice-official-sdk-vs-native-rest-api">Architectural Choice: Official SDK vs. Native REST API</a></li><li class="l2"><a href="#essential-firebase-core-features">Essential Firebase Core Features</a></li><li class="l3"><a href="#user-authentication-firebase-auth">User Authentication (Firebase Auth)</a></li><li class="l3"><a href="#network-crud-architecture">Network CRUD Architecture</a></li><li class="l3"><a href="#how-it-works-in-our-mobile-stack">How it Works in Our Mobile Stack</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-intro" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-intro</a></p>
+<h1 id="firebase-introduction">Firebase Introduction <a class="anchor" aria-label="링크" href="#firebase-introduction">#</a></h1>
+<h2 id="what-is-firebase">What is Firebase? <a class="anchor" aria-label="링크" href="#what-is-firebase">#</a></h2>
+<p>Firebase is a comprehensive Backend-as-a-Service (BaaS) platform provided by Google. In traditional software development, creating a mobile or web application requires building two separate systems: the frontend client application (what the user sees) and a custom backend server (to handle databases, user authentication, security, and file storage).</p>
+<p>Firebase completely eliminates the need to build, deploy, or maintain custom server infrastructure. Instead, it provides instantly provisioned cloud infrastructure that you can connect to your application out of the box.</p>
+<h2 id="what-is-cloud-firestore">What is Cloud Firestore? <a class="anchor" aria-label="링크" href="#what-is-cloud-firestore">#</a></h2>
+<p>For modern applications, our primary storage engine is <strong>Cloud Firestore</strong>, Google's flagship NoSQL cloud database. Unlike rigid relational databases (like MySQL) that require structured tables, rows, and strict schemas, Firestore is flexible and document-oriented.</p>
+<p>Firestore structures its data layer using an intuitive hierarchical system:</p>
+<ul>
+<li><strong>Collections:</strong> Think of these as folders. They store groups of related records (e.g., a <code>products</code> folder or a <code>users</code> folder). Collections cannot contain raw data; they only contain documents.</li>
+<li><strong>Documents:</strong> Think of these as individual files inside a folder. Every document is a JSON-like object containing explicit key-value pairs (e.g., <code>name: &quot;Wireless Mouse&quot;, price: 79.99</code>). Documents can also point to sub-collections, allowing you to nest data cleanly.</li>
+</ul>
+<h2 id="architectural-choice-official-sdk-vs-native-rest-api">Architectural Choice: Official SDK vs. Native REST API <a class="anchor" aria-label="링크" href="#architectural-choice-official-sdk-vs-native-rest-api">#</a></h2>
+<p>When connecting a mobile app to Firebase, developers generally have two paths: installing the heavy, official Firebase JavaScript SDK, or making raw HTTPS requests directly to Google's endpoints.</p>
+<p>In this course, <strong>we are using the REST API approach.</strong> Here is why this distinction matters to your development workflow:</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Official Firebase JS SDK</th>
+<th>Native HTTPS REST API (Our Approach)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dependencies</strong></td>
+<td>Requires installing large npm packages (<code>firebase</code>) and native mobile polyfills.</td>
+<td><strong>Zero dependencies.</strong> Relies entirely on the native web browser/Expo <code>fetch()</code> API.</td>
+</tr>
+<tr>
+<td><strong>Learning Outcome</strong></td>
+<td>Hides the network layer behind abstract proprietary functions like <code>getDocs()</code>.</td>
+<td><strong>Teaches universal skills.</strong> Forces hands-on experience with real HTTP headers, verbs, and JSON payloads.</td>
+</tr>
+<tr>
+<td><strong>State Conflict</strong></td>
+<td>Tries to maintain its own background data-cache, which can conflict with local state managers.</td>
+<td>Bypasses local caching. Acts as a clean data pipeline that streams straight into your state manager.</td>
+</tr>
+<tr>
+<td><strong>Bundle Footprint</strong></td>
+<td>Adds weight to the compiled mobile application bundle.</td>
+<td>Extremely lightweight, keeping app execution fast and clean.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="essential-firebase-core-features">Essential Firebase Core Features <a class="anchor" aria-label="링크" href="#essential-firebase-core-features">#</a></h2>
+<p>While Cloud Firestore handles our data, Firebase provides a massive ecosystem of plug-and-play services. Two of the most critical services for any production app are <strong>Authentication</strong> and <strong>CRUD Operations</strong>.</p>
+<h3 id="user-authentication-firebase-auth">User Authentication (Firebase Auth) <a class="anchor" aria-label="링크" href="#user-authentication-firebase-auth">#</a></h3>
+<p>Building a secure login system from scratch is notoriously difficult and risky. Firebase Authentication provides an end-to-end user identity solution with just a few lines of code.</p>
+<p>It handles everything securely on Google's servers, including password hashing, session tokens, and password reset workflows. It supports:</p>
+<ul>
+<li>Traditional Email &amp; Password registration.</li>
+<li>Single Sign-On (SSO) social providers (Google, Apple, GitHub, etc.).</li>
+<li>Passwordless phone/SMS authentication.</li>
+</ul>
+<h3 id="network-crud-architecture">Network CRUD Architecture <a class="anchor" aria-label="링크" href="#network-crud-architecture">#</a></h3>
+<p>To interact with our Cloud Firestore database, our application performs CRUD operations. Because Firestore exposes a native HTTPS REST API, we can execute these data operations using standard JavaScript <code>fetch()</code> network requests to Google's endpoints using specific HTTP Verbs:</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Description</th>
+<th>HTTP Verb Used</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Create</strong></td>
+<td>Appends a brand-new document into a Firestore collection.</td>
+<td><code>POST</code></td>
+</tr>
+<tr>
+<td><strong>Read</strong></td>
+<td>Fetches an entire collection list or pulls a specific document's fields.</td>
+<td><code>GET</code></td>
+</tr>
+<tr>
+<td><strong>Update</strong></td>
+<td>Modifies existing fields inside a document without replacing the whole file.</td>
+<td><code>PATCH</code></td>
+</tr>
+<tr>
+<td><strong>Delete</strong></td>
+<td>Destroys a targeted document resource path entirely.</td>
+<td><code>DELETE</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-it-works-in-our-mobile-stack">How it Works in Our Mobile Stack <a class="anchor" aria-label="링크" href="#how-it-works-in-our-mobile-stack">#</a></h3>
+<p>To keep our Expo application lightweight and lightning-fast, we completely bypass heavy, platform-specific native Firebase packages.</p>
+<p>Instead, we treat Cloud Firestore exactly like a standard Web API. Our app sends clean, lightweight HTTPS requests straight to our Firestore endpoint, pulls down the data, and pipes it directly into our local <strong>Jotai global state</strong> to update the user interface seamlessly.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

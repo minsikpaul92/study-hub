@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Expo · WEB530</title><meta name="description" content="Introduction to Expo · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Introduction to Expo</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-expo">What is Expo?</a></li><li class="l3"><a href="#core-benefits">Core Benefits</a></li><li class="l2"><a href="#expo-vs-bare-react-native">Expo vs. Bare React Native</a></li><li class="l2"><a href="#moving-beyond-expo-snack">Moving Beyond Expo Snack</a></li><li class="l2"><a href="#how-expo-works-the-managed-workflow">How Expo Works: The Managed Workflow</a></li><li class="l3"><a href="#the-magic-of-expo-go">The Magic of Expo Go</a></li><li class="l2"><a href="#creating-a-new-expo-project">Creating a New Expo Project</a></li><li class="l2"><a href="#running-your-new-app">Running Your New App</a></li><li class="l2"><a href="#modifying-the-app">Modifying the App</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/H-Expo/expo" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/H-Expo/expo</a></p>
+<h1 id="introduction-to-expo">Introduction to Expo <a class="anchor" aria-label="링크" href="#introduction-to-expo">#</a></h1>
+<h2 id="what-is-expo">What is Expo? <a class="anchor" aria-label="링크" href="#what-is-expo">#</a></h2>
+<p>Expo is an open-source framework and platform built on top of <strong>React Native</strong>. It provides a robust set of tools, libraries, and services that radically simplify mobile app development by abstracting away the complex, platform-specific ecosystems of iOS and Android.</p>
+<p>By leveraging Expo, you can build truly native cross-platform mobile applications using only <strong>JavaScript or TypeScript</strong>.</p>
+<h3 id="core-benefits">Core Benefits <a class="anchor" aria-label="링크" href="#core-benefits">#</a></h3>
+<ul>
+<li><strong>Zero Native Configuration:</strong> You don't need to touch Java, Objective-C, Swift, or complex build Gradle files to get started.</li>
+<li><strong>Unified API:</strong> Access native device hardware (like the camera, biometrics, location, and sensors) through a single, consistent JavaScript API.</li>
+<li><strong>Instant Over-the-Air (OTA) Updates:</strong> Publish updates directly to your users instantly, bypassing the lengthy App Store or Google Play review processes for minor changes and bug fixes.</li>
+<li><strong>Universal Development:</strong> Write code once and run it seamlessly on Android, iOS, and even the Web.</li>
+</ul>
+<h2 id="expo-vs-bare-react-native">Expo vs. Bare React Native <a class="anchor" aria-label="링크" href="#expo-vs-bare-react-native">#</a></h2>
+<p>When building a mobile app with standard (&quot;bare&quot;) React Native, you are responsible for managing two entirely separate native projects: an Android project (built with Java/Kotlin) and an iOS project (built with Swift/Objective-C). This requires installing heavy software like Android Studio and Xcode, configuring environment variables, and dealing with mismatched build tools.</p>
+<p>Expo eliminates this friction by wrapping around React Native.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Bare React Native</th>
+<th>Expo (Managed Workflow)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Language Requirements</strong></td>
+<td>JavaScript + Swift/Kotlin (for native modules)</td>
+<td>Strictly JavaScript / TypeScript</td>
+</tr>
+<tr>
+<td><strong>Development Machine</strong></td>
+<td>Requires macOS for iOS builds; Windows/Linux/macOS for Android</td>
+<td>Any OS (Windows, Mac, Linux) can build for both platforms</td>
+</tr>
+<tr>
+<td><strong>Setup Overhead</strong></td>
+<td>High (Xcode, Android Studio, SDKs, Emulators)</td>
+<td>Low (Node.js, VS Code, and a mobile device)</td>
+</tr>
+<tr>
+<td><strong>Native Code Access</strong></td>
+<td>Direct access to modify native directories</td>
+<td>Handled via Expo Config Plugins (no direct native editing required)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="moving-beyond-expo-snack">Moving Beyond Expo Snack <a class="anchor" aria-label="링크" href="#moving-beyond-expo-snack">#</a></h2>
+<p>Up until this point, you have been using <strong>Expo Snack</strong> to write and test code directly in your web browser. Snack is an amazing playground for prototyping, but it has concrete limitations when building real-world production applications.</p>
+<p>Graduating from Snack to a local development workflow unlocks the capabilities required for professional software engineering:</p>
+<ul>
+<li><strong>Complete File Control:</strong> Instead of working in a single browser tab, your project lives entirely on your machine. You can structure complex directories, manage assets locally, and use Git version control.</li>
+<li><strong>Advanced Code Editing:</strong> You get the full power of VS Code, including real-time linting, code snippets, local extensions, and robust debugging tools.</li>
+<li><strong>Unlimited Ecosystem Access:</strong> Snack only supports a curated subset of npm packages. Local development allows you to install <em>any</em> third-party package or library available in the Node ecosystem.</li>
+<li><strong>Offline Development:</strong> You don't need an active internet connection to compile and test code on your local network.</li>
+</ul>
+<p>💡 <strong>The good news:</strong> Your React Native code does not change! Writing a component locally in VS Code uses the exact same syntax, hooks, and layout logic you learned inside Expo Snack.</p>
+<h2 id="how-expo-works-the-managed-workflow">How Expo Works: The Managed Workflow <a class="anchor" aria-label="링크" href="#how-expo-works-the-managed-workflow">#</a></h2>
+<p>In this course, we utilize the <strong>Managed Workflow</strong>. Under this model, Expo handles the native iOS and Android compilation under the hood. You only deal with the JavaScript/TypeScript layer.</p>
+<h3 id="the-magic-of-expo-go">The Magic of Expo Go <a class="anchor" aria-label="링크" href="#the-magic-of-expo-go">#</a></h3>
+<p>The fastest way to develop with Expo is using <strong>Expo Go</strong>, the same client application you used to preview your Snacks on a physical phone.</p>
+<p>When you run your development server locally on your computer using the command line interface (CLI), Expo doesn't compile a massive binary file and push it to your phone. Instead, it starts a local bundler called <strong>Metro</strong> that bundles your JavaScript files.</p>
+<p>The Expo Go app on your phone opens this bundle via a local network connection (or a secure tunnel) and renders it instantly using your device's native rendering engines.</p>
+<p>💡 <strong>Think of Expo Go like a web browser for mobile apps:</strong> Your local computer acts as the web server hosting your project files, and Expo Go acts as the mobile browser rendering native components dynamically.</p>
+<h2 id="creating-a-new-expo-project">Creating a New Expo Project <a class="anchor" aria-label="링크" href="#creating-a-new-expo-project">#</a></h2>
+<p>If you haven't already done so, please follow the steps outlined in <a href="https://seneca-ictoer.github.io/WEB530/Z-Guides/tool-dev-setup" target="_blank" rel="noopener">Setup Tools &amp; Dev Environment</a>.</p>
+<ol>
+<li>Start VS Code.</li>
+<li>Choose <code>File</code>, <code>Open Folder...</code>. It is recommended you choose an empty folder however you will create a new folder for your application in the next step.</li>
+<li>Type <code>npx create-expo-app myapp --template blank</code> (where <code>myapp</code> refers to the name of the application folder you want to create).</li>
+</ol>
+<ul>
+<li><code>Ok to proceed? (y)</code> - You may be asked to install packages, press <code>y</code> or <code>ENTER</code> to install the packages and proceed.</li>
+<li><code>Select an Expo SDK version</code> - Choose <code>For learning with Expo Go (SDK 54)</code>.</li>
+<li>The installation may take a minute or two to complete.</li>
+</ul>
+<ol start="4">
+<li>Move into the project folder: <code>cd myapp</code>.</li>
+<li>Start the development server: <code>npx expo start --tunnel</code>.</li>
+</ol>
+<ul>
+<li>If asked, install <code>@expo/ngrok</code>.</li>
+</ul>
+<p>⚠️ It is not uncommon to receive an error like:
+<code>CommandError: Please install @expo/ngrok@^4.1.0 and try again</code></p>
+<p>💡If you receive the above message, try installing <code>ngrok</code> manually:
+<code>npm install -g @expo/ngrok@4.1.0</code>
+<code>npm install --save-dev @expo/ngrok@^4.1.0</code></p>
+<h2 id="running-your-new-app">Running Your New App <a class="anchor" aria-label="링크" href="#running-your-new-app">#</a></h2>
+<p>You can run your app in several ways:</p>
+<ul>
+<li>On your phone (recommended)
+<ul>
+<li>Install Expo Go from the App Store or Google Play</li>
+<li>Scan the QR code from Expo Dev Tools</li>
+<li>Your app loads instantly</li>
+</ul>
+</li>
+</ul>
+<p>On a simulator/emulator</p>
+<ul>
+<li>iOS Simulator (macOS only)</li>
+<li>Android Emulator (optional)</li>
+</ul>
+<p>💡 If you receive an error that Expo Go needs to be updated on your device,
+it may be that the version available in the store is outdated. You can manually
+install the latest version by going to (<a href="https://expo.dev/go" target="_blank" rel="noopener">https://expo.dev/go</a>).</p>
+<h2 id="modifying-the-app">Modifying the App <a class="anchor" aria-label="링크" href="#modifying-the-app">#</a></h2>
+<p>You can make changes to App.js (just like when working with Snack). When creating custom components, add them to a subfolder called <code>/components</code>.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

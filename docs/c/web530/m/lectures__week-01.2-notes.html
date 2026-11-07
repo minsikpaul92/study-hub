@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1.2 - Notes and Examples · WEB530</title><meta name="description" content="Week 1.2 - Notes and Examples · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Week 1.2 - Notes and Examples</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#react-playground">React Playground</a></li><li class="l2"><a href="#example-proptypes-and-validation">Example: PropTypes and Validation</a></li><li class="l2"><a href="#react-native-playground">React Native Playground</a></li><li class="l2"><a href="#example-introduce-react-native-components-not-html">Example: Introduce React Native Components (not HTML)</a></li><li class="l2"><a href="#html-to-react-native">HTML to React Native</a></li></ol></nav>
+<article class="md"><h1 id="week-12---notes-and-examples">Week 1.2 - Notes and Examples <a class="anchor" aria-label="링크" href="#week-12---notes-and-examples">#</a></h1>
+<h2 id="react-playground">React Playground <a class="anchor" aria-label="링크" href="#react-playground">#</a></h2>
+<p>React Playground (Professor's CodeSpace Template)
+(https://codesandbox.io/p/sandbox/react-basic-3rqll4)</p>
+<h2 id="example-proptypes-and-validation">Example: PropTypes and Validation <a class="anchor" aria-label="링크" href="#example-proptypes-and-validation">#</a></h2>
+<ul>
+<li>A component has no way to say what props it expects. PropTypes lets us declare that contract.</li>
+<li>React checks the contract <strong>in development only</strong> and prints a warning in the console. Nothing is enforced in production.</li>
+<li>The checks come from the separate <code>prop-types</code> package, so it must be installed and imported.</li>
+<li>PropTypes is deprecated. React 19 no longer checks it, and TypeScript replaces it. We will revisit this when we learn TypeScript.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"prop-types"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Greeting</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">isStudent</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Hello</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Age</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">age</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;{</span><span class="nx">isStudent</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Student"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Not a student"</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Prop validation</span>
+<span class="nx">Greeting</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span><span class="w"> </span><span class="c1">// must be a string</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span><span class="w"> </span><span class="c1">// must be a number</span>
+<span class="w">  </span><span class="nx">isStudent</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">,</span><span class="w"> </span><span class="c1">// optional boolean</span>
+<span class="p">};</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="na">isStudent</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Show what happens when the contract is broken. Open the browser console and try each line.</li>
+<li>The app still renders. PropTypes only warns, it does not stop the component.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="cm">/* OK */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="na">isStudent</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Warning: Failed prop type: Invalid prop `age` of type `string`</span>
+<span class="cm">          supplied to `Greeting`, expected `number`. */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="s">"42"</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Warning: Failed prop type: The prop `name` is marked as required</span>
+<span class="cm">          in `Greeting`, but its value is `undefined`. */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Optional props should have a default so the component never renders something odd.</li>
+<li>Reuse the destructuring default from Week 1.1. PropTypes says &quot;optional&quot;, the default says &quot;what it is when omitted&quot;.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">Greeting</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">isStudent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Hello</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Age</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">age</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;{</span><span class="nx">isStudent</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Student"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Not a student"</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Greeting</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">isStudent</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+<ul>
+<li>There are validators for more than primitives. The ones you will use most:
+<ul>
+<li><code>PropTypes.oneOf([...])</code> restricts a prop to a fixed set of values.</li>
+<li><code>PropTypes.func</code> for callbacks.</li>
+<li><code>PropTypes.arrayOf(type)</code> for lists.</li>
+<li><code>PropTypes.shape({...})</code> for objects with known fields.</li>
+</ul>
+</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"prop-types"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Course</span><span class="p">({</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">term</span><span class="p">,</span><span class="w"> </span><span class="nx">topics</span><span class="p">,</span><span class="w"> </span><span class="nx">instructor</span><span class="p">,</span><span class="w"> </span><span class="nx">onSelect</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">code</span><span class="p">}</span><span class="w"> </span><span class="p">({</span><span class="nx">term</span><span class="p">})</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Instructor</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">instructor</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">topics</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">topic</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">li</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">topic</span><span class="p">}&gt;{</span><span class="nx">topic</span><span class="p">}&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">))}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">onSelect</span><span class="p">(</span><span class="nx">code</span><span class="p">)}&gt;</span><span class="nx">Select</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Course</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">term</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">oneOf</span><span class="p">([</span><span class="s2">"Fall"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Winter"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">]).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">topics</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">arrayOf</span><span class="p">(</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">instructor</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">shape</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+<span class="w">  </span><span class="p">}).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">onSelect</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Course</span>
+<span class="w">      </span><span class="na">code</span><span class="o">=</span><span class="s">"WEB530"</span>
+<span class="w">      </span><span class="na">term</span><span class="o">=</span><span class="s">"Fall"</span>
+<span class="w">      </span><span class="na">topics</span><span class="o">=</span><span class="p">{[</span><span class="s2">"JSX"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Components"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Props"</span><span class="p">]}</span>
+<span class="w">      </span><span class="na">instructor</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Nicholas"</span><span class="w"> </span><span class="p">}}</span>
+<span class="w">      </span><span class="na">onSelect</span><span class="o">=</span><span class="p">{(</span><span class="nx">code</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">alert</span><span class="p">(</span><span class="sb">`Selected </span><span class="si">${</span><span class="nx">code</span><span class="si">}</span><span class="sb">`</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Try <code>term=&quot;Spring&quot;</code> or <code>topics=&quot;JSX&quot;</code> and read the warning. The message names the prop, the component, what it got, and what it expected.</li>
+</ul>
+<h2 id="react-native-playground">React Native Playground <a class="anchor" aria-label="링크" href="#react-native-playground">#</a></h2>
+<p>React Native Playground (Snack)
+<em>Use this for the examples. Modify App.js</em>
+(https://snack.expo.dev)</p>
+<h2 id="example-introduce-react-native-components-not-html">Example: Introduce React Native Components (not HTML) <a class="anchor" aria-label="링크" href="#example-introduce-react-native-components-not-html">#</a></h2>
+<ul>
+<li>Rewrite the this example using proper React Native components.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Notice React Native component names begin with capital letters.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">buttonText</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Show that text must live inside <code>Text</code>. React Native does not allow a bare string inside a <code>View</code>.</li>
+<li>This crashes the app. Remove the <code>Text</code> tags below and read the error.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Error: <code>Text strings must be rendered within a &lt;Text&gt; component.</code></li>
+</ul>
+<h2 id="html-to-react-native">HTML to React Native <a class="anchor" aria-label="링크" href="#html-to-react-native">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>HTML</th>
+<th>React Native</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;div&gt;</code></td>
+<td><code>View</code></td>
+<td>Container, no text directly inside</td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;span&gt;</code></td>
+<td><code>Text</code></td>
+<td>All text, no separate heading components</td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;</code></td>
+<td><code>Button</code></td>
+<td>Label goes in the <code>title</code> prop, not as children</td>
+</tr>
+<tr>
+<td><code>&lt;input&gt;</code></td>
+<td><code>TextInput</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;img&gt;</code></td>
+<td><code>Image</code></td>
+<td>Needs a <code>source</code> prop</td>
+</tr>
+<tr>
+<td><code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code></td>
+<td><code>View</code> + <code>Text</code></td>
+<td>Lists get their own component later</td>
+</tr>
+</tbody>
+</table>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

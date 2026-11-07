@@ -1,0 +1,1251 @@
+[
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "Why does the Week 5 note use FlatList instead of ScrollView with .map() for a long list?",
+  "opts": [
+   "FlatList renders only a window of rows around the screen and recycles rows; ScrollView renders every child at once.",
+   "ScrollView cannot hold more than 100 children.",
+   "FlatList sorts the data automatically.",
+   "ScrollView does not scroll on Android."
+  ],
+  "ex": "ScrollView + map()은 1,000개면 1,000개를 한 번에 다 그려요. FlatList는 화면 근처(window)만 그리고, 스크롤하면서 행을 재활용해요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Why Lists?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#why-lists"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "Which three props does the note say \"do the work\" in a FlatList?",
+  "opts": [
+   "data, renderItem, keyExtractor",
+   "data, map, key",
+   "items, render, id",
+   "source, renderRow, keyProp"
+  ],
+  "ex": "data = 배열, renderItem = 한 행이 어떻게 생겼는지, keyExtractor = 각 행을 구별하는 방법. .map()과 key prop은 쓰지 않아요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-flatlist"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "This row shows nothing. Why?",
+  "code": "renderItem={(item) => <Text>{item.name}</Text>}",
+  "opts": [
+   "renderItem receives an object, and the row's data is in its item property, so it should be ({ item }).",
+   "Text cannot be returned from renderItem.",
+   "renderItem must return a View, not a Text.",
+   "item.name must be converted with toString()."
+  ],
+  "ex": "renderItem은 { item, index }가 들어 있는 객체를 받아요. 그래서 ({ item })처럼 구조분해해야 진짜 데이터가 나와요. (item)으로 받으면 item.name은 undefined.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-flatlist"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "The data has numeric ids: { id: 7, title: 'Hi' }. Which keyExtractor is correct?",
+  "opts": [
+   "keyExtractor={(item) => item.id.toString()}",
+   "keyExtractor={(item) => item.id}",
+   "keyExtractor={({ item }) => item.id.toString()}",
+   "keyExtractor={item.id}"
+  ],
+  "ex": "keyExtractor는 문자열을 돌려줘야 해요. 숫자면 .toString(). 그리고 keyExtractor는 item을 그대로 받아요. ({ item }) 구조분해는 renderItem 쪽 문법이에요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-flatlist"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "Why does the container around a FlatList need flex: 1?",
+  "opts": [
+   "A FlatList scrolls inside the space its parent gives it, and with no height it gets none.",
+   "flex: 1 turns on windowing.",
+   "Without it the rows are rendered in reverse order.",
+   "flex: 1 is required by keyExtractor."
+  ],
+  "ex": "FlatList는 부모가 준 공간 안에서 스크롤해요. 부모 높이가 0이면 보이는 공간도 0이에요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-flatlist"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 1,
+  "q": "With 1,000 rows, the console logs about 100 rows on load, not 10. Why?",
+  "opts": [
+   "FlatList renders a window windowSize screens tall (default 21), about ten screens below the top.",
+   "FlatList always renders exactly 100 rows.",
+   "console.log runs ten times per row.",
+   "The phone screen shows 100 rows."
+  ],
+  "ex": "\"화면에 보이는 것만\"은 단순화예요. 기본 windowSize 21 = 위 10화면 + 지금 화면 + 아래 10화면. 맨 위에서는 아래 10화면, 화면당 10행이라 약 100행.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-flatlist"
+   },
+   {
+    "label": "E-Lists/working-with-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Sorting",
+  "level": 1,
+  "q": "Why copy the array with [...fruits] before sorting?",
+  "code": "const visible = [...fruits].sort((a, b) => a.name.localeCompare(b.name));",
+  "opts": [
+   ".sort() sorts in place, and the original array (or state) must not be changed.",
+   ".sort() only works on copies.",
+   "The spread makes sorting faster.",
+   "FlatList needs a new array every second."
+  ],
+  "ex": ".sort()는 원본을 직접 바꿔요(제자리 정렬). 원본은 그대로 둬야 하고, state는 절대 직접 바꾸면 안 돼요. 그래서 복사본을 정렬해요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Sorting and Filtering",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-sorting-and-filtering"
+   },
+   {
+    "label": "E-Lists/sorting-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Sorting",
+  "level": 1,
+  "q": "In the sorting example, what is kept in state?",
+  "opts": [
+   "Only the sort direction (and later the search text); the sorted array is derived on every render.",
+   "The sorted array, so it is not recalculated.",
+   "Both the sorted array and the original array.",
+   "Nothing; sorting does not use state."
+  ],
+  "ex": "visible은 state가 아니라 매 렌더마다 계산해서 만들어요. 그래서 동기화할 게 없어요. state는 '방향'과 '검색어' 같은 원재료만.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Sorting and Filtering",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-sorting-and-filtering"
+   },
+   {
+    "label": "E-Lists/sorting-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Sorting",
+  "level": 1,
+  "q": "How does the note sort numbers, for example by price?",
+  "opts": [
+   "Subtract: a.price - b.price",
+   "a.price.localeCompare(b.price)",
+   "a.price > b.price",
+   "Math.sort(a.price, b.price)"
+  ],
+  "ex": "문자열은 localeCompare, 숫자는 빼기. 빼기 결과가 음수면 a가 앞으로 와요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Sorting and Filtering",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-sorting-and-filtering"
+   },
+   {
+    "label": "E-Lists/sorting-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Sorting",
+  "level": 1,
+  "q": "When does ListEmptyComponent render?",
+  "opts": [
+   "Only when data is an empty array.",
+   "While the data is loading.",
+   "When the user scrolls past the last row.",
+   "When keyExtractor returns undefined."
+  ],
+  "ex": "data가 빈 배열일 때만 보여요. 검색 결과 0개, API가 [] 반환한 경우 모두 이걸로 처리해요. 빈 화면은 고장 난 것처럼 보이니까 꼭 메시지를 줘요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Sorting and Filtering",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-sorting-and-filtering"
+   },
+   {
+    "label": "E-Lists/sorting-lists",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Fetching",
+  "level": 1,
+  "q": "The API answers 404. Without a res.ok check, what happens?",
+  "opts": [
+   "fetch still resolves, because a 404 is a response; it only rejects when the network fails.",
+   "fetch rejects and .catch() runs.",
+   "React Native retries the request.",
+   "The app shows a red error screen."
+  ],
+  "ex": "fetch는 네트워크가 끊겼을 때만 reject. 404, 500도 '응답은 왔다'예요. 그래서 if (!res.ok) throw new Error(...)로 직접 catch로 보내요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Fetching List Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-fetching-list-data"
+   },
+   {
+    "label": "E-Lists/fetching-list-data",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Fetching",
+  "level": 1,
+  "q": "Why is setLoading(false) placed in .finally()?",
+  "opts": [
+   ".finally() runs after success or failure, so the spinner always goes away.",
+   ".finally() runs before the request starts.",
+   ".then() cannot call setters.",
+   ".finally() makes the request faster."
+  ],
+  "ex": ".then() 안에 두면 실패했을 때 스피너가 영원히 돌아요. .finally()는 성공이든 실패든 실행돼요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Fetching List Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-fetching-list-data"
+   },
+   {
+    "label": "E-Lists/fetching-list-data",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Fetching",
+  "level": 1,
+  "q": "The code checks if (loading) before if (error). What does the user see after pressing Try Again?",
+  "opts": [
+   "The spinner, even though error is still set.",
+   "The error message, because error is still set.",
+   "A blank screen.",
+   "The old list."
+  ],
+  "ex": "retry()가 setLoading(true)를 하고, loading을 먼저 검사하니까 스피너가 나와요. 조기 return의 순서가 화면을 결정해요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Fetching List Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-fetching-list-data"
+   },
+   {
+    "label": "E-Lists/fetching-list-data",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Fetching",
+  "level": 1,
+  "q": "Why does loadPosts() return the fetch chain (return fetch(URL)...)?",
+  "opts": [
+   "So the caller can wait on it, for example with .finally(() => setLoading(false)).",
+   "Because a function without return cannot call fetch.",
+   "So React re-renders twice.",
+   "Because useEffect requires a returned promise."
+  ],
+  "ex": "Promise를 돌려줘야 밖에서 .finally()를 붙일 수 있어요. useEffect는 오히려 promise를 돌려주면 안 돼요(정리 함수만).",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Fetching List Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-fetching-list-data"
+   },
+   {
+    "label": "E-Lists/fetching-list-data",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "List & Detail",
+  "level": 1,
+  "q": "The note passes the whole post as a param. When should you pass only the id instead?",
+  "code": "onPress={() => navigation.navigate('Details', { post: item })}",
+  "opts": [
+   "For big records: params should be small and serializable, so pass the id and let the detail screen fetch the rest.",
+   "Always; objects cannot be params.",
+   "Never; the detail screen cannot fetch.",
+   "Only on Android."
+  ],
+  "ex": "post 하나는 괜찮아요. 큰 데이터는 id만 넘기고 상세 화면에서 fetch해요. Lab 5 Q5가 바로 id + name만 넘기는 버전이에요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: List and Detail",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-list-and-detail"
+   },
+   {
+    "label": "E-Lists/lists-and-detail-views",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "List & Detail",
+  "level": 1,
+  "q": "How does the Details screen show the post's title in its header?",
+  "opts": [
+   "options={({ route }) => ({ title: route.params.post.title })} on its Stack.Screen",
+   "<Stack.Screen name={post.title} />",
+   "headerShown: post.title",
+   "navigation.title = post.title"
+  ],
+  "ex": "options를 함수로 쓰면 route를 받아서 params에서 제목을 꺼낼 수 있어요. name을 바꾸면 라우트 이름 자체가 바뀌어요(Test2 Q4 감점 포인트).",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: List and Detail",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-list-and-detail"
+   },
+   {
+    "label": "E-Lists/lists-and-detail-views",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Pull to Refresh",
+  "level": 1,
+  "q": "Which FlatList props add pull to refresh?",
+  "opts": [
+   "refreshing and onRefresh",
+   "onPull and loading",
+   "refreshControl and onScroll",
+   "pullToRefresh={true}"
+  ],
+  "ex": "refreshing(지금 새로고침 중인지 boolean) + onRefresh(당기면 부를 함수). 제스처 코드는 직접 안 써요. 웹 미리보기에서는 당기기가 안 돼요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Pull to Refresh",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-pull-to-refresh"
+   },
+   {
+    "label": "E-Lists/pull-to-refresh",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "Pull to Refresh",
+  "level": 1,
+  "q": "Why show \"Updated ...\" with ListHeaderComponent instead of a Text above the FlatList?",
+  "opts": [
+   "ListHeaderComponent scrolls with the list; a Text above the FlatList stays fixed.",
+   "A Text above a FlatList is not allowed.",
+   "ListHeaderComponent refreshes the data.",
+   "It makes the list load faster."
+  ],
+  "ex": "헤더 컴포넌트는 목록의 일부라 같이 스크롤돼요. Lab 5 Q3, Q6에서 이걸 요구해요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Example: Pull to Refresh",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#example-pull-to-refresh"
+   },
+   {
+    "label": "E-Lists/pull-to-refresh",
+    "href": "https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Pressable",
+  "level": 1,
+  "q": "Why use Pressable instead of Button for a card or a custom button?",
+  "opts": [
+   "Button cannot be styled; Pressable has no look of its own, so it can be anything.",
+   "Button does not have onPress.",
+   "Pressable is faster on the web.",
+   "Button is deprecated."
+  ],
+  "ex": "Button은 모양을 못 바꿔요. Pressable은 생김새가 없어서 버튼, 카드, 목록 행 무엇이든 될 수 있어요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Pressable",
+  "level": 1,
+  "q": "Which style prop gives instant pressed feedback?",
+  "opts": [
+   "style={({ pressed }) => [styles.button, pressed && styles.pressed]}",
+   "style={[styles.button, styles.pressed]}",
+   "pressedStyle={styles.pressed}",
+   "onPress={() => setStyle(styles.pressed)}"
+  ],
+  "ex": "Pressable의 style은 함수가 될 수 있어요. 손가락이 닿는 순간 pressed가 true. 배열은 왼쪽부터 적용되고, false는 무시돼요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Pressable",
+  "level": 1,
+  "q": "A quick tap fires which events, in order?",
+  "opts": [
+   "onPressIn, onPressOut, onPress",
+   "onPress, onPressIn, onPressOut",
+   "onPressIn, onPress, onPressOut",
+   "onPress only"
+  ],
+  "ex": "손가락이 닿고(In), 떨어지고(Out), 그다음에야 탭(onPress)이 확정돼요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Pressable",
+  "level": 1,
+  "q": "The user holds for half a second, then lifts. Which events fire?",
+  "opts": [
+   "onPressIn, onLongPress, onPressOut (no onPress)",
+   "onPressIn, onLongPress, onPressOut, onPress",
+   "onLongPress, onPress",
+   "onPressIn, onPressOut, onPress"
+  ],
+  "ex": "길게 누르기는 탭을 대체해요. 더해지는 게 아니에요. 그래서 onPress는 안 불리고, 탭 카운트도 안 올라가요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Pressable",
+  "level": 1,
+  "q": "On a phone, the user presses, slides the finger off the button, and lets go. What fires?",
+  "opts": [
+   "onPressIn and onPressOut only; sliding off cancels the press.",
+   "onPressIn, onPressOut, onPress",
+   "onLongPress",
+   "Nothing at all"
+  ],
+  "ex": "손가락이 버튼 밖으로 나가면 누르기가 취소돼요. 이번 주의 첫 번째 '취소 가능한 제스처'예요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Hit Slop",
+  "level": 1,
+  "q": "A 24 x 24 icon gets hitSlop={20}. What changes?",
+  "opts": [
+   "The touch area becomes 64 x 64; the layout does not move.",
+   "The icon is drawn 64 x 64.",
+   "20 points of padding are added inside.",
+   "Nothing on a phone; it only works on the web."
+  ],
+  "ex": "hitSlop은 보이는 크기는 그대로, 터치 영역만 사방으로 넓혀요. 24 + 20 + 20 = 64. 웹 미리보기는 hitSlop을 무시해요. 목표 크기 기준: iOS 44, Android 48.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Hit Slop",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-hit-slop"
+   },
+   {
+    "label": "F-Touch/handling-touch",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "ScrollView",
+  "level": 1,
+  "q": "What is the difference between style and contentContainerStyle on a horizontal ScrollView?",
+  "opts": [
+   "contentContainerStyle styles the content inside, so its padding scrolls with the cards; style pads the window around them.",
+   "They are the same prop.",
+   "contentContainerStyle only works on Android.",
+   "style makes it horizontal."
+  ],
+  "ex": "contentContainerStyle = 안쪽 내용물 스타일(같이 스크롤). style = 바깥 창 스타일. 가로 스크롤은 horizontal prop 하나로 돼요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: ScrollView",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-scrollview"
+   },
+   {
+    "label": "F-Touch/scrolling",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "ScrollView",
+  "level": 1,
+  "q": "Which nesting does the note warn about?",
+  "opts": [
+   "A scroll view inside one that scrolls the same way, like a FlatList inside a vertical ScrollView.",
+   "A horizontal ScrollView inside a vertical ScrollView.",
+   "A Text inside a ScrollView.",
+   "A Pressable inside a FlatList."
+  ],
+  "ex": "방향이 다르면(세로 안에 가로) 괜찮아요. 같은 방향끼리 겹치면 드래그마다 싸우고, FlatList는 뭐가 화면에 있는지 몰라서 경고해요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: ScrollView",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-scrollview"
+   },
+   {
+    "label": "F-Touch/scrolling",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Selectable rows",
+  "level": 1,
+  "q": "What does this update do?",
+  "code": "setSelected((prev) => ({ ...prev, [id]: !prev[id] }));",
+  "opts": [
+   "Copies the previous object and flips only that one id, using the updater form.",
+   "Replaces the whole object with one id.",
+   "Adds id to an array.",
+   "Deletes every selected id."
+  ],
+  "ex": "이전 객체를 복사(...prev)하고 [id] 하나만 뒤집어요. 이전 값에 의존하니까 updater 형태. Test2 Q6에서 배열 [...prev]로 써서 감점된 부분과 비교해 보세요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable Rows in a FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable-rows-in-a-flatlist"
+   },
+   {
+    "label": "F-Touch/scrolling",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Selectable rows",
+  "level": 1,
+  "q": "Why pass extraData={selected} to the FlatList?",
+  "opts": [
+   "Rows read state from outside data, so FlatList must know they also depend on selected.",
+   "extraData stores the selection for you.",
+   "It makes the list scroll faster.",
+   "It is needed for keyExtractor."
+  ],
+  "ex": "FlatList는 props가 그대로면 행을 다시 안 그릴 수 있어요. 선택해도 data는 안 바뀌니까 extraData로 알려줘요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable Rows in a FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable-rows-in-a-flatlist"
+   },
+   {
+    "label": "F-Touch/scrolling",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Selectable rows",
+  "level": 1,
+  "q": "A user puts a finger on a row and starts scrolling. What happens to the row's press?",
+  "opts": [
+   "It is cancelled; a finger that moves is a scroll, so the row is not tapped.",
+   "The row is tapped and the list scrolls.",
+   "The list does not scroll.",
+   "onLongPress fires."
+  ],
+  "ex": "손가락이 안 움직이고 떨어지면 탭, 움직이면 스크롤. 스크롤이 시작되면 행 누르기는 취소돼요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Pressable Rows in a FlatList",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-pressable-rows-in-a-flatlist"
+   },
+   {
+    "label": "F-Touch/scrolling",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Drag & snap",
+  "level": 1,
+  "q": "Why is the Animated.Value kept in useRef?",
+  "code": "const translateX = useRef(new Animated.Value(0)).current;",
+  "opts": [
+   "useRef keeps the same object for the component's whole life; written directly it would be a new value back at 0 on every render.",
+   "useRef makes the animation smoother.",
+   "Animated.Value only works with useRef on Android.",
+   "useRef re-renders the component on every frame."
+  ],
+  "ex": "useRef는 한 번만 만들고 계속 같은 걸 줘요. 바뀌어도 리렌더를 일으키지 않아요. 그냥 쓰면 렌더할 때마다 0으로 초기화돼요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Drag and Snap Back",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-drag-and-snap-back"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Drag & snap",
+  "level": 1,
+  "q": "What does this rule do?",
+  "code": "onMoveShouldSetPanResponder: (_, gesture) => Math.abs(gesture.dx) > 10",
+  "opts": [
+   "The card takes the gesture only after 10 points of sideways movement, so taps and vertical scrolls are left alone.",
+   "It limits the drag to 10 points.",
+   "It moves the card 10 points on every touch.",
+   "It cancels every swipe."
+  ],
+  "ex": "옆으로 10포인트 이상 움직였을 때만 제스처를 가져가요. 그래야 탭이나 세로 스크롤을 빼앗지 않아요(제스처 우선순위).",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Drag and Snap Back",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-drag-and-snap-back"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Drag & snap",
+  "level": 1,
+  "q": "What does useNativeDriver: true do in Animated.spring?",
+  "opts": [
+   "Runs the animation on the native side, so it stays smooth even when JavaScript is busy.",
+   "Uses the phone's GPS.",
+   "Makes the animation run only on iOS.",
+   "Turns off the bounce."
+  ],
+  "ex": "애니메이션을 네이티브 쪽에서 돌려서 JS가 바빠도 부드러워요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Drag and Snap Back",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-drag-and-snap-back"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Drag & snap",
+  "level": 1,
+  "q": "Why is setDismissed(true) called inside .start(() => ...)?",
+  "opts": [
+   "The callback runs when the animation ends, so the state changes after the card has left.",
+   ".start() requires a callback.",
+   "To run the animation twice.",
+   "So the card snaps back."
+  ],
+  "ex": ".start()의 콜백은 애니메이션이 끝났을 때 실행돼요. 카드가 다 날아간 뒤에 상태를 바꿔요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Drag and Snap Back",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-drag-and-snap-back"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Swipe to delete",
+  "level": 1,
+  "q": "Why is MessageRow declared at the top level, not inside MyApp?",
+  "opts": [
+   "A component declared inside another is a new component on every render, so rows would be rebuilt and lose their swipe position.",
+   "Components inside MyApp cannot receive props.",
+   "Swipeable only works at the top level of App.js.",
+   "It makes the list sort correctly."
+  ],
+  "ex": "안에서 선언하면 렌더마다 '새 컴포넌트'가 돼서 React가 옛 행을 버리고 새로 만들어요. 그러면 스와이프 위치를 잃어요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Swipe to Delete",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-swipe-to-delete"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Swipe to delete",
+  "level": 1,
+  "q": "What must wrap the app for react-native-gesture-handler to work?",
+  "opts": [
+   "GestureHandlerRootView, once, around the whole app.",
+   "NavigationContainer",
+   "A ScrollView",
+   "Animated.View"
+  ],
+  "ex": "Gesture Handler는 이 루트 뷰 안에서만 동작해요. 앱 전체를 한 번 감싸요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Swipe to Delete",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-swipe-to-delete"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Swipe to delete",
+  "level": 1,
+  "q": "Why does the note delete on a tap of the Delete button instead of using onSwipeableOpen?",
+  "opts": [
+   "Deleting is destructive, so it takes two deliberate actions; a slightly long swipe should not lose a message.",
+   "onSwipeableOpen does not exist.",
+   "onSwipeableOpen only works on iOS.",
+   "Taps are faster than swipes."
+  ],
+  "ex": "되돌릴 수 없는 동작은 '스와이프로 버튼 보이기 + 탭' 두 번의 의도가 필요해요. 바로 실행은 archive처럼 되돌릴 수 있는 동작에만.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Swipe to Delete",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-swipe-to-delete"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Swipe to delete",
+  "level": 1,
+  "q": "Why does the row have backgroundColor: 'white'?",
+  "opts": [
+   "The delete button sits underneath the row; a transparent row would show it before any swipe.",
+   "Swipeable requires a white row.",
+   "White rows are easier to tap.",
+   "To match the iOS theme."
+  ],
+  "ex": "삭제 버튼이 행 '밑에' 깔려 있어서, 배경이 투명하면 스와이프 전부터 버튼이 비쳐 보여요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Example: Swipe to Delete",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#example-swipe-to-delete"
+   },
+   {
+    "label": "F-Touch/swipe-cancel",
+    "href": "https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location",
+  "level": 1,
+  "q": "Why not write useEffect(async () => { ... }, [])?",
+  "code": "useEffect(() => {\n  async function getLocation() { /* await ... */ }\n  getLocation();\n}, []);",
+  "opts": [
+   "An effect may only return a clean-up function, and an async function always returns a promise.",
+   "await is not allowed in React Native.",
+   "async functions run before the first render.",
+   "expo-location only works inside named functions."
+  ],
+  "ex": "effect는 정리 함수만 돌려줄 수 있어요. async 함수는 무조건 Promise를 돌려줘요. 그래서 안에 async 함수를 만들고 바로 불러요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Where Am I?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-where-am-i"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location",
+  "level": 1,
+  "q": "What does requestForegroundPermissionsAsync ask for?",
+  "opts": [
+   "Location while the app is open.",
+   "Location while the app is closed.",
+   "Access to the camera.",
+   "Permission to show a map."
+  ],
+  "ex": "Foreground = 앱이 열려 있을 때. 백그라운드 위치는 추가 설정과 스토어 심사가 필요해서 이번 주는 안 다뤄요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Where Am I?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-where-am-i"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location",
+  "level": 1,
+  "q": "What does coords.accuracy mean?",
+  "opts": [
+   "A radius in metres: the phone is somewhere inside that circle.",
+   "The number of satellites.",
+   "How many decimals the latitude has.",
+   "A score from 0 to 1."
+  ],
+  "ex": "accuracy는 미터 단위 반경이에요. 실내, 창가, 웹(와이파이 위치)마다 값이 달라요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Where Am I?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-where-am-i"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location",
+  "level": 1,
+  "q": "What does reverseGeocodeAsync return?",
+  "opts": [
+   "An array of possible addresses, best first, so the code keeps places[0].",
+   "One address string.",
+   "A latitude and longitude.",
+   "A map region."
+  ],
+  "ex": "좌표를 주소로 바꿔요. 결과는 배열이라 첫 번째를 써요. 필드가 null일 수 있고, 웹에서는 동작하지 않아요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Where Am I?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-where-am-i"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Live location",
+  "level": 1,
+  "q": "What does the clean-up of a watchPositionAsync effect do?",
+  "opts": [
+   "Calls subscription.remove() so the GPS watch stops when the screen closes.",
+   "Asks for permission again.",
+   "Resets the map region.",
+   "Nothing; watches stop by themselves."
+  ],
+  "ex": "watch가 계속 돌면 GPS가 켜진 채로 배터리를 써요. clean-up에서 remove()로 꼭 멈춰요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Live Location",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-live-location"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Live location",
+  "level": 1,
+  "q": "What is the cancelled flag in the Live Location effect for?",
+  "opts": [
+   "If the screen closes while the permission dialog is still open, the watch that starts later is removed straight away.",
+   "To cancel the permission dialog.",
+   "To stop the map from moving.",
+   "To count the updates."
+  ],
+  "ex": "clean-up이 subscription이 생기기 '전에' 실행될 수 있어요(경쟁 상황). 나중에 watch가 시작되면 cancelled를 보고 바로 지워요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Live Location",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-live-location"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Live location",
+  "level": 1,
+  "q": "How does the Pause button stop the watch?",
+  "opts": [
+   "The effect depends on [tracking]; changing it runs the clean-up, then the effect returns early when tracking is false.",
+   "It calls Location.pause().",
+   "It unmounts the whole app.",
+   "It sets distanceInterval to 0."
+  ],
+  "ex": "tracking이 바뀌면 React가 clean-up(remove) 실행 후 effect를 다시 실행해요. 첫 줄 if (!tracking) return;에서 새 watch 없이 끝나요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Live Location",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-live-location"
+   },
+   {
+    "label": "G-Geolocation/handuser-loc",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Maps",
+  "level": 1,
+  "q": "A MapView renders as nothing. What is the most likely cause?",
+  "opts": [
+   "It has no size; give it a style like flex: 1.",
+   "It needs an API key in Expo Go.",
+   "Markers are missing.",
+   "initialRegion is too small."
+  ],
+  "ex": "지도는 자기 크기가 없어요. flex: 1로 채워야 보여요. Expo Go에서는 API 키가 필요 없어요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Your First Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-your-first-map"
+   },
+   {
+    "label": "G-Geolocation/disp-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Maps",
+  "level": 1,
+  "q": "You change latitudeDelta and longitudeDelta from 0.01 to 0.002. What happens?",
+  "opts": [
+   "The map zooms in, because a smaller delta fits fewer degrees on screen.",
+   "The map zooms out.",
+   "The map moves north.",
+   "Nothing; deltas are ignored."
+  ],
+  "ex": "delta = 화면에 들어가는 위도/경도 범위. 작을수록 확대. 0.01도 위도 = 약 1km.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Your First Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-your-first-map"
+   },
+   {
+    "label": "G-Geolocation/disp-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Maps",
+  "level": 1,
+  "q": "How does the Find Me button move the map to the user?",
+  "opts": [
+   "A ref on the MapView, then mapRef.current.animateToRegion(region, 1000).",
+   "Setting initialRegion to the new position.",
+   "followsUserLocation, which works on both platforms.",
+   "navigation.navigate('Map', { region })"
+  ],
+  "ex": "initialRegion은 시작 위치만 정해요. 나중에 바꿔도 안 움직여요. ref로 지도 자체를 잡고 animateToRegion을 불러요. followsUserLocation은 Apple Maps 전용.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Your First Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-your-first-map"
+   },
+   {
+    "label": "G-Geolocation/disp-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Maps",
+  "level": 1,
+  "q": "Why does the Your First Map example request permission before using showsUserLocation?",
+  "opts": [
+   "On Android, showsUserLocation fails silently unless the app already has location permission.",
+   "showsUserLocation asks for permission by itself on every platform.",
+   "Without permission the map cannot render.",
+   "It is only needed on the web."
+  ],
+  "ex": "Android에서는 권한이 없으면 파란 점이 조용히 안 나와요. 그래서 expo-location으로 먼저 권한을 받고 그 결과를 state로 넘겨요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Your First Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-your-first-map"
+   },
+   {
+    "label": "G-Geolocation/disp-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Markers",
+  "level": 1,
+  "q": "Which import is correct for a map with markers?",
+  "opts": [
+   "import MapView, { Marker } from \"react-native-maps\";",
+   "import { MapView, Marker } from \"react-native-maps\";",
+   "import MapView from \"react-native-maps/Marker\";",
+   "import Marker, { MapView } from \"react-native-maps\";"
+  ],
+  "ex": "MapView는 default export(중괄호 없음), Marker와 Polygon은 named export(중괄호).",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Campus Markers",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-campus-markers"
+   },
+   {
+    "label": "G-Geolocation/work-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Markers",
+  "level": 1,
+  "q": "How do you hide the map's own places on both iOS and Android?",
+  "opts": [
+   "Use both showsPointsOfInterest={false} (Apple Maps) and customMapStyle (Google Maps).",
+   "showsPointsOfInterest={false} works on both.",
+   "customMapStyle works on both.",
+   "Remove all Markers."
+  ],
+  "ex": "각 prop은 한쪽 플랫폼에서만 동작해요. 둘 다 써야 양쪽에서 숨겨져요. Lab 6 Part 1에서 이걸 주석으로 설명하라고 해요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Campus Markers",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-campus-markers"
+   },
+   {
+    "label": "G-Geolocation/work-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Markers",
+  "level": 1,
+  "q": "Why does the note show the selected campus in a card instead of changing the pin colour?",
+  "opts": [
+   "Changing pinColor on a marker that is already drawn does not update on Android, so it is not reliable.",
+   "Markers do not have a pinColor prop.",
+   "Cards are required by react-native-maps.",
+   "pinColor only works on the web."
+  ],
+  "ex": "pinColor는 한 번만 정하세요. 이미 그려진 마커에서 바꾸면 Android에서 안 바뀌어요. 그래서 선택 피드백은 카드로.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Campus Markers",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-campus-markers"
+   },
+   {
+    "label": "G-Geolocation/work-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Drawing",
+  "level": 1,
+  "q": "In the Drawing on the Map example, why is the user's Polygon only drawn when points.length >= 3?",
+  "opts": [
+   "A polygon needs at least three points to have an area.",
+   "Polygons crash with more than 3 points.",
+   "The first two taps are ignored by MapView.",
+   "Markers need three points."
+  ],
+  "ex": "면적이 있으려면 점이 최소 3개. 그래서 && 로 3개가 될 때까지 기다려요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Drawing on the Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-drawing-on-the-map"
+   },
+   {
+    "label": "G-Geolocation/work-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Drawing",
+  "level": 1,
+  "q": "Where is the tapped coordinate in the MapView onPress event?",
+  "opts": [
+   "e.nativeEvent.coordinate",
+   "e.coordinate",
+   "e.target.value",
+   "e.nativeEvent.region"
+  ],
+  "ex": "onPress, onLongPress 모두 e.nativeEvent.coordinate에 위도/경도가 있어요. Lab 6 Part 5에서도 똑같이 써요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Example: Drawing on the Map",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#example-drawing-on-the-map"
+   },
+   {
+    "label": "G-Geolocation/work-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Maps",
+  "level": 1,
+  "q": "Which preview do you use to test a react-native-maps example?",
+  "opts": [
+   "My Device with Expo Go; react-native-maps has no web version.",
+   "Web, because it is fastest.",
+   "Any preview; maps work everywhere.",
+   "Only the iOS simulator."
+  ],
+  "ex": "지도 예제는 웹 미리보기에서 에러가 나요. 휴대폰 Expo Go로 확인해야 해요. 위치(expo-location) 예제는 웹에서도 되지만 정확도가 낮아요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Maps",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#maps"
+   },
+   {
+    "label": "G-Geolocation/disp-maps",
+    "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
+   }
+  ]
+ }
+]

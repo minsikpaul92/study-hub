@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WEB530 Test 1 – Sample Programming Question: Class Poll · WEB530</title><meta name="description" content="WEB530 Test 1 – Sample Programming Question: Class Poll · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>WEB530 Test 1 – Sample Programming Question: Class Poll</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#before-you-start">Before you start</a></li><li class="l2"><a href="#starter">Starter</a></li><li class="l2"><a href="#scenario">Scenario</a></li><li class="l2"><a href="#part-a-votebutton-5-marks">Part A – VoteButton (5 marks)</a></li><li class="l2"><a href="#part-b-poll-display-and-myapp-5-marks">Part B – Poll display and MyApp (5 marks)</a></li><li class="l2"><a href="#part-c-voting-8-marks">Part C – Voting (8 marks)</a></li><li class="l2"><a href="#part-d-open-timer-and-closing-6-marks">Part D – Open timer and closing (6 marks)</a></li><li class="l2"><a href="#checking-your-work">Checking your work</a></li></ol></nav>
+<article class="md"><h1 id="web530-test-1-sample-programming-question-class-poll">WEB530 Test 1 – Sample Programming Question: Class Poll <a class="anchor" aria-label="링크" href="#web530-test-1-sample-programming-question-class-poll">#</a></h1>
+<p>This is a practice question in the same format, length and difficulty as the programming question on Test 1. The test uses a different scenario, so do not memorise this one. Practise the skills: a stateless child with props, a default value and PropTypes; a parent that owns state; a controlled <code>TextInput</code>; conditional rendering with a ternary; <code>map</code> with a <code>key</code>; the function form of a state setter; and a <code>useEffect</code> with a timer and a cleanup.</p>
+<p>Total: 24 marks. Suggested time: 35 minutes.</p>
+<h2 id="before-you-start">Before you start <a class="anchor" aria-label="링크" href="#before-you-start">#</a></h2>
+<ul>
+<li>Open the React Native shell Snack at https://snack.expo.dev/@nick-romanidis/react-native-shell, delete everything in <code>App.js</code>, and paste in the starter below. The <strong>Web</strong> preview is enough. Nothing here needs <code>Alert</code> or a phone.</li>
+<li>Use the course notes. Every part below describes <em>behaviour</em>, not code. Code copied from the notes without adapting it will not meet the requirements.</li>
+<li>Do <strong>not</strong> use the Context API, Jotai, or class components. Do <strong>not</strong> add <code>StyleSheet</code> or any <code>style</code> prop other than the one on the outer <code>ScrollView</code>.</li>
+<li>On the test you will not be able to log in to Expo or save the Snack, so get used to working in an unsaved Snack and copying <code>App.js</code> somewhere safe every few minutes.</li>
+</ul>
+<h2 id="starter">Starter <a class="anchor" aria-label="링크" href="#starter">#</a></h2>
+<p>The <code>ScrollView</code> lets the screen scroll if the content gets tall, and the one <code>style</code> on it pushes your content below the phone's clock. Leave both as they are and add your components above <code>MyApp</code>. Fill in the imports as you need them.</p>
+<pre class="hl"><code class="language-jsx"><span class="c1">//import {  } from 'react';</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ScrollView</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">questions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s1">'Should Lab 3 be due on a Friday?'</span><span class="p">,</span>
+<span class="w">  </span><span class="s1">'Do you want a review session before the test?'</span><span class="p">,</span>
+<span class="p">];</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">ScrollView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Part B: one Poll for every question (see below) */</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">ScrollView</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="scenario">Scenario <a class="anchor" aria-label="링크" href="#scenario">#</a></h2>
+<p>You are building a quick class poll screen. Each poll asks one question. A student types their name, then presses a button to vote Yes, No or Maybe. The screen shows how long each poll has been open. The instructor can close a poll, after which no more votes are accepted.</p>
+<h2 id="part-a-votebutton-5-marks">Part A – <code>VoteButton</code> (5 marks) <a class="anchor" aria-label="링크" href="#part-a-votebutton-5-marks">#</a></h2>
+<p>Create a functional component called <code>VoteButton</code> with these props:</p>
+<ul>
+<li><code>choice</code> – string, required</li>
+<li><code>onVote</code> – function, required</li>
+<li><code>label</code> – string, optional, defaults to <code>Vote</code></li>
+</ul>
+<p>It renders a single <code>Button</code>:</p>
+<ul>
+<li>The title is <code>LABEL CHOICE</code>, for example <code>Vote Yes</code>, or <code>Pick Yes</code> if <code>label=&quot;Pick&quot;</code> was passed.</li>
+<li>When pressed, it calls <code>onVote</code> and passes <code>choice</code> as the argument.</li>
+</ul>
+<p><code>VoteButton</code> has <strong>no state of its own</strong>. Declare PropTypes for all three props that match the list above, including whether each is required.</p>
+<h2 id="part-b-poll-display-and-myapp-5-marks">Part B – <code>Poll</code> display and <code>MyApp</code> (5 marks) <a class="anchor" aria-label="링크" href="#part-b-poll-display-and-myapp-5-marks">#</a></h2>
+<p>Create a functional component called <code>Poll</code> with one prop:</p>
+<ul>
+<li><code>question</code> – string</li>
+</ul>
+<p>For now, <code>Poll</code> renders:</p>
+<ul>
+<li>A <code>Text</code> showing the question.</li>
+<li>A <code>Text</code> reading <code>No votes yet.</code></li>
+<li>Three <code>VoteButton</code>s with the choices <code>Yes</code>, <code>No</code> and <code>Maybe</code>, in that order.</li>
+</ul>
+<p>In <code>MyApp</code>, replace the comment inside the <code>ScrollView</code> so that it renders one <code>Poll</code> for each element of the <code>questions</code> array from the starter. Do not write <code>&lt;Poll&gt;</code> twice by hand. React will warn about a missing <code>key</code> if you forget it. PropTypes are only required on <code>VoteButton</code>.</p>
+<h2 id="part-c-voting-8-marks">Part C – Voting (8 marks) <a class="anchor" aria-label="링크" href="#part-c-voting-8-marks">#</a></h2>
+<p>Add voting to <code>Poll</code>. <code>Poll</code> owns all of the state. <code>VoteButton</code> still has none.</p>
+<ul>
+<li>Add a <code>TextInput</code> with the placeholder <code>Voter name</code>. It must be a controlled input backed by state.</li>
+<li>While the name is empty, the three <code>VoteButton</code>s are <strong>not rendered</strong>. In their place is a <code>Text</code> reading <code>Enter your name to vote.</code> As soon as a name is typed, the <code>Text</code> disappears and the three buttons appear.</li>
+<li>Pressing a <code>VoteButton</code> adds one to the vote count and records the last vote as <code>NAME voted CHOICE</code>, for example <code>Sam voted Maybe</code>.</li>
+<li>The <code>No votes yet.</code> <code>Text</code> from Part B now reads <code>Votes: N. Last: NAME voted CHOICE</code> once at least one vote has been cast. Before the first vote it still reads <code>No votes yet.</code></li>
+</ul>
+<h2 id="part-d-open-timer-and-closing-6-marks">Part D – Open timer and closing (6 marks) <a class="anchor" aria-label="링크" href="#part-d-open-timer-and-closing-6-marks">#</a></h2>
+<p>Add a timer to <code>Poll</code> that shows how long the poll has been open, and a way to close it.</p>
+<ul>
+<li>A <code>Text</code> reads <code>Open for N seconds</code>, starting at 0 and going up by one every second. Use <code>useEffect</code> with <code>setInterval</code>. The effect must return a cleanup function that cancels the interval.</li>
+<li>A <code>Button</code> titled <code>Close poll</code>. Pressing it <strong>closes</strong> the poll.</li>
+<li>Once closed, the timer stops and the <code>Text</code> reads <code>Closed after N seconds with M votes</code>, or <code>Closed after N seconds. No votes.</code> if nobody voted.</li>
+<li>Once closed, the three <code>VoteButton</code>s are not rendered even if a name is typed. In their place is a <code>Text</code> reading <code>Voting has ended.</code> The <code>Close poll</code> button is disabled.</li>
+<li>There are two polls on screen. Each must have its own independent timer and its own votes.</li>
+</ul>
+<h2 id="checking-your-work">Checking your work <a class="anchor" aria-label="링크" href="#checking-your-work">#</a></h2>
+<ul>
+<li>With no name typed, you see <code>Enter your name to vote.</code> and no vote buttons. Type a name and the three buttons replace it. Delete the name and the message comes back.</li>
+<li>Vote <code>Yes</code> then <code>Maybe</code>. The text reads <code>Votes: 2. Last: NAME voted Maybe</code>.</li>
+<li>Press <code>Close poll</code> on the first poll. Its timer freezes, the vote buttons are replaced by <code>Voting has ended.</code>, and <code>Close poll</code> greys out. The second poll keeps counting and still accepts votes.</li>
+<li>Try <code>&lt;VoteButton choice=&quot;Yes&quot; onVote={handleVote} label=&quot;Pick&quot; /&gt;</code> once to confirm the default works, then put it back.</li>
+<li>Check the browser console. There should be no red errors and no warning about a missing <code>key</code>.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

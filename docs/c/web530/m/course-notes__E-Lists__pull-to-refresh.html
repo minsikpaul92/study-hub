@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pull to Refresh · WEB530</title><meta name="description" content="Pull to Refresh · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Pull to Refresh</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#introduction">Introduction</a></li><li class="l2"><a href="#how-pull-to-refresh-works">How Pull to Refresh Works</a></li><li class="l2"><a href="#basic-pulltorefresh-example">Basic Pull‑to‑Refresh Example</a></li><li class="l2"><a href="#pull-to-refresh-with-api-data">Pull to Refresh with API Data</a></li><li class="l2"><a href="#best-practices">Best Practices</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh</a></p>
+<h1 id="pull-to-refresh">Pull to Refresh <a class="anchor" aria-label="링크" href="#pull-to-refresh">#</a></h1>
+<h2 id="introduction">Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h2>
+<p>Mobile users expect lists to stay up‑to‑date. Whether checking email, refreshing a news feed, or reloading product data, the most common pattern is <strong>pull to refresh</strong>: the user drags downward at the top of a list to trigger a reload.</p>
+<p>React Native provides built‑in support for this pattern through the <code>FlatList</code> component. You do <strong>not</strong> need to detect gestures manually — the list handles the pull gesture for you.</p>
+<h2 id="how-pull-to-refresh-works">How Pull to Refresh Works <a class="anchor" aria-label="링크" href="#how-pull-to-refresh-works">#</a></h2>
+<p><code>FlatList</code> exposes two props that enable pull‑to‑refresh:</p>
+<ol>
+<li><code>refreshing</code> - A boolean that tells React Native whether the list is currently refreshing. When <code>true</code>, the list shows a spinner at the top.</li>
+<li><code>onRefresh</code> - A function that is called when the user performs the pull‑to‑refresh gesture.</li>
+</ol>
+<p>Together, they look like this:</p>
+<pre class="hl"><code class="language-text">&lt;FlatList data={items} refreshing={refreshing} onRefresh={loadData} /&gt;
+</code></pre>
+<p>React Native handles the gesture. You handle the data.</p>
+<p>💡 Pulling to refresh needs a touch screen, so it doesn't work in the web preview of the examples below. Run an example and switch the preview to <strong>iOS</strong> or <strong>Android</strong>, or choose <strong>My Device</strong> and open it in Expo Go.</p>
+<h2 id="basic-pulltorefresh-example">Basic Pull‑to‑Refresh Example <a class="anchor" aria-label="링크" href="#basic-pulltorefresh-example">#</a></h2>
+<p>The example below shows how to refresh a list of items using a simulated network request.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [items, setItems] = useState(['Apple', 'Banana', 'Cherry']);
+  const [refreshing, setRefreshing] = useState(false);
+
+  function loadData() {
+    setRefreshing(true);
+
+    // Simulate a network request
+    setTimeout(() =&gt; {
+      setItems((prev) =&gt; [...prev, 'New Item ' + (prev.length + 1)]);
+      setRefreshing(false);
+    }, 1200);
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;FlatList
+        data={items}
+        keyExtractor={(item) =&gt; item}
+        refreshing={refreshing}
+        onRefresh={loadData}
+        renderItem={({ item }) =&gt; (
+          &lt;View style={styles.row}&gt;
+            &lt;Text style={styles.text}&gt;{item}&lt;/Text&gt;
+          &lt;/View&gt;
+        )}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60 },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  text: { fontSize: 18 },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="pull-to-refresh-with-api-data">Pull to Refresh with API Data <a class="anchor" aria-label="링크" href="#pull-to-refresh-with-api-data">#</a></h2>
+<p>Pull‑to‑refresh becomes most useful when combined with remote data. Here is a version that fetches posts from an API and reloads them when the user pulls down.</p>
+<pre class="hl"><code class="language-text">import { useState, useEffect } from 'react';
+import { View, Text, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
+
+export default function App() {
+  const [posts, setPosts] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  function loadPosts() {
+    return fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((res) =&gt; res.json())
+      .then((json) =&gt; setPosts(json));
+  }
+
+  useEffect(() =&gt; {
+    // finally() runs after success or failure, so loading always ends.
+    loadPosts().finally(() =&gt; setLoading(false));
+  }, []);
+
+  function refresh() {
+    setRefreshing(true);
+    loadPosts().finally(() =&gt; setRefreshing(false));
+  }
+
+  if (loading) {
+    return (
+      &lt;View style={styles.center}&gt;
+        &lt;ActivityIndicator size="large" /&gt;
+        &lt;Text&gt;Loading posts…&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  return (
+    &lt;FlatList
+      style={styles.container}
+      data={posts}
+      keyExtractor={(item) =&gt; item.id.toString()}
+      refreshing={refreshing}
+      onRefresh={refresh}
+      renderItem={({ item }) =&gt; (
+        &lt;View style={styles.row}&gt;
+          &lt;Text style={styles.title}&gt;{item.title}&lt;/Text&gt;
+          &lt;Text style={styles.body}&gt;{item.body}&lt;/Text&gt;
+        &lt;/View&gt;
+      )}
+    /&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60 },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  title: { fontSize: 18, fontWeight: '600' },
+  body: { fontSize: 14, color: '#555', marginTop: 4 },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="best-practices">Best Practices <a class="anchor" aria-label="링크" href="#best-practices">#</a></h2>
+<ol>
+<li>Keep refresh actions fast - Users expect refresh to complete quickly. If your API is slow, show a spinner and consider caching.</li>
+<li>Avoid refreshing on every screen load - Use pull‑to‑refresh for manual reloads. Use <code>useEffect</code> for initial loads.</li>
+<li>Do not modify <code>refreshing</code> directly - Always set it to <code>true</code> before loading and <code>false</code> after.</li>
+<li>Keep the UI responsive - Never block the UI thread. Use async functions or promises.</li>
+<li>Combine with pagination if needed - Pull‑to‑refresh reloads the top of the list. Pagination loads more items at the bottom.</li>
+</ol>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

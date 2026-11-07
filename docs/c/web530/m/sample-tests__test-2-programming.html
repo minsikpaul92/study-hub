@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WEB530 Test 2 – Practice Programming Question: Quick Workout · WEB530</title><meta name="description" content="WEB530 Test 2 – Practice Programming Question: Quick Workout · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>WEB530 Test 2 – Practice Programming Question: Quick Workout</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#before-you-start">Before you start</a></li><li class="l2"><a href="#starter">Starter</a></li><li class="l2"><a href="#scenario">Scenario</a></li><li class="l2"><a href="#part-a-stack-navigation-9-marks-1-each">Part A – Stack navigation (9 marks, 1 each)</a></li><li class="l2"><a href="#part-b-shared-state-with-jotai-9-marks">Part B – Shared state with Jotai (9 marks)</a></li><li class="l2"><a href="#part-c-styling-in-stylesjs-7-marks-1-each">Part C – Styling in styles.js (7 marks, 1 each)</a></li><li class="l2"><a href="#checking-your-work">Checking your work</a></li></ol></nav>
+<article class="md"><h1 id="web530-test-2-practice-programming-question-quick-workout">WEB530 Test 2 – Practice Programming Question: Quick Workout <a class="anchor" aria-label="링크" href="#web530-test-2-practice-programming-question-quick-workout">#</a></h1>
+<p>This is a practice question for Test 2. It is <strong>harder and longer than the test</strong> on purpose. It combines everything the test covers into one app, so if you can finish this, the test questions will feel familiar.</p>
+<p><strong>How the test is different.</strong> The test has <strong>three shorter programming questions</strong>, not one big one. Each focuses on one of the three parts below: sharing state with Jotai, styling in <code>styles.js</code>, and stack navigation. Each test question comes with its own starter Snack, already set up with the right <code>package.json</code> and files. You copy your answer into the answer box. The test uses different scenarios, so do not memorise this one. Practise the skills.</p>
+<p>Total: 25 marks. Suggested time: 45 minutes. The test's three questions together are shorter than this.</p>
+<h2 id="before-you-start">Before you start <a class="anchor" aria-label="링크" href="#before-you-start">#</a></h2>
+<ul>
+<li>Open the React Native shell Snack at https://snack.expo.dev/@nick-romanidis/react-native-shell. Keep it on SDK 54, the default.</li>
+<li>Replace everything in <code>package.json</code> with the <code>package.json</code> below.</li>
+<li>Add a new file named <code>styles.js</code> next to <code>App.js</code>, and paste in the <code>styles.js</code> below.</li>
+<li>Replace everything in <code>App.js</code> with the <code>App.js</code> below.</li>
+<li>The <strong>Web</strong> preview is enough for this question.</li>
+<li>Use the course notes at https://seneca-ictoer.github.io/WEB530/ and CSS-Tricks' <em>A Complete Guide to Flexbox</em> at https://css-tricks.com/snippets/css/a-guide-to-flexbox/. The guide uses CSS names. In React Native they are camelCase (<code>justify-content</code> becomes <code>justifyContent</code>), and <code>flexDirection</code> starts as <code>&quot;column&quot;</code>.</li>
+<li>Every part below describes <em>behaviour</em>, not code. Do not use the Context API, and do not pass the workout data as props.</li>
+<li>On the test you will not be able to log in to Expo or save the Snack, so practise working in an unsaved Snack and copying your files somewhere safe every few minutes.</li>
+</ul>
+<h2 id="starter">Starter <a class="anchor" aria-label="링크" href="#starter">#</a></h2>
+<p><em>package.json</em></p>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"@expo/vector-icons"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^15.0.3"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-paper"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.9.2"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-screens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~4.16.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@react-navigation/native"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^7.0.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@react-navigation/native-stack"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^7.0.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-safe-area-context"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~5.6.0"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"jotai"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@types/react"</span><span class="p">:</span><span class="w"> </span><span class="s2">"*"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><em>styles.js</em></p>
+<pre class="hl"><code class="language-js"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">screen</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">gap</span><span class="o">:</span><span class="w"> </span><span class="mf">12</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="c1">// Part C: add your styles below this line.</span>
+<span class="p">});</span>
+</code></pre>
+<p><em>App.js</em></p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+<span class="c1">// Add your navigation and Jotai imports here.</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./styles'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">EXERCISES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Squats'</span><span class="p">,</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="s1">'15 reps'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Push-ups'</span><span class="p">,</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="s1">'10 reps'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Lunges'</span><span class="p">,</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="s1">'12 reps each leg'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Plank'</span><span class="p">,</span><span class="w"> </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="s1">'45 seconds'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">HomeScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">rest</span><span class="p">,</span><span class="w"> </span><span class="nx">setRest</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="mf">30</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">completed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Part B: count the finished exercises from the atom.</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">screen</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Quick</span><span class="w"> </span><span class="nx">Workout</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="nx">Completed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">completed</span><span class="p">}</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="p">{</span><span class="nx">EXERCISES</span><span class="p">.</span><span class="nx">length</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">settingRow</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Rest</span><span class="w"> </span><span class="nx">between</span><span class="w"> </span><span class="nx">exercises</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">stepper</span><span class="p">}&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"-"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setRest</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">10</span><span class="p">)}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">restValue</span><span class="p">}&gt;{</span><span class="nx">rest</span><span class="p">}</span><span class="w"> </span><span class="nx">s</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"+"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setRest</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">10</span><span class="p">)}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Reset progress"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"View workout"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">WorkoutScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span><span class="w"> </span><span class="c1">// Part B: use the list of finished exercises from the atom.</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">screen</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">EXERCISES</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">exercise</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">isDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">done</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">index</span><span class="p">);</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">,</span><span class="w"> </span><span class="nx">isDone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardDone</span><span class="p">]}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">badge</span><span class="p">}&gt;</span>
+<span class="w">              </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">badgeText</span><span class="p">}&gt;{</span><span class="nx">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardName</span><span class="p">}&gt;{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardDetail</span><span class="p">,</span><span class="w"> </span><span class="nx">isDone</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardDetailDone</span><span class="p">]}&gt;</span>
+<span class="w">              </span><span class="p">{</span><span class="nx">isDone</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">'Done'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">exercise</span><span class="p">.</span><span class="nx">detail</span><span class="p">}</span>
+<span class="w">            </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">);</span>
+<span class="w">      </span><span class="p">})}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Start"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">ExerciseScreen</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span><span class="w"> </span><span class="c1">// Part A: use the index from the params.</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">rest</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30</span><span class="p">;</span><span class="w"> </span><span class="c1">// Part B: use the rest time from the atom.</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">isDone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w"> </span><span class="c1">// Part B: true when this exercise is in the atom's list.</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">exercise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">EXERCISES</span><span class="p">[</span><span class="nx">index</span><span class="p">];</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">isLast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="nx">EXERCISES</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">screen</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="nx">Exercise</span><span class="w"> </span><span class="p">{</span><span class="nx">index</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">}</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="p">{</span><span class="nx">EXERCISES</span><span class="p">.</span><span class="nx">length</span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">exercise</span><span class="p">.</span><span class="nx">detail</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">isLast</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">'Last one!'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="sb">`Then rest for </span><span class="si">${</span><span class="nx">rest</span><span class="si">}</span><span class="sb"> seconds.`</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">isDone</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">'Done'</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">'Mark done'</span><span class="p">}</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">isDone</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">isLast</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Finish"</span><span class="w"> </span><span class="p">/&gt;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Next exercise"</span><span class="w"> </span><span class="p">/&gt;}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Previous exercise"</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">0</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Back to workout"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">HomeScreen</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="scenario">Scenario <a class="anchor" aria-label="링크" href="#scenario">#</a></h2>
+<p>A short workout app. The Home screen shows your progress and lets you set the rest time between exercises. The Workout screen lists the four exercises and marks the finished ones. The Exercise screen takes you through the exercises one at a time.</p>
+<p>Every screen and button already exists, and every style is already applied in <code>App.js</code>. Nothing works yet: there is no navigator, the rest time lives in Home's own <code>useState</code>, and <code>styles.js</code> is empty apart from <code>screen</code>.</p>
+<p>When you finish, Home and Workout should look like this. This Workout screen shows exercises 1 and 3 marked done.</p>
+<p><img src="images/test-2-practice-home.png" alt="Home screen" /> <img src="images/test-2-practice-workout.png" alt="Workout screen with two exercises done" /></p>
+<h2 id="part-a-stack-navigation-9-marks-1-each">Part A – Stack navigation (9 marks, 1 each) <a class="anchor" aria-label="링크" href="#part-a-stack-navigation-9-marks-1-each">#</a></h2>
+<p>Between them, your buttons use <code>navigate</code>, <code>push</code>, <code>goBack</code>, <code>popTo</code> and <code>popToTop</code>. Choosing the right one for each is part of the question. Watch the back arrow in the header to check your work.</p>
+<ol>
+<li>Create a stack navigator outside every component.</li>
+<li>Register three screens named exactly <code>Home</code>, <code>Workout</code> and <code>Exercise</code>, using the three screen components. The app opens on <code>Home</code>.</li>
+<li><strong>View workout</strong> opens the <code>Workout</code> screen.</li>
+<li><strong>Start</strong> opens the first exercise. Pass its position in the array as a param named <code>index</code> (the first exercise is 0).</li>
+<li><code>ExerciseScreen</code> reads <code>index</code> from the params instead of always using 0. If there are no params, it uses 0.</li>
+<li><strong>Next exercise</strong> opens the next exercise <strong>on top of</strong> the current one. From exercise 3, the back arrow returns to exercise 2.</li>
+<li><strong>Previous exercise</strong> returns to the previous exercise, the same as the back arrow.</li>
+<li><strong>Back to workout</strong> returns to the <code>Workout</code> screen already in the stack, in one press, from any exercise. Afterwards, the back arrow on <code>Workout</code> goes to <code>Home</code>.</li>
+<li><strong>Finish</strong>, on the last exercise, returns to <code>Home</code> in one press. <code>Home</code> has no back arrow afterwards.</li>
+</ol>
+<h2 id="part-b-shared-state-with-jotai-9-marks">Part B – Shared state with Jotai (9 marks) <a class="anchor" aria-label="링크" href="#part-b-shared-state-with-jotai-9-marks">#</a></h2>
+<p>All three screens share one atom. No workout data is passed as a prop or a param.</p>
+<ul>
+<li><strong>(1)</strong> Create <strong>one</strong> atom named <code>workoutAtom</code>, outside every component. It holds an object with two fields: <code>rest</code>, which starts as <code>30</code>, and <code>done</code>, an array of the indexes of finished exercises, which starts empty.</li>
+<li><strong>(2)</strong> Replace the <code>useState</code> in <code>HomeScreen</code> with the atom. <strong>+</strong> adds 10 to <code>rest</code> and <strong>-</strong> subtracts 10. Every update to the atom uses the function form, <code>setWorkout((prev) =&gt; ...)</code>, and keeps the other field.</li>
+<li><strong>(1)</strong> <code>rest</code> never goes below 10 or above 60. <strong>-</strong> is disabled at 10, and <strong>+</strong> is disabled at 60.</li>
+<li><strong>(1)</strong> Home shows <code>Completed: N of 4</code>, where N is the number of finished exercises.</li>
+<li><strong>(2)</strong> <strong>Mark done</strong> adds the current exercise's index to <code>done</code> without losing <code>rest</code>. The same index is never added twice. Once an exercise is done, its button reads <strong>Done</strong> and is disabled, even if you come back to it later.</li>
+<li><strong>(1)</strong> <code>WorkoutScreen</code> reads <code>done</code> from the atom, so finished exercises show <strong>Done</strong> on their cards. <code>ExerciseScreen</code> reads <code>rest</code> from the atom, so the rest time you set on Home appears there.</li>
+<li><strong>(1)</strong> <strong>Reset progress</strong> on Home empties <code>done</code> and keeps <code>rest</code>. It is disabled when nothing is done.</li>
+</ul>
+<h2 id="part-c-styling-in-stylesjs-7-marks-1-each">Part C – Styling in styles.js (7 marks, 1 each) <a class="anchor" aria-label="링크" href="#part-c-styling-in-stylesjs-7-marks-1-each">#</a></h2>
+<p>Change <code>styles.js</code> only. Every style name below is already applied in <code>App.js</code>, so the names must match exactly. A misspelled name is ignored, and that part of the screen will not change. Compare your screens with the pictures above.</p>
+<ol>
+<li><strong>Title.</strong> <code>title</code> is size 24 and bold.</li>
+<li><strong>Setting row.</strong> In <code>settingRow</code>, the label and the stepper sit side by side on one line, pushed to opposite ends and centred vertically. It has 12 padding, a light grey background (<code>#f3f4f6</code>) and corners rounded by 8.</li>
+<li><strong>Stepper.</strong> In <code>stepper</code>, the <strong>-</strong> button, the value and the <strong>+</strong> button sit side by side, centred vertically, 8 apart. <code>restValue</code> is 48 wide, bold, with its text centred.</li>
+<li><strong>Card.</strong> In <code>card</code>, the badge, the exercise name and the detail sit side by side, centred vertically, 12 apart. The card has 12 padding, a 1-pixel border in <code>#d1d5db</code> and corners rounded by 8.</li>
+<li><strong>Finished card.</strong> <code>cardDone</code> gives a finished card a light green background (<code>#dcfce7</code>) and a green border (<code>#16a34a</code>). <code>App.js</code> adds it after <code>card</code>, so it overrides the border colour.</li>
+<li><strong>Badge.</strong> <code>badge</code> is a blue (<code>#2563eb</code>) circle, 32 wide and 32 high, with the number centred both across and down. <code>badgeText</code> is white and bold.</li>
+<li><strong>Name and detail.</strong> <code>cardName</code> takes all the space left in the card, which pushes the detail to the right edge. <code>cardDetail</code> is grey (<code>#6b7280</code>). <code>cardDetailDone</code> makes the <strong>Done</strong> text green (<code>#16a34a</code>) and bold.</li>
+</ol>
+<h2 id="checking-your-work">Checking your work <a class="anchor" aria-label="링크" href="#checking-your-work">#</a></h2>
+<ul>
+<li>The app opens on <strong>Home</strong> with <code>Completed: 0 of 4</code>, <code>30 s</code>, and <strong>Reset progress</strong> greyed out.</li>
+<li>Press <strong>+</strong> three times. It stops at <code>60 s</code> and <strong>+</strong> greys out. Press <strong>-</strong> until it stops at <code>10 s</code>.</li>
+<li>Set the rest to <code>20 s</code>, press <strong>View workout</strong>, then <strong>Start</strong>. The exercise screen says <code>Then rest for 20 seconds.</code></li>
+<li>Press <strong>Mark done</strong> on Squats. It changes to <strong>Done</strong> and greys out. Press <strong>Next exercise</strong> twice, then the back arrow. You are on exercise 2, not the Workout screen.</li>
+<li>Press <strong>Next exercise</strong> to get back to Lunges, mark it done, then press <strong>Back to workout</strong>. Cards 1 and 3 are green with <strong>Done</strong>, and the back arrow goes to Home.</li>
+<li>Go to the last exercise. <strong>Next exercise</strong> is replaced by <strong>Finish</strong>, which takes you to Home with no back arrow. Home shows <code>Completed: 2 of 4</code> and still <code>20 s</code>.</li>
+<li>Press <strong>Reset progress</strong>. Home shows <code>Completed: 0 of 4</code>, the rest time stays at <code>20 s</code>, and the button greys out.</li>
+<li>Check the browser console. There should be no red errors and no warning about a missing <code>key</code>.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Event Handling · WEB530</title><meta name="description" content="Event Handling · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Event Handling</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#event-handlers">Event Handlers</a></li><li class="l2"><a href="#synthetic-events">Synthetic Events</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/B-Components/events" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/B-Components/events</a></p>
+<h1 id="event-handling">Event Handling <a class="anchor" aria-label="링크" href="#event-handling">#</a></h1>
+<h2 id="event-handlers">Event Handlers <a class="anchor" aria-label="링크" href="#event-handlers">#</a></h2>
+<p>An <strong>event handler</strong> is a callback function that is triggered once an event takes place. For example, this could be a button click or when the value of a text box is changed. In React, we can configure event handlers on components by modifying the JSX. Let's take a look at a simple example. When the button is clicked, the status is changed from <code>Waiting</code> to <code>Clicked</code>.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function App() {
+  const [status, setStatus] = useState('Waiting');
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Status: {status}&lt;/Text&gt;
+      &lt;Button title="Click Me" onPress={(e) =&gt; setStatus('Clicked')} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>You can see that an event handler is attached within the JSX by adding the appropriate attribute. In the previous example, we have added <code>onPress={(e) =&gt; setStatus('Clicked')}</code> to the <code>&lt;Button&gt;</code> component. The handler is defined inline using arrow function syntax.</p>
+<p>When you assign an event handler, React adds the handler to an internal dictionary of events and functions. Tracking events in this way allows React to keep the declarative UI structures separate from the platform we are running on. For example, if we are running our App in a browser, events are not attached to the underlying DOM element. Instead, there is a single event handler on the root of the app. Once fired, an event <strong>bubbles up</strong> through the tree to the root. React sees the event, checks its internal mapping, then runs the appropriate function. It may seem like a lot of effort but the benefits are plentiful. Since we don't rely on the DOM (or the specifics of the OS), we can wire up events using the same method on all platforms.</p>
+<p>As we just learned, we will define events directly in our JSX markup. React uses a declarative approach for setting up event handlers. An advantage to this approach is that event handlers in JSX markup are part of the UI structure. If you compare this to something like JQuery, in JQuery you write imperative code that selects the relevant DOM element and attaches event handler functions. You are left no choice but to track down code that assigns event handlers making debugging and understanding program flow more difficult.</p>
+<p>In the code example above, the event handler was coded inline within the JSX using arrow function syntax. This is handy if your function is simple but there are times when you need to perform multiple operations or add complex logic. In these cases, you can move the handler logic to a separate function, then call that function instead.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function App() {
+  const [status, setStatus] = useState('Waiting');
+
+  const buttonClicked = () =&gt; {
+    // Do a bunch of things here.
+    setStatus('Clicked');
+  };
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Status: {status}&lt;/Text&gt;
+      &lt;Button title="Click Me" onPress={buttonClicked} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>It is also possible to pass arguments to event handlers. In the following code example, we are rendering a list of buttons using the objects contained in the <code>players</code> array. When a button is clicked, the text is replaced to include the name of the player object associated to the button that was clicked. This code example combines many of the topics we have learned so far.</p>
+<pre class="hl"><code class="language-text">import { Component } from 'react';
+import { View, Text, Button } from 'react-native';
+
+class PlayerList extends Component {
+  // Initially, the user has not picked their favourite player.
+  state = {
+    favouritePlayer: null,
+  };
+
+  // Event handler for the button onPress event.
+  // We only define a single function, it will handle the onPress
+  // event for all of the buttons. It accepts an argument.
+  onPlayerSelected(number) {
+    // Find the object associated to the number of the player.
+    const { name } = this.props.players.find((i) =&gt; i.number === number);
+
+    this.setState({ favouritePlayer: name });
+  }
+
+  render() {
+    const { favouritePlayer } = this.state;
+
+    // Conditionally render the &lt;Text&gt; element.
+    let text;
+
+    if (favouritePlayer) text = &lt;Text&gt;Your favourite player is {favouritePlayer}&lt;/Text&gt;;
+    else text = &lt;Text&gt;Choose your favourite player ...&lt;/Text&gt;;
+
+    return (
+      &lt;View&gt;
+        {text}
+        {this.props.players.map(({ number, name }) =&gt; (
+          // We must bind the event handler context in order for the function to access the
+          // component, specifically the setState() function. In addition, pass the player.number
+          // as an argument to the handler.
+          &lt;Button key={number} title={name} onPress={this.onPlayerSelected.bind(this, number)} /&gt;
+        ))}
+      &lt;/View&gt;
+    );
+  }
+}
+
+export default function App() {
+  // An array of objects passed to the &lt;PlayerList&gt; component as a
+  // prop called players. Each player object will render its own &lt;Button&gt;
+  const players = [
+    { number: 34, name: 'Auston Matthews' },
+    { number: 91, name: 'John Tavares' },
+    { number: 63, name: 'Matias Maccelli' },
+  ];
+
+  return &lt;PlayerList players={players} /&gt;;
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="synthetic-events"><strong>Synthetic Events</strong> <a class="anchor" aria-label="링크" href="#synthetic-events">#</a></h2>
+<p>We discovered that events are bubbled up and handled by an internal mapping system. This allows for a more uniform approach for handling events that can be shared across different browsers or devices. React wraps each native event in an object with the same interface on every platform. These wrapped events are called <strong>synthetic events</strong>.</p>
+<p>💡 <strong>Event pooling (older React only)</strong>
+You may read in older tutorials that React reuses (&quot;pools&quot;) synthetic event objects, so reading <code>e.target</code> inside asynchronous code fails. React 17 removed event pooling. In current React and React Native, an event object keeps its properties for as long as your code needs them.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

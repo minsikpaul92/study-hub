@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 6 - Location and Maps · WEB530</title><meta name="description" content="Lab 6 - Location and Maps · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Lab 6 - Location and Maps</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-note-on-ai">A Note on AI</a></li><li class="l2"><a href="#overview">Overview</a></li><li class="l2"><a href="#setup">Setup</a></li><li class="l2"><a href="#styling-rules">Styling Rules</a></li><li class="l2"><a href="#running-your-app">Running Your App</a></li><li class="l2"><a href="#submission">Submission</a></li><li class="l2"><a href="#part-1---the-map-1-point">Part 1 - The Map (1 point)</a></li><li class="l2"><a href="#part-2---park-here-1-point">Part 2 - Park Here (1 point)</a></li><li class="l2"><a href="#part-3---the-address-1-point">Part 3 - The Address (1 point)</a></li><li class="l2"><a href="#part-4---how-far-is-the-car-1-point">Part 4 - How Far Is the Car? (1 point)</a></li><li class="l2"><a href="#part-5---fix-the-spot-and-go-home-1-point">Part 5 - Fix the Spot and Go Home (1 point)</a></li></ol></nav>
+<article class="md"><h1 id="lab-6---location-and-maps">Lab 6 - Location and Maps <a class="anchor" aria-label="링크" href="#lab-6---location-and-maps">#</a></h1>
+<h2 id="a-note-on-ai">A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h2>
+<p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every part yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished Snack. It is being able to ask for someone's location at the right moment, put it on a map, and stop using it when you are done.</p>
+<h2 id="overview">Overview <a class="anchor" aria-label="링크" href="#overview">#</a></h2>
+<p>You build one app, <strong>Park It</strong>, that remembers where you left your car. Each part adds to it. Plan for about 45 minutes.</p>
+<ul>
+<li>Part 1 puts a map behind the starter's info card.</li>
+<li>Parts 2 and 3 save your spot with the GPS and look up its address.</li>
+<li>Part 4 tells you how far away the car is as you walk.</li>
+<li>Part 5 lets you fix the spot by hand and clear it when you are back.</li>
+</ul>
+<p>Because every part builds on the one before, do them in order. Your submitted Snack shows the finished app, and it is marked against all five parts.</p>
+<h2 id="setup">Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h2>
+<ol>
+<li>Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.</li>
+<li>Rename the Snack to <code>WEB530 Lab 6 - Your Name</code> (click the name at the top left).</li>
+<li>Keep Snack on SDK 54 (the default).</li>
+<li>In the file list on the left, add a new file named <code>styles.js</code> in the same folder as <code>App.js</code>.</li>
+<li>Replace the contents of <code>package.json</code>, <code>App.js</code> and <code>styles.js</code> with the three starter files below.</li>
+<li>Click <strong>Save</strong> so the Snack gets a permanent link.</li>
+</ol>
+<p>Starter for <code>package.json</code>:</p>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"react-native-paper"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.9.2"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@expo/vector-icons"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^15.0.3"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"expo-location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~19.0.8"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-maps"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.20.1"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>Starter for <code>App.js</code>:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"./styles"</span><span class="p">;</span>
+
+<span class="c1">// Where the map starts: Newnham Campus.</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">START</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.79457</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.35043</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">latitudeDelta</span><span class="o">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">longitudeDelta</span><span class="o">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// Straight-line distance between two { latitude, longitude } points, in metres.</span>
+<span class="c1">// You do not need to change this function. Part 4 uses it.</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">distanceInMetres</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">6371000</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">toRad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">deg</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nx">deg</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">180</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">dLat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">toRad</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">latitude</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">latitude</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">dLon</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">toRad</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">longitude</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">longitude</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">h</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">dLat</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="o">+</span>
+<span class="w">    </span><span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">toRad</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">latitude</span><span class="p">))</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="nb">Math</span><span class="p">.</span><span class="nx">cos</span><span class="p">(</span><span class="nx">toRad</span><span class="p">(</span><span class="nx">b</span><span class="p">.</span><span class="nx">latitude</span><span class="p">))</span><span class="w"> </span><span class="o">*</span>
+<span class="w">      </span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">dLon</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2</span><span class="p">)</span><span class="w"> </span><span class="o">**</span><span class="w"> </span><span class="mf">2</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">R</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">asin</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="nx">h</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardHint</span><span class="p">}&gt;</span>
+<span class="w">          </span><span class="nx">Press</span><span class="w"> </span><span class="nx">Park</span><span class="w"> </span><span class="nx">Here</span><span class="w"> </span><span class="nx">when</span><span class="w"> </span><span class="nx">you</span><span class="w"> </span><span class="nx">leave</span><span class="w"> </span><span class="nx">your</span><span class="w"> </span><span class="nx">car</span><span class="p">.</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonRow</span><span class="p">}&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Pressable</span>
+<span class="w">            </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
+<span class="w">          </span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&gt;</span><span class="nx">Park</span><span class="w"> </span><span class="nx">Here</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">Pressable</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Pressable</span>
+<span class="w">            </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
+<span class="w">          </span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&gt;</span><span class="nx">I</span>'<span class="nx">m</span><span class="w"> </span><span class="nx">Back</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">Pressable</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>Starter for <code>styles.js</code>:</p>
+<pre class="hl"><code class="language-js"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">map</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">card</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="s2">"absolute"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">bottom</span><span class="o">:</span><span class="w"> </span><span class="mf">40</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardTitle</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardHint</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"red"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">buttonRow</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flexDirection</span><span class="o">:</span><span class="w"> </span><span class="s2">"row"</span><span class="p">,</span><span class="w"> </span><span class="nx">gap</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">12</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">button</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#2196F3"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#1565C0"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">disabled</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#BDBDBD"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">buttonText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<p>The card already floats over the bottom of the screen with <code>position: &quot;absolute&quot;</code>, as in the week 7 map examples. Every style you need is already in <code>styles.js</code>, so you can spend the lab on location and maps.</p>
+<h2 id="styling-rules">Styling Rules <a class="anchor" aria-label="링크" href="#styling-rules">#</a></h2>
+<ul>
+<li>Every style is in <code>styles.js</code>. There are <strong>no</strong> inline <code>style={{ ... }}</code> objects anywhere in <code>App.js</code>. A <code>Pressable</code> style function that returns an array of styles, like the starter's, is fine.</li>
+<li>You may add styles if you want to, but only in <code>styles.js</code>, and with names that describe what they are for.</li>
+</ul>
+<h2 id="running-your-app">Running Your App <a class="anchor" aria-label="링크" href="#running-your-app">#</a></h2>
+<ul>
+<li>This lab runs on a phone. Choose <strong>My Device</strong> and open the Snack in Expo Go. The <strong>Web</strong> preview cannot show a map: <code>react-native-maps</code> has no web version.</li>
+<li>If your phone will not connect, Snack's <strong>Android</strong> tab runs an emulator in the browser. It works for every part, but its location is fixed in Oshawa and never moves, so Part 4 can only show a change when you move the car.</li>
+<li>Expo Go remembers your answer to the permission dialog for Expo Go, not for each Snack. If you allowed location for the week 7 examples, you will not see the dialog again. Part 2 tells you how to test the &quot;no&quot; answer anyway.</li>
+</ul>
+<h2 id="submission">Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h2>
+<ul>
+<li>Submit <strong>one</strong> Snack link to the <code>Lab 6</code> assessment in Blackboard. After you save, the link looks like <code>https://snack.expo.dev/@yourname/web530-lab-6-...</code>.</li>
+<li>The lab is due at the end of class. Submit before you leave.</li>
+<li>Only students who participate in class and hand in a lab slip can receive marks for this lab. If you miss the class, you are still encouraged to complete it as practice.</li>
+<li>Before submitting, save one last time and open your link in a private browser window to confirm it loads without signing in.</li>
+</ul>
+<h2 id="part-1---the-map-1-point">Part 1 - The Map (1 point) <a class="anchor" aria-label="링크" href="#part-1---the-map-1-point">#</a></h2>
+<p>Put a map behind the card.</p>
+<ul>
+<li>The map fills the whole screen and starts at <code>START</code>.</li>
+<li>The card and its buttons sit on top of the map.</li>
+<li>The map's own places (restaurants, shops, schools) are hidden on <strong>both</strong> iOS and Android, so the only pin on the map will be your car.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Add a comment above the props that hide the places explaining, in your own words, why it takes two props to do it.</li>
+</ul>
+<p>Hint: The map needs a size, or it renders as nothing. Whatever comes later in the JSX draws on top.</p>
+<h2 id="part-2---park-here-1-point">Part 2 - Park Here (1 point) <a class="anchor" aria-label="링크" href="#part-2---park-here-1-point">#</a></h2>
+<p>Pressing <code>Park Here</code> saves where you are standing.</p>
+<ul>
+<li>The app asks for location permission when the user presses <code>Park Here</code>, <strong>not</strong> when the app opens. Add a comment above your function explaining, in your own words, why that is the better moment to ask.</li>
+<li>If the user says no, the card shows a message in the <code>error</code> style that says what the app needs and what the user can do instead. Suggest long-pressing the map, which you add in Part 5. The map keeps working.</li>
+<li>If the user says yes:
+<ul>
+<li>The blue dot for the user appears on the map.</li>
+<li>The app gets the current position and drops a <code>Marker</code> there with the title <code>My car</code> and the description <code>Saved at</code> and the time, for example <code>Saved at 7:44:50 PM</code>.</li>
+<li>The map glides to the car and zooms in, with both deltas at <code>0.005</code>.</li>
+</ul>
+</li>
+<li>While the app is finding you, the button reads <code>Finding you...</code>, is disabled, and uses the <code>disabled</code> style. It goes back to <code>Park Here</code> when it is done, whether it worked or not.</li>
+<li>If getting the position fails, for example because location is turned off on the phone, the card shows <code>Could not get your location. Is location turned on?</code>.</li>
+<li>Pressing <code>Park Here</code> again moves the car to where you are now. There is only ever one car marker, and an old error message disappears.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>One piece of state, <code>spot</code>, holds the car as <code>{ latitude, longitude, time }</code>, where <code>time</code> is <code>new Date()</code>. It starts as <code>null</code>.</li>
+<li>Use <code>try</code> / <code>catch</code> around the position request, and <code>animateToRegion</code> on a ref to move the map.</li>
+<li>Test the &quot;no&quot; answer. On Android, choose <strong>Don't allow</strong> the first time the dialog appears. If you already allowed location, temporarily change <code>&quot;granted&quot;</code> in your permission check to <code>&quot;nope&quot;</code>, so the app acts as though the user said no. Put it back afterwards.</li>
+</ul>
+<p>Hint: This is the Your First Map example from the week 7 notes, with the permission request moved into the button. <code>showsUserLocation</code> only works on Android once permission has been granted, so it needs its own state.</p>
+<h2 id="part-3---the-address-1-point">Part 3 - The Address (1 point) <a class="anchor" aria-label="링크" href="#part-3---the-address-1-point">#</a></h2>
+<p>Coordinates mean nothing to someone looking for their car. Show the address in the card.</p>
+<ul>
+<li>When a spot is saved, the card's first line, in the <code>cardTitle</code> style, is the street number, street and city, for example <code>915 Grandview Street North, Oshawa</code>. The second line, in the <code>cardText</code> style, is <code>Saved at</code> and the time.</li>
+<li>While the address is being looked up, the first line reads <code>Looking up the address...</code>. It must <strong>never</strong> show the address of the previous spot.</li>
+<li>If the lookup fails, or the place it finds has no street, show the coordinates to five decimal places instead, for example <code>43.92280, -78.86930</code>.</li>
+<li>When there is no spot, the card shows the starter's hint, as it does now.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Look up the address in a <code>useEffect</code> with <code>[spot]</code> as its dependency array, <strong>not</strong> inside your <code>Park Here</code> function. Part 5 changes the spot a second way, and the effect covers both.</li>
+<li>Use a <code>cancelled</code> flag, as in the Live Location example, so a lookup that finishes after the spot has moved is ignored. Add a comment above it explaining, in your own words, what would go wrong without it.</li>
+</ul>
+<p>Hint: <code>reverseGeocodeAsync</code> returns an array, best match first. <code>streetNumber</code> can be <code>null</code> even when <code>street</code> is not.</p>
+<h2 id="part-4---how-far-is-the-car-1-point">Part 4 - How Far Is the Car? (1 point) <a class="anchor" aria-label="링크" href="#part-4---how-far-is-the-car-1-point">#</a></h2>
+<p>While a spot is saved, the card tells you how far away the car is, and keeps telling you as you walk.</p>
+<ul>
+<li>The card's third line reads <code>Your car is 230 m away.</code>, with the distance rounded to whole metres. Under 20 metres, it reads <code>Your car is right here.</code> instead.</li>
+<li>Until the first position arrives, there is no third line.</li>
+<li>The app only watches your position while a spot is saved. With no spot, it does not watch at all.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Use <code>watchPositionAsync</code> in a <code>useEffect</code>, with a clean-up function that removes the subscription and the <code>cancelled</code> flag from the Live Location example.</li>
+<li>Keep the latest position from the watch in state. Work out the distance with the starter's <code>distanceInMetres</code> above the <code>return</code>, on every render. Do <strong>not</strong> store the distance in state.</li>
+<li>Make a boolean, <code>const parked = spot !== null;</code>, and use <code>[parked]</code> as the dependency array. Add a comment above the effect explaining, in your own words, why <code>[spot]</code> would be the wrong choice here.</li>
+</ul>
+<p>Walk around the room with your phone and watch the number change. GPS indoors is only accurate to a few metres, so it will not count every step.</p>
+<h2 id="part-5---fix-the-spot-and-go-home-1-point">Part 5 - Fix the Spot and Go Home (1 point) <a class="anchor" aria-label="링크" href="#part-5---fix-the-spot-and-go-home-1-point">#</a></h2>
+<p>The GPS is not always right, and you will not always have it. Let the user fix the spot by hand, and clear it when they are back.</p>
+<ul>
+<li>Long-pressing the map moves the car there. The marker moves, the saved time updates, and the address and distance update to match.</li>
+<li>Long-pressing works even when location permission was denied, so the advice in your Part 2 message is true. Without permission the address may fall back to coordinates, and there is no distance, but the marker still moves.</li>
+<li>Pressing <code>I'm Back</code> removes the marker, puts the hint back in the card, and stops watching the position.</li>
+<li><code>I'm Back</code> is disabled, and uses the <code>disabled</code> style, whenever no spot is saved.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Use the map's <code>onLongPress</code> prop. The pressed coordinate is in <code>e.nativeEvent.coordinate</code>, the same as <code>onPress</code> in the Drawing on the Map example.</li>
+<li>If your Parts 3 and 4 effects are right, the address, distance and watch need no new code for this part.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

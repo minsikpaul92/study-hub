@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hooks for Stateful Components · WEB530</title><meta name="description" content="Hooks for Stateful Components · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Hooks for Stateful Components</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#introduction-to-hooks">Introduction to Hooks</a></li><li class="l3"><a href="#updating-state-based-on-the-previous-value">Updating state based on the previous value</a></li><li class="l2"><a href="#running-side-effects-with-useeffect">Running Side Effects with useEffect</a></li><li class="l3"><a href="#cleaning-up-an-effect">Cleaning up an effect</a></li><li class="l3"><a href="#effects-that-depend-on-a-value">Effects that depend on a value</a></li><li class="l2"><a href="#lifting-state-up">Lifting State Up</a></li><li class="l2"><a href="#keeping-functions-stable-with-usecallback">Keeping Functions Stable with useCallback</a></li><li class="l2"><a href="#sharing-data-via-context">Sharing data via context</a></li><li class="l2"><a href="#global-state-with-jotai">Global State with Jotai</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/B-Components/hooks" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/B-Components/hooks</a></p>
+<h1 id="hooks-for-stateful-components">Hooks for Stateful Components <a class="anchor" aria-label="링크" href="#hooks-for-stateful-components">#</a></h1>
+<h2 id="introduction-to-hooks">Introduction to Hooks <a class="anchor" aria-label="링크" href="#introduction-to-hooks">#</a></h2>
+<p>The React Hook API introduces the <code>useState()</code> function. <code>useState()</code> enables your functional component to become stateful, i.e. it can remember things between each time it is called. Let's look at a code example. In the example we will configure and use initial state values.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text } from 'react-native';
+
+export default function App() {
+  const [name] = useState('WEB530');
+  const [year] = useState(1967);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Welcome to {name}&lt;/Text&gt;
+      &lt;Text&gt;Established in {year}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Welcome to WEB530
+Established in 1967</p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>The <code>App</code> component is a <em>stateful</em> functional component thanks to the <code>useState()</code> hook. The example initializes two pieces of state, <code>name</code> and <code>year</code>, by calling <code>useState()</code> once for each state value. You can have as many pieces of state that you need, simply call <code>useState()</code> for each. Although it is possible to store a JavaScript object as a state value, it can complicate things and isn't recommended.</p>
+<p>Look closely at the code example. You will notice that when we call <code>useState()</code>, square brackets surround the variable name. Check out line 5 where it says <code>[name]</code>. The reason we use the brackets is because <code>useState()</code> returns an array and so can take advantage of array destructuring syntax. The first value of the array is the state value, this is later injected into the UI. The second value of the array is a function that can be used to update the value. Since we are not changing the state, we discard this value. Now let's check out an example where the state is changed.</p>
+<pre class="hl"><code class="language-text">import React, { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
+
+export default function App() {
+  // Notice we are destructuring a second variable,
+  // it is used for changing the "name" state value.
+  const [name, setName] = useState('Paula');
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;What is your name?&lt;/Text&gt;
+      &lt;TextInput value={name} onChangeText={setName} /&gt;
+      &lt;Text&gt;Your name is {name}.&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>What is your name?
+Paula
+Your name is Paula.</p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>In the code example, you will notice we now destructure multiple variables from the array returned by <code>useState()</code>. <code>setName</code> refers to a function that can be used to change the State. The code above automatically calls the <code>setName()</code> function any time the text is changed but we could call it manually using something like <code>setName(&quot;New Name&quot;)</code>. After <code>setName()</code> is called the <code>name</code> is updated and the UI refreshed.</p>
+<p>With functional components that use the <code>useState()</code> hook, you can see that we will need to update each piece of state individually. Unlike <code>setState()</code> where we could merge multiple pieces of state at the same time, we now have individual functions.</p>
+<h3 id="updating-state-based-on-the-previous-value">Updating state based on the previous value <a class="anchor" aria-label="링크" href="#updating-state-based-on-the-previous-value">#</a></h3>
+<p>There is one trap with the setter function. The state variable is a plain value that was filled in when the component rendered. It does not change until the next render. If the new value depends on the old one, calculating it from the variable can go wrong. In the example, the button is meant to add 2 by calling <code>setCount()</code> twice.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, Button } from 'react-native';
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Count: {count}&lt;/Text&gt;
+      &lt;Button
+        title="Add 2"
+        onPress={() =&gt; {
+          // Bug: both calls read the same count.
+          setCount(count + 1);
+          setCount(count + 1);
+        }}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Count: 0</p>
+<p>⬇️ <em>after pressing the button once</em></p>
+<p>Count: 1</p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>The count goes up by 1, not 2. Both calls read the same <code>count</code> of <code>0</code>, so both ask React to make it <code>1</code>. The same thing happens when the update is delayed by a timer or an effect: the code uses whichever value <code>count</code> had when it was written, not the current one.</p>
+<p>The fix is to pass a function to the setter instead of a value. React calls the function with the latest state and uses whatever it returns.</p>
+<pre class="hl"><code class="language-text">onPress={() =&gt; {
+  setCount((prev) =&gt; prev + 1);
+  setCount((prev) =&gt; prev + 1);
+}}
+</code></pre>
+<p>Now each call receives the value produced by the one before it and the count goes up by 2.</p>
+<p>💡 Whenever the new state depends on the old state, always use the function form: <code>setCount((prev) =&gt; prev + 1)</code>, <code>setOn((prev) =&gt; !prev)</code>, <code>setItems((prev) =&gt; [...prev, item])</code>. If it does not, such as <code>setName('Paula')</code>, pass the value directly.</p>
+<h2 id="running-side-effects-with-useeffect">Running Side Effects with <code>useEffect</code> <a class="anchor" aria-label="링크" href="#running-side-effects-with-useeffect">#</a></h2>
+<p>The <code>useEffect()</code> hook is used to run &quot;side effects&quot; in your component. Remember, functional components only have one job, that is, to return JSX content. If a component needs to do something else this should be done by a <code>useEffect()</code> hook.</p>
+<p>So, what kind of initialization or cleanup would a component need to handle? There are many reasons for developers to implement this functionality. A common example could be, loading data. You could use the <code>fetch API</code> to fetch data from a remote device and display it on your UI. Fetching is an asynchronous operation and if not implemented correctly, may introduce race conditions or buggy behaviour. Using <code>useEffect()</code> we can minimize these problems.</p>
+<p>💡 <strong>Race condition</strong>
+Occurs when the sequence or timing of events is important. A race condition can occur when events execute in an undesirable order. <a href="https://techterms.com/definition/race_condition" target="_blank" rel="noopener">Still unclear?</a></p>
+<p>The <code>useEffect()</code> hook takes two arguments: a function to run, and an optional <strong>dependency array</strong>. React calls the function after the component finishes rendering. An empty array (<code>[]</code>) means the effect doesn't depend on any props or state, so it runs only once, after the first render.</p>
+<pre class="hl"><code class="language-text">import { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
+// A utility function to fake a call to the fetch API.
+// This returns user information after 2 seconds.
+function fetchUser() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ id: 99, name: 'Wayne' });
+    }, 2000);
+  });
+}
+
+export default function App() {
+  const [id, setId] = useState(0);
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState('Loading ...');
+
+  // Runs once, after the first render.
+  useEffect(() =&gt; {
+    fetchUser().then((user) =&gt; {
+      setId(user.id);
+      setName(user.name);
+      setStatus('Ready ...');
+    });
+  }, []);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;ID: {id}&lt;/Text&gt;
+      &lt;Text&gt;Name: {name}&lt;/Text&gt;
+      &lt;Text&gt;Status: {status}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>ID: 0
+Name:
+Status: Loading ...</p>
+<p>⬇️ <em>after about two seconds</em></p>
+<p>ID: 99
+Name: Wayne
+Status: Ready ...</p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>Leave out the array and the effect runs after <em>every</em> render. Because this effect updates state, and updating state causes another render, the user would be fetched again every time the first fetch finished.</p>
+<h3 id="cleaning-up-an-effect">Cleaning up an effect <a class="anchor" aria-label="링크" href="#cleaning-up-an-effect">#</a></h3>
+<p>After about two seconds, the user is fetched and the UI is updated. But the user might leave the screen before the response arrives. The <code>.then()</code> callback still runs later and tries to update a component that no longer exists. React ignores that update, but the work is wasted, and the same pattern causes real bugs when an effect runs more than once: a slow, older response can arrive after a newer one and overwrite it.</p>
+<p>To handle this, an effect can return a <strong>cleanup function</strong>. React calls it when the component is removed from the screen (unmounted), and also before it runs the effect again. Promises can't be cancelled, so the usual pattern is a flag that tells the callback to ignore a result that is no longer wanted.</p>
+<pre class="hl"><code class="language-text">import { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
+// A utility function to fake a call to the fetch API.
+// This returns user information after 2 seconds.
+function fetchUser() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ id: 99, name: 'Wayne' });
+    }, 2000);
+  });
+}
+
+export default function App() {
+  const [id, setId] = useState(0);
+  const [name, setName] = useState('');
+  const [status, setStatus] = useState('Loading ...');
+
+  useEffect(() =&gt; {
+    let ignore = false;
+
+    fetchUser().then((user) =&gt; {
+      // Skip the update if the cleanup has already run.
+      if (!ignore) {
+        setId(user.id);
+        setName(user.name);
+        setStatus('Ready ...');
+      }
+    });
+
+    // The cleanup function.
+    return () =&gt; {
+      ignore = true;
+    };
+  }, []);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;ID: {id}&lt;/Text&gt;
+      &lt;Text&gt;Name: {name}&lt;/Text&gt;
+      &lt;Text&gt;Status: {status}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>By adding <code>return () =&gt; { ... }</code> to the end of the effect, React now knows how to clean it up. If the component unmounts before the user arrives, <code>ignore</code> is set to <code>true</code> and the callback leaves the state alone.</p>
+<h3 id="effects-that-depend-on-a-value">Effects that depend on a value <a class="anchor" aria-label="링크" href="#effects-that-depend-on-a-value">#</a></h3>
+<p>When an effect uses props or state, list them in the dependency array. After each render, React compares every value in the array with the one from the previous render. If any of them changed, React runs the previous cleanup and then runs the effect again.</p>
+<p>In the example below, the user to load depends on <code>userId</code>. Pressing a button changes the ID, so the effect fetches that user. Try pressing <strong>User 1</strong> and then quickly <strong>User 2</strong>. The cleanup for the first request runs as soon as the ID changes, so its late response can't overwrite the second user.</p>
+<pre class="hl"><code class="language-text">import { useEffect, useState } from 'react';
+import { View, Text, Button } from 'react-native';
+
+const names = { 1: 'Wayne', 2: 'Mario' };
+
+// Fakes a call to the fetch API. User 1 takes 3 seconds, user 2 takes 1.
+function fetchUser(id) {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; resolve({ id, name: names[id] }), id === 1 ? 3000 : 1000);
+  });
+}
+
+export default function App() {
+  const [userId, setUserId] = useState(1);
+  const [user, setUser] = useState(null);
+
+  useEffect(() =&gt; {
+    let ignore = false;
+    setUser(null);
+
+    fetchUser(userId).then((result) =&gt; {
+      if (!ignore) setUser(result);
+    });
+
+    return () =&gt; {
+      ignore = true;
+    };
+  }, [userId]); // Run again whenever userId changes.
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Selected user: {userId}&lt;/Text&gt;
+      &lt;Text&gt;Name: {user ? user.name : 'Loading ...'}&lt;/Text&gt;
+      &lt;Button title="User 1" onPress={() =&gt; setUserId(1)} /&gt;
+      &lt;Button title="User 2" onPress={() =&gt; setUserId(2)} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>Without the <code>ignore</code> flag, pressing <strong>User 1</strong> then <strong>User 2</strong> would show Mario first and then, when the slower request finished, replace him with Wayne even though user 2 is selected.</p>
+<p>💡 A real <code>fetch()</code> request can be cancelled, not just ignored. Create an <a href="https://developer.mozilla.org/en-US/docs/Web/API/AbortController" target="_blank" rel="noopener"><code>AbortController</code></a>, pass its <code>signal</code> to <code>fetch()</code>, and call <code>controller.abort()</code> in the cleanup function.</p>
+<h2 id="lifting-state-up">Lifting State Up <a class="anchor" aria-label="링크" href="#lifting-state-up">#</a></h2>
+<p>Sometimes multiple components need to work with the same piece of data. When this happens, each component should not keep its own separate state. Instead, React encourages a pattern called <code>lifting state up</code>. This means you move the shared state into the closest common parent component, then pass the data down as props.</p>
+<p>This keeps your UI consistent and prevents components from getting <em>out of sync</em>.</p>
+<p><strong>Why lift state up?</strong></p>
+<p>You should lift state up when:</p>
+<ul>
+<li>Two or more components need to display the same data.</li>
+<li>One component needs to update data that another component reads.</li>
+<li>You find yourself duplicating state in multiple places.</li>
+<li>Components behave inconsistently because they each track their own version of the data.</li>
+</ul>
+<p>React uses <em>one‑way data flow</em>, so the parent becomes the single source of truth.</p>
+<p>In the example, we have two components:</p>
+<ul>
+<li><code>&lt;NameInput /&gt;</code>: lets the user type their name</li>
+<li><code>&lt;NamePreview /&gt;</code>: displays the name</li>
+</ul>
+<p>Both components need access to the same value, so the state must live in the parent.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, TextInput } from 'react-native';
+
+function NameInput({ name, onChange }) {
+  return &lt;TextInput value={name} onChangeText={onChange} /&gt;;
+}
+
+function NamePreview({ name }) {
+  return &lt;Text&gt;Your name is {name}&lt;/Text&gt;;
+}
+
+export default function App() {
+  const [name, setName] = useState('');
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;What is your name?&lt;/Text&gt;
+      &lt;NameInput name={name} onChange={setName} /&gt;
+      &lt;NamePreview name={name} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p><strong>How this works</strong></p>
+<ul>
+<li>The <code>App</code> component owns the <code>name</code> state.</li>
+<li><code>NameInput</code> receives the current value and a function to update it.</li>
+<li><code>NamePreview</code> receives the current value only.</li>
+<li>Both components always stay synchronized because they rely on the same source of truth.</li>
+</ul>
+<p><strong>Benefits of lifting state up</strong></p>
+<ul>
+<li>Prevents duplicated or conflicting state.</li>
+<li>Makes data flow predictable.</li>
+<li>Keeps components simple and focused.</li>
+<li>Helps you reason about where state should live.</li>
+</ul>
+<p>💡 If multiple components need the same data, the state belongs in their nearest shared parent.</p>
+<h2 id="keeping-functions-stable-with-usecallback">Keeping Functions Stable with <code>useCallback</code> <a class="anchor" aria-label="링크" href="#keeping-functions-stable-with-usecallback">#</a></h2>
+<p>The dependency array of <code>useEffect()</code> works by comparing each value with the value from the previous render. For numbers, strings and booleans this is simple: <code>1</code> is the same as <code>1</code>. Functions are different. Every time a component renders, any function declared inside it is created again as a brand new object, even though the code inside it has not changed. React compares functions by identity, so the <code>handleTick</code> from one render is <em>not</em> the same as the <code>handleTick</code> from the next render.</p>
+<p>This matters when a function is a dependency of <code>useEffect()</code>. In the example, <code>App</code> owns a counter and passes a function down to <code>&lt;Ticker /&gt;</code>. The <code>Ticker</code> starts a one second timer and calls the function when the timer fires.</p>
+<pre class="hl"><code class="language-text">import { useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
+function Ticker({ onTick }) {
+  useEffect(() =&gt; {
+    const id = setTimeout(() =&gt; {
+      onTick();
+    }, 1000);
+
+    return () =&gt; {
+      clearTimeout(id);
+    };
+  }, [onTick]);
+
+  return &lt;Text&gt;Ticking ...&lt;/Text&gt;;
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  const handleTick = () =&gt; {
+    setCount((prev) =&gt; prev + 1);
+  };
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Ticks: {count}&lt;/Text&gt;
+      &lt;Ticker onTick={handleTick} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Ticks: 0
+Ticking ...</p>
+<p>⬇️ <em>one second later, and every second after that</em></p>
+<p>Ticks: 1
+Ticks: 2
+Ticks: 3
+...</p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<p>The counter never stops. Follow the chain of events:</p>
+<ol>
+<li><code>Ticker</code> renders and the effect starts a timer.</li>
+<li>The timer fires and calls <code>onTick</code>, which updates the state in <code>App</code>.</li>
+<li><code>App</code> re-renders and creates a <strong>new</strong> <code>handleTick</code> function.</li>
+<li><code>Ticker</code> re-renders with a new <code>onTick</code> prop. React compares it with the old one, sees a different function, runs the clean-up and runs the effect again, which starts another timer.</li>
+<li>Return to step 2.</li>
+</ol>
+<p>Each tick schedules the next one. The effect depends on a value that changes on every render, so it runs on every render.</p>
+<p>A tempting fix is to pass an empty array so the effect only runs once.</p>
+<pre class="hl"><code class="language-text">useEffect(() =&gt; {
+  const id = setTimeout(() =&gt; {
+    onTick();
+  }, 1000);
+
+  return () =&gt; {
+    clearTimeout(id);
+  };
+}, []);
+</code></pre>
+<p>The counter now ticks once and stops, but the editor shows a warning: <code>React Hook useEffect has a missing dependency: 'onTick'</code>. The effect uses <code>onTick</code> but claims to depend on nothing. React will keep calling the <code>onTick</code> it captured on the first render, even if the parent later passes a different function. In this small example that is harmless. In a larger app it is a common source of bugs where an effect quietly works with out of date values, so the warning should not be ignored.</p>
+<p>The correct fix is to stop the function from changing in the first place. The <code>useCallback()</code> hook takes a function and a dependency array, and returns the same function object on every render for as long as the dependencies stay the same.</p>
+<pre class="hl"><code class="language-text">import { useCallback, useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
+function Ticker({ onTick }) {
+  useEffect(() =&gt; {
+    const id = setTimeout(() =&gt; {
+      onTick();
+    }, 1000);
+
+    return () =&gt; {
+      clearTimeout(id);
+    };
+  }, [onTick]);
+
+  return &lt;Text&gt;Ticking ...&lt;/Text&gt;;
+}
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  const handleTick = useCallback(() =&gt; {
+    setCount((prev) =&gt; prev + 1);
+  }, []);
+
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;Ticks: {count}&lt;/Text&gt;
+      &lt;Ticker onTick={handleTick} /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>Now <code>handleTick</code> is created once. Every render of <code>App</code> passes the identical function to <code>Ticker</code>, the <code>[onTick]</code> dependency never changes, and the effect runs once. The dependency array is honest, there is no warning, and the counter ticks a single time.</p>
+<p>Notice that <code>handleTick</code> uses the function form of the setter, <code>setCount((prev) =&gt; prev + 1)</code>, because the new count depends on the old one. With <code>useCallback()</code> this matters even more. A function created with <code>useCallback(..., [])</code> is created once, so if it used <code>count</code> it would only ever see the <code>count</code> from the first render, which is <code>0</code>, and every tick would set the count to <code>1</code>. The function form asks React for the latest value instead, so the callback doesn't depend on <code>count</code> at all and the empty array is truthful.</p>
+<p>💡 <code>useCallback()</code> is not a performance tool to wrap around every function. Reach for it when a function is a dependency of <code>useEffect()</code>, or when it is passed to a child component that must not re-render needlessly. Everywhere else, a plain function is simpler and just as fast.</p>
+<h2 id="sharing-data-via-context">Sharing data via context <a class="anchor" aria-label="링크" href="#sharing-data-via-context">#</a></h2>
+<p>Typically, React components will fetch the data that they <em>and their children</em> need but sometimes it is convenient for our app to load <em>global</em> data that can be shared across multiple components. To share global data, you can use the React <strong>Context API</strong>. Components that are rendered within a context are able to access the data provided by the context.</p>
+<pre class="hl"><code class="language-text">import { createContext, useContext, useEffect, useState } from 'react';
+import { View, Text } from 'react-native';
+
+const UserContext = createContext();
+
+// A utility function to fake a call to the fetch API.
+// This returns user information after 2 seconds.
+function fetchUser() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ id: 99, name: 'Wayne' });
+    }, 2000);
+  });
+}
+
+// A container component. It shares state information
+// with child components using a context.
+function UserContextProvider({ children }) {
+  const [user, setUser] = useState({
+    id: 0,
+    name: '...',
+  });
+
+  useEffect(() =&gt; {
+    fetchUser().then((user) =&gt; {
+      setUser({
+        id: user.id,
+        name: user.name,
+      });
+    });
+  }, []);
+
+  return &lt;UserContext.Provider value={user}&gt;{children}&lt;/UserContext.Provider&gt;;
+}
+
+// Renders a &lt;Text&gt; component that includes the user name.
+// The name is obtained from the context provided by the
+// UserContextProvider. As the name changes the UI is updated.
+function UserInfo() {
+  const user = useContext(UserContext);
+
+  return &lt;Text&gt;User name is {user.name}&lt;/Text&gt;;
+}
+
+export default function App() {
+  return (
+    &lt;View&gt;
+      &lt;UserContextProvider&gt;
+        &lt;View&gt;
+          &lt;UserInfo /&gt;
+        &lt;/View&gt;
+        &lt;View&gt;
+          &lt;UserInfo /&gt;
+        &lt;/View&gt;
+        &lt;View&gt;
+          &lt;UserInfo /&gt;
+        &lt;/View&gt;
+      &lt;/UserContextProvider&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>Study the code example. On line 4, we create a new context by calling <code>createContext()</code>. Next we have our utility function for fetching user data. This is similar to the <code>fetchUser()</code> function in the other code examples except that we are setting the state value to an object rather than setting individual properties. Finally, we have a <code>UserContextProvider()</code> function. The job of this component is to fetch the user information and update the context when the information has been received back by the API.</p>
+<p>You will notice the <code>UserContextProvider()</code> function accepts an argument <code>{ children }</code>. You will also notice that it renders a <code>&lt;UserContext.Provider&gt;</code> component. The <code>&lt;UserContext.Provider&gt;</code> will act as a container sharing data with the child components. In the example, we are sharing the <code>user</code> object by passing it into the <code>value</code> attribute.</p>
+<p>In our main app component, we render multiple <code>&lt;UserInfo&gt;</code> components <em>used for displaying the user name</em>. This component grabs the shared data from the parent context provider by calling <code>useContext()</code>. As the data is changed, the UI is updated.</p>
+<p><strong>Output:</strong></p>
+<p>User name is ...
+User name is ...
+User name is ...</p>
+<p>⬇️ <em>after about two seconds</em></p>
+<p>User name is Wayne
+User name is Wayne
+User name is Wayne</p>
+<p>It is worth mentioning that the <code>&lt;UserInfo&gt;</code> component has no knowledge of the global data. Instead of passing the data down from the top-level component as property values, we can rely on the <code>useContext()</code> function to provide access to the global data. Components (like the inner <code>&lt;View&gt;</code> components) that have nothing to do with the data don't need (or care) about it.</p>
+<h2 id="global-state-with-jotai">Global State with Jotai <a class="anchor" aria-label="링크" href="#global-state-with-jotai">#</a></h2>
+<p>The React Context API is useful for sharing global data, but it can become verbose as your app grows. You need to create a context, wrap your components in a provider, and manually pass values through the provider’s value attribute. For many apps, this is more setup than necessary.</p>
+<p>Jotai is a lightweight state‑management library that makes global state feel as simple as using <code>useState()</code>. Instead of creating providers or reducers, you create small pieces of state called <code>atoms</code>. Any component can read or update an atom directly.</p>
+<p>Jotai works in React Native and Expo with no extra configuration. To use it in your own Snack, add <code>jotai</code> to <code>package.json</code>. Snack also asks for <code>@types/react</code>, which Jotai lists as optional; add it too to clear the message.</p>
+<p><strong>Why Jotai?</strong></p>
+<p>Jotai gives you:</p>
+<ul>
+<li>Global state with the simplicity of <code>useState</code>.</li>
+<li>No providers to wrap your app.</li>
+<li>No reducers, actions, or boilerplate.</li>
+<li>Automatic updates across all components that use the same atom.</li>
+</ul>
+<p><em>If Context feels like “plumbing,” Jotai feels like “just state.”</em></p>
+<p>Here is the same “global user” idea from the Context example, rewritten using Jotai.</p>
+<pre class="hl"><code class="language-text">import { atom, useAtom } from 'jotai';
+import { useEffect } from 'react';
+import { View, Text } from 'react-native';
+
+// A global atom that stores the user object.
+const userAtom = atom({ id: 0, name: '...' });
+
+// A utility function to fake a call to the fetch API.
+function fetchUser() {
+  return new Promise((resolve) =&gt; {
+    setTimeout(() =&gt; {
+      resolve({ id: 99, name: 'Wayne' });
+    }, 2000);
+  });
+}
+
+function UserLoader() {
+  const [, setUser] = useAtom(userAtom);
+
+  useEffect(() =&gt; {
+    fetchUser().then((user) =&gt; {
+      setUser(user);
+    });
+  }, []);
+
+  return null; // This component only loads data.
+}
+
+function UserInfo() {
+  const [user] = useAtom(userAtom);
+  return &lt;Text&gt;User name is {user.name}&lt;/Text&gt;;
+}
+
+export default function App() {
+  return (
+    &lt;View&gt;
+      &lt;UserLoader /&gt;
+      &lt;UserInfo /&gt;
+      &lt;UserInfo /&gt;
+      &lt;UserInfo /&gt;
+    &lt;/View&gt;
+  );
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p><strong>How this works</strong></p>
+<ul>
+<li><code>userAtom</code> is a global piece of state.</li>
+<li>Any component can read it with <code>useAtom(userAtom)</code>.</li>
+<li>Any component can update it with the setter returned by <code>useAtom</code>.</li>
+<li>When the atom changes, all components using it automatically re-render.</li>
+<li>No providers, no context tree, no prop drilling.</li>
+</ul>
+<p><strong>When to choose Jotai over Context</strong></p>
+<p>Use Jotai when:</p>
+<ul>
+<li>You want global state without boilerplate.</li>
+<li>You want something simpler than Redux or Context.</li>
+<li>Multiple components need to read/write the same data.</li>
+</ul>
+<p>Context is still useful for things like themes or configuration, but for shared data that changes over time, Jotai is often the cleaner choice.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

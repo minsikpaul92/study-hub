@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scrolling · WEB530</title><meta name="description" content="Scrolling · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Scrolling</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#scrolling-with-your-fingers">Scrolling with your fingers</a></li><li class="l2"><a href="#scrollview-vs-flatlist">ScrollView vs FlatList</a></li><li class="l2"><a href="#safeareaview">SafeAreaView</a></li><li class="l2"><a href="#basic-scrollview-example">Basic ScrollView Example</a></li><li class="l2"><a href="#horizontal-scrolling">Horizontal Scrolling</a></li><li class="l2"><a href="#momentum-and-natural-scrolling">Momentum and Natural Scrolling</a></li><li class="l2"><a href="#nested-scrolling">Nested Scrolling</a></li><li class="l2"><a href="#scrolling-and-touch-together">Scrolling and Touch Together</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling</a></p>
+<h1 id="scrolling">Scrolling <a class="anchor" aria-label="링크" href="#scrolling">#</a></h1>
+<h2 id="scrolling-with-your-fingers">Scrolling with your fingers <a class="anchor" aria-label="링크" href="#scrolling-with-your-fingers">#</a></h2>
+<p>Scrolling is one of the most common gestures in mobile apps. Users swipe vertically to read long content, swipe horizontally to browse galleries, and pan through screens of information. In React Native, scrolling is typically implemented using the <code>ScrollView</code> component.</p>
+<p>A <code>ScrollView</code> renders <strong>all of its children at once</strong>, which makes it ideal for:</p>
+<ul>
+<li>Static content</li>
+<li>Short lists</li>
+<li>Forms</li>
+<li>Articles or long text blocks</li>
+</ul>
+<p>However, because it renders everything up front, a <code>ScrollView</code> must have a <strong>bounded height</strong>. If you do not constrain its height, it will expand to fit all its children and will not scroll.</p>
+<h2 id="scrollview-vs-flatlist">ScrollView vs FlatList <a class="anchor" aria-label="링크" href="#scrollview-vs-flatlist">#</a></h2>
+<p>While <code>ScrollView</code> is simple and flexible, it is <strong>not</strong> the best choice for large or dynamic lists. For those cases, React Native provides <a href="https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists" target="_blank" rel="noopener">FlatList</a>, which:</p>
+<ul>
+<li>Renders items lazily as they appear on screen</li>
+<li>Unmounts items that scroll off screen</li>
+<li>Uses virtualization for performance</li>
+<li>Supports separators, multiple columns, pull‑to‑refresh, and infinite scrolling</li>
+</ul>
+<p>Use this rule of thumb:</p>
+<ul>
+<li><strong>ScrollView</strong> → small, static content</li>
+<li><strong>FlatList</strong> → large or dynamic lists</li>
+</ul>
+<h2 id="safeareaview">SafeAreaView <a class="anchor" aria-label="링크" href="#safeareaview">#</a></h2>
+<p>On modern iOS devices with notches or rounded corners, content can be obscured by system UI. <code>SafeAreaView</code> ensures your content stays within the visible safe area by automatically applying padding.</p>
+<p>It is recommended for:</p>
+<ul>
+<li>Full‑screen layouts</li>
+<li>Scrollable screens</li>
+<li>Any screen where content touches the edges</li>
+</ul>
+<h2 id="basic-scrollview-example">Basic ScrollView Example <a class="anchor" aria-label="링크" href="#basic-scrollview-example">#</a></h2>
+<p>The example below shows a vertical <code>ScrollView</code> wrapped in a <code>SafeAreaView</code>. The text is repeated so it extends beyond the screen, and the user can scroll naturally with their finger.</p>
+<pre class="hl"><code class="language-text">import { StyleSheet, Text, ScrollView } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+
+const paragraph =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ' +
+  'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ' +
+  'exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure ' +
+  'dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.';
+
+export default function App() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      &lt;SafeAreaView style={styles.container}&gt;
+        &lt;ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}&gt;
+          {Array.from({ length: 6 }, (_, i) =&gt; (
+            &lt;Text key={i} style={styles.text}&gt;
+              {i + 1}. {paragraph}
+            &lt;/Text&gt;
+          ))}
+        &lt;/ScrollView&gt;
+      &lt;/SafeAreaView&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  scrollView: {
+    marginHorizontal: 20,
+    backgroundColor: '#FCE4EC',
+  },
+  contentContainer: {
+    padding: 20,
+  },
+  text: {
+    fontSize: 18,
+    lineHeight: 28,
+    marginBottom: 20,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="horizontal-scrolling">Horizontal Scrolling <a class="anchor" aria-label="링크" href="#horizontal-scrolling">#</a></h2>
+<p>ScrollView also supports horizontal scrolling:</p>
+<pre class="hl"><code class="language-text">import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
+
+export default function App() {
+  return (
+    &lt;SafeAreaProvider&gt;
+      &lt;SafeAreaView style={styles.container}&gt;
+        &lt;Text style={styles.title}&gt;Horizontal ScrollView&lt;/Text&gt;
+
+        &lt;ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}
+        &gt;
+          &lt;View style={[styles.card, { backgroundColor: '#FFCDD2' }]}&gt;
+            &lt;Text style={styles.cardText}&gt;Card 1&lt;/Text&gt;
+          &lt;/View&gt;
+
+          &lt;View style={[styles.card, { backgroundColor: '#F8BBD0' }]}&gt;
+            &lt;Text style={styles.cardText}&gt;Card 2&lt;/Text&gt;
+          &lt;/View&gt;
+
+          &lt;View style={[styles.card, { backgroundColor: '#E1BEE7' }]}&gt;
+            &lt;Text style={styles.cardText}&gt;Card 3&lt;/Text&gt;
+          &lt;/View&gt;
+
+          &lt;View style={[styles.card, { backgroundColor: '#D1C4E9' }]}&gt;
+            &lt;Text style={styles.cardText}&gt;Card 4&lt;/Text&gt;
+          &lt;/View&gt;
+
+          &lt;View style={[styles.card, { backgroundColor: '#C5CAE9' }]}&gt;
+            &lt;Text style={styles.cardText}&gt;Card 5&lt;/Text&gt;
+          &lt;/View&gt;
+        &lt;/ScrollView&gt;
+      &lt;/SafeAreaView&gt;
+    &lt;/SafeAreaProvider&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingTop: 20,
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: '600',
+    marginLeft: 20,
+    marginBottom: 10,
+  },
+  scrollContent: {
+    paddingHorizontal: 20,
+  },
+  card: {
+    width: 200,
+    height: 150,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  cardText: {
+    fontSize: 18,
+    fontWeight: '500',
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>This is useful for:</p>
+<ul>
+<li>Image carousels</li>
+<li>Category chips</li>
+<li>Horizontal menus</li>
+</ul>
+<p><strong>When NOT to use ScrollView</strong></p>
+<p>Avoid ScrollView when:</p>
+<ul>
+<li>You have hundreds or thousands of items</li>
+<li>Items are loaded from a server</li>
+<li>You need infinite scrolling</li>
+<li>You need pull‑to‑refresh</li>
+<li>You need item separators or multi‑column layouts</li>
+</ul>
+<p>In these cases, FlatList is the correct choice.</p>
+<h2 id="momentum-and-natural-scrolling">Momentum and Natural Scrolling <a class="anchor" aria-label="링크" href="#momentum-and-natural-scrolling">#</a></h2>
+<p>Scrolling is a <strong>continuous</strong> gesture: the content moves every frame for as long as the finger moves. A tap or a long press, by contrast, is a <strong>discrete</strong> gesture that fires once and is over.</p>
+<p>Mobile scrolling also has momentum. A quick flick keeps the content moving after the finger lifts, and it slows down on its own. A slow drag moves exactly as far as the finger. <code>ScrollView</code> and <code>FlatList</code> use the platform's own scrolling, so this behaviour matches every other app on the phone without any extra code. The web preview scrolls with the mouse wheel or trackpad instead, so try the examples on your phone with <strong>My Device</strong> to feel it.</p>
+<h2 id="nested-scrolling">Nested Scrolling <a class="anchor" aria-label="링크" href="#nested-scrolling">#</a></h2>
+<p>A horizontal list inside a vertical page is a common layout: think of an app store's home screen, with rows of cards that scroll sideways inside a page that scrolls down. React Native gives each drag to the scroll view that matches its direction, so a sideways drag on the cards moves the cards and an upward drag moves the page.</p>
+<pre class="hl"><code class="language-text">import { ScrollView, View, Text, StyleSheet } from 'react-native';
+
+const cards = Array.from({ length: 10 }, (_, i) =&gt; `Card ${i + 1}`);
+const rows = Array.from({ length: 30 }, (_, i) =&gt; `Item ${i + 1}`);
+
+export default function App() {
+  return (
+    &lt;ScrollView style={styles.container}&gt;
+      &lt;Text style={styles.heading}&gt;Featured&lt;/Text&gt;
+      &lt;ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.cards}
+      &gt;
+        {cards.map((card) =&gt; (
+          &lt;View key={card} style={styles.card}&gt;
+            &lt;Text style={styles.text}&gt;{card}&lt;/Text&gt;
+          &lt;/View&gt;
+        ))}
+      &lt;/ScrollView&gt;
+      {rows.map((row) =&gt; (
+        &lt;View key={row} style={styles.row}&gt;
+          &lt;Text style={styles.text}&gt;{row}&lt;/Text&gt;
+        &lt;/View&gt;
+      ))}
+    &lt;/ScrollView&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, marginTop: 60 },
+  heading: { fontSize: 22, fontWeight: '600', padding: 20 },
+  cards: { paddingHorizontal: 20, paddingBottom: 20 },
+  card: {
+    width: 150,
+    height: 150,
+    marginRight: 15,
+    borderRadius: 12,
+    backgroundColor: '#dde',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  row: { padding: 20, borderBottomWidth: 1, borderColor: '#ccc' },
+  text: { fontSize: 18 },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>In the web preview, scroll the cards sideways with Shift and the mouse wheel, or with two fingers on a trackpad.</p>
+<p>Nesting works when the directions differ. Nesting scroll views that scroll the <strong>same</strong> way causes conflicts, because both want every drag. React Native even warns when a <code>FlatList</code> is placed inside a vertical <code>ScrollView</code>, since the list can no longer tell which rows are on screen. Keep nesting shallow, and use a <code>FlatList</code> for the main scrolling content.</p>
+<h2 id="scrolling-and-touch-together">Scrolling and Touch Together <a class="anchor" aria-label="링크" href="#scrolling-and-touch-together">#</a></h2>
+<p>Rows in a scrolling list usually need to be tappable as well. Both gestures start with a finger on a row, so React Native decides which one the user meant: a finger that lifts without moving is a tap, and a finger that moves is a scroll, which cancels the press on the row. You get this for free by putting a <code>Pressable</code> inside each row.</p>
+<pre class="hl"><code class="language-text">import { useState } from 'react';
+import { View, Text, Pressable, FlatList, StyleSheet } from 'react-native';
+
+const rows = Array.from({ length: 40 }, (_, i) =&gt; ({
+  id: String(i + 1),
+  title: `Row ${i + 1}`,
+}));
+
+export default function App() {
+  const [selected, setSelected] = useState({});
+
+  function toggle(id) {
+    setSelected((prev) =&gt; ({ ...prev, [id]: !prev[id] }));
+  }
+
+  const count = Object.values(selected).filter(Boolean).length;
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.heading}&gt;{count} selected&lt;/Text&gt;
+      &lt;FlatList
+        data={rows}
+        keyExtractor={(item) =&gt; item.id}
+        extraData={selected}
+        renderItem={({ item }) =&gt; (
+          &lt;Pressable
+            style={({ pressed }) =&gt; [
+              styles.row,
+              selected[item.id] &amp;&amp; styles.selected,
+              pressed &amp;&amp; styles.pressed,
+            ]}
+            onPress={() =&gt; toggle(item.id)}
+          &gt;
+            &lt;Text style={styles.text}&gt;{item.title}&lt;/Text&gt;
+          &lt;/Pressable&gt;
+        )}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60 },
+  heading: { fontSize: 18, fontWeight: '600', padding: 20 },
+  row: { padding: 20, borderBottomWidth: 1, borderColor: '#ccc' },
+  selected: { backgroundColor: '#BBDEFB' },
+  pressed: { backgroundColor: '#eee' },
+  text: { fontSize: 18 },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<p>Tap rows to select them, and tap again to clear. On a phone, start a scroll with your finger on a row: the row never gets selected.</p>
+<ul>
+<li><code>selected</code> is an object of ids, such as <code>{ '3': true, '7': true }</code>. <code>toggle</code> copies it and flips one id, using the updater form because the new state depends on the old.</li>
+<li>The pressed style comes last in the style array, so the press feedback still shows on a selected row.</li>
+<li><code>extraData={selected}</code> tells <code>FlatList</code> that the rows depend on something outside <code>data</code>. Without it, an optimized list can skip re-rendering and leave a tapped row looking unselected.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

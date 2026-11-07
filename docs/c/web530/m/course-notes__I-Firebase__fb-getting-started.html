@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Getting Started with Firebase · WEB530</title><meta name="description" content="Getting Started with Firebase · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Getting Started with Firebase</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#1-create-a-firebase-account-and-project">1. Create a Firebase Account and Project</a></li><li class="l3"><a href="#register-your-app">Register your App</a></li><li class="l2"><a href="#2-set-up-cloud-firestore">2. Set Up Cloud Firestore</a></li><li class="l3"><a href="#add-a-products-collection">Add a Products Collection</a></li><li class="l2"><a href="#3-integrate-firebase-into-your-expo-router-app">3. Integrate Firebase into your Expo Router App</a></li><li class="l3"><a href="#configuration-setup">Configuration Setup</a></li><li class="l2"><a href="#4-modify-the-product-shop-to-read-from-firestore">4. Modify the Product Shop to Read from Firestore</a></li><li class="l2"><a href="#5-add-user-authentication">5. Add User Authentication</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-getting-started" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/I-Firebase/fb-getting-started</a></p>
+<h1 id="getting-started-with-firebase">Getting Started with Firebase <a class="anchor" aria-label="링크" href="#getting-started-with-firebase">#</a></h1>
+<p>This guide will walk you through setting up a Firebase account, creating a Firestore database to power your product shop application, and adding user authentication to secure your Expo Router app.</p>
+<h2 id="1-create-a-firebase-account-and-project">1. Create a Firebase Account and Project <a class="anchor" aria-label="링크" href="#1-create-a-firebase-account-and-project">#</a></h2>
+<p>Before writing code, you need to set up a backend project in the Firebase Console.</p>
+<ol>
+<li>Go to the <a href="https://console.firebase.google.com/" target="_blank" rel="noopener">Firebase Console</a> and sign in with your Google account.</li>
+<li>Click <strong>Create a new Firebase Project</strong>, enter a name (e.g., <code>Product-Shop-App</code>), accept the Firebase terms, and click <strong>Continue</strong>.</li>
+<li>Choose whether to enable AI assistance (recommended) and click <strong>Continue</strong>.</li>
+<li>Choose whether to enable Google Analytics (you can experiment with this later, for now turn it off) and click <strong>Continue</strong>.</li>
+<li>Once your project is ready, click <strong>Continue</strong> to open your project dashboard.</li>
+</ol>
+<h3 id="register-your-app">Register your App <a class="anchor" aria-label="링크" href="#register-your-app">#</a></h3>
+<p>To connect your Expo app, you need to register a Web App within your Firebase project:</p>
+<ol>
+<li>Click on <strong>Settings</strong> &gt; <strong>General</strong>.</li>
+<li>Under <strong>Your apps</strong>, click <strong>Web (<code>&lt;/&gt;</code>)</strong>.</li>
+<li>Enter an app nickname (e.g., <code>Expo Shop App</code>) and click <strong>Register app</strong>. You do not need to set up Firebase Hosting.</li>
+<li>Firebase will provide a <code>firebaseConfig</code> object containing API keys. <strong>Copy this information or keep it open; you will need it shortly.</strong></li>
+</ol>
+<h2 id="2-set-up-cloud-firestore">2. Set Up Cloud Firestore <a class="anchor" aria-label="링크" href="#2-set-up-cloud-firestore">#</a></h2>
+<p>Cloud Firestore is a flexible, scalable NoSQL cloud database. Let's initialize it and add some product data.</p>
+<ol>
+<li>In the left-hand menu of the Firebase Console, navigate to <strong>Database and storage</strong> &gt; <strong>Firestore</strong>.</li>
+<li>Click <strong>Create database</strong>.</li>
+<li>Select <strong>Standard edition</strong> and click <strong>Next</strong>.</li>
+<li>Select a location closest to your users and click <strong>Next</strong>. <em>There are no Canadian locations available, so choose United States.</em></li>
+<li>Choose <strong>Start in test mode</strong> so you can easily read/write data during development. Click <strong>Create</strong>.</li>
+</ol>
+<h3 id="add-a-products-collection">Add a Products Collection <a class="anchor" aria-label="링크" href="#add-a-products-collection">#</a></h3>
+<ol>
+<li>Click <strong>Start collection</strong> and name it <code>products</code>. Click <strong>Next</strong>.</li>
+<li>Add a document with an <strong>Auto-ID</strong> and add the fields for a product:
+<ul>
+<li><code>name</code> (string): e.g., &quot;Wireless Noise-Canceling Headphones&quot;</li>
+<li><code>price</code> (number): e.g., <code>299.99</code></li>
+</ul>
+</li>
+</ol>
+<h2 id="3-integrate-firebase-into-your-expo-router-app">3. Integrate Firebase into your Expo Router App <a class="anchor" aria-label="링크" href="#3-integrate-firebase-into-your-expo-router-app">#</a></h2>
+<p>This tutorial assumes you have already completed the <a href="https://seneca-ictoer.github.io/WEB530/H-Expo/expo-router" target="_blank" rel="noopener">Expo Router example</a>. You will build upon this example.</p>
+<p>To interact with Cloud Firestore and manage user registration without introducing bulky external software packages, we communicate with Google's servers using an architectural style called <strong>REST</strong>. Instead of an SDK config file, we manage our connections using standard HTTPS network requests.</p>
+<h3 id="configuration-setup">Configuration Setup <a class="anchor" aria-label="링크" href="#configuration-setup">#</a></h3>
+<p>Create a file named <code>firebaseConfig.js</code> inside a <code>/config</code> folder to centrally store your project identifiers and credentials retrieved from Step 1:</p>
+<pre class="hl"><code class="language-text">// Store project metadata for endpoint interpolation
+export const firebaseConfig = {
+  projectId: 'YOUR_PROJECT_ID',
+  apiKey: 'YOUR_WEB_API_KEY', // Found in Project Settings &gt; General
+};
+
+// Base REST path targeting document root resources
+export const firestoreEndpoint = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents`;
+</code></pre>
+<h2 id="4-modify-the-product-shop-to-read-from-firestore">4. Modify the Product Shop to Read from Firestore <a class="anchor" aria-label="링크" href="#4-modify-the-product-shop-to-read-from-firestore">#</a></h2>
+<p>Update your Jotai Atom <code>/store/productsAtom.ts</code>. Instead of initializing with hardcoded items, add a Jotai action atom to handle the asynchronous REST stream and update the state.</p>
+<pre class="hl"><code class="language-text">import { atom } from 'jotai';
+import { firestoreEndpoint } from '@/config/firebaseConfig';
+
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+}
+
+// 1. Core atom holding the current array of products
+export const productsAtom = atom&lt;Product[]&gt;([]);
+
+// 2. Writable action atom to fetch data from Firestore REST API and update the store
+export const fetchProductsAtom = atom(null, async (get, set) =&gt; {
+  try {
+    const response = await fetch(`${firestoreEndpoint}/products`);
+    const data = await response.json();
+
+    if (data.documents) {
+      const formattedData: Product[] = data.documents.map((doc: any) =&gt; {
+        const docId = doc.name.split('/').pop();
+        return {
+          id: docId,
+          name: doc.fields.name?.stringValue || 'Unknown Product',
+          // Handles both integer and float formats from Firestore REST endpoints
+          price: parseFloat(doc.fields.price?.doubleValue || doc.fields.price?.integerValue || '0'),
+        };
+      });
+
+      // Write parsed data directly into the core atom
+      set(productsAtom, formattedData);
+    }
+  } catch (error) {
+    console.error('Failed to sync Firestore products to Jotai:', error);
+  }
+});
+</code></pre>
+<p>Update your product shop screen layout <code>app/(tabs)/products/index.tsx</code>.</p>
+<ul>
+<li>Your screen should check if the store is empty when mounting.</li>
+<li>If it is, run the atom setter action using useSetAtom.</li>
+<li>We can also add a clean loading state using native components.</li>
+</ul>
+<pre class="hl"><code class="language-text">import React, { useEffect, useState } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
+import { Link } from 'expo-router';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { productsAtom, fetchProductsAtom } from '@/store/productsAtom';
+
+export default function ShopScreen() {
+  // Read the product list directly from your global Jotai store
+  const products = useAtomValue(productsAtom);
+  // Get the modifier function to dispatch our REST fetch sequence
+  const fetchProducts = useSetAtom(fetchProductsAtom);
+
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() =&gt; {
+    async function loadInitialData() {
+      // Only show spinner and fetch if the store hasn't been filled yet
+      if (products.length === 0) {
+        setLoading(true);
+        await fetchProducts();
+        setLoading(false);
+      }
+    }
+    loadInitialData();
+  }, [products, fetchProducts]);
+
+  if (loading) {
+    return (
+      &lt;SafeAreaView style={styles.center}&gt;
+        &lt;ActivityIndicator size="large" color="#007AFF" /&gt;
+      &lt;/SafeAreaView&gt;
+    );
+  }
+
+  return (
+    &lt;SafeAreaView style={styles.container} edges={['left', 'right']}&gt;
+      &lt;Text style={styles.heading}&gt;Available Hardware&lt;/Text&gt;
+
+      &lt;FlatList
+        data={products}
+        keyExtractor={(item) =&gt; item.id}
+        renderItem={({ item }) =&gt; (
+          // Link navigates completely outside the tab directory to the product stack folder
+          &lt;Link href={`/products/${item.id}`} asChild&gt;
+            &lt;TouchableOpacity style={styles.card}&gt;
+              &lt;View style={styles.infoContainer}&gt;
+                &lt;Text style={styles.prodName}&gt;{item.name}&lt;/Text&gt;
+                {/* Dynamically formatting the numeric price from the atom */}
+                &lt;Text style={styles.prodPrice}&gt;${item.price.toFixed(2)}&lt;/Text&gt;
+              &lt;/View&gt;
+              &lt;Text style={styles.arrow}&gt;View →&lt;/Text&gt;
+            &lt;/TouchableOpacity&gt;
+          &lt;/Link&gt;
+        )}
+        ListEmptyComponent={
+          !loading &amp;&amp; &lt;Text style={styles.emptyText}&gt;No hardware options available.&lt;/Text&gt;
+        }
+      /&gt;
+    &lt;/SafeAreaView&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingHorizontal: 16, backgroundColor: '#f5f5f7' },
+  center: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#f5f5f7' },
+  heading: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginTop: 16,
+    marginBottom: 16,
+    color: '#1c1c1e',
+  },
+  card: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 12,
+    elevation: 1,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 4,
+  },
+  infoContainer: {
+    flex: 1,
+    paddingRight: 8,
+  },
+  prodName: { fontSize: 16, fontWeight: '600', color: '#1c1c1e' },
+  prodPrice: { fontSize: 14, color: '#007AFF', marginTop: 4 },
+  arrow: { color: '#8e8e93', fontWeight: 'bold' },
+  emptyText: { textAlign: 'center', marginTop: 40, color: '#8e8e93', fontSize: 16 },
+});
+</code></pre>
+<h2 id="5-add-user-authentication">5. Add User Authentication <a class="anchor" aria-label="링크" href="#5-add-user-authentication">#</a></h2>
+<p>To secure the application and track who is interacting with your app, we use Google's secure HTTP REST Identity Toolkit.</p>
+<p><strong>Enable Email/Password in Console</strong></p>
+<ol>
+<li>In the Firebase Console, navigate to <strong>Security</strong> &gt; <strong>Authentication</strong>.</li>
+<li>Click <strong>Get Started</strong>.</li>
+<li>Under <strong>Sign-in providers</strong>, select <strong>Email/Password</strong>.</li>
+<li>Enable the feature and click <strong>Save</strong>.</li>
+</ol>
+<ul>
+<li><em>Do not enable <strong>Email Link (passwordless sign-in)</strong>.</em></li>
+</ul>
+<p><strong>Create <code>store/authAtom.ts</code></strong></p>
+<pre class="hl"><code class="language-text">import { atom } from 'jotai';
+
+/**
+ * Global state atom that stores the active user's session token.
+ * * State Breakdown:
+ * - string: The active JSON Web Token (JWT) returned from the Firebase REST API.
+ * - null: Means the user is unauthenticated (signed out / no session).
+ */
+export const authAtom = atom&lt;string | null&gt;(null);
+</code></pre>
+<p><strong>Create a Registration &amp; Login Actions using <code>fetch</code></strong></p>
+<p>Create a user interface screen file at <code>app/auth.tsx</code>. This file contains both our asynchronous network <code>fetch</code> requests to Google's Identity Toolkit and the standard text inputs and buttons needed for the form.</p>
+<p>When a user authenticates successfully, Google replies with a secure JSON Web Token <code>idToken</code>, which we save directly into our global Jotai state to unlock the application.</p>
+<pre class="hl"><code class="language-text">import React, { useState } from 'react';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import { useSetAtom } from 'jotai';
+import { authAtom } from '../store/authAtom'; // Adjust path as needed
+import { firebaseConfig } from '../config/firebaseConfig'; // Adjust path as needed
+
+interface AuthResponseData {
+  idToken: string;
+  email: string;
+  refreshToken: string;
+  expiresIn: string;
+  localId: string;
+  registered?: boolean;
+}
+
+interface AuthErrorResponse {
+  error: { message: string };
+}
+
+// Expo Router REQUIRES a default export component for files in the app/ directory
+export default function AuthScreen() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const setAuthToken = useSetAtom(authAtom);
+
+  const handleRegister = async () =&gt; {
+    try {
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${firebaseConfig.apiKey}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, returnSecureToken: true }),
+      });
+      const data: AuthResponseData | AuthErrorResponse = await response.json();
+
+      if (response.ok) {
+        setAuthToken((data as AuthResponseData).idToken);
+      } else {
+        Alert.alert('Registration Error', (data as AuthErrorResponse).error.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleLogin = async () =&gt; {
+    try {
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${firebaseConfig.apiKey}`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, returnSecureToken: true }),
+      });
+      const data: AuthResponseData | AuthErrorResponse = await response.json();
+
+      if (response.ok) {
+        setAuthToken((data as AuthResponseData).idToken);
+      } else {
+        Alert.alert('Login Error', (data as AuthErrorResponse).error.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;Account Access&lt;/Text&gt;
+      &lt;TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        keyboardType="email-address"
+      /&gt;
+      &lt;TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      /&gt;
+      &lt;TouchableOpacity style={styles.button} onPress={handleLogin}&gt;
+        &lt;Text style={styles.buttonText}&gt;Sign In&lt;/Text&gt;
+      &lt;/TouchableOpacity&gt;
+      &lt;TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={handleRegister}&gt;
+        &lt;Text style={styles.secondaryButtonText}&gt;Create Account&lt;/Text&gt;
+      &lt;/TouchableOpacity&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#fff' },
+  title: { fontSize: 24, fontWeight: 'bold', marginBottom: 24, textAlign: 'center' },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+    backgroundColor: '#f9f9f9',
+  },
+  button: {
+    backgroundColor: '#007AFF',
+    padding: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  secondaryButton: { backgroundColor: 'transparent', borderWidth: 1, borderColor: '#007AFF' },
+  secondaryButtonText: { color: '#007AFF', fontSize: 16, fontWeight: '600' },
+});
+</code></pre>
+<p><strong>Listening to Auth State with Jotai in Expo Router</strong></p>
+<p>When working over the native REST API, there is no automatic continuous background connection tracking session changes. Instead, we use a shared global Jotai atom state container to watch our token.</p>
+<p>Update your root layout context file <code>app/_layout.tsx</code> to intercept changes to the global atom state dynamically:</p>
+<pre class="hl"><code class="language-text">import { useFonts } from 'expo-font';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack, useRouter, useSegments } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
+import { useEffect, useState } from 'react';
+import 'react-native-reanimated';
+import { useAtomValue } from 'jotai';
+import { authAtom } from '@/store/authAtom'; // Adjust this import alias path if necessary
+
+import { useColorScheme } from '@/components/useColorScheme';
+
+export {
+  // Catch any errors thrown by the Layout component.
+  ErrorBoundary,
+} from 'expo-router';
+
+export const unstable_settings = {
+  // Ensure that reloading on `/modal` keeps a back button present.
+  initialRouteName: '(tabs)',
+};
+
+// Prevent the splash screen from auto-hiding before asset loading is complete.
+SplashScreen.preventAutoHideAsync();
+
+export default function RootLayout() {
+  const [loaded, error] = useFonts({
+    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+  });
+
+  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
+  useEffect(() =&gt; {
+    if (error) throw error;
+  }, [error]);
+
+  useEffect(() =&gt; {
+    if (loaded) {
+      SplashScreen.hideAsync();
+    }
+  }, [loaded]);
+
+  if (!loaded) {
+    return null;
+  }
+
+  return &lt;RootLayoutNav /&gt;;
+}
+
+function RootLayoutNav() {
+  const colorScheme = useColorScheme();
+
+  // 1. Monitor the global authentication token string from Jotai
+  const authToken = useAtomValue(authAtom);
+  const segments = useSegments();
+  const router = useRouter();
+
+  // 2. Navigation mounting safety state gate
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() =&gt; {
+    setHasMounted(true);
+  }, []);
+
+  // 3. Track state changes and conditionally reroute the user context boundary
+  useEffect(() =&gt; {
+    if (!hasMounted) return;
+
+    // Check if the student is currently viewing a screen inside the auth folder layout context
+    const inAuthGroup = segments[0] === 'auth';
+
+    if (!authToken &amp;&amp; !inAuthGroup) {
+      // If no REST token string is present in memory, drop them back to the login screen
+      router.replace('/auth');
+    } else if (authToken &amp;&amp; inAuthGroup) {
+      // If a valid token exists and they try to visit login, push them into the main catalog tabs
+      router.replace('/products');
+    }
+  }, [authToken, segments, hasMounted]);
+
+  return (
+    &lt;ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}&gt;
+      &lt;Stack&gt;
+        {/* Main Application Tabs layout container */}
+        &lt;Stack.Screen name="(tabs)" options={{ headerShown: false }} /&gt;
+        {/* Authentication Entry Screen */}
+        &lt;Stack.Screen name="auth" options={{ headerShown: false, title: 'Login' }} /&gt;
+        {/* Modals &amp; Stack Subdirectories */}
+        &lt;Stack.Screen name="modal" options={{ presentation: 'modal' }} /&gt;
+      &lt;/Stack&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

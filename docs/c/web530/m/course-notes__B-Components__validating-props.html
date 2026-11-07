@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Validating Props · WEB530</title><meta name="description" content="Validating Props · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Validating Props</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#validating-component-properties">Validating Component Properties</a></li><li class="l3"><a href="#type-validation">Type Validation</a></li><li class="l3"><a href="#required-values">Required Values</a></li><li class="l3"><a href="#any-value">Any value</a></li><li class="l3"><a href="#specific-types">Specific types</a></li><li class="l3"><a href="#specific-values">Specific values</a></li><li class="l3"><a href="#custom-validators">Custom validators</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/B-Components/validating-props" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/B-Components/validating-props</a></p>
+<h1 id="validating-props">Validating Props <a class="anchor" aria-label="링크" href="#validating-props">#</a></h1>
+<h2 id="validating-component-properties"><strong>Validating Component Properties</strong> <a class="anchor" aria-label="링크" href="#validating-component-properties">#</a></h2>
+<p>You can think of property validation in components similar to field validation in HTML forms. The goal is to inform <em>developers</em> implementing a component that they have provided a value that is not acceptable. This improves the experience for developers that are interacting with components you have created.</p>
+<h3 id="type-validation">Type Validation <a class="anchor" aria-label="링크" href="#type-validation">#</a></h3>
+<p>The <code>prop-types</code> package includes simple property type validators that can handle most primitive types of JavaScript values. You will use these validators frequently to ensure property values contain the expected data type. It is worth noting that if you do not pass a value to a given property, the type is not validated and no warning is displayed.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { View, Text, TextInput } from 'react-native';
+import PropTypes from 'prop-types';
+
+const MyComponent = function ({ myString, myNumber, myBool, myFunc, myArray, myObject }) {
+  return (
+    &lt;View&gt;
+      &lt;Text&gt;{myString}&lt;/Text&gt;
+      &lt;Text&gt;{myNumber}&lt;/Text&gt;
+      &lt;TextInput editable={myBool} placeholder="Enter text" /&gt;
+      &lt;Text&gt;{myFunc()}&lt;/Text&gt;
+      &lt;Text&gt;
+        {myArray.map((i) =&gt; (
+          &lt;Text key={i}&gt;{i}&lt;/Text&gt;
+        ))}
+      &lt;/Text&gt;
+      &lt;Text&gt;{myObject.myProp}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+};
+
+MyComponent.propTypes = {
+  myString: PropTypes.string,
+  myNumber: PropTypes.number,
+  myBool: PropTypes.bool,
+  myFunc: PropTypes.func,
+  myArray: PropTypes.array,
+  myObject: PropTypes.object,
+};
+
+export default function App() {
+  return (
+    &lt;MyComponent
+      myString="String"
+      myNumber={42}
+      myBool={false}
+      myFunc={() =&gt; 'Function'}
+      myArray={['A', 'B', 'C']}
+      myObject={{ myProp: 'Object.myProp' }}
+    /&gt;
+  );
+}
+</code></pre>
+<p>Copy and paste the previous code example into the course's React playground, then try changing the property values so they use the wrong types. For example, change <code>myBool={false}</code> to <code>myBool={&quot;false&quot;}</code>. You should see a warning similar to: Failed prop type: Invalid prop <code>myBool</code> of type <code>string</code> supplied to <code>MyComponent</code>, expected <code>boolean</code>.</p>
+<p>💡 React 19 removed <code>propTypes</code> checking, so these warnings only appear in React 18 and earlier. The course playground uses React 18 for this reason. Expo SDK 53 and later (including the current Snack) use React 19, where <code>propTypes</code> are silently ignored. Newer projects use TypeScript to check props instead; see the <a href="https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript" target="_blank" rel="noopener">TypeScript guide</a>.</p>
+<h3 id="required-values">Required Values <a class="anchor" aria-label="링크" href="#required-values">#</a></h3>
+<p>As mentioned earlier, no warning is shown if you simply ignore a property but there are times when a value is required. Using the <code>prop-types</code> package, we can indicate the values that must be specified. Let's modify the previous code example to require all properties be specified.</p>
+<pre class="hl"><code class="language-text">MyComponent.propTypes = {
+  myString: PropTypes.string.isRequired,
+  myNumber: PropTypes.number.isRequired,
+  myBool: PropTypes.bool.isRequired,
+  myFunc: PropTypes.func.isRequired,
+  myArray: PropTypes.array.isRequired,
+  myObject: PropTypes.object.isRequired,
+};
+</code></pre>
+<h3 id="any-value">Any value <a class="anchor" aria-label="링크" href="#any-value">#</a></h3>
+<p>Sometimes you don't know (or care) what type of property is passed to your component but you want to ensure something is passed in. In other words, it is a required property but the data type doesn't matter. This is easily accomplished using <code>PropTypes.any.isRequired</code>.</p>
+<h3 id="specific-types">Specific types <a class="anchor" aria-label="링크" href="#specific-types">#</a></h3>
+<p>If you need a property validator that checks for a custom type defined by your application, for example a component called <code>MyComponent</code>, there are <code>PropTypes</code> for this as well.</p>
+<ul>
+<li><code>PropTypes.instanceOf(MyComponent)</code> - requires an instance of <code>MyComponent</code>.</li>
+<li><code>PropTypes.oneOfType([PropTypes.string, MyComponent])</code> - requires an instance of <code>string</code> or <code>MyComponent</code>.</li>
+<li><code>PropTypes.arrayOf(PropTypes.instanceOf(MyComponent))</code> - requires an array of <code>MyComponent</code> instances.</li>
+</ul>
+<h3 id="specific-values">Specific values <a class="anchor" aria-label="링크" href="#specific-values">#</a></h3>
+<p>So far, we’ve validated the type of each prop, but sometimes the actual value matters just as much.</p>
+<ul>
+<li><code>PropTypes.oneOf(possibleValues)</code> - Checks the property value and warns if the value is not contained in an array <code>possibleValues</code>.</li>
+<li><code>PropTypes.shape(comparableObj)</code> - Similar to <code>instanceOf()</code> but we don't care about the actual type. Instead, we care that the object passed in has all of the required properties and that each property is valid.</li>
+</ul>
+<h3 id="custom-validators">Custom validators <a class="anchor" aria-label="링크" href="#custom-validators">#</a></h3>
+<p>The validators provided by the <code>prop-types</code> package cover a wide range of scenarios but you may require some sort of custom validation logic. Simply define a function accepting three arguments <code>(props, name, component) =&gt; { }</code>. Return <code>null</code> if the value is valid otherwise return an <code>Error</code> instance.</p>
+<pre class="hl"><code class="language-text">MyComponent.propTypes = {
+  myNumber: (props, name, component) =&gt;
+    Number.isFinite(props[name]) &amp;&amp; props[name] &gt;= 10 &amp;&amp; props[name] &lt;= 99
+      ? null
+      : new Error(`${component}.${name} expects a number between 10 and 99`),
+};
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

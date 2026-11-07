@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Data Lists and Detail Views · WEB530</title><meta name="description" content="Data Lists and Detail Views · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Data Lists and Detail Views</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#introduction">Introduction</a></li><li class="l2"><a href="#example">Example</a></li><li class="l3"><a href="#navigation">Navigation</a></li><li class="l3"><a href="#list-screen">List Screen</a></li><li class="l3"><a href="#detail-screen">Detail Screen</a></li><li class="l3"><a href="#passing-data-between-screens">Passing Data Between Screens</a></li><li class="l3"><a href="#fetching-detail-data">Fetching Detail Data</a></li><li class="l2"><a href="#full-solution-local-data">Full Solution (Local Data)</a></li><li class="l2"><a href="#full-example-fetching-remote-data">Full Example (Fetching Remote Data)</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views</a></p>
+<h1 id="data-lists-and-detail-views">Data Lists and Detail Views <a class="anchor" aria-label="링크" href="#data-lists-and-detail-views">#</a></h1>
+<h2 id="introduction">Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h2>
+<p>Many mobile apps follow a familiar pattern:</p>
+<ol>
+<li>Show a <strong>list</strong> of items</li>
+<li>Let the user <strong>tap</strong> an item</li>
+<li>Navigate to a <strong>detail view</strong> showing more information</li>
+</ol>
+<p>Examples include:</p>
+<ul>
+<li>Email inbox → email detail</li>
+<li>Contacts → contact profile</li>
+<li>Products → product page</li>
+<li>News feed → article view</li>
+</ul>
+<p>React Native makes this pattern straightforward using:</p>
+<ul>
+<li><strong>FlatList</strong> for efficient list rendering</li>
+<li><strong>Pressable</strong> for touch interactions</li>
+<li><strong>React Navigation</strong> for screen‑to‑screen navigation</li>
+</ul>
+<p>This page shows how to build a simple “List → Detail” flow.</p>
+<h2 id="example">Example <a class="anchor" aria-label="링크" href="#example">#</a></h2>
+<h3 id="navigation">Navigation <a class="anchor" aria-label="링크" href="#navigation">#</a></h3>
+<p>To navigate between screens, we use the <a href="https://seneca-ictoer.github.io/WEB530/D-Navigation/navigating" target="_blank" rel="noopener">Stack Navigator</a> from React Navigation.</p>
+<pre class="hl"><code class="language-text">import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    &lt;NavigationContainer&gt;
+      &lt;Stack.Navigator&gt;
+        &lt;Stack.Screen name="List" component={ListScreen} /&gt;
+        &lt;Stack.Screen name="Detail" component={DetailScreen} /&gt;
+      &lt;/Stack.Navigator&gt;
+    &lt;/NavigationContainer&gt;
+  );
+}
+</code></pre>
+<h3 id="list-screen">List Screen <a class="anchor" aria-label="링크" href="#list-screen">#</a></h3>
+<p>The list screen displays a list of items using <code>FlatList</code>. Each row is a <code>Pressable</code> that navigates to the detail screen.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
+
+export function ListScreen({ navigation }) {
+  const data = new Array(20).fill(null).map((_, id) =&gt; ({
+    id,
+    title: `Item ${id}`,
+    description: `This is item number ${id}.`,
+  }));
+
+  function openDetail(item) {
+    navigation.navigate('Detail', { item });
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;FlatList
+        data={data}
+        keyExtractor={(item) =&gt; item.id.toString()}
+        renderItem={({ item }) =&gt; (
+          &lt;Pressable style={styles.row} onPress={() =&gt; openDetail(item)}&gt;
+            &lt;Text style={styles.rowTitle}&gt;{item.title}&lt;/Text&gt;
+            &lt;Text style={styles.rowSubtitle}&gt;Tap to view details&lt;/Text&gt;
+          &lt;/Pressable&gt;
+        )}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  rowTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  rowSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+});
+</code></pre>
+<h3 id="detail-screen">Detail Screen <a class="anchor" aria-label="링크" href="#detail-screen">#</a></h3>
+<p>The detail screen receives the selected item through <code>route.params</code>.</p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+export function DetailScreen({ route }) {
+  const { item } = route.params;
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Text style={styles.title}&gt;{item.title}&lt;/Text&gt;
+      &lt;Text style={styles.description}&gt;{item.description}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 20 },
+  title: { fontSize: 28, fontWeight: '700', marginBottom: 10 },
+  description: { fontSize: 18, lineHeight: 26 },
+});
+</code></pre>
+<h3 id="passing-data-between-screens">Passing Data Between Screens <a class="anchor" aria-label="링크" href="#passing-data-between-screens">#</a></h3>
+<p>React Navigation automatically passes parameters using:</p>
+<pre class="hl"><code class="language-text">navigation.navigate('Detail', { item });
+</code></pre>
+<p>The detail screen retrieves them using:</p>
+<pre class="hl"><code class="language-text">const { item } = route.params;
+</code></pre>
+<p>You can pass:</p>
+<ul>
+<li>Strings</li>
+<li>Numbers</li>
+<li>Objects</li>
+<li>Arrays</li>
+<li>API results</li>
+</ul>
+<p>This makes it easy to show a list of items and then display more information about a selected one.</p>
+<h3 id="fetching-detail-data">Fetching Detail Data <a class="anchor" aria-label="링크" href="#fetching-detail-data">#</a></h3>
+<p>Sometimes you only pass an ID, and the detail screen fetches the rest:</p>
+<pre class="hl"><code class="language-text">navigation.navigate('Detail', { id: item.id });
+</code></pre>
+<p>Then in the detail screen:</p>
+<pre class="hl"><code class="language-text">useEffect(() =&gt; {
+  fetch(`https://example.com/items/${id}`)
+    .then((res) =&gt; res.json())
+    .then(setItem);
+}, [id]);
+</code></pre>
+<p>This is useful for:</p>
+<ul>
+<li>Product pages</li>
+<li>User profiles</li>
+<li>News articles</li>
+<li>Any data that needs to be loaded on demand</li>
+</ul>
+<h2 id="full-solution-local-data">Full Solution (Local Data) <a class="anchor" aria-label="링크" href="#full-solution-local-data">#</a></h2>
+<pre class="hl"><code class="language-text">import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+// ----------------------
+// List Screen
+// ----------------------
+function ListScreen({ navigation }) {
+  const data = new Array(20).fill(null).map((_, id) =&gt; ({
+    id,
+    title: `Item ${id}`,
+    description: `This is the detail view for item ${id}.`,
+  }));
+
+  function openDetail(item) {
+    navigation.navigate('Detail', { item });
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;FlatList
+        data={data}
+        keyExtractor={(item) =&gt; item.id.toString()}
+        renderItem={({ item }) =&gt; (
+          &lt;Pressable style={styles.row} onPress={() =&gt; openDetail(item)}&gt;
+            &lt;Text style={styles.rowTitle}&gt;{item.title}&lt;/Text&gt;
+            &lt;Text style={styles.rowSubtitle}&gt;Tap to view details&lt;/Text&gt;
+          &lt;/Pressable&gt;
+        )}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+
+// ----------------------
+// Detail Screen
+// ----------------------
+function DetailScreen({ route }) {
+  const { item } = route.params;
+
+  return (
+    &lt;View style={styles.detailContainer}&gt;
+      &lt;Text style={styles.detailTitle}&gt;{item.title}&lt;/Text&gt;
+      &lt;Text style={styles.detailDescription}&gt;{item.description}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+// ----------------------
+// App Entry
+// ----------------------
+export default function App() {
+  return (
+    &lt;NavigationContainer&gt;
+      &lt;Stack.Navigator&gt;
+        &lt;Stack.Screen name="List" component={ListScreen} /&gt;
+        &lt;Stack.Screen
+          name="Detail"
+          component={DetailScreen}
+          options={({ route }) =&gt; ({
+            title: route.params.item.title,
+          })}
+        /&gt;
+      &lt;/Stack.Navigator&gt;
+    &lt;/NavigationContainer&gt;
+  );
+}
+
+// ----------------------
+// Styles
+// ----------------------
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  rowTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  rowSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+  detailContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  detailTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  detailDescription: {
+    fontSize: 18,
+    lineHeight: 26,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+<h2 id="full-example-fetching-remote-data">Full Example (Fetching Remote Data) <a class="anchor" aria-label="링크" href="#full-example-fetching-remote-data">#</a></h2>
+<pre class="hl"><code class="language-text">import { useEffect, useState } from 'react';
+import { View, Text, FlatList, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+// ----------------------
+// List Screen
+// ----------------------
+function ListScreen({ navigation }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() =&gt; {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then((res) =&gt; {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json) =&gt; {
+        setData(json);
+        setLoading(false);
+      })
+      .catch((err) =&gt; {
+        setError('Failed to load data');
+        setLoading(false);
+      });
+  }, []);
+
+  function openDetail(item) {
+    navigation.navigate('Detail', { id: item.id });
+  }
+
+  if (loading) {
+    return (
+      &lt;View style={styles.center}&gt;
+        &lt;ActivityIndicator size="large" /&gt;
+        &lt;Text&gt;Loading posts…&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  if (error) {
+    return (
+      &lt;View style={styles.center}&gt;
+        &lt;Text style={{ color: 'red' }}&gt;{error}&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;FlatList
+        data={data}
+        keyExtractor={(item) =&gt; item.id.toString()}
+        renderItem={({ item }) =&gt; (
+          &lt;Pressable style={styles.row} onPress={() =&gt; openDetail(item)}&gt;
+            &lt;Text style={styles.rowTitle}&gt;{item.title}&lt;/Text&gt;
+            &lt;Text style={styles.rowSubtitle}&gt;Tap to view details&lt;/Text&gt;
+          &lt;/Pressable&gt;
+        )}
+      /&gt;
+    &lt;/View&gt;
+  );
+}
+
+// ----------------------
+// Detail Screen
+// ----------------------
+function DetailScreen({ route }) {
+  const { id } = route.params;
+
+  const [item, setItem] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() =&gt; {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${id}`)
+      .then((res) =&gt; res.json())
+      .then((json) =&gt; {
+        setItem(json);
+        setLoading(false);
+      });
+  }, [id]);
+
+  if (loading) {
+    return (
+      &lt;View style={styles.center}&gt;
+        &lt;ActivityIndicator size="large" /&gt;
+        &lt;Text&gt;Loading details…&lt;/Text&gt;
+      &lt;/View&gt;
+    );
+  }
+
+  return (
+    &lt;View style={styles.detailContainer}&gt;
+      &lt;Text style={styles.detailTitle}&gt;{item.title}&lt;/Text&gt;
+      &lt;Text style={styles.detailDescription}&gt;{item.body}&lt;/Text&gt;
+    &lt;/View&gt;
+  );
+}
+
+// ----------------------
+// App Entry
+// ----------------------
+export default function App() {
+  return (
+    &lt;NavigationContainer&gt;
+      &lt;Stack.Navigator&gt;
+        &lt;Stack.Screen name="List" component={ListScreen} /&gt;
+        &lt;Stack.Screen name="Detail" component={DetailScreen} options={{ title: 'Post Details' }} /&gt;
+      &lt;/Stack.Navigator&gt;
+    &lt;/NavigationContainer&gt;
+  );
+}
+
+// ----------------------
+// Styles
+// ----------------------
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  row: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderColor: '#ddd',
+  },
+  rowTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+  },
+  rowSubtitle: {
+    fontSize: 14,
+    color: '#666',
+  },
+  detailContainer: {
+    flex: 1,
+    padding: 20,
+  },
+  detailTitle: {
+    fontSize: 28,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  detailDescription: {
+    fontSize: 18,
+    lineHeight: 26,
+  },
+  center: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

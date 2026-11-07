@@ -1,0 +1,21 @@
+// Firebase Console > Firestore Database > Rules 탭에 붙여넣고 Publish.
+// Week 10~11 은 Test mode(누구나 읽고 쓰기)로 했지만, Week 12 부터는 로그인한 사람만 허용한다.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /spots/{spotId} {
+      // 로그인한 사람은 누구나 읽기 가능
+      allow read: if request.auth != null;
+      // 만들 때 createdBy 가 내 uid 여야 함
+      allow create: if request.auth != null
+                    && request.resource.data.createdBy == request.auth.uid;
+      // 수정/삭제는 만든 사람만
+      allow update, delete: if request.auth != null
+                            && resource.data.createdBy == request.auth.uid;
+    }
+    // Week 13: 사용자별 저장 목록 users/{uid}
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}

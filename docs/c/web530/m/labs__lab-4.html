@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 4 - Navigation · WEB530</title><meta name="description" content="Lab 4 - Navigation · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Lab 4 - Navigation</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-note-on-ai">A Note on AI</a></li><li class="l2"><a href="#overview">Overview</a></li><li class="l3"><a href="#the-clock">The Clock</a></li><li class="l2"><a href="#submission">Submission</a></li><li class="l2"><a href="#setup">Setup</a></li><li class="l2"><a href="#part-a---plan-together">Part A - Plan Together</a></li><li class="l2"><a href="#part-b---build-it-yourself">Part B - Build It Yourself</a></li><li class="l3"><a href="#part-b1---tabs-and-a-nested-stack">Part B1 - Tabs and a Nested Stack</a></li><li class="l3"><a href="#part-b2---params-and-the-header">Part B2 - Params and the Header</a></li><li class="l3"><a href="#part-b3---push-and-pop">Part B3 - Push and Pop</a></li><li class="l3"><a href="#part-b4---saved-items-and-shared-state">Part B4 - Saved Items and Shared State</a></li><li class="l3"><a href="#bonus---open-a-saved-item">Bonus - Open a Saved Item</a></li><li class="l2"><a href="#part-c---test-each-other">Part C - Test Each Other</a></li></ol></nav>
+<article class="md"><h1 id="lab-4---navigation">Lab 4 - Navigation <a class="anchor" aria-label="링크" href="#lab-4---navigation">#</a></h1>
+<h2 id="a-note-on-ai">A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h2>
+<p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. This lab has a built-in check on that: a teammate is going to test your app while you watch, and you will test theirs. The point of this lab is not the finished Snack. It is being able to wire up navigation yourself, and to read someone else's app well enough to find what is wrong with it.</p>
+<h2 id="overview">Overview <a class="anchor" aria-label="링크" href="#overview">#</a></h2>
+<p>This is a group lab with individual submissions, done entirely in class. You plan the app with your project group, build it on your own, then test each other's work.</p>
+<ul>
+<li><strong>Part A - Plan together.</strong> Your group agrees on an app and draws its navigation map.</li>
+<li><strong>Part B - Build it yourself.</strong> Every member builds the group's map in their own Snack. Your code is your own.</li>
+<li><strong>Part C - Test each other.</strong> A teammate runs a set of checks on your app and records the results in your Snack. You do the same for them.</li>
+</ul>
+<p>Your group is your project group. The list is in <code>project/project-groups.md</code> in the course repo. Because everyone in the group builds the same map, a teammate can test your app without reading your code.</p>
+<p>This lab is also the first time you work with your project group, and getting to know each other is part of the point. <strong>The app you build here is not your project.</strong> Project brainstorming happens in formal sessions after the study break, so do not spend this lab pitching ideas or trying to pick the perfect topic.</p>
+<h3 id="the-clock">The Clock <a class="anchor" aria-label="링크" href="#the-clock">#</a></h3>
+<p>The period runs from 11:40 to 1:25. These times are not suggestions:</p>
+<table>
+<thead>
+<tr>
+<th>Time</th>
+<th>What</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11:40</td>
+<td>Find your group, sit together, fork the starter Snack.</td>
+</tr>
+<tr>
+<td>11:45</td>
+<td>Part A. Theme chosen by 11:47. Map drawn and photographed by 12:00.</td>
+</tr>
+<tr>
+<td>12:00</td>
+<td>Part B. Build in order: B1, B2, B3, B4, then the bonus if time allows.</td>
+</tr>
+<tr>
+<td>12:55</td>
+<td>Part C. Stop building, whatever state your app is in, and start testing.</td>
+</tr>
+<tr>
+<td>1:20</td>
+<td>Save, check your link in a private window, submit.</td>
+</tr>
+</tbody>
+</table>
+<p>Part C needs two people. If you keep building past 12:55, your tester cannot finish either, and the lab is incomplete for both of you.</p>
+<p>Checkpoints for Part B: B1 working by 12:15, B2 by 12:30, B3 by 12:40. If you are behind a checkpoint by more than five minutes, ask for help instead of pushing through alone.</p>
+<h2 id="submission">Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h2>
+<ul>
+<li>Submit to the <code>Lab 4</code> assessment in Blackboard:
+<ul>
+<li>One photo or screenshot of your group's navigation map for Part A.</li>
+<li>One Snack link for Parts B and C. After you save, the link looks like <code>https://snack.expo.dev/@yourname/web530-lab-4-...</code>.</li>
+</ul>
+</li>
+<li>The lab is due at the end of class. Submit before you leave.</li>
+<li>This lab is marked <strong>complete</strong> or <strong>incomplete</strong>. Complete means all of the following: the map photo, a Snack where B1 to B4 work, a Part C block filled in by a teammate, and your name as the tester in a teammate's Snack. The bonus is optional.</li>
+<li>Only students who participate in class and hand in a lab slip can receive credit for this lab. If you miss the class, you are still encouraged to complete it as practice.</li>
+<li>Every member submits their own Snack. Two Snacks in the same group with the same code are both incomplete. Same map, same route names, same screens: yes. Same code: no.</li>
+<li>Before submitting, save the Snack one last time and open your link in a private browser window to confirm it loads without signing in.</li>
+</ul>
+<h2 id="setup">Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h2>
+<ol>
+<li>Sign in to Snack at https://snack.expo.dev.</li>
+<li>Open the starter Snack: https://snack.expo.dev/@nick-romanidis/lab4-starter</li>
+<li>Click <strong>Fork</strong> (top right) so you get your own copy. If you cannot see a Fork button, you are not signed in.</li>
+<li>Rename your copy to <code>WEB530 Lab 4 - Your Name</code> (click the name at the top left).</li>
+<li>Click <strong>Save</strong> so the Snack gets a permanent link.</li>
+</ol>
+<p>The starter already has three files. Do not replace them.</p>
+<ul>
+<li><code>package.json</code> has the week 4 dependencies. Leave it alone, and keep Snack on SDK 54 (the default). SDK 55 does not load <code>react-native-screens</code>, so nothing in this lab runs on it.</li>
+<li><code>styles.js</code> has a centred <code>screen</code> style. Add to it if you want, but keep styling minimal. This lab is about navigation, not looks.</li>
+<li><code>App.js</code> has the imports, the Part C comment block, a placeholder item array, empty screen components, and a tab navigator with one tab. Each placeholder has a comment saying which part fills it in.</li>
+</ul>
+<p>The Web preview is enough for everything in this lab. Check the Android or iOS tab once at the end to see the native tab bar and header.</p>
+<h2 id="part-a---plan-together">Part A - Plan Together <a class="anchor" aria-label="링크" href="#part-a---plan-together">#</a></h2>
+<p>With your group, pick a small app and draw its navigation map. Every member builds this same map in Part B, so agree on the details now. Do not use the fruit stand, the feed and account app, or anything else from the week 4 notes.</p>
+<p>The theme does not matter and it is not your project. Give yourselves two minutes to choose, and if you cannot agree, take the first one on this list that nobody objects to:</p>
+<ul>
+<li>a campus food truck finder</li>
+<li>a board game collection</li>
+<li>a hiking trail guide</li>
+<li>a plant shop</li>
+<li>a podcast library</li>
+</ul>
+<p>Spend the rest of Part A on the map, which is what you need for Part B, and on the names on it, which is who you are working with for the rest of the term.</p>
+<p>The app has <strong>three bottom tabs</strong>. Your group names them, but they play these roles:</p>
+<ol>
+<li>A <strong>browse</strong> tab. It contains a stack with two screens: a list of items and a details screen for one item.</li>
+<li>A <strong>saved</strong> tab. It shows the items the user has saved from the details screen.</li>
+<li>An <strong>about</strong> tab. It shows the app name, your group number and the names of every member.</li>
+</ol>
+<p>Your map must show:</p>
+<ul>
+<li>The app name and the theme.</li>
+<li>The three tab names and the icon name for each, chosen from https://icons.expo.fyi/ (the Ionicons set).</li>
+<li>The route name of every screen, including the two inside the browse tab's stack.</li>
+<li>The item data: at least <strong>four</strong> items, each with an <code>id</code>, a <code>name</code>, and two more fields of your choice (for example <code>price</code> and <code>region</code>, or <code>players</code> and <code>minutes</code>).</li>
+<li>Which navigator holds which. A box inside a box is fine.</li>
+</ul>
+<p>Draw it on paper, a whiteboard, or any drawing tool. Write the group number and the names of the members present on it. Everyone takes a photo, and everyone submits it.</p>
+<h2 id="part-b---build-it-yourself">Part B - Build It Yourself <a class="anchor" aria-label="링크" href="#part-b---build-it-yourself">#</a></h2>
+<p>Build the group's map in your own Snack, in order. The code is yours: write it, do not receive it. Replace the placeholder items in the <code>ITEMS</code> array with your group's data.</p>
+<h3 id="part-b1---tabs-and-a-nested-stack">Part B1 - Tabs and a Nested Stack <a class="anchor" aria-label="링크" href="#part-b1---tabs-and-a-nested-stack">#</a></h3>
+<ul>
+<li>The tab navigator has the three tabs from your map, in that order. The app opens on the browse tab.</li>
+<li>Every tab has a <code>tabBarIcon</code> from <code>Ionicons</code>, using the icon names on your map. The icon takes the <code>color</code> and <code>size</code> the tab bar gives it.</li>
+<li>The browse tab's component, <code>BrowseStack</code> in the starter, is <strong>not</strong> a plain screen. It returns a stack navigator with the list screen and the details screen. Use the route names from your map.</li>
+<li>The <strong>tab bar stays visible on the details screen</strong>. If it disappears when you open an item, you nested the navigators the other way around.</li>
+<li><strong>Exactly one header is visible on every screen.</strong> If the browse tab shows two stacked headers, hide one of them.</li>
+</ul>
+<p>Hint: The course notes show both directions under <strong>Nesting navigators</strong>. The second example there, Messages and Contacts, is this exact pattern, including the double-header fix. Read it before you start B1.</p>
+<h3 id="part-b2---params-and-the-header">Part B2 - Params and the Header <a class="anchor" aria-label="링크" href="#part-b2---params-and-the-header">#</a></h3>
+<ul>
+<li>The list screen renders one <code>Button</code> per item in your array, using <code>.map()</code>. Pressing it opens the details screen with <strong>two params</strong>: the item's <code>id</code> and its <code>name</code>.</li>
+<li>The details screen looks the item up in the array by <code>id</code> and shows all of its fields.</li>
+<li>The details screen must <strong>not crash</strong> when it is opened with no params. Show the text <code>Item not found</code> instead. A quick way to check, if you have a minute: temporarily set <code>initialRouteName</code> on the stack to the details screen, confirm the message shows, then put it back.</li>
+<li>The header title of the details screen is the item's <code>name</code>, taken from the params. When there is no name, the title is <code>Details</code>.</li>
+<li>The list screen's header title is the app name, not the route name.</li>
+</ul>
+<p>Hint: <code>options</code> can be a function that receives <code>route</code>. <code>route.params?.name ?? &quot;Details&quot;</code> handles the missing case.</p>
+<h3 id="part-b3---push-and-pop">Part B3 - Push and Pop <a class="anchor" aria-label="링크" href="#part-b3---push-and-pop">#</a></h3>
+<p>Add two buttons to the details screen:</p>
+<ul>
+<li><code>Next item</code> opens the details of the <strong>next</strong> item in your array (after the last item, wrap around to the first). It must open <strong>on top of</strong> the current details screen, so the header back arrow returns to the item you came from.</li>
+<li><code>Back to list</code> returns to the list screen in <strong>one press</strong>, no matter how many <code>Next item</code> presses came before it.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li><code>Next item</code> uses <code>push</code>. Add a comment above it explaining, in your own words, what would happen if it used <code>navigate</code> instead.</li>
+<li><code>Back to list</code> uses <code>popToTop</code>.</li>
+</ul>
+<p>Hint: Find the current item's position in the array with <code>findIndex</code>, then use <code>%</code> to wrap.</p>
+<h3 id="part-b4---saved-items-and-shared-state">Part B4 - Saved Items and Shared State <a class="anchor" aria-label="링크" href="#part-b4---saved-items-and-shared-state">#</a></h3>
+<p>The saved tab and the details screen share one list of saved ids through a Jotai atom, as in week 2. No saved data is passed as a prop or a param.</p>
+<ul>
+<li>One atom holds an array of saved <code>id</code>s. It starts empty.</li>
+<li>The details screen has a <code>headerRight</code> button. Its title is <code>Save</code> when the item is not saved and <code>Unsave</code> when it is. Pressing it toggles the item in the atom. Update the atom with the function form, <code>setSaved((prev) =&gt; ...)</code>.</li>
+<li>The saved tab lists the saved items by name, one <code>Text</code> or <code>Button</code> each.</li>
+<li>When nothing is saved, the saved tab shows the text <code>Nothing saved yet</code> and a <code>Browse</code> button that switches to the browse tab.</li>
+<li>The about tab shows the app name, your group number, and every member's name.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>The <code>Browse</code> button is its own component, not a screen. It gets the navigation object from the <code>useNavigation</code> hook.</li>
+<li>The <code>Save</code> and <code>Unsave</code> button is its own component that reads and updates the atom itself. The header only renders it and passes the item's <code>id</code>.</li>
+</ul>
+<p>Hint: This is the Buy button from the notes, with an array instead of an object. <code>saved.includes(id)</code> tells you whether the item is saved. To toggle it: <code>prev.includes(id) ? prev.filter((s) =&gt; s !== id) : [...prev, id]</code>. For the saved list, <code>ITEMS.filter((item) =&gt; saved.includes(item.id))</code> gives you the items to show.</p>
+<h3 id="bonus---open-a-saved-item">Bonus - Open a Saved Item <a class="anchor" aria-label="링크" href="#bonus---open-a-saved-item">#</a></h3>
+<p>Only start this if B1 to B4 work and it is not yet 12:55. It is not needed to complete the lab.</p>
+<ul>
+<li>Pressing a saved item on the saved tab opens <strong>its details screen inside the browse tab</strong>, with the same two params as the list screen. The browse tab becomes selected and the tab bar stays visible.</li>
+</ul>
+<p>Hint: The saved tab is outside the browse tab's stack, so <code>navigate(&quot;Details&quot;, ...)</code> cannot find it. Name the tab first, then the screen inside it: <code>navigate(&quot;Browse&quot;, { screen: &quot;Details&quot;, params: { id, name } })</code>. Use your own route names. The <strong>Message Sam</strong> button in the course notes' Messages and Contacts example does exactly this.</p>
+<h2 id="part-c---test-each-other">Part C - Test Each Other <a class="anchor" aria-label="링크" href="#part-c---test-each-other">#</a></h2>
+<p>At 12:55, stop building. Pair up inside your group. If your group has an odd number, form a chain so everyone tests one app and everyone is tested once. If your tester is still building, test someone else in the group who is ready, and do not wait.</p>
+<p>The tester opens the author's Snack, follows the checks in the comment block at the top of <code>App.js</code> <strong>exactly as written</strong>, and writes one word after each <code>Result:</code> line: <code>pass</code>, <code>fail</code>, or <code>not built</code>. The author watches and does not help. If a check fails, the author fixes it afterwards and writes down what changed.</p>
+<p>The results live in that comment block. The tester types them in while sitting with the author, or sends them to the author to paste in. The block is already in the starter, so there is nothing to copy.</p>
+<p>Requirements:</p>
+<ul>
+<li>The block is filled in completely: every <code>Result:</code> line has an answer, and the author, app and tester names are real. The tester is a member of your group and is not you.</li>
+<li>Your name appears as the tester in at least one teammate's Snack. Testing a teammate's app is part of completing the lab.</li>
+<li>For check 7, the tester tries something the other checks do not cover and writes one or two sentences about what happened. Pressing the same tab twice, opening the same item twice in a row, and saving every item are all fair game.</li>
+<li>An honest <code>not built</code> is fine. It tells the author exactly what still has to be done before 1:20.</li>
+<li>If any check failed, the fix is in the submitted code and the last line says what changed. A fail that was fixed counts as finished. A fail that was left alone does not.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

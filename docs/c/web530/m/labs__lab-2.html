@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 2 - React Native, Events, and State · WEB530</title><meta name="description" content="Lab 2 - React Native, Events, and State · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Lab 2 - React Native, Events, and State</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-note-on-ai">A Note on AI</a></li><li class="l2"><a href="#setup">Setup</a></li><li class="l2"><a href="#running-your-app">Running Your App</a></li><li class="l2"><a href="#submission">Submission</a></li><li class="l2"><a href="#question-1---events-and-props-1-point">Question 1 - Events and Props (1 point)</a></li><li class="l2"><a href="#question-2---text-input-and-state-1-point">Question 2 - Text Input and State (1 point)</a></li><li class="l2"><a href="#question-3---toggling-state-and-conditional-rendering-1-point">Question 3 - Toggling State and Conditional Rendering (1 point)</a></li><li class="l2"><a href="#question-4---lifting-state-up-1-point">Question 4 - Lifting State Up (1 point)</a></li><li class="l2"><a href="#question-5---useeffect-and-cleanup-1-point">Question 5 - useEffect and Cleanup (1 point)</a></li><li class="l2"><a href="#question-6---shared-state-without-props-1-point">Question 6 - Shared State Without Props (1 point)</a></li></ol></nav>
+<article class="md"><h1 id="lab-2---react-native-events-and-state">Lab 2 - React Native, Events, and State <a class="anchor" aria-label="링크" href="#lab-2---react-native-events-and-state">#</a></h1>
+<h2 id="a-note-on-ai">A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h2>
+<p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished Snack. It is the ability to write these components yourself, and having an assistant write them for you skips the only part that builds that ability.</p>
+<h2 id="setup">Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h2>
+<p>This lab uses React Native only. There is no React DOM, no <code>div</code>, and no <code>createRoot</code>. Plan for about 60 minutes.</p>
+<ol>
+<li>You need a free Expo account. Create one at https://expo.dev/signup, or sign in with your GitHub account.</li>
+<li>Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.</li>
+<li>Rename the Snack to <code>WEB530 Lab 2 - Your Name</code> (click the name at the top left).</li>
+<li>Open <code>App.js</code>, delete everything in it, and paste in the starter below.</li>
+<li>Click <strong>Save</strong> so the Snack gets a permanent link.</li>
+</ol>
+<p>Starter for <code>App.js</code>:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ScrollView</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">ScrollView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Question</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Your components go here */</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">ScrollView</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>About that one line of style: the <code>style={{ marginTop: 60 }}</code> on the outer <code>ScrollView</code> pushes your content below the phone's clock and status bar so you can see it in the preview. It stays on the outer <code>ScrollView</code> in <code>MyApp</code> and nowhere else. <strong>It is the only style allowed in this lab.</strong> Do not add <code>style</code> props or <code>StyleSheet</code> anywhere else. Styling is covered in a later week.</p>
+<h2 id="running-your-app">Running Your App <a class="anchor" aria-label="링크" href="#running-your-app">#</a></h2>
+<p>Snack shows a preview on the right. There are three ways to run your code:</p>
+<ul>
+<li><strong>Web</strong> tab: fastest, but <code>Alert.alert</code> does nothing here.</li>
+<li><strong>Android</strong> or <strong>iOS</strong> tab: a real emulator in your browser. It can take a minute to start and you may be placed in a queue.</li>
+<li><strong>My Device</strong>: install the Expo Go app on your phone, then scan the QR code.</li>
+</ul>
+<p>Questions 1 and 3 use <code>Alert.alert</code>, so check them on the Android or iOS tab or on your phone.</p>
+<h2 id="submission">Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h2>
+<ul>
+<li>Submit <strong>one</strong> Snack link to the <code>Lab 2</code> assessment in Blackboard. After you save, the link looks like <code>https://snack.expo.dev/@yourname/web530-lab-2-...</code>.</li>
+<li>The lab is due Monday at 11:59 PM. You have the weekend to complete it.</li>
+<li>Only students who participated in the week 2 Tuesday/Wednesday class, and handed in a lab slip can receive marks for this lab. If you did not, you are still encouraged to complete it as preparation for your first test, even though no marks will be awarded.</li>
+<li>All questions go in the same Snack. Write every component in <code>App.js</code>.</li>
+<li><code>MyApp</code> must render the answer to each question in order, under a <code>Text</code> heading, like this:</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">ScrollView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Question</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ReminderButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ReminderButton</span><span class="w"> </span><span class="na">task</span><span class="o">=</span><span class="s">"Submit Lab 2"</span><span class="w"> </span><span class="na">minutes</span><span class="o">=</span><span class="p">{</span><span class="mf">30</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Question</span><span class="w"> </span><span class="mf">2</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">NameTag</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* and so on */</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">ScrollView</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Before submitting, save one last time and open your link in a private browser window to confirm it loads without signing in.</li>
+</ul>
+<h2 id="question-1---events-and-props-1-point">Question 1 - Events and Props (1 point) <a class="anchor" aria-label="링크" href="#question-1---events-and-props-1-point">#</a></h2>
+<p>Create a component called <code>ReminderButton</code> that renders a <code>Button</code>. It accepts two props with default values:</p>
+<ul>
+<li><code>task</code> (string), default <code>&quot;Drink water&quot;</code></li>
+<li><code>minutes</code> (number), default <code>10</code></li>
+</ul>
+<p>When pressed, the button shows an alert with the title <code>Reminder</code> and the message <code>TASK in MINUTES minutes</code>, for example <code>Drink water in 10 minutes</code>.</p>
+<p>Requirements:</p>
+<ul>
+<li>The button's <code>title</code> must be the value of <code>task</code>.</li>
+<li>Write the press handler as a named function inside the component (for example <code>handlePress</code>), not inline in the JSX.</li>
+<li>Render <code>ReminderButton</code> twice in <code>MyApp</code>: once with no props, and once with both props set to values of your choice.</li>
+</ul>
+<p>Hint: <code>Alert.alert(&quot;Title&quot;, &quot;Message&quot;)</code> takes the title first. Import <code>Alert</code> from <code>react-native</code>.</p>
+<h2 id="question-2---text-input-and-state-1-point">Question 2 - Text Input and State (1 point) <a class="anchor" aria-label="링크" href="#question-2---text-input-and-state-1-point">#</a></h2>
+<p>Create a component called <code>NameTag</code> that renders a <code>TextInput</code> and a <code>Text</code>.</p>
+<ul>
+<li>The <code>TextInput</code> has the placeholder <code>Type your name</code>.</li>
+<li>The <code>Text</code> below it reads <code>Hello, NAME</code> and updates on every keystroke.</li>
+<li>When the input is empty, the <code>Text</code> reads <code>Hello, stranger</code>.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Store the typed value in state with <code>useState</code>.</li>
+<li>The <code>TextInput</code> must be controlled: pass the state to <code>value</code> and update it with <code>onChangeText</code>.</li>
+</ul>
+<p>Hint: <code>onChangeText</code> gives you the new string directly, so <code>onChangeText={setName}</code> works. There is no event object to dig through.</p>
+<h2 id="question-3---toggling-state-and-conditional-rendering-1-point">Question 3 - Toggling State and Conditional Rendering (1 point) <a class="anchor" aria-label="링크" href="#question-3---toggling-state-and-conditional-rendering-1-point">#</a></h2>
+<p>Create a component called <code>NotificationSettings</code> with three parts:</p>
+<ul>
+<li>A <code>Text</code> that reads <code>Notifications are on</code> or <code>Notifications are off</code>. Notifications are off when the app starts.</li>
+<li>A <code>Button</code> that toggles notifications. Its title reads <code>Turn notifications on</code> when they are off, and <code>Turn notifications off</code> when they are on.</li>
+<li>A <code>Button</code> titled <code>Send test notification</code> that is <strong>disabled</strong> while notifications are off. When pressed, it shows an alert saying <code>Test notification sent</code>.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>One <code>useState</code> holds the on/off value as a boolean.</li>
+<li>The toggle button flips the boolean. Use the function form: <code>setEnabled((prev) =&gt; !prev)</code>.</li>
+<li>The send button uses the <code>disabled</code> prop. Do not hide the button; it must stay visible and greyed out.</li>
+</ul>
+<p>Hint: A ternary inside JSX chooses between two strings: <code>{enabled ? &quot;on&quot; : &quot;off&quot;}</code>. The same trick works inside the <code>title</code> prop.</p>
+<h2 id="question-4---lifting-state-up-1-point">Question 4 - Lifting State Up (1 point) <a class="anchor" aria-label="링크" href="#question-4---lifting-state-up-1-point">#</a></h2>
+<p>Build a basketball scoreboard from two components.</p>
+<p><code>ScoreButton</code> is a child component with three props:</p>
+<ul>
+<li><code>label</code> (string) - the button title</li>
+<li><code>points</code> (number) - how much to add to the score, can be negative</li>
+<li><code>onScore</code> (function) - called with <code>points</code> when the button is pressed</li>
+</ul>
+<p><code>Scoreboard</code> is the parent. It owns the score in state and renders:</p>
+<ul>
+<li>A <code>Text</code> that reads <code>Score: N</code></li>
+<li>Three <code>ScoreButton</code>s: <code>Three pointer</code> (+3), <code>Free throw</code> (+1), and <code>Technical foul</code> (-2)</li>
+<li>A <code>Button</code> titled <code>New game</code> that sets the score back to 0</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li><code>ScoreButton</code> must <strong>not</strong> have any state of its own. It only reports the press to the parent.</li>
+<li>When adding points, update state with the function form: <code>setScore((prev) =&gt; prev + points)</code>.</li>
+<li>Render <code>&lt;Scoreboard /&gt;</code> in <code>MyApp</code>.</li>
+</ul>
+<h2 id="question-5---useeffect-and-cleanup-1-point">Question 5 - useEffect and Cleanup (1 point) <a class="anchor" aria-label="링크" href="#question-5---useeffect-and-cleanup-1-point">#</a></h2>
+<p>Create a component called <code>Stopwatch</code> that counts seconds.</p>
+<ul>
+<li>A <code>Text</code> reads <code>Elapsed: N seconds</code>.</li>
+<li>A <code>Button</code> toggles between <code>Start</code> and <code>Stop</code>. Its title changes to match what it will do next.</li>
+<li>A <code>Button</code> titled <code>Reset</code> sets the seconds back to 0. It must work whether the stopwatch is running or stopped.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li>Two pieces of state: the elapsed seconds and whether the stopwatch is running.</li>
+<li>Use <code>useEffect</code> with <code>[running]</code> as its dependency array.</li>
+<li>Inside the effect, if the stopwatch is not running, do nothing. If it is running, start a <code>setInterval</code> that adds one second every 1000 ms, and return a cleanup function that calls <code>clearInterval</code>.</li>
+<li>Add <code>console.log(&quot;Stopwatch cleanup&quot;)</code> inside the cleanup function. Press Start, then Stop, and confirm the message appears in the console.</li>
+<li>Inside the interval, update the seconds with the function form <code>setSeconds((prev) =&gt; prev + 1)</code>. Add a comment above that line explaining, in your own words, why <code>setSeconds(seconds + 1)</code> would not work here.</li>
+</ul>
+<p>Hint: <code>setInterval</code> returns an id. Keep it in a <code>const</code> and pass it to <code>clearInterval</code> in the cleanup.</p>
+<h2 id="question-6---shared-state-without-props-1-point">Question 6 - Shared State Without Props (1 point) <a class="anchor" aria-label="링크" href="#question-6---shared-state-without-props-1-point">#</a></h2>
+<p>Build a tiny shopping cart where the count is shared between components that are <strong>not</strong> parent and child.</p>
+<ul>
+<li><code>CartBadge</code> renders a <code>Text</code> that reads <code>Cart: N items</code>.</li>
+<li><code>AddToCartButton</code> accepts an <code>item</code> prop (string) and renders a <code>Button</code> titled <code>Add ITEM</code>. Pressing it adds 1 to the cart count.</li>
+<li>In <code>MyApp</code>, render one <code>CartBadge</code> followed by two <code>AddToCartButton</code>s with different <code>item</code> values, for example <code>Coffee</code> and <code>Bagel</code>. The badge must update when either button is pressed.</li>
+</ul>
+<p>Requirements:</p>
+<ul>
+<li><code>MyApp</code> must <strong>not</strong> hold the cart count in state, and no cart count or handler may be passed as a prop. <code>CartBadge</code> and <code>AddToCartButton</code> read and update the shared value themselves.</li>
+<li>Use <strong>one</strong> of the two approaches from class:
+<ul>
+<li><strong>React Context</strong>: create a context with <code>createContext</code>, write a <code>CartProvider</code> component that owns the state, wrap the <code>ScrollView</code> in <code>MyApp</code> with it, and read the value with <code>useContext</code> in both components.</li>
+<li><strong>Jotai</strong>: create one <code>atom</code> for the count and use <code>useAtom</code> in both components. When you import from <code>jotai</code>, Snack offers to add it to <code>package.json</code>. Accept that. If it does not, add <code>&quot;jotai&quot;: &quot;*&quot;</code> to the <code>dependencies</code> in <code>package.json</code> yourself.</li>
+</ul>
+</li>
+<li>Add a comment above <code>CartBadge</code> naming which approach you used and one sentence on why you picked it.</li>
+</ul>
+<p>You only need one approach for marks, but it is recommended that you code this question both ways as preparation for your test. Both techniques are testable. If you do both, keep your submitted <code>App.js</code> to one approach and put the other version in a comment block or a second file in the Snack.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Common React Native Components · WEB530</title><meta name="description" content="Common React Native Components · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Common React Native Components</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#view">View</a></li><li class="l2"><a href="#text">Text</a></li><li class="l2"><a href="#button">Button</a></li><li class="l2"><a href="#textinput">TextInput</a></li><li class="l2"><a href="#switch">Switch</a></li><li class="l2"><a href="#flatlist-sectionlist">FlatList &amp; SectionList</a></li><li class="l2"><a href="#image">Image</a></li><li class="l2"><a href="#icons">Icons</a></li></ol></nav>
+<article class="md"><p>Source: <a href="https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp</a></p>
+<h1 id="common-react-native-components">Common React Native Components <a class="anchor" aria-label="링크" href="#common-react-native-components">#</a></h1>
+<h2 id="view"><strong>View</strong> <a class="anchor" aria-label="링크" href="#view">#</a></h2>
+<p>This is the most fundamental component for building a UI. A <code>View</code> is a container that maps directly to the native view equivalent: <code>UIView</code> on iOS, <code>android.View</code> on Android, or <code>&lt;div&gt;</code> in a browser. Views can be styled and can hold other views and components.</p>
+<p>Learn more: <a href="https://reactnative.dev/docs/view" target="_blank" rel="noopener">View</a></p>
+<h2 id="text"><strong>Text</strong> <a class="anchor" aria-label="링크" href="#text">#</a></h2>
+<p>A component for displaying text. Like the <code>View</code> component, you can style and nest a <code>Text</code> component. In fact, nesting is an easy way to display formatted text rather than annotating ranges of a string with specific formatting (like bold or colours). Inner <code>Text</code> components will inherit styles (such as fontFamily) from parent components.</p>
+<p>Unlike most other components, <code>Text</code> is unique relative to layout. Everything inside a <code>&lt;Text&gt;</code> block no longer uses the Flexbox layout. Instead, it uses a text layout, meaning that nested <code>Text</code> components are no longer rectangles, but wrap when they see the end of the line.</p>
+<p>Learn more: <a href="https://reactnative.dev/docs/text" target="_blank" rel="noopener">Text</a></p>
+<h2 id="button"><strong>Button</strong> <a class="anchor" aria-label="링크" href="#button">#</a></h2>
+<p>A basic button component that renders correctly on any platform. When clicked, a button will fire the <code>onPress</code> event. Although the styling is not completely customizable, buttons do support standard states such as the <code>disabled</code> state.</p>
+<p>Learn more: <a href="https://reactnative.dev/docs/button" target="_blank" rel="noopener">Button</a></p>
+<h2 id="textinput"><strong>TextInput</strong> <a class="anchor" aria-label="링크" href="#textinput">#</a></h2>
+<p>A component for capturing text from the user. Using properties, a <code>TextInput</code> can be configured to provide several features, such as auto-correction, auto-capitalization, placeholder text, multi-line text, and different keyboard types, such as a numeric keypad or email keyboard.</p>
+<p>When the user modifies the contents of a <code>TextInput</code>, the <code>onChangeText</code> event is fired. Other common events include the <code>onSubmitEditing</code> and <code>onFocus</code> events.</p>
+<p>Learn more: <a href="https://reactnative.dev/docs/textinput" target="_blank" rel="noopener">TextInput</a></p>
+<h2 id="switch"><strong>Switch</strong> <a class="anchor" aria-label="링크" href="#switch">#</a></h2>
+<p>Rendered as a toggle, this component provides an easy way to represent Boolean values. This is a controlled component and therefore the programmer is responsible for updating a property to reflect the correct state (toggled or not). By implementing a handler for the <code>onValueChange</code> event, you can set the <code>value</code> to keep the toggle synchronized with the value.</p>
+<p>Learn more: <a href="https://reactnative.dev/docs/switch" target="_blank" rel="noopener">Switch</a></p>
+<h2 id="flatlist-sectionlist"><strong>FlatList &amp; SectionList</strong> <a class="anchor" aria-label="링크" href="#flatlist-sectionlist">#</a></h2>
+<p>A component for rendering lists. A <code>FlatList</code> supports &quot;Pull to Refresh&quot; and &quot;Scroll loading&quot;. You can even group list items under headings by using a <code>&lt;SectionList&gt;</code>.</p>
+<p>Learn More: <a href="https://reactnative.dev/docs/flatlist" target="_blank" rel="noopener">FlatList</a>, <a href="https://reactnative.dev/docs/sectionlist" target="_blank" rel="noopener">SectionList</a></p>
+<h2 id="image"><strong>Image</strong> <a class="anchor" aria-label="링크" href="#image">#</a></h2>
+<p>Renders an image on the UI. In order to be useful, you must first provide the image data to the component. There are two ways to load the image data, via the network (using a URI) or by providing the data to the component. If you have the image stored as a file within your application, you can use <code>require()</code> to use it as an image source.</p>
+<p>It is worth noting that an <code>Image</code> loaded from the network will not display unless the width and height style properties are set. (Images loaded with <code>require()</code> already know their size.) There is also a <code>resizeMode</code> property in case you need to scale the image so that it fits within the dimensions of the actual component.</p>
+<p>Learn More: <a href="https://reactnative.dev/docs/image" target="_blank" rel="noopener">Image</a></p>
+<pre class="hl"><code class="language-text">import React from 'react';
+import { View, Image, StyleSheet } from 'react-native';
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 50,
+  },
+  image: {
+    width: 50,
+    height: 50,
+  },
+});
+
+const MyImageComponent = () =&gt; {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;Image style={styles.image} source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }} /&gt;
+      &lt;Image
+        style={styles.image}
+        source={{
+          uri: 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==',
+        }}
+      /&gt;
+    &lt;/View&gt;
+  );
+};
+
+export default function App() {
+  return &lt;MyImageComponent /&gt;;
+}
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p><img src="https://seneca-ictoer.github.io/WEB530/assets/images/ex3-images-9ac48219a706766e312c55b3e69686dc.png" alt="Images" /></p>
+<p>To interact with it, run the code in Snack, where you can also edit it.</p>
+<h2 id="icons"><strong>Icons</strong> <a class="anchor" aria-label="링크" href="#icons">#</a></h2>
+<p>One more thing about images ... it is possible to use icon fonts such as FontAwesome directly in your React Native apps. Expo projects (and Snack) include the <code>@expo/vector-icons</code> package, which bundles many popular icon sets. Import the set you want and pass the icon's <code>name</code>, <code>size</code> and <code>color</code>. You can search every available icon in the <a href="https://icons.expo.fyi/" target="_blank" rel="noopener">icon directory</a>.</p>
+<pre class="hl"><code class="language-text">import { View, StyleSheet } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
+
+export default function App() {
+  return (
+    &lt;View style={styles.container}&gt;
+      &lt;FontAwesome name="home" size={32} color="#20232a" /&gt;
+      &lt;FontAwesome name="heart" size={32} color="#e53935" /&gt;
+      &lt;FontAwesome name="star" size={32} color="#fbc02d" /&gt;
+    &lt;/View&gt;
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    gap: 24,
+    paddingTop: 50,
+    paddingLeft: 24,
+  },
+});
+</code></pre>
+<p>Exampleruns in Expo Snack</p>
+<p>Opens the code in Snack, where you can edit it and see the result.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

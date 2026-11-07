@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mock Test 3 (Week 5~7) · WEB530</title><meta name="description" content="Mock Test 3 (Week 5~7) · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><span>Mock Test 3 (Week 5~7)</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#section-1-multiple-choice-1-mark-each">Section 1: Multiple Choice (1 mark each)</a></li><li class="l3"><a href="#question-1">Question 1</a></li><li class="l3"><a href="#question-2">Question 2</a></li><li class="l3"><a href="#question-3">Question 3</a></li><li class="l3"><a href="#question-4">Question 4</a></li><li class="l3"><a href="#question-5">Question 5</a></li><li class="l3"><a href="#question-6">Question 6</a></li><li class="l3"><a href="#question-7">Question 7</a></li><li class="l3"><a href="#question-8">Question 8</a></li><li class="l2"><a href="#section-2-short-essay-3-marks-each">Section 2: Short Essay (3 marks each)</a></li><li class="l3"><a href="#question-9">Question 9</a></li><li class="l3"><a href="#question-10">Question 10</a></li><li class="l3"><a href="#question-11">Question 11</a></li><li class="l3"><a href="#question-12">Question 12</a></li><li class="l2"><a href="#section-3-programming">Section 3: Programming</a></li><li class="l3"><a href="#question-13-lists-16-marks">Question 13: Lists (16 marks)</a></li><li class="l3"><a href="#question-14-touch-10-marks">Question 14: Touch (10 marks)</a></li><li class="l3"><a href="#question-15-maps-geolocation-10-marks">Question 15: Maps &amp; Geolocation (10 marks)</a></li></ol></nav>
+<article class="md"><h1 id="web530-mock-test-3-weeks-5-to-7-lists-touch-maps-geolocation">WEB530 Mock Test 3: Weeks 5 to 7 (Lists, Touch, Maps &amp; Geolocation) <a class="anchor" aria-label="링크" href="#web530-mock-test-3-weeks-5-to-7-lists-touch-maps-geolocation">#</a></h1>
+<blockquote>
+<p>이 모의시험은 Test1, Test2와 같은 형식(객관식 1점, 짧은 서술 3점, Snack 코딩 문항)으로 만들었어요.
+문제는 실제 시험처럼 영어로 썼고, 정답과 한글 해설은 <code>test3-mock-week5-7-answers.md</code>에 따로 있어요. 먼저 풀고 나서 답지를 보세요.
+범위: Week 5 (FlatList, 정렬/검색, fetch 상태, List and Detail, Pull to Refresh), Week 6 (Pressable, hitSlop, ScrollView, 선택 가능한 행, PanResponder, Swipeable), Week 7 (expo-location, watchPositionAsync, MapView, Marker, Polygon)
+시간 가이드: Section 1~2는 30분, Section 3는 문항당 25~35분</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>문항</th>
+<th>배점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Multiple Choice</td>
+<td>Q1 ~ Q8</td>
+<td>8 x 1 = 8</td>
+</tr>
+<tr>
+<td>2. Short Essay</td>
+<td>Q9 ~ Q12</td>
+<td>4 x 3 = 12</td>
+</tr>
+<tr>
+<td>3. Programming</td>
+<td>Q13 Lists (16), Q14 Touch (10), Q15 Maps (10)</td>
+<td>36</td>
+</tr>
+<tr>
+<td>합계</td>
+<td></td>
+<td>56</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="section-1-multiple-choice-1-mark-each">Section 1: Multiple Choice (1 mark each) <a class="anchor" aria-label="링크" href="#section-1-multiple-choice-1-mark-each">#</a></h2>
+<h3 id="question-1">Question 1 <a class="anchor" aria-label="링크" href="#question-1">#</a></h3>
+<p>A screen needs to show 1,000 products. A classmate renders them with a <code>ScrollView</code> and <code>products.map(...)</code>. Why do the Week 5 notes use a <code>FlatList</code> instead?</p>
+<ul>
+<li>A. <code>ScrollView</code> cannot scroll more than 100 children, so the last 900 products would be cut off.</li>
+<li>B. <code>FlatList</code> renders only the rows in a window around the visible area and reuses row components as you scroll, while <code>ScrollView</code> renders every child at once.</li>
+<li>C. <code>FlatList</code> sorts the data automatically, so the products appear in a predictable order.</li>
+<li>D. <code>ScrollView</code> does not support the <code>key</code> prop, so React cannot tell the rows apart.</li>
+</ul>
+<h3 id="question-2">Question 2 <a class="anchor" aria-label="링크" href="#question-2">#</a></h3>
+<p>The API returns objects shaped like <code>{ postId: 7, title: 'Hello' }</code>. Which <code>keyExtractor</code> is correct?</p>
+<ul>
+<li>A. <code>keyExtractor={(item) =&gt; item.postId}</code></li>
+<li>B. <code>keyExtractor={({ item }) =&gt; item.postId.toString()}</code></li>
+<li>C. <code>keyExtractor={(item) =&gt; item.postId.toString()}</code></li>
+<li>D. No <code>keyExtractor</code> is needed, because <code>FlatList</code> falls back to <code>item.postId</code>.</li>
+</ul>
+<h3 id="question-3">Question 3 <a class="anchor" aria-label="링크" href="#question-3">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="nx">fetch</span><span class="p">(</span><span class="nx">URL</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setPosts</span><span class="p">(</span><span class="nx">json</span><span class="p">))</span>
+<span class="w">  </span><span class="p">.</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setError</span><span class="p">(</span><span class="s1">'Could not load the posts.'</span><span class="p">));</span>
+</code></pre>
+<p>The server answers with a 500 error page. What happens?</p>
+<ul>
+<li>A. <code>fetch</code> rejects, the <code>catch</code> runs, and the error message is shown.</li>
+<li>B. <code>fetch</code> resolves, because a 500 is still a response. The <code>catch</code> only runs if a later step throws, so without checking <code>res.ok</code> the error is not detected properly.</li>
+<li>C. <code>fetch</code> retries automatically three times and then shows the error message.</li>
+<li>D. React Native shows a red error screen and the app closes.</li>
+</ul>
+<h3 id="question-4">Question 4 <a class="anchor" aria-label="링크" href="#question-4">#</a></h3>
+<p>A list screen has both a <code>loading</code> state and a <code>refreshing</code> state. Why not use one <code>loading</code> state for both?</p>
+<ul>
+<li>A. <code>FlatList</code> only accepts a state variable whose name is exactly <code>refreshing</code>.</li>
+<li>B. The first load replaces the whole screen with a spinner, while a pull to refresh keeps the list on screen and shows the spinner at the top. One flag cannot describe both.</li>
+<li>C. <code>useState</code> can only hold one boolean per component.</li>
+<li>D. <code>refreshing</code> must start as <code>true</code>, and <code>loading</code> must start as <code>false</code>.</li>
+</ul>
+<h3 id="question-5">Question 5 <a class="anchor" aria-label="링크" href="#question-5">#</a></h3>
+<p>A user presses and holds a <code>Pressable</code> for one second, then lifts the finger. It has <code>onPress</code>, <code>onPressIn</code>, <code>onPressOut</code> and <code>onLongPress</code> handlers. Which events fire, in order?</p>
+<ul>
+<li>A. <code>onPressIn</code>, <code>onPressOut</code>, <code>onPress</code>, <code>onLongPress</code></li>
+<li>B. <code>onPressIn</code>, <code>onLongPress</code>, <code>onPressOut</code></li>
+<li>C. <code>onPressIn</code>, <code>onLongPress</code>, <code>onPressOut</code>, <code>onPress</code></li>
+<li>D. <code>onLongPress</code> only</li>
+</ul>
+<h3 id="question-6">Question 6 <a class="anchor" aria-label="링크" href="#question-6">#</a></h3>
+<p>A close icon is 24 by 24 points and users keep missing it. The design must not change size. What is the Week 6 fix?</p>
+<ul>
+<li>A. Wrap it in a <code>ScrollView</code> so it can be scrolled into a better position.</li>
+<li>B. Add <code>hitSlop={20}</code> to its <code>Pressable</code>, so the touch area grows by 20 points on every side while the layout stays the same.</li>
+<li>C. Add <code>padding: 20</code> to its style.</li>
+<li>D. Replace the <code>Pressable</code> with a <code>Button</code>, which is always 44 points tall.</li>
+</ul>
+<h3 id="question-7">Question 7 <a class="anchor" aria-label="링크" href="#question-7">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="nx">useEffect</span><span class="p">(</span><span class="k">async</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">requestForegroundPermissionsAsync</span><span class="p">();</span>
+<span class="w">  </span><span class="c1">// ...</span>
+<span class="p">},</span><span class="w"> </span><span class="p">[]);</span>
+</code></pre>
+<p>Why do the Week 7 notes define an <code>async</code> function inside the effect and call it, instead of writing it like this?</p>
+<ul>
+<li>A. <code>await</code> is not allowed in React Native.</li>
+<li>B. An effect may only return a clean-up function, and an <code>async</code> function always returns a promise.</li>
+<li>C. <code>requestForegroundPermissionsAsync</code> only works when called from a button.</li>
+<li>D. <code>async</code> functions run before the first render, so the screen would never appear.</li>
+</ul>
+<h3 id="question-8">Question 8 <a class="anchor" aria-label="링크" href="#question-8">#</a></h3>
+<p>A <code>MapView</code> has <code>initialRegion={NEWNHAM}</code>. After the user pans away, the code sets a new value for that prop, but the map does not move. What do the notes do to move the map from code?</p>
+<ul>
+<li>A. Change the <code>key</code> of the <code>MapView</code> so it is rebuilt.</li>
+<li>B. Use the <code>region</code> prop together with <code>followsUserLocation</code>, which works on both platforms.</li>
+<li>C. Give the map a ref with <code>useRef</code>, then call <code>mapRef.current.animateToRegion(region, 1000)</code>.</li>
+<li>D. Call <code>Location.watchPositionAsync</code>, which moves the map automatically.</li>
+</ul>
+<hr />
+<h2 id="section-2-short-essay-3-marks-each">Section 2: Short Essay (3 marks each) <a class="anchor" aria-label="링크" href="#section-2-short-essay-3-marks-each">#</a></h2>
+<h3 id="question-9">Question 9 <a class="anchor" aria-label="링크" href="#question-9">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">products</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Pen'</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Bag'</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Book'</span><span class="p">,</span><span class="w"> </span><span class="nx">price</span><span class="o">:</span><span class="w"> </span><span class="mf">15</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">cheapFirst</span><span class="p">,</span><span class="w"> </span><span class="nx">setCheapFirst</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">products</span><span class="p">.</span><span class="nx">sort</span><span class="p">((</span><span class="nx">a</span><span class="p">,</span><span class="w"> </span><span class="nx">b</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">    </span><span class="nx">cheapFirst</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">price</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">price</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nx">b</span><span class="p">.</span><span class="nx">price</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">price</span>
+<span class="w">  </span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Flip order"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setCheapFirst</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">prev</span><span class="p">)}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">FlatList</span>
+<span class="w">        </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">visible</span><span class="p">}</span>
+<span class="w">        </span><span class="na">keyExtractor</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
+<span class="w">        </span><span class="na">renderItem</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>The code above has three separate problems. For each one, explain what rule it breaks and show the fix. One mark per problem.</p>
+<h3 id="question-10">Question 10 <a class="anchor" aria-label="링크" href="#question-10">#</a></h3>
+<p>A posts screen uses the Week 5 pattern with <code>loading</code>, <code>error</code> and <code>posts</code> state.</p>
+<p>(a) The code checks <code>if (loading)</code> before <code>if (error)</code>. When the user presses <strong>Try Again</strong> after an error, what does the user see, and why does the order of those two checks matter? (1 mark)</p>
+<p>(b) Why is <code>setLoading(false)</code> called inside <code>.finally()</code> instead of inside the <code>.then()</code> that stores the posts? (1 mark)</p>
+<p>(c) What does <code>ListEmptyComponent</code> show, and why is a blank screen not good enough when the list is empty? (1 mark)</p>
+<h3 id="question-11">Question 11 <a class="anchor" aria-label="링크" href="#question-11">#</a></h3>
+<p>The Week 6 Swipe to Delete example puts each row in a <code>MessageRow</code> component wrapped in <code>Swipeable</code>.</p>
+<p>(a) Why is <code>MessageRow</code> declared at the top level of the file instead of inside <code>MyApp</code>? (1 mark)</p>
+<p>(b) <code>Swipeable</code> has an <code>onSwipeableOpen</code> prop that could delete the message as soon as the row opens. Why do the notes reveal a <strong>Delete</strong> button and delete only when it is tapped? (1 mark)</p>
+<p>(c) In the hand-built Drag and Snap Back example, <code>onMoveShouldSetPanResponder</code> returns <code>Math.abs(gesture.dx) &gt; 10</code>. What problem does that rule prevent? (1 mark)</p>
+<h3 id="question-12">Question 12 <a class="anchor" aria-label="링크" href="#question-12">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">subscription</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">cancelled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">startWatching</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">requestForegroundPermissionsAsync</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="s1">'granted'</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">watchPositionAsync</span><span class="p">(</span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nx">accuracy</span><span class="o">:</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">Accuracy</span><span class="p">.</span><span class="nx">High</span><span class="p">,</span><span class="w"> </span><span class="nx">timeInterval</span><span class="o">:</span><span class="w"> </span><span class="mf">1000</span><span class="p">,</span><span class="w"> </span><span class="nx">distanceInterval</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">      </span><span class="p">(</span><span class="nx">pos</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setLocation</span><span class="p">(</span><span class="nx">pos</span><span class="p">.</span><span class="nx">coords</span><span class="p">)</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">cancelled</span><span class="p">)</span><span class="w"> </span><span class="nx">subscription</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="nx">startWatching</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">cancelled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">subscription</span><span class="p">)</span><span class="w"> </span><span class="nx">subscription</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">},</span><span class="w"> </span><span class="p">[]);</span>
+</code></pre>
+<p>(a) What goes wrong if the clean-up function is removed? (1 mark)</p>
+<p>(b) The clean-up already calls <code>subscription.remove()</code>. What situation is the <code>cancelled</code> flag for? (1 mark)</p>
+<p>(c) Give one difference between <code>getCurrentPositionAsync</code> and <code>watchPositionAsync</code>, and one kind of app that needs the second one. (1 mark)</p>
+<hr />
+<h2 id="section-3-programming">Section 3: Programming <a class="anchor" aria-label="링크" href="#section-3-programming">#</a></h2>
+<blockquote>
+<p>실제 시험은 교수님이 만든 starter Snack 링크를 주지만, 여기서는 starter 코드를 직접 붙여 넣어요.
+https://snack.expo.dev 를 열고 SDK 54(기본값)인지 확인한 뒤 <code>App.js</code>에 starter를 붙여 넣으세요.</p>
+</blockquote>
+<h3 id="question-13-lists-16-marks">Question 13: Lists (16 marks) <a class="anchor" aria-label="링크" href="#question-13-lists-16-marks">#</a></h3>
+<h4 id="before-you-start">Before you start <a class="anchor" aria-label="링크" href="#before-you-start">#</a></h4>
+<ul>
+<li>Open https://snack.expo.dev and paste the starter into App.js. Keep Snack on SDK 54 (the default).</li>
+<li>The Web preview is enough for Parts A to C. Part D (pull to refresh) needs the <strong>Android</strong> or <strong>iOS</strong> tab, or your phone.</li>
+<li>You may use the course notes at https://seneca-ictoer.github.io/WEB530/. The question describes behaviour, not code. Marks are for making that behaviour work in this app.</li>
+<li>Do not change the styles. Every style you need is already in the starter.</li>
+<li>Do not use <code>ScrollView</code> or <code>.map()</code> for the rows.</li>
+</ul>
+<h4 id="starter">Starter <a class="anchor" aria-label="링크" href="#starter">#</a></h4>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://jsonplaceholder.typicode.com/todos?userId=1'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Tasks</span><span class="w"> </span><span class="nx">will</span><span class="w"> </span><span class="nx">go</span><span class="w"> </span><span class="nx">here</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">flexDirection</span><span class="o">:</span><span class="w"> </span><span class="s1">'row'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#ddd'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'bold'</span><span class="p">,</span><span class="w"> </span><span class="nx">marginLeft</span><span class="o">:</span><span class="w"> </span><span class="mf">12</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">done</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'green'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">input</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#ccc'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginHorizontal</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginVertical</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">header</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">empty</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h4 id="scenario">Scenario <a class="anchor" aria-label="링크" href="#scenario">#</a></h4>
+<p>You are building a task board. The tasks come from a fake API that returns 20 tasks shaped like <code>{ userId, id, title, completed }</code>. Open the URL in a browser tab first to see the data.</p>
+<h4 id="part-a---load-and-show-the-tasks-5-marks">Part A - Load and show the tasks (5 marks) <a class="anchor" aria-label="링크" href="#part-a---load-and-show-the-tasks-5-marks">#</a></h4>
+<ul>
+<li>The tasks live in state, start as an empty array, and are loaded once when the screen first renders, with <code>fetch</code>.</li>
+<li>Replace the placeholder <code>Text</code> with a <code>FlatList</code> that shows every task.</li>
+<li>Each row uses the <code>row</code> style. The task's title is on the left in the <code>title</code> style. On the right, a second <code>Text</code> reads <code>Done</code> if the task is completed or <code>Open</code> if it is not. It uses the <code>status</code> style, and a completed task also uses the <code>done</code> style.</li>
+<li>The <code>id</code>s are numbers. Your <code>keyExtractor</code> must return a string.</li>
+</ul>
+<h4 id="part-b---loading-errors-and-empty-4-marks">Part B - Loading, errors and empty (4 marks) <a class="anchor" aria-label="링크" href="#part-b---loading-errors-and-empty-4-marks">#</a></h4>
+<ul>
+<li>While the first load is running, the whole screen shows an <code>ActivityIndicator</code> and the text <code>Loading tasks...</code>, centred with the <code>center</code> style.</li>
+<li>If the load fails, the whole screen shows <code>Could not load the tasks. Check your connection and try again.</code> in the <code>error</code> style, and a <code>Try Again</code> button. Pressing it shows the spinner again and reloads.</li>
+<li>A 404 or 500 response must count as a failure. Check for it before reading the JSON.</li>
+<li>If the API returns no tasks, the list shows <code>No tasks yet.</code> in the <code>empty</code> style.</li>
+<li>Test it: end the URL in <code>/todoz</code> for the error, and use <code>?userId=99</code> for the empty list. Put the URL back afterwards.</li>
+</ul>
+<h4 id="part-c---search-and-sort-4-marks">Part C - Search and sort (4 marks) <a class="anchor" aria-label="링크" href="#part-c---search-and-sort-4-marks">#</a></h4>
+<ul>
+<li>Above the list, add a <code>Button</code> and a controlled <code>TextInput</code> with the placeholder <code>Search tasks</code>, in the <code>input</code> style.</li>
+<li>Typing filters the list by title. Upper and lower case do not matter.</li>
+<li>The list starts sorted by title, A to Z. The button reads <code>Sort Z to A</code> and flips the order. After a press it reads <code>Sort A to Z</code>.</li>
+<li>The filtered and sorted array is <strong>not</strong> stored in state. It is built on every render from the tasks, the search text and the sort direction. Filter first, then sort.</li>
+<li>Above the first row, a <code>Text</code> in the <code>header</code> style reads <code>Showing N of M tasks</code>, where N is the number of rows on screen and M is the total. It must scroll with the list.</li>
+<li>When the search text is not empty and nothing matches, the list shows <code>No tasks match &quot;TEXT&quot;.</code> instead of <code>No tasks yet.</code></li>
+</ul>
+<h4 id="part-d---pull-to-refresh-3-marks">Part D - Pull to refresh (3 marks) <a class="anchor" aria-label="링크" href="#part-d---pull-to-refresh-3-marks">#</a></h4>
+<ul>
+<li>Pulling down on the list shows the refresh spinner at the top, reloads the tasks, and hides the spinner when done.</li>
+<li>During a refresh the list stays on screen. The full screen <code>Loading tasks...</code> spinner is only for the first load and for <code>Try Again</code>.</li>
+<li>Under <code>Showing N of M tasks</code>, a second line in the <code>header</code> style reads <code>Updated</code> and the time the tasks last arrived, for example <code>Updated 10:42:07 AM</code>.</li>
+<li>Do not write any gesture code.</li>
+</ul>
+<hr />
+<h3 id="question-14-touch-10-marks">Question 14: Touch (10 marks) <a class="anchor" aria-label="링크" href="#question-14-touch-10-marks">#</a></h3>
+<h4 id="before-you-start-1">Before you start <a class="anchor" aria-label="링크" href="#before-you-start-1">#</a></h4>
+<ul>
+<li>Paste the starter into App.js. The Web preview is enough: a click is a tap, and holding the mouse button down is a long press. <code>hitSlop</code> only works on a phone.</li>
+<li>Do not change the styles.</li>
+<li>Use <code>Pressable</code>. Do not use <code>Button</code>, <code>TouchableOpacity</code> or <code>TouchableHighlight</code>.</li>
+</ul>
+<h4 id="starter-1">Starter <a class="anchor" aria-label="링크" href="#starter-1">#</a></h4>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">SEATS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span><span class="w"> </span><span class="nx">length</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="nb">String</span><span class="p">(</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="sb">`Seat </span><span class="si">${</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span>
+<span class="p">}));</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">bar</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&gt;</span><span class="nx">Pick</span><span class="w"> </span><span class="nx">your</span><span class="w"> </span><span class="nx">seats</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">clear</span><span class="p">}&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">clearText</span><span class="p">}&gt;</span><span class="nx">X</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">FlatList</span>
+<span class="w">        </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">SEATS</span><span class="p">}</span>
+<span class="w">        </span><span class="na">keyExtractor</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
+<span class="w">        </span><span class="na">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">text</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">label</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">)}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">bar</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">flexDirection</span><span class="o">:</span><span class="w"> </span><span class="s1">'row'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s1">'space-between'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">paddingBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">heading</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'600'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">clear</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">width</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">height</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'red'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">clearText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">12</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#ccc'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">selected</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#BBDEFB'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">held</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#FFE0B2'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#eee'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">note</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h4 id="scenario-1">Scenario <a class="anchor" aria-label="링크" href="#scenario-1">#</a></h4>
+<p>A cinema seat picker. The user taps seats to select them, long presses a seat to hold it for a friend, and clears the selection with the small X.</p>
+<h4 id="part-a---pressable-rows-2-marks">Part A - Pressable rows (2 marks) <a class="anchor" aria-label="링크" href="#part-a---pressable-rows-2-marks">#</a></h4>
+<ul>
+<li>Every row is a <code>Pressable</code> in the <code>row</code> style.</li>
+<li>While the finger is down on a row, it also uses the <code>pressed</code> style. The feedback must appear the moment the press starts, not when it ends.</li>
+</ul>
+<h4 id="part-b---selecting-seats-3-marks">Part B - Selecting seats (3 marks) <a class="anchor" aria-label="링크" href="#part-b---selecting-seats-3-marks">#</a></h4>
+<ul>
+<li>Tapping a seat selects it, and it uses the <code>selected</code> style. Tapping it again clears it.</li>
+<li>Store the selection in one piece of state as an object of ids, for example <code>{ &quot;3&quot;: true, &quot;7&quot;: true }</code>. Every update uses the updater form.</li>
+<li>The heading reads <code>N selected</code> instead of <code>Pick your seats</code>. N is worked out on every render and is <strong>not</strong> stored in state.</li>
+<li>The <code>pressed</code> style must still show on a selected row.</li>
+<li>Make sure the rows re-render when the selection changes, even though <code>data</code> does not change.</li>
+</ul>
+<h4 id="part-c---holding-a-seat-3-marks">Part C - Holding a seat (3 marks) <a class="anchor" aria-label="링크" href="#part-c---holding-a-seat-3-marks">#</a></h4>
+<ul>
+<li>Long pressing a seat holds it: the row uses the <code>held</code> style and shows a second <code>Text</code>, <code>Held</code>, in the <code>note</code> style. Long pressing it again releases it.</li>
+<li>Holding a selected seat clears its selection, so a seat is never selected and held at the same time.</li>
+<li>Tapping a held seat does nothing. It must still be possible to long press it to release it.</li>
+<li>Held seats are not counted in <code>N selected</code>.</li>
+</ul>
+<h4 id="part-d---the-clear-button-2-marks">Part D - The clear button (2 marks) <a class="anchor" aria-label="링크" href="#part-d---the-clear-button-2-marks">#</a></h4>
+<ul>
+<li>The red X becomes a <code>Pressable</code> in the <code>clear</code> style. Tapping it clears every selected seat. Held seats stay held.</li>
+<li>The X stays 24 by 24 on screen, but its touch area is 20 points bigger on every side.</li>
+</ul>
+<hr />
+<h3 id="question-15-maps-geolocation-10-marks">Question 15: Maps &amp; Geolocation (10 marks) <a class="anchor" aria-label="링크" href="#question-15-maps-geolocation-10-marks">#</a></h3>
+<h4 id="before-you-start-2">Before you start <a class="anchor" aria-label="링크" href="#before-you-start-2">#</a></h4>
+<ul>
+<li>Replace <code>package.json</code> in the Snack with the one below, and keep Snack on SDK 54.</li>
+<li>This question needs a phone. Choose <strong>My Device</strong> and open the Snack in Expo Go. <code>react-native-maps</code> has no web version.</li>
+<li>Do not change the styles or the data.</li>
+</ul>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"expo-location"</span><span class="p">:</span><span class="w"> </span><span class="s2">"~19.0.8"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-native-maps"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.20.1"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h4 id="starter-2">Starter <a class="anchor" aria-label="링크" href="#starter-2">#</a></h4>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">SHOPS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'bean'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Bean There'</span><span class="p">,</span><span class="w"> </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="s1">'1800 Finch Ave E'</span><span class="p">,</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.7962</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3462</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'grind'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Daily Grind'</span><span class="p">,</span><span class="w"> </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="s1">'3401 Don Mills Rd'</span><span class="p">,</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.7899</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3526</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'brew'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Brew Lab'</span><span class="p">,</span><span class="w"> </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="s1">'2 Leslie St N'</span><span class="p">,</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.7988</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3611</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'cup'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Second Cup Corner'</span><span class="p">,</span><span class="w"> </span><span class="nx">address</span><span class="o">:</span><span class="w"> </span><span class="s1">'55 Sheppard Ave E'</span><span class="p">,</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.7768</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3442</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">START</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.7905</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3505</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">latitudeDelta</span><span class="o">:</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">longitudeDelta</span><span class="o">:</span><span class="w"> </span><span class="mf">0.04</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Pressable</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&gt;</span><span class="nx">Near</span><span class="w"> </span><span class="nx">Me</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Pressable</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">cardHint</span><span class="p">}&gt;</span><span class="nx">Tap</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">coffee</span><span class="w"> </span><span class="nx">shop</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">map</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">button</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="s1">'absolute'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">top</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignSelf</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#2196F3'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#1565C0'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">disabled</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#90CAF9'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">buttonText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">card</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">position</span><span class="o">:</span><span class="w"> </span><span class="s1">'absolute'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">bottom</span><span class="o">:</span><span class="w"> </span><span class="mf">40</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">left</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">right</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardTitle</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'600'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="p">,</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">4</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">cardHint</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h4 id="scenario-2">Scenario <a class="anchor" aria-label="링크" href="#scenario-2">#</a></h4>
+<p>A coffee finder near Newnham Campus. The map shows the coffee shops, the card at the bottom shows the one you tapped, and <strong>Near Me</strong> takes the map to where you are.</p>
+<h4 id="part-a---the-map-and-the-shops-3-marks">Part A - The map and the shops (3 marks) <a class="anchor" aria-label="링크" href="#part-a---the-map-and-the-shops-3-marks">#</a></h4>
+<ul>
+<li>A map fills the whole screen and starts at <code>START</code>. The button and the card sit on top of it.</li>
+<li>There is one <code>Marker</code> for every shop in <code>SHOPS</code>, with the shop's name as the title and its address as the description. Do not write <code>&lt;Marker&gt;</code> by hand for each shop.</li>
+<li>The map's own places (restaurants, shops, schools) are hidden on <strong>both</strong> iOS and Android.</li>
+</ul>
+<h4 id="part-b---the-selected-shop-2-marks">Part B - The selected shop (2 marks) <a class="anchor" aria-label="링크" href="#part-b---the-selected-shop-2-marks">#</a></h4>
+<ul>
+<li>Tapping a marker shows that shop in the card: its name in the <code>cardTitle</code> style and its address under it in the <code>cardText</code> style.</li>
+<li>Before any shop is tapped, the card shows the starter's hint.</li>
+</ul>
+<h4 id="part-c---near-me-5-marks">Part C - Near Me (5 marks) <a class="anchor" aria-label="링크" href="#part-c---near-me-5-marks">#</a></h4>
+<ul>
+<li>The app asks for location permission when the user presses <strong>Near Me</strong>, not when the app opens.</li>
+<li>If the user says no, the card shows <code>Location is needed for Near Me. You can still tap the shops.</code> in the <code>error</code> style. The map keeps working.</li>
+<li>If the user says yes, the blue dot for the user appears on the map, the app gets the current position, and the map glides there with both deltas at <code>0.005</code>.</li>
+<li>If getting the position fails, the card shows <code>Could not get your location. Is location turned on?</code> in the <code>error</code> style.</li>
+<li>While the app is working, the button reads <code>Finding you...</code>, is disabled, and also uses the <code>disabled</code> style. It goes back to <code>Near Me</code> when it is done, whether it worked or not.</li>
+<li>Pressing <strong>Near Me</strong> again clears an old error message.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>

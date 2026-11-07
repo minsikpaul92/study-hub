@@ -1,0 +1,1390 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1. React 기초 · WEB530</title><meta name="description" content="Week 1. React 기초 · WEB530">
+<script>(function(){try{var t=localStorage.getItem('studyhub-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><span>Week 1</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기" title="테마 (자동/라이트/다크)"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor"/></svg></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-코스노트-introduction-to-react">1. 📘 코스노트: Introduction to React</a></li><li class="l3"><a href="#what-is-react">📘 What is React</a></li><li class="l3"><a href="#react-components">📘 React components</a></li><li class="l2"><a href="#2-코스노트-introduction-to-react-native">2. 📘 코스노트: Introduction to React Native</a></li><li class="l2"><a href="#3-코스노트-functional-components">3. 📘 코스노트: Functional Components</a></li><li class="l3"><a href="#introduction">📘 Introduction</a></li><li class="l3"><a href="#functional-components">📘 Functional components</a></li><li class="l3"><a href="#properties-props">📘 Properties (props)</a></li><li class="l2"><a href="#4-코스노트-validating-props">4. 📘 코스노트: Validating Props</a></li><li class="l3"><a href="#validating-component-properties">📘 Validating Component Properties</a></li><li class="l2"><a href="#5-인클래스-예제-week-11---notes-and-examples">5. 💻 인클래스 예제: Week 1.1 - Notes and Examples</a></li><li class="l3"><a href="#playground">💻 Playground</a></li><li class="l3"><a href="#example-simple-components">💻 Example: Simple Components</a></li><li class="l3"><a href="#example-multiple-tags">💻 Example: Multiple Tags</a></li><li class="l3"><a href="#example-js-expressions">💻 Example: JS-Expressions</a></li><li class="l3"><a href="#example-passing-props">💻 Example: Passing props</a></li><li class="l2"><a href="#6-인클래스-예제-week-12---notes-and-examples">6. 💻 인클래스 예제: Week 1.2 - Notes and Examples</a></li><li class="l3"><a href="#react-playground">💻 React Playground</a></li><li class="l3"><a href="#example-proptypes-and-validation">💻 Example: PropTypes and Validation</a></li><li class="l3"><a href="#react-native-playground">💻 React Native Playground</a></li><li class="l3"><a href="#example-introduce-react-native-components-not-html">💻 Example: Introduce React Native Components (not HTML)</a></li><li class="l3"><a href="#html-to-react-native">💻 HTML to React Native</a></li><li class="l2"><a href="#7-lab-lab-1---components-and-props">7. 🧪 Lab: Lab 1 - Components and Props</a></li><li class="l3"><a href="#a-note-on-ai">🧪 A Note on AI</a></li><li class="l3"><a href="#setup">🧪 Setup</a></li><li class="l3"><a href="#submission">🧪 Submission</a></li><li class="l3"><a href="#question-1---your-first-component-1-point">🧪 Question 1 - Your First Component (1 point)</a></li><li class="l3"><a href="#question-2---add-a-button-1-point">🧪 Question 2 - Add a Button (1 point)</a></li><li class="l3"><a href="#question-3---create-a-reusable-button-component-1-point">🧪 Question 3 - Create a Reusable Button Component (1 point)</a></li><li class="l3"><a href="#question-4---display-dynamic-text-1-point">🧪 Question 4 - Display Dynamic Text (1 point)</a></li><li class="l3"><a href="#question-5---using-javascript-inside-components-1-point">🧪 Question 5 - Using JavaScript Inside Components (1 point)</a></li><li class="l3"><a href="#question-6---prop-validation-1-point">🧪 Question 6 - Prop Validation (1 point)</a></li><li class="l2"><a href="#week-1-시험-대비-체크리스트">✅ Week 1 시험 대비 체크리스트</a></li></ol></nav>
+<article class="md"><h1 id="week-1-react-기초-컴포넌트-jsx-props-proptypes">Week 1. React 기초: 컴포넌트, JSX, Props, PropTypes <a class="anchor" aria-label="링크" href="#week-1-react-기초-컴포넌트-jsx-props-proptypes">#</a></h1>
+<blockquote>
+<p>이 노트 읽는 법</p>
+<ul>
+<li><strong>📘 원문</strong>: 강의자료 영어 원문 그대로입니다. 요약하지 않았어요. 시험 문제는 이 원문 표현으로 나오니까 영어 문장도 꼭 눈으로 한 번 읽어 두세요.</li>
+<li><strong>🇰🇷 한글 해설</strong>: 원문 바로 밑에 고등학생 눈높이로 풀어 쓴 설명입니다.</li>
+<li><strong>▶ Snack에서 바로 실행하기</strong>: 누르면 그 코드가 들어간 Expo Snack이 열립니다. 오른쪽 미리보기에서 결과를 보고, 코드를 직접 바꿔 보세요.</li>
+<li><strong>💻 인클래스 예제</strong>: 교수님이 수업 중에 라이브 코딩한 순서 그대로입니다. 단계별로 코드가 어떻게 바뀌는지 따라가 보세요.</li>
+</ul>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<p>이번 주는 &quot;앱 화면을 레고 블록처럼 조립하는 법&quot;을 배우는 주예요.</p>
+<table>
+<thead>
+<tr>
+<th>키워드</th>
+<th>한 줄 설명</th>
+<th>비유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Component (컴포넌트)</td>
+<td>화면 조각을 만들어 주는 <strong>함수</strong></td>
+<td>레고 블록 한 개</td>
+</tr>
+<tr>
+<td>JSX</td>
+<td>JavaScript 안에 HTML처럼 생긴 태그를 쓰는 문법</td>
+<td>블록 설계도</td>
+</tr>
+<tr>
+<td>Props</td>
+<td>부모가 자식 컴포넌트에게 넘겨주는 값</td>
+<td>블록에 붙이는 이름표</td>
+</tr>
+<tr>
+<td><code>{ }</code></td>
+<td>JSX 안에서 JavaScript 값을 쓰는 창문</td>
+<td>&quot;여기는 계산해서 넣어 줘&quot; 표시</td>
+</tr>
+<tr>
+<td>PropTypes</td>
+<td>&quot;이 컴포넌트는 이런 props를 받아요&quot; 라는 약속(계약)을 검사</td>
+<td>택배 상자에 붙은 &quot;취급주의 / 내용물 목록&quot;</td>
+</tr>
+<tr>
+<td>React Native 컴포넌트</td>
+<td><code>&lt;div&gt;</code> 대신 <code>&lt;View&gt;</code>, <code>&lt;p&gt;</code> 대신 <code>&lt;Text&gt;</code></td>
+<td>웹 레고 대신 모바일 전용 레고</td>
+</tr>
+</tbody>
+</table>
+<p>시험에서 자주 나오는 함정 5개를 먼저 알려 줄게요.</p>
+<ol>
+<li>JSX는 <strong>부모 태그 하나</strong>로 감싸야 한다. (<code>&lt;&gt;...&lt;/&gt;</code> Fragment 가능)</li>
+<li>직접 만든 컴포넌트 이름은 <strong>대문자로 시작</strong>해야 한다. (<code>myButton</code> X, <code>MyButton</code> O)</li>
+<li>React Native에서 글자는 반드시 <code>&lt;Text&gt;</code> 안에. <code>&lt;View&gt;안녕&lt;/View&gt;</code> 하면 앱이 터진다.</li>
+<li><code>&lt;Button&gt;</code>의 글자는 자식이 아니라 <code>title</code> prop으로 준다.</li>
+<li>PropTypes는 <strong>경고만</strong> 한다. 화면은 그대로 그려진다. 그리고 React 19부터는 아예 무시된다.</li>
+</ol>
+<hr />
+<h2 id="1-코스노트-introduction-to-react">1. 📘 코스노트: Introduction to React <a class="anchor" aria-label="링크" href="#1-코스노트-introduction-to-react">#</a></h2>
+<blockquote>
+<p>원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react</p>
+</blockquote>
+<h3 id="what-is-react">📘 What is React <a class="anchor" aria-label="링크" href="#what-is-react">#</a></h3>
+<p>If you visit the <a href="https://reactjs.org/" target="_blank" rel="noopener">reactjs.org</a> website, you will learn that <em>React is a JavaScript library for building user interfaces</em>. Released by <a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a> in 2013, React is used by companies big and small to develop user interfaces (UIs) for web, mobile and desktop applications. React is often compared to <a href="https://angular.io/" target="_blank" rel="noopener">Angular</a> but there are alot of differences between the two.</p>
+<ul>
+<li>Based on the Model-View-Controller (MVC) pattern, Angular is a front-end framework for building web applications. React, on the other hand, is for creating user interfaces (the &quot;View&quot; part of the MVC pattern).</li>
+<li>Angular works on the web page's DOM, updating the entire page when a change is made to the data driving our view. React implements a virtual DOM allowing for quicker updates since only the relevant portions are updated.</li>
+<li>Angular offers one-way and two-way binding but React only uses one-way. Since data only flows in one direction, React apps can be easier to debug.</li>
+</ul>
+<p>In this course, we will learn how to use React (and React Native) to produce cross-platform applications.</p>
+<p><strong>React is component-based.</strong></p>
+<p>Components are reusable pieces of code used to render HTML markup (what the user sees) to the browser DOM (the render target). Components are similar to views in Handlebars but they can manage their own state.</p>
+<p><strong>React is declarative.</strong></p>
+<p>React components mix <em>HTML</em> markup and JavaScript together using a syntax called JavaScript XML (or simply JSX). When developing React components, there is no need to execute steps using imperative approaches. Instead, programmers can easily build interactive user interfaces (UI) by describing what they should look like. In other words, programmers will decide what HTML elements each component will render, not how they will be rendered.</p>
+<p>💡 <strong>Declarative syntax</strong>
+A way of describing the code you want to write, without having to worry about how it's going to be implemented. In other words, you are specifying what needs to be done.</p>
+<p>💡 <strong>Imperative syntax</strong>
+You supply a set of instructions to follow and the computer does what you want. In other words, you are defining how a task should be performed.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>React가 뭐냐?</strong> 화면(UI, User Interface)을 만드는 JavaScript <strong>라이브러리</strong>예요. 2013년 Facebook(지금의 Meta)이 만들었어요.</p>
+<p>Angular와 비교하는 부분이 나오는데, 시험용으로 딱 3개만 기억하세요.</p>
+<ul>
+<li>Angular는 MVC 전체를 다 하는 <strong>프레임워크</strong>, React는 그중 <strong>View(보이는 부분)만</strong> 담당하는 라이브러리.</li>
+<li>Angular는 진짜 DOM을 다루고, React는 <strong>Virtual DOM(가상 DOM)</strong> 을 써서 바뀐 부분만 빠르게 고친다.</li>
+<li>React는 데이터가 <strong>한 방향(one-way)</strong> 으로만 흐른다. 부모에서 자식으로. 그래서 버그 찾기가 쉽다.</li>
+</ul>
+<p><strong>React is component-based (컴포넌트 기반)</strong>: 화면을 작은 조각(컴포넌트)으로 나눠서 만들고, 그 조각을 재사용해요. 원문에 Handlebars 이야기가 나오는데, 예전에 배운 템플릿 엔진(WEB322 등)이랑 비슷하지만 React 컴포넌트는 <strong>자기 상태(state)를 스스로 관리</strong>할 수 있다는 점이 다르다는 뜻이에요.</p>
+<p><strong>React is declarative (선언형)</strong>: 여기가 개념 문제로 잘 나와요.</p>
+<ul>
+<li><strong>선언형(Declarative)</strong>: &quot;무엇(what)을 보여 줄지&quot;만 말한다. 예: &quot;버튼 하나랑 제목 하나 보여 줘.&quot;</li>
+<li><strong>명령형(Imperative)</strong>: &quot;어떻게(how) 할지&quot; 순서를 하나하나 지시한다. 예: &quot;div를 찾아라, 그 안에 버튼을 만들어라, 글자를 넣어라...&quot;</li>
+</ul>
+<p>식당에 비유하면, 선언형은 &quot;김치찌개 주세요&quot;라고 주문하는 것, 명령형은 주방에 들어가서 &quot;물 500ml 넣고, 김치 넣고, 10분 끓이고...&quot; 하고 직접 지시하는 거예요. React는 주문만 하면 요리(화면 갱신)는 React가 알아서 해 줘요.</p>
+</div><h3 id="react-components">📘 React components <a class="anchor" aria-label="링크" href="#react-components">#</a></h3>
+<p>In React, we will build our UI using JSX. JSX is just static text that represents the resulting HTML. On the initial render, React components and their JSX are no different than other template libraries. For example, Handlebars will render a template to HTML and a React component will do the same. However, React becomes much more interesting when data is changed. When using Handlebars, if the data changes we need to render the view again. With React, changes to the page are made automatically.</p>
+<p>When data changes, refreshing a Handlebars view will take time but with React things update much more efficiently thanks to the virtual DOM. Reacts virtual DOM keeps a tally of the <em>real</em> DOM elements in memory and as data changes, it compares the new content with the already displayed content. Using diffing and patching, the virtual DOM can execute the imperative steps needed to update the HTML.</p>
+<p><em>Remember, we are going to declare our components using declarative code and not worry about how to refresh the page. React will figure out exactly how the UI should be rendered or updated.</em></p>
+<p>💡 <strong>Diffing</strong>
+Comparing old content with new content to figure out what's changed.</p>
+<p>💡 <strong>Patching</strong>
+Executing the necessary DOM operations to render the new content.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JSX는 처음 그릴 때는 그냥 &quot;HTML 비슷한 글자&quot;예요. React가 진짜 빛나는 건 <strong>데이터가 바뀔 때</strong>예요.</p>
+<ul>
+<li>Handlebars 같은 템플릿: 데이터가 바뀌면 화면 전체를 다시 그려야 함.</li>
+<li>React: <strong>Virtual DOM</strong>이 메모리에 화면의 복사본을 들고 있다가, 새 화면과 비교해서 <strong>바뀐 부분만</strong> 고침.</li>
+</ul>
+<p>두 단어를 꼭 외우세요.</p>
+<ul>
+<li><strong>Diffing</strong>: 옛날 화면과 새 화면을 비교해서 &quot;뭐가 바뀌었는지&quot; 찾는 것. (틀린 그림 찾기)</li>
+<li><strong>Patching</strong>: 찾은 차이만 실제 화면에 반영하는 것. (틀린 부분만 지우개로 지우고 다시 그리기)</li>
+</ul>
+</div><h4 id="javascript-xml-jsx">📘 JavaScript XML (JSX) <a class="anchor" aria-label="링크" href="#javascript-xml-jsx">#</a></h4>
+<p>Remember, we will build React components using JSX syntax. JSX allows us to mix HTML and JavaScript together. The code we write is extracted from the HTML and transpiled into JavaScript statements. Browsers have no idea what JSX is and they don't need to since they only see the pure JavaScript after it is transpiled.</p>
+<p>💡 <strong>Transpiler</strong>
+A <a href="https://en.wikipedia.org/wiki/Source-to-source_compiler" target="_blank" rel="noopener">source-to-source compiler</a> which takes the source code of a program written in some programming language and converts it into another programming language.</p>
+<p>Let's take a look at a simple &quot;hello world&quot; example. This is a React app, not a React Native app so the target is a web browser. As you study the example, you will notice a few things:</p>
+<ul>
+<li>The first few lines of the program will create a React DOM element from an HTML element in the browsers DOM.</li>
+<li>The last few lines build our UI, returning HTML to be rendered in the browser.</li>
+<li>The application combines JavaScript and XML. Since this is a React app the render target is the browser and so JSX has support for HTML tags. In other words, React already has components built-in for the common HTML elements that you use on a daily basis.</li>
+</ul>
+<p>💡 Want to try the examples yourself? Open <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">this CodeSandbox template</a> and start coding.</p>
+<p><strong>index.html</strong></p>
+<pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">div</span><span class="w"> </span><span class="na">id</span><span class="o">=</span><span class="s">"root"</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p><strong>index.js</strong></p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">rootElement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">);</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nx">rootElement</span><span class="p">);</span>
+
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="nx">Hello</span><span class="p">,</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span><span class="nx">JSX</span><span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span><span class="o">!</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p>If you need to render multiple tags, they must be nested within a single tag. This is because React needs a root component to render. For example, you can't render adjacent elements like <code>&lt;p&gt;&lt;p&gt;&lt;p&gt;</code>. Look at the next code example and you will notice that the <code>&lt;p&gt;</code> and <code>&lt;button&gt;</code> have been placed into a single <code>&lt;div&gt;</code>.</p>
+<p>Tag names are case-sensitive. When writing HTML, as is done in the code example below, specify the tag names using only lowercase characters. When specifying non-html elements, start the tag with a capital letter. This convention makes it easier to scan the markup and spot the built-in HTML elements.</p>
+<p>We can also pass HTML elements any of their standard properties. In the code example, we are passing the &quot;foo&quot; property. Since this is not a standard property, a warning may be logged but the HTML will still render.</p>
+<pre class="hl"><code class="language-jsx"><span class="c1">// React needs a root element to render.</span>
+<span class="c1">// Notice the tag names use lowercase letters.</span>
+<span class="c1">// Also notice the property "foo" added to the button.</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">JSX</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">fun</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">foo</span><span class="o">=</span><span class="s">"bar"</span><span class="p">&gt;</span><span class="nx">Click</span><span class="w"> </span><span class="nx">Me</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p>JSX is a great way to describe even complex UI structures.</p>
+<pre class="hl"><code class="language-jsx"><span class="c1">// Render a much more complex UI</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">header</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">JSX</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">header</span><span class="p">&gt;</span>
+
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">nav</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">a</span><span class="w"> </span><span class="na">href</span><span class="o">=</span><span class="s">"item"</span><span class="p">&gt;</span><span class="nx">Link</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">br</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">a</span><span class="w"> </span><span class="na">href</span><span class="o">=</span><span class="s">"item"</span><span class="p">&gt;</span><span class="nx">Link</span><span class="w"> </span><span class="mf">2</span><span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">nav</span><span class="p">&gt;</span>
+
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">main</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">much</span><span class="w"> </span><span class="nx">more</span><span class="w"> </span><span class="nx">complex</span><span class="w"> </span><span class="nx">UI</span><span class="p">.&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">main</span><span class="p">&gt;</span>
+
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">small</span><span class="p">&gt;</span><span class="o">&amp;</span><span class="nx">copy</span><span class="p">;</span><span class="w"> </span><span class="nx">SDSS</span><span class="p">&lt;/</span><span class="nt">small</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">footer</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">section</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>JSX = JavaScript + XML(HTML 비슷한 태그)</strong>. 브라우저는 JSX를 못 읽어요. 그래서 <strong>Transpiler(트랜스파일러, 예: Babel)</strong> 가 JSX를 순수 JavaScript로 바꿔 줘요. Transpiler는 &quot;한 프로그래밍 언어를 다른 언어로 번역하는 컴파일러&quot;예요.</p>
+<p>예제에서 기억할 규칙:</p>
+<ol>
+<li><code>createRoot(document.getElementById('root'))</code> 로 HTML의 <code>&lt;div id=&quot;root&quot;&gt;</code>를 React가 그림 그릴 도화지로 잡는다. 그리고 <code>root.render(...)</code> 로 그린다. (이건 웹 React 이야기. React Native에서는 <code>export default function App()</code> 이 그 역할을 해요.)</li>
+<li><strong>여러 태그를 나란히 반환할 수 없다.</strong> 꼭 <code>&lt;div&gt;</code> 같은 부모 하나로 감싸야 한다. 이유: React는 &quot;뿌리(root)가 하나인 나무&quot;만 그릴 수 있어서.</li>
+<li><strong>태그 이름은 대소문자를 구분</strong>한다. HTML 태그는 소문자(<code>div</code>, <code>p</code>), 내가 만든 컴포넌트는 대문자 시작(<code>MyButton</code>).</li>
+<li><code>foo=&quot;bar&quot;</code> 처럼 이상한 속성을 넣으면 경고는 뜰 수 있지만 그래도 화면은 그려진다.</li>
+</ol>
+</div><h4 id="writing-components-using-jsx">📘 Writing components using JSX <a class="anchor" aria-label="링크" href="#writing-components-using-jsx">#</a></h4>
+<p>Components are the fundamental building blocks of React.</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="c1">// "MyComponent" is simply a function that returns some JSX,</span>
+<span class="c1">// which defines the elements of our UI</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">My</span><span class="w"> </span><span class="nx">First</span><span class="w"> </span><span class="nx">Component</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">A</span><span class="w"> </span><span class="nx">component</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">fundamental</span><span class="w"> </span><span class="nx">building</span><span class="w"> </span><span class="nx">block</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">React</span><span class="p">.&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="c1">// Render the component</span>
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="p">/&gt;);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p>In the above example, we are defining a component called <code>MyComponent</code>, which is literally just a function of that name. In line 18 we are rendering our custom tag. React replaces that tag with the JSX returned by <code>MyComponent</code>.</p>
+<p>Using JSX markup is not only useful for building reusable components but also for describing UI structures that have parent-child relationships. As an example, a <code>&lt;li&gt;</code> tag is useful as a child of a <code>&lt;ul&gt;</code>. To make this work, we can build our own components specifying the <code>children</code> property.</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="c1">// Renders a &lt;div&gt; element containing a heading, paragraph and unordered list.</span>
+<span class="c1">// The list is populated using {props.children}.</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">ParentComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Parent</span><span class="w"> </span><span class="nx">Component</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">component</span><span class="w"> </span><span class="nx">encapsulates</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">ul</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="nx">containing</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">children</span><span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Renders a &lt;li&gt; element. The text for the list item is populated using {props.children}</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">ChildComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">li</span><span class="p">&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">children</span><span class="p">}&lt;/</span><span class="nt">li</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="c1">// Render the nested UI structure</span>
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">ParentComponent</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">ChildComponent</span><span class="p">&gt;</span><span class="nx">First</span><span class="w"> </span><span class="nx">child</span><span class="p">&lt;/</span><span class="nt">ChildComponent</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">ChildComponent</span><span class="p">&gt;</span><span class="nx">Second</span><span class="w"> </span><span class="nx">child</span><span class="p">&lt;/</span><span class="nt">ChildComponent</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">ParentComponent</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p>In the parent-child example, we are defining two React components. If you look at the JSX for the final render, you will notice that <code>&lt;ChildComponent&gt;</code> is a child of<code>&lt;ParentComponent&gt;</code>. You will also notice that <code>&lt;ChildComponent&gt;</code> accepts text as its child instead of additional JSX elements. In both components,<code>{props.children}</code> acts as a placeholder for the content.</p>
+<p>So, text is passed into the <code>&lt;ChildComponent&gt;</code> and multiple <code>&lt;ChildComponent&gt;</code> tags are passed into the <code>&lt;ParentComponent&gt;</code> yet the rendered output includes the <code>&lt;div&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;ul&gt;</code>, and three <code>&lt;li&gt;</code> tags. The browser shows something like this:</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>컴포넌트 = JSX를 return 하는 함수.</strong> 이게 전부예요.</p>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="c1">// 대문자로 시작하는 함수</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Hi</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;;</span><span class="w">      </span><span class="c1">// JSX를 돌려준다</span>
+<span class="p">}</span>
+<span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="p">/&gt;</span><span class="w">            </span><span class="c1">// 태그처럼 쓴다</span>
+</code></pre>
+<p><code>props.children</code> 이 처음 나오는데 아주 중요해요. 태그 <strong>사이에 들어간 내용물</strong>이 <code>children</code>이라는 이름으로 자식 컴포넌트에 전달돼요.</p>
+<pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">ChildComponent</span><span class="p">&gt;</span><span class="nx">First</span><span class="w"> </span><span class="nx">child</span><span class="p">&lt;/</span><span class="nt">ChildComponent</span><span class="p">&gt;</span>
+<span class="c1">//              ^^^^^^^^^^^ 이 글자가 props.children</span>
+</code></pre>
+<p>택배 상자로 비유하면 <code>&lt;ParentComponent&gt;</code> 는 상자이고, 그 사이에 넣은 <code>&lt;ChildComponent&gt;</code> 들이 내용물(children)이에요. 상자(Parent)는 <code>{props.children}</code> 자리에 내용물을 꺼내 놓아요.</p>
+<p>참고로 원문 마지막 줄 &quot;The browser shows something like this:&quot; 뒤에는 원래 실행 결과 그림이 있었어요. 결과는 제목 &quot;Parent Component&quot;, 문장 하나, 그리고 점(•)으로 된 목록 2줄(First child, Second child)이에요. (원문에는 &quot;three <code>&lt;li&gt;</code> tags&quot;라고 적혀 있지만 실제 코드에는 ChildComponent가 2개라서 <code>&lt;li&gt;</code>도 2개예요.)</p>
+</div><h4 id="using-javascript-expressions">📘 Using JavaScript expressions <a class="anchor" aria-label="링크" href="#using-javascript-expressions">#</a></h4>
+<p>The following examples shows how easy it is to mix JavaScript and HTML to build JSX. You will notice that JavaScript variables can be passed in to components. Any valid JavaScript expression can be placed between the <code>{ }</code>.</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'Test'</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'GO'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">input</span><span class="w"> </span><span class="na">type</span><span class="o">=</span><span class="s">"text"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">value</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enabled</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<p>Even arrays can be used to build a dynamic UI:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-dom/client'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">optionArray</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'First'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Second'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">3</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Third'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'root'</span><span class="p">));</span>
+
+<span class="nx">root</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span>
+<span class="w">  </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nb">Array</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="w">    </span><span class="p">{</span><span class="cm">/* Maps "array" to an array of "&lt;option&gt;"s.</span>
+<span class="cm">        Note the "key" property on "&lt;option&gt;".</span>
+<span class="cm">        This is necessary for performance reasons,</span>
+<span class="cm">        and React will warn us if it's missing. */</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">select</span><span class="w"> </span><span class="na">size</span><span class="o">=</span><span class="s">"3"</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">optionArray</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">option</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}&gt;</span>
+<span class="w">          </span><span class="p">{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">option</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">))}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">select</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JSX 안에서 <strong>중괄호 <code>{ }</code> 는 &quot;여기는 JavaScript야&quot;</strong> 라는 표시예요. 그 안에는 <strong>값이 나오는 식(expression)</strong> 이면 뭐든 들어가요. 변수, 계산식, 삼항연산자, 함수 호출 등. 단, <code>if</code>문이나 <code>for</code>문 같은 <strong>문장(statement)</strong> 은 못 들어가요.</p>
+<ul>
+<li><code>disabled={!enabled}</code>: enabled가 false니까 <code>!enabled</code>는 true, 그래서 버튼이 비활성화.</li>
+<li>배열을 화면에 그릴 때는 <strong><code>.map()</code></strong> 을 써요. 배열의 각 항목을 JSX로 &quot;변신&quot;시키는 거예요.</li>
+<li><code>.map()</code>으로 만든 항목에는 반드시 <strong><code>key</code></strong> 를 줘야 해요. key는 React가 &quot;누가 누군지&quot; 구분하는 학생증 번호 같은 거예요. 없으면 경고가 떠요. 보통 <code>id</code>를 key로 써요.</li>
+</ul>
+</div><hr />
+<h2 id="2-코스노트-introduction-to-react-native">2. 📘 코스노트: Introduction to React Native <a class="anchor" aria-label="링크" href="#2-코스노트-introduction-to-react-native">#</a></h2>
+<blockquote>
+<p>원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react-native</p>
+</blockquote>
+<p>On Android, developers build Java apps while on iOS developers implement Swift apps. As a mobile app developer, you will have to learn both languages since picking only one platform is not realistic for success. As a React native developer, you only need to learn one language to target both platforms.</p>
+<p>Earlier, we learned that the render target of React is the web browser. React Native on the other hand communicates with the underlying mobile OS to render native controls that behave and look as the OS user would expect. The good news is, the API we use to build React Native mobile apps is almost identical to that of React for the web. A main difference between the two flavours is the fact that React Native ships with components to be used on mobile platforms rather than with HTML elements.</p>
+<p>You may be wondering if you can work around mobile apps all-together. In reality, this may be possible, at least at the early stages. But eventually you may find that mobile browsers lack many capabilities needed by your mobile apps. Here are a few things to consider:</p>
+<ul>
+<li>Many of the native controls built-in to mobile devices cannot be replicated by web browsers. For example, the date picker control. It usually looks very different in a web browser than as a native control on your mobile device.</li>
+<li>Many web apps assume the presence of a mouse but mobile devices are almost always interacted using a finger on a touch screen. Mobile platforms have a gesture system to deal with this type of interaction.</li>
+<li>Consistency and familiarity are important for a good user experience. Your app needs to look and behave as if it is part of the device.</li>
+<li>Since React Native uses actual components from the platform, it can easily deal with updates to the underlying OS. As controls are updated and improved, these updates are automatically rolled into your native app.</li>
+</ul>
+<p>It is important to mention that although iOS and Android have several areas of overlap, it may not be feasible to write a single codebase shared entirely on both OS. You will want to take advantage of iOS-specific controls and Android specific controls to give your users the experience they expect. Concentrate on providing users the best experience possible rather than building a completely portable application.</p>
+<p>💡 Want to try the examples yourself? Open <a class="run" href="https://snack.expo.dev/" target="_blank" rel="noopener">Snack</a> and start coding React Native applications in your browser.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>React Native는 뭐가 다른가?</strong></p>
+<ul>
+<li>원래 Android 앱은 Java(또는 Kotlin), iOS 앱은 Swift로 따로 만들어야 해요. 언어를 두 개 배워야 하죠.</li>
+<li>React Native를 쓰면 <strong>JavaScript 하나로 두 플랫폼 앱을 다</strong> 만들 수 있어요.</li>
+<li>React(웹)는 브라우저에 HTML을 그리고, React Native는 <strong>휴대폰 OS의 진짜 네이티브 부품(native controls)</strong> 을 그려요. 그래서 앱이 그 폰에 원래 있던 앱처럼 보이고 움직여요.</li>
+<li>문법(API)은 React와 <strong>거의 똑같아요.</strong> 차이는 HTML 태그 대신 모바일용 컴포넌트(<code>View</code>, <code>Text</code> 등)를 쓴다는 것.</li>
+</ul>
+<p>&quot;그냥 모바일 웹사이트로 만들면 안 돼?&quot;에 대한 답 4가지 (개념 문제 후보):</p>
+<ol>
+<li>날짜 선택기(date picker) 같은 <strong>네이티브 컨트롤</strong>은 브라우저가 똑같이 못 따라 한다.</li>
+<li>웹은 <strong>마우스</strong>를 가정하지만, 폰은 <strong>손가락 터치와 제스처</strong>를 쓴다.</li>
+<li>사용자는 <strong>익숙하고 일관된</strong> 경험을 원한다. 앱이 그 기기의 일부처럼 느껴져야 한다.</li>
+<li>OS가 업데이트되면 네이티브 부품도 같이 좋아진다. React Native 앱은 그걸 <strong>자동으로</strong> 받는다.</li>
+</ol>
+<p>마지막 문단도 중요해요. iOS와 Android 코드를 100% 똑같이 쓰는 게 목표가 아니에요. <strong>각 플랫폼 사용자가 기대하는 최고의 경험</strong>을 주는 게 목표예요. (그래서 3주차에 <code>Platform.OS</code> 를 배워요.)</p>
+</div><hr />
+<h2 id="3-코스노트-functional-components">3. 📘 코스노트: Functional Components <a class="anchor" aria-label="링크" href="#3-코스노트-functional-components">#</a></h2>
+<blockquote>
+<p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/func-components</p>
+</blockquote>
+<h3 id="introduction">📘 Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h3>
+<p>Functional Components are a simple and efficient way to create reusable UI elements in React and React Native. They use JavaScript functions instead of <a href="https://seneca-ictoer.github.io/WEB530/B-Components/class-components" target="_blank" rel="noopener">classes</a> (which used to be the standard way of writing React components), promoting a declarative coding style. Functional components can leverage React Hooks to manage state and lifecycle events. They offer simplicity, reusability, and composability, making development easier and more productive.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Functional Component(함수형 컴포넌트)</strong> 는 함수로 만든 컴포넌트예요. 옛날에는 class로 만들었는데(옵션 읽을거리), 요즘은 함수형이 표준이에요. 이유: 짧고, 읽기 쉽고, <strong>Hooks</strong>(2주차)로 상태(state)와 생명주기(lifecycle)를 다룰 수 있어서요.</p>
+</div><h3 id="functional-components">📘 Functional components <a class="anchor" aria-label="링크" href="#functional-components">#</a></h3>
+<p>Functional components are a simplification of React's original version of <a href="https://react.dev/reference/react/Component" target="_blank" rel="noopener">implementing classes</a> that extend the <code>Component</code> class (<a href="https://seneca-ictoer.github.io/WEB530/B-Components/class-components" target="_blank" rel="noopener">optional reading here</a>). Functional components are usually easier to read and require less coding:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="c1">// MyComponent is written as a functional component.</span>
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">React</span><span class="w"> </span><span class="nx">Native</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="s1">'\n'</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">functional</span><span class="w"> </span><span class="nx">component</span><span class="p">.</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">Stateless</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Functional%20components&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%27react-native%27%3B%0A%0A%2F%2F%20MyComponent%20is%20written%20as%20a%20functional%20component.%0Afunction%20MyComponent%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%3CText%3EReact%20Native%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%7B%27%5Cn%27%7D%0A%20%20%20%20%20%20%20%20%3CText%3EThis%20is%20a%20functional%20component.%20It%20is%20Stateless.%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%3CMyComponent%20%2F%3E%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>In the example above, you can see that we have written <code>MyComponent</code> using a function. As you study the code example, you will notice that:</p>
+<ul>
+<li><code>MyComponent()</code> function is a <strong>pure function</strong>. It affects nothing outside of its own scope, and always returns the same output given the same input.</li>
+<li>The function is written using JavaScript function syntax. It is also perfectly fine to declare the function using arrow function syntax:
+<code>const MyComponent = () =&gt; { … }</code></li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>여기서부터 React Native 코드예요. <code>View</code>(상자)와 <code>Text</code>(글자)를 <code>react-native</code>에서 import 해요.</p>
+<ul>
+<li><strong>Pure function(순수 함수)</strong>: 바깥 세상에 영향을 주지 않고, <strong>같은 입력이면 항상 같은 출력</strong>을 내는 함수. 자판기처럼 같은 버튼 누르면 항상 같은 음료가 나와요.</li>
+<li><code>{'\n'}</code> 은 줄바꿈 문자예요. <code>Text</code> 안에 <code>Text</code>를 넣으면 웹의 <code>&lt;span&gt;</code>처럼 한 줄에 이어 붙는데, 줄을 바꾸고 싶어서 넣은 거예요.</li>
+<li>함수는 <code>function MyComponent() {}</code> 로 써도 되고, 화살표 함수 <code>const MyComponent = () =&gt; {}</code> 로 써도 똑같아요.</li>
+</ul>
+</div><h3 id="properties-props">📘 Properties (<code>props</code>) <a class="anchor" aria-label="링크" href="#properties-props">#</a></h3>
+<p>Let's rewrite the component again, this time we will introduce properties. Our function will accept a new parameter <code>props</code> that will contain an object with each of the properties that were passed as attributes when the component was called:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="s1">'\n'</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">functional</span><span class="w"> </span><span class="nx">component</span><span class="p">.</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">body</span><span class="p">}.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="na">heading</span><span class="o">=</span><span class="s">"React Native"</span><span class="w"> </span><span class="na">body</span><span class="o">=</span><span class="s">"props"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Properties%20%28%60props%60%29&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%27react-native%27%3B%0A%0Afunction%20MyComponent%28props%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%3CText%3E%7Bprops.heading%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%7B%27%5Cn%27%7D%0A%20%20%20%20%20%20%20%20%3CText%3EThis%20is%20a%20functional%20component.%20It%20has%20%7Bprops.body%7D.%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%3CMyComponent%20heading%3D%22React%20Native%22%20body%3D%22props%22%20%2F%3E%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>React Native
+This is a functional component. It has props.</p>
+<p><a href="https://react.dev/learn/passing-props-to-a-component#specifying-a-default-value-for-a-prop" target="_blank" rel="noopener">Default properties</a> can be added by destructuring the props object and adding default values using standard JavaScript syntax:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">heading</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'React Native Default Props'</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="s1">'\n'</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">functional</span><span class="w"> </span><span class="nx">component</span><span class="p">.</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">body</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s1">'default props'</span><span class="p">}.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="na">heading</span><span class="o">=</span><span class="s">"React Native"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Properties%20%28%60props%60%29&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%27react-native%27%3B%0A%0Afunction%20MyComponent%28props%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%3CText%3E%7Bprops.heading%20%7C%7C%20%27React%20Native%20Default%20Props%27%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%7B%27%5Cn%27%7D%0A%20%20%20%20%20%20%20%20%3CText%3EThis%20is%20a%20functional%20component.%20It%20has%20%7Bprops.body%20%7C%7C%20%27default%20props%27%7D.%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%3CMyComponent%20heading%3D%22React%20Native%22%20%2F%3E%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>React Native
+This is a functional component. It has default props.</p>
+<p>It is often simpler to <a href="https://react.dev/learn/passing-props-to-a-component#step-2-read-props-inside-the-child-component" target="_blank" rel="noopener">destructure the props</a> directly in the parameter declaration, leaving out the props keyword altogether:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyComponent</span><span class="p">({</span><span class="w"> </span><span class="nx">heading</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'React Native Default Props'</span><span class="p">,</span><span class="w"> </span><span class="nx">body</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'default props'</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">heading</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="s1">'\n'</span><span class="p">}</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">This</span><span class="w"> </span><span class="nx">is</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">functional</span><span class="w"> </span><span class="nx">component</span><span class="p">.</span><span class="w"> </span><span class="nx">It</span><span class="w"> </span><span class="nx">has</span><span class="w"> </span><span class="p">{</span><span class="nx">body</span><span class="p">}.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="na">heading</span><span class="o">=</span><span class="s">"React Native"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Properties%20%28%60props%60%29&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%27react-native%27%3B%0A%0Afunction%20MyComponent%28%7B%20heading%20%3D%20%27React%20Native%20Default%20Props%27%2C%20body%20%3D%20%27default%20props%27%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%3CText%3E%7Bheading%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%7B%27%5Cn%27%7D%0A%20%20%20%20%20%20%20%20%3CText%3EThis%20is%20a%20functional%20component.%20It%20has%20%7Bbody%7D.%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%3CMyComponent%20heading%3D%22React%20Native%22%20%2F%3E%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>React Native
+This is a functional component. It has default props.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Props = 부모가 자식에게 주는 값(속성).</strong> HTML의 속성(attribute)처럼 써요.</p>
+<pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MyComponent</span><span class="w"> </span><span class="na">heading</span><span class="o">=</span><span class="s">"React Native"</span><span class="w"> </span><span class="na">body</span><span class="o">=</span><span class="s">"props"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="c1">// 자식 함수는 props = { heading: "React Native", body: "props" } 를 받음</span>
+</code></pre>
+<p>기본값(default) 주는 방법 2가지, 시험에 자주 나와요.</p>
+<ol>
+<li><strong><code>||</code> 연산자</strong>: <code>props.heading || '기본값'</code> 앞의 값이 비어 있으면(undefined, 빈 문자열 등) 뒤의 값을 써요.</li>
+<li><strong>구조 분해(destructuring) + 기본값</strong>: <code>function MyComponent({ heading = '기본값', body = 'default props' })</code> 파라미터 자리에서 바로 꺼내면서 기본값을 지정. 이 방법이 더 깔끔해서 수업에서 주로 써요.</li>
+</ol>
+<p>구조 분해가 낯설면 이렇게 생각하세요. <code>props</code>라는 가방을 받아서 <code>props.heading</code>, <code>props.body</code> 하고 하나씩 꺼내는 대신, 가방을 받자마자 <code>{ heading, body }</code>로 <strong>내용물을 바로 꺼내 놓는 것</strong>이에요.</p>
+</div><hr />
+<h2 id="4-코스노트-validating-props">4. 📘 코스노트: Validating Props <a class="anchor" aria-label="링크" href="#4-코스노트-validating-props">#</a></h2>
+<blockquote>
+<p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/validating-props</p>
+</blockquote>
+<h3 id="validating-component-properties">📘 Validating Component Properties <a class="anchor" aria-label="링크" href="#validating-component-properties">#</a></h3>
+<p>You can think of property validation in components similar to field validation in HTML forms. The goal is to inform <em>developers</em> implementing a component that they have provided a value that is not acceptable. This improves the experience for developers that are interacting with components you have created.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요. 다만 검사 대상이 <strong>사용자가 아니라 개발자</strong>예요. &quot;이 컴포넌트를 쓰는 다른 개발자가 이상한 값을 넣으면 알려 주자&quot;는 목적이에요.</p>
+</div><h4 id="type-validation">📘 Type Validation <a class="anchor" aria-label="링크" href="#type-validation">#</a></h4>
+<p>The <code>prop-types</code> package includes simple property type validators that can handle most primitive types of JavaScript values. You will use these validators frequently to ensure property values contain the expected data type. It is worth noting that if you do not pass a value to a given property, the type is not validated and no warning is displayed.</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">React</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">TextInput</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'prop-types'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">MyComponent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">myString</span><span class="p">,</span><span class="w"> </span><span class="nx">myNumber</span><span class="p">,</span><span class="w"> </span><span class="nx">myBool</span><span class="p">,</span><span class="w"> </span><span class="nx">myFunc</span><span class="p">,</span><span class="w"> </span><span class="nx">myArray</span><span class="p">,</span><span class="w"> </span><span class="nx">myObject</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">myString</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">myNumber</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">TextInput</span><span class="w"> </span><span class="na">editable</span><span class="o">=</span><span class="p">{</span><span class="nx">myBool</span><span class="p">}</span><span class="w"> </span><span class="na">placeholder</span><span class="o">=</span><span class="s">"Enter text"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">myFunc</span><span class="p">()}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">myArray</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">i</span><span class="p">}&gt;{</span><span class="nx">i</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">))}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;{</span><span class="nx">myObject</span><span class="p">.</span><span class="nx">myProp</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="nx">MyComponent</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">myString</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myNumber</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myBool</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myFunc</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myArray</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">array</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myObject</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">object</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">MyComponent</span>
+<span class="w">      </span><span class="na">myString</span><span class="o">=</span><span class="s">"String"</span>
+<span class="w">      </span><span class="na">myNumber</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span>
+<span class="w">      </span><span class="na">myBool</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span>
+<span class="w">      </span><span class="na">myFunc</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="s1">'Function'</span><span class="p">}</span>
+<span class="w">      </span><span class="na">myArray</span><span class="o">=</span><span class="p">{[</span><span class="s1">'A'</span><span class="p">,</span><span class="w"> </span><span class="s1">'B'</span><span class="p">,</span><span class="w"> </span><span class="s1">'C'</span><span class="p">]}</span>
+<span class="w">      </span><span class="na">myObject</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">myProp</span><span class="o">:</span><span class="w"> </span><span class="s1">'Object.myProp'</span><span class="w"> </span><span class="p">}}</span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Validating%20Component%20Properties%20-%20Type%20Validation&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20React%20from%20%27react%27%3B%0Aimport%20%7B%20View%2C%20Text%2C%20TextInput%20%7D%20from%20%27react-native%27%3B%0Aimport%20PropTypes%20from%20%27prop-types%27%3B%0A%0Aconst%20MyComponent%20%3D%20function%20%28%7B%20myString%2C%20myNumber%2C%20myBool%2C%20myFunc%2C%20myArray%2C%20myObject%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3E%7BmyString%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%7BmyNumber%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CTextInput%20editable%3D%7BmyBool%7D%20placeholder%3D%22Enter%20text%22%20%2F%3E%0A%20%20%20%20%20%20%3CText%3E%7BmyFunc%28%29%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%7BmyArray.map%28%28i%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CText%20key%3D%7Bi%7D%3E%7Bi%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%7BmyObject.myProp%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%3B%0A%0AMyComponent.propTypes%20%3D%20%7B%0A%20%20myString%3A%20PropTypes.string%2C%0A%20%20myNumber%3A%20PropTypes.number%2C%0A%20%20myBool%3A%20PropTypes.bool%2C%0A%20%20myFunc%3A%20PropTypes.func%2C%0A%20%20myArray%3A%20PropTypes.array%2C%0A%20%20myObject%3A%20PropTypes.object%2C%0A%7D%3B%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CMyComponent%0A%20%20%20%20%20%20myString%3D%22String%22%0A%20%20%20%20%20%20myNumber%3D%7B42%7D%0A%20%20%20%20%20%20myBool%3D%7Bfalse%7D%0A%20%20%20%20%20%20myFunc%3D%7B%28%29%20%3D%3E%20%27Function%27%7D%0A%20%20%20%20%20%20myArray%3D%7B%5B%27A%27%2C%20%27B%27%2C%20%27C%27%5D%7D%0A%20%20%20%20%20%20myObject%3D%7B%7B%20myProp%3A%20%27Object.myProp%27%20%7D%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A&amp;dependencies=prop-types%40%2A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>Copy and paste the previous code example into the course's React playground, then try changing the property values so they use the wrong types. For example, change <code>myBool={false}</code> to <code>myBool={&quot;false&quot;}</code>. You should see a warning similar to: Failed prop type: Invalid prop <code>myBool</code> of type <code>string</code> supplied to <code>MyComponent</code>, expected <code>boolean</code>.</p>
+<p>💡 React 19 removed <code>propTypes</code> checking, so these warnings only appear in React 18 and earlier. The course playground uses React 18 for this reason. Expo SDK 53 and later (including the current Snack) use React 19, where <code>propTypes</code> are silently ignored. Newer projects use TypeScript to check props instead; see the <a href="https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript" target="_blank" rel="noopener">TypeScript guide</a>.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>prop-types</code> 패키지를 import 하고, <code>컴포넌트이름.propTypes = { ... }</code> 객체를 붙여요.</p>
+<table>
+<thead>
+<tr>
+<th>검사기</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PropTypes.string</code></td>
+<td>문자열</td>
+</tr>
+<tr>
+<td><code>PropTypes.number</code></td>
+<td>숫자</td>
+</tr>
+<tr>
+<td><code>PropTypes.bool</code></td>
+<td>true/false (주의: <code>boolean</code> 아니고 <code>bool</code>)</td>
+</tr>
+<tr>
+<td><code>PropTypes.func</code></td>
+<td>함수 (주의: <code>function</code> 아니고 <code>func</code>)</td>
+</tr>
+<tr>
+<td><code>PropTypes.array</code></td>
+<td>배열</td>
+</tr>
+<tr>
+<td><code>PropTypes.object</code></td>
+<td>객체</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 1</strong>: prop을 아예 안 넘기면 타입 검사를 안 해요. 경고 없음. (그래서 <code>isRequired</code>가 필요해요.)</p>
+<p><strong>함정 2 (아주 중요)</strong>: React 19부터 propTypes 검사가 <strong>없어졌어요.</strong> 그래서 경고를 보려면 React 18을 쓰는 교수님 CodeSandbox 템플릿에서 해야 해요. 지금 Snack(Expo SDK 53 이상)은 React 19라서 propTypes를 <strong>조용히 무시</strong>해요. 앞으로는 TypeScript가 이 역할을 대신해요. 아래 Snack 링크는 코드 구조를 보는 용도로만 쓰고, 경고 실험은 CodeSandbox에서 하세요.</p>
+<p><code>myBool={&quot;false&quot;}</code> 처럼 따옴표로 감싸면 그건 boolean이 아니라 <strong>문자열</strong> &quot;false&quot; 예요. 그래서 경고가 떠요.</p>
+</div><h4 id="required-values">📘 Required Values <a class="anchor" aria-label="링크" href="#required-values">#</a></h4>
+<p>As mentioned earlier, no warning is shown if you simply ignore a property but there are times when a value is required. Using the <code>prop-types</code> package, we can indicate the values that must be specified. Let's modify the previous code example to require all properties be specified.</p>
+<pre class="hl"><code class="language-jsx"><span class="nx">MyComponent</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">myString</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myNumber</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myBool</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myFunc</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myArray</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">array</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">myObject</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">object</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>타입 뒤에 <code>.isRequired</code> 를 붙이면 &quot;반드시 넘겨야 함&quot;이 돼요. 안 넘기면 <code>The prop ... is marked as required ... but its value is undefined</code> 경고가 떠요.</p>
+</div><h4 id="any-value">📘 Any value <a class="anchor" aria-label="링크" href="#any-value">#</a></h4>
+<p>Sometimes you don't know (or care) what type of property is passed to your component but you want to ensure something is passed in. In other words, it is a required property but the data type doesn't matter. This is easily accomplished using <code>PropTypes.any.isRequired</code>.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>PropTypes.any.isRequired</code>: &quot;타입은 아무거나 괜찮은데 <strong>뭔가는 꼭</strong> 넘겨라.&quot;</p>
+</div><h4 id="specific-types">📘 Specific types <a class="anchor" aria-label="링크" href="#specific-types">#</a></h4>
+<p>If you need a property validator that checks for a custom type defined by your application, for example a component called <code>MyComponent</code>, there are <code>PropTypes</code> for this as well.</p>
+<ul>
+<li><code>PropTypes.instanceOf(MyComponent)</code> - requires an instance of <code>MyComponent</code>.</li>
+<li><code>PropTypes.oneOfType([PropTypes.string, MyComponent])</code> - requires an instance of <code>string</code> or <code>MyComponent</code>.</li>
+<li><code>PropTypes.arrayOf(PropTypes.instanceOf(MyComponent))</code> - requires an array of <code>MyComponent</code> instances.</li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>instanceOf(MyComponent)</code>: 특정 클래스의 인스턴스여야 함.</li>
+<li><code>oneOfType([A, B])</code>: A <strong>또는</strong> B 타입이면 OK. (타입 여러 개 중 하나)</li>
+<li><code>arrayOf(X)</code>: X 타입들로만 이루어진 배열.</li>
+</ul>
+</div><h4 id="specific-values">📘 Specific values <a class="anchor" aria-label="링크" href="#specific-values">#</a></h4>
+<p>So far, we’ve validated the type of each prop, but sometimes the actual value matters just as much.</p>
+<ul>
+<li><code>PropTypes.oneOf(possibleValues)</code> - Checks the property value and warns if the value is not contained in an array <code>possibleValues</code>.</li>
+<li><code>PropTypes.shape(comparableObj)</code> - Similar to <code>instanceOf()</code> but we don't care about the actual type. Instead, we care that the object passed in has all of the required properties and that each property is valid.</li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>타입이 아니라 <strong>값 자체</strong>를 검사하는 것들이에요.</p>
+<ul>
+<li><code>oneOf(['Fall', 'Winter', 'Summer'])</code>: 이 목록 안의 값만 허용. (<code>oneOfType</code>과 헷갈리지 마세요! <code>oneOf</code>는 <strong>값</strong>, <code>oneOfType</code>은 <strong>타입</strong>)</li>
+<li><code>shape({ name: PropTypes.string })</code>: 객체 안에 어떤 필드들이 어떤 타입으로 있어야 하는지 모양(shape)을 검사.</li>
+</ul>
+</div><h4 id="custom-validators">📘 Custom validators <a class="anchor" aria-label="링크" href="#custom-validators">#</a></h4>
+<p>The validators provided by the <code>prop-types</code> package cover a wide range of scenarios but you may require some sort of custom validation logic. Simply define a function accepting three arguments <code>(props, name, component) =&gt; { }</code>. Return <code>null</code> if the value is valid otherwise return an <code>Error</code> instance.</p>
+<pre class="hl"><code class="language-jsx"><span class="nx">MyComponent</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">myNumber</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">props</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">component</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">    </span><span class="nb">Number</span><span class="p">.</span><span class="nb">isFinite</span><span class="p">(</span><span class="nx">props</span><span class="p">[</span><span class="nx">name</span><span class="p">])</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">props</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">props</span><span class="p">[</span><span class="nx">name</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mf">99</span>
+<span class="w">      </span><span class="o">?</span><span class="w"> </span><span class="kc">null</span>
+<span class="w">      </span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">component</span><span class="si">}</span><span class="sb">.</span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb"> expects a number between 10 and 99`</span><span class="p">),</span>
+<span class="p">};</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>직접 검사 함수를 만들 수도 있어요. 함수는 <code>(props, name, component)</code> 3개를 받아요.</p>
+<ul>
+<li>통과하면 <code>null</code> 반환</li>
+<li>실패하면 <code>new Error(...)</code> 반환</li>
+</ul>
+<p>예제는 &quot;10 이상 99 이하의 숫자인지&quot; 검사해요. <code>Number.isFinite(x)</code> 는 &quot;진짜 유한한 숫자인지&quot; 확인하는 함수예요.</p>
+</div><hr />
+<h2 id="5-인클래스-예제-week-11---notes-and-examples">5. 💻 인클래스 예제: Week 1.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#5-인클래스-예제-week-11---notes-and-examples">#</a></h2>
+<blockquote>
+<p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.1-notes.md</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 들어가기 전에</strong></p>
+<p>여기부터는 교수님이 1주차 첫 수업(1.1)에서 <strong>라이브 코딩한 예제</strong>예요. 원문 bullet(•)은 교수님이 수업 중에 &quot;이걸 보여 줘라(Show that ...)&quot; 하고 적어 둔 메모예요. 1.1은 <strong>웹 React</strong>라서 <code>&lt;div&gt;</code>, <code>&lt;button&gt;</code> 같은 HTML 태그를 쓰고, CodeSandbox 템플릿에서 돌려요.</p>
+</div><h3 id="playground">💻 Playground <a class="anchor" aria-label="링크" href="#playground">#</a></h3>
+<p>React Playground (Professor's CodeSpace Template)
+(https://codesandbox.io/p/sandbox/react-basic-3rqll4)</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>교수님 CodeSandbox 템플릿 링크예요. 들어가서 <strong>Fork</strong> 하면 내 것으로 복사돼요. <code>src/index.js</code> 에서 코드를 고치면 돼요.</p>
+</div><h3 id="example-simple-components">💻 Example: Simple Components <a class="anchor" aria-label="링크" href="#example-simple-components">#</a></h3>
+<ul>
+<li>MyApp is the most parent component.</li>
+<li>It is a JavaScript function</li>
+<li>Tags are case sensitive
+<ul>
+<li>HTML should remain in lower case.</li>
+<li>Our custom components will have an uppercase letter at the start.</li>
+</ul>
+</li>
+<li>Show that after return there is ( ) surrounding the HTML, it is not required. <code>return &lt;MyButton /&gt;;</code></li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span><span class="nx">I</span>'<span class="nx">m</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">button</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>코드 해설</strong></p>
+<ul>
+<li><code>function MyButton()</code>: 버튼 하나를 돌려주는 컴포넌트.</li>
+<li><code>function MyApp()</code>: 가장 바깥(최상위 부모) 컴포넌트. 그 안에서 <code>&lt;MyButton /&gt;</code> 을 태그처럼 써요.</li>
+<li><code>return</code> 뒤에 <code>( )</code> 괄호는 여러 줄일 때 보기 좋으라고 쓰는 거고, 한 줄이면 없어도 돼요.</li>
+<li>대문자 규칙: <code>&lt;button&gt;</code>(소문자) 는 HTML 버튼, <code>&lt;MyButton&gt;</code>(대문자) 은 내가 만든 컴포넌트.</li>
+</ul>
+<p><strong>직접 해 보기</strong>: <code>MyButton</code>을 <code>myButton</code>으로 바꿔 보세요. React가 HTML 태그로 착각해서 아무것도 안 나오거나 경고가 떠요.</p>
+</div><h3 id="example-multiple-tags">💻 Example: Multiple Tags <a class="anchor" aria-label="링크" href="#example-multiple-tags">#</a></h3>
+<ul>
+<li>If you need multiple tags, they cannot be side by side.</li>
+<li>Create a parent tag then add the children.</li>
+<li>Show how to add the H1 tag</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>If you don't want a parent tag, you can use <code>&lt;&gt;...&lt;/&gt;</code></li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>코드 해설</strong></p>
+<ul>
+<li><code>&lt;h1&gt;</code> 과 <code>&lt;MyButton /&gt;</code> 을 나란히 return 하면 에러! 부모 <code>&lt;div&gt;</code> 하나로 감싸야 해요.</li>
+<li>부모 div가 필요 없으면 <strong>Fragment</strong> <code>&lt;&gt;...&lt;/&gt;</code> 를 써요. 화면에 아무 태그도 추가하지 않는 &quot;투명한 포장지&quot;예요.</li>
+</ul>
+</div><h3 id="example-js-expressions">💻 Example: JS-Expressions <a class="anchor" aria-label="링크" href="#example-js-expressions">#</a></h3>
+<ul>
+<li>Show that we can define JS constants</li>
+<li>Show that we can use those constants in a tag argument using { }</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Show that we can use these constants as attribute values</li>
+<li>Show that we can negate a Boolean {!varname}</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Show that html tokens such as © can be used</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">copy</span><span class="p">;&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>코드 해설</strong></p>
+<ul>
+<li><code>const buttonText = &quot;I'm a button&quot;;</code> 일반 JS 변수를 만들고</li>
+<li><code>&lt;button&gt;{buttonText}&lt;/button&gt;</code> 처럼 <code>{ }</code> 안에 넣으면 변수 값이 화면에 나와요.</li>
+<li>속성(attribute) 값에도 <code>{ }</code> 를 써요: <code>disabled={!enable}</code>. <code>enable</code>이 false라서 <code>!enable</code>은 true, 그래서 버튼이 비활성화돼요.</li>
+<li><code>&amp;copy;</code> 같은 HTML 특수문자(엔티티)도 JSX 글자 안에서 쓸 수 있어요. 화면에 © 가 나와요.</li>
+</ul>
+</div><h3 id="example-passing-props">💻 Example: Passing props <a class="anchor" aria-label="링크" href="#example-passing-props">#</a></h3>
+<ul>
+<li>Pass props to our button component and read information from there instead of constants.</li>
+<li>Show what happens if <code>buttonText</code> is omitted.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">}&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">buttonText</span><span class="o">=</span><span class="s">"My Button"</span><span class="w"> </span><span class="na">isEnabled</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Let's set a default value so when removing <code>buttonText</code> the control doesn't look broken.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">props</span><span class="p">.</span><span class="nx">buttonText</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="s2">"My Button"</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">isEnabled</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Another way to create default values is by using <code>destructuring</code>.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"My Button"</span><span class="p">,</span><span class="w"> </span><span class="nx">isEnabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">isEnabled</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">isEnabled</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이 예제가 Week 1의 핵심이에요. 같은 버튼 컴포넌트에 <strong>다른 값을 넣어 재사용</strong>하는 법.</p>
+<p><strong>코드 해설 (3단계로 발전)</strong></p>
+<ol>
+<li><code>MyButton(props)</code> 로 받고 <code>props.buttonText</code>, <code>props.isEnabled</code> 로 꺼내 씀. <code>buttonText</code>를 안 넘기면 버튼 글자가 비어서 이상해 보여요.</li>
+<li><code>{props.buttonText || &quot;My Button&quot;}</code>: 값이 없으면 &quot;My Button&quot;으로 대체. (OR 연산자 기본값)</li>
+<li><code>function MyButton({ buttonText = &quot;My Button&quot;, isEnabled = false })</code>: <strong>구조 분해 + 기본값</strong>. 가장 깔끔한 최종형.</li>
+</ol>
+<p>주의: 숫자나 boolean, 변수는 <code>isEnabled={true}</code> 처럼 <strong>중괄호</strong>로, 문자열은 <code>buttonText=&quot;My Button&quot;</code> 처럼 <strong>따옴표</strong>로 넘겨요. <code>isEnabled=&quot;true&quot;</code> 라고 쓰면 그건 문자열이에요!</p>
+</div><hr />
+<h2 id="6-인클래스-예제-week-12---notes-and-examples">6. 💻 인클래스 예제: Week 1.2 - Notes and Examples <a class="anchor" aria-label="링크" href="#6-인클래스-예제-week-12---notes-and-examples">#</a></h2>
+<blockquote>
+<p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.2-notes.md</p>
+</blockquote>
+<h3 id="react-playground">💻 React Playground <a class="anchor" aria-label="링크" href="#react-playground">#</a></h3>
+<p>React Playground (Professor's CodeSpace Template)
+(https://codesandbox.io/p/sandbox/react-basic-3rqll4)</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>1.2 수업 앞부분(PropTypes)도 웹 React라서 같은 CodeSandbox 템플릿을 써요. 이 템플릿은 <strong>React 18</strong>이라 PropTypes 경고가 보여요.</p>
+</div><h3 id="example-proptypes-and-validation">💻 Example: PropTypes and Validation <a class="anchor" aria-label="링크" href="#example-proptypes-and-validation">#</a></h3>
+<ul>
+<li>A component has no way to say what props it expects. PropTypes lets us declare that contract.</li>
+<li>React checks the contract <strong>in development only</strong> and prints a warning in the console. Nothing is enforced in production.</li>
+<li>The checks come from the separate <code>prop-types</code> package, so it must be installed and imported.</li>
+<li>PropTypes is deprecated. React 19 no longer checks it, and TypeScript replaces it. We will revisit this when we learn TypeScript.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"prop-types"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Greeting</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">isStudent</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Hello</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Age</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">age</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;{</span><span class="nx">isStudent</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Student"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Not a student"</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Prop validation</span>
+<span class="nx">Greeting</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span><span class="w"> </span><span class="c1">// must be a string</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span><span class="w"> </span><span class="c1">// must be a number</span>
+<span class="w">  </span><span class="nx">isStudent</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">,</span><span class="w"> </span><span class="c1">// optional boolean</span>
+<span class="p">};</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="na">isStudent</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Show what happens when the contract is broken. Open the browser console and try each line.</li>
+<li>The app still renders. PropTypes only warns, it does not stop the component.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="cm">/* OK */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="na">isStudent</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Warning: Failed prop type: Invalid prop `age` of type `string`</span>
+<span class="cm">          supplied to `Greeting`, expected `number`. */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Nicholas"</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="s">"42"</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* Warning: Failed prop type: The prop `name` is marked as required</span>
+<span class="cm">          in `Greeting`, but its value is `undefined`. */</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Greeting</span><span class="w"> </span><span class="na">age</span><span class="o">=</span><span class="p">{</span><span class="mf">42</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Optional props should have a default so the component never renders something odd.</li>
+<li>Reuse the destructuring default from Week 1.1. PropTypes says &quot;optional&quot;, the default says &quot;what it is when omitted&quot;.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">Greeting</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">isStudent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Hello</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Age</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">age</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;{</span><span class="nx">isStudent</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Student"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Not a student"</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Greeting</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">number</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">isStudent</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">bool</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>There are validators for more than primitives. The ones you will use most:
+<ul>
+<li><code>PropTypes.oneOf([...])</code> restricts a prop to a fixed set of values.</li>
+<li><code>PropTypes.func</code> for callbacks.</li>
+<li><code>PropTypes.arrayOf(type)</code> for lists.</li>
+<li><code>PropTypes.shape({...})</code> for objects with known fields.</li>
+</ul>
+</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"prop-types"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Course</span><span class="p">({</span><span class="w"> </span><span class="nx">code</span><span class="p">,</span><span class="w"> </span><span class="nx">term</span><span class="p">,</span><span class="w"> </span><span class="nx">topics</span><span class="p">,</span><span class="w"> </span><span class="nx">instructor</span><span class="p">,</span><span class="w"> </span><span class="nx">onSelect</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">code</span><span class="p">}</span><span class="w"> </span><span class="p">({</span><span class="nx">term</span><span class="p">})</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span><span class="nx">Instructor</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">instructor</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">topics</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">topic</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">li</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">topic</span><span class="p">}&gt;{</span><span class="nx">topic</span><span class="p">}&lt;/</span><span class="nt">li</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">))}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">ul</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">onSelect</span><span class="p">(</span><span class="nx">code</span><span class="p">)}&gt;</span><span class="nx">Select</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nx">Course</span><span class="p">.</span><span class="nx">propTypes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">code</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">term</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">oneOf</span><span class="p">([</span><span class="s2">"Fall"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Winter"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Summer"</span><span class="p">]).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">topics</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">arrayOf</span><span class="p">(</span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">instructor</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">shape</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">string</span><span class="p">,</span>
+<span class="w">  </span><span class="p">}).</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">onSelect</span><span class="o">:</span><span class="w"> </span><span class="nx">PropTypes</span><span class="p">.</span><span class="nx">func</span><span class="p">.</span><span class="nx">isRequired</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">Course</span>
+<span class="w">      </span><span class="na">code</span><span class="o">=</span><span class="s">"WEB530"</span>
+<span class="w">      </span><span class="na">term</span><span class="o">=</span><span class="s">"Fall"</span>
+<span class="w">      </span><span class="na">topics</span><span class="o">=</span><span class="p">{[</span><span class="s2">"JSX"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Components"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Props"</span><span class="p">]}</span>
+<span class="w">      </span><span class="na">instructor</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Nicholas"</span><span class="w"> </span><span class="p">}}</span>
+<span class="w">      </span><span class="na">onSelect</span><span class="o">=</span><span class="p">{(</span><span class="nx">code</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">alert</span><span class="p">(</span><span class="sb">`Selected </span><span class="si">${</span><span class="nx">code</span><span class="si">}</span><span class="sb">`</span><span class="p">)}</span>
+<span class="w">    </span><span class="p">/&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Try <code>term=&quot;Spring&quot;</code> or <code>topics=&quot;JSX&quot;</code> and read the warning. The message names the prop, the component, what it got, and what it expected.</li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>핵심 4줄 요약 (원문 첫 bullet들)</strong></p>
+<ul>
+<li>컴포넌트는 스스로 &quot;나 이런 props 받아요&quot;라고 말할 방법이 없다. PropTypes가 그 <strong>계약(contract)</strong> 을 선언하게 해 준다.</li>
+<li>검사는 <strong>개발 모드에서만</strong>, 콘솔 <strong>경고</strong>로만. 배포(production)에서는 아무것도 안 한다.</li>
+<li><code>prop-types</code> 는 별도 패키지라 설치하고 import 해야 한다.</li>
+<li>PropTypes는 <strong>deprecated(더 이상 권장 안 함)</strong>. React 19는 검사 안 하고, TypeScript가 대신한다.</li>
+</ul>
+<p><strong>코드 해설: Greeting</strong></p>
+<ul>
+<li><code>name: PropTypes.string.isRequired</code> → 이름은 문자열, 필수.</li>
+<li><code>age: PropTypes.number.isRequired</code> → 나이는 숫자, 필수.</li>
+<li><code>isStudent: PropTypes.bool</code> → 선택. 그래서 기본값 <code>isStudent = false</code> 를 같이 준다. &quot;PropTypes는 선택이라고 말하고, 기본값은 안 넘겼을 때 무엇인지 말한다.&quot;</li>
+<li><code>{isStudent ? &quot;Student&quot; : &quot;Not a student&quot;}</code> → <strong>삼항 연산자</strong>. <code>조건 ? 참일때 : 거짓일때</code>.</li>
+</ul>
+<p><strong>계약 깨 보기</strong></p>
+<ul>
+<li><code>age=&quot;42&quot;</code> → 따옴표라서 문자열! 경고: expected <code>number</code>.</li>
+<li><code>&lt;Greeting age={42} /&gt;</code> → name 빠짐. 경고: marked as required ... undefined.</li>
+<li>그래도 <strong>화면은 그려진다.</strong> 경고만 할 뿐.</li>
+</ul>
+<p><strong>코드 해설: Course (복합 검사기)</strong></p>
+<ul>
+<li><code>term: PropTypes.oneOf([&quot;Fall&quot;, &quot;Winter&quot;, &quot;Summer&quot;])</code> → 이 셋 중 하나만. <code>&quot;Spring&quot;</code> 넣으면 경고.</li>
+<li><code>topics: PropTypes.arrayOf(PropTypes.string)</code> → 문자열 배열. <code>topics=&quot;JSX&quot;</code>(그냥 문자열) 넣으면 경고.</li>
+<li><code>instructor: PropTypes.shape({ name: ..., email: ... })</code> → 객체 모양 검사.</li>
+<li><code>onSelect: PropTypes.func</code> → 함수(콜백).</li>
+<li><code>topics.map((topic) =&gt; &lt;li key={topic}&gt;{topic}&lt;/li&gt;)</code> → 배열을 <code>&lt;li&gt;</code> 목록으로. key는 topic 문자열 자체.</li>
+<li><code>onClick={() =&gt; onSelect(code)}</code> → 클릭하면 부모가 준 함수에 <code>code</code>를 넣어 호출. 부모는 <code>alert</code>로 띄움. <strong>템플릿 리터럴</strong> <code>`Selected ${code}`</code> 는 백틱(<code>)과 </code>${}`로 문자열 안에 변수를 넣는 문법이에요.</li>
+</ul>
+</div><h3 id="react-native-playground">💻 React Native Playground <a class="anchor" aria-label="링크" href="#react-native-playground">#</a></h3>
+<p>React Native Playground (Snack)
+<em>Use this for the examples. Modify App.js</em>
+(https://snack.expo.dev)</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>여기서부터는 <strong>React Native</strong>. 이제 CodeSandbox 말고 <strong>Expo Snack</strong>을 써요. Snack은 브라우저에서 React Native를 바로 돌려 보는 놀이터예요. <code>App.js</code> 를 고치면 오른쪽에 결과가 나와요. 오른쪽 위에서 <strong>Web / iOS / Android / My Device</strong>를 고를 수 있어요. 폰에 <strong>Expo Go</strong> 앱을 깔고 QR을 찍으면 내 폰에서도 돌아가요.</p>
+</div><h3 id="example-introduce-react-native-components-not-html">💻 Example: Introduce React Native Components (not HTML) <a class="anchor" aria-label="링크" href="#example-introduce-react-native-components-not-html">#</a></h3>
+<ul>
+<li>Rewrite the this example using proper React Native components.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}&gt;{</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Notice React Native component names begin with capital letters.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">enable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">enable</span><span class="p">}</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">buttonText</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<ul>
+<li>Show that text must live inside <code>Text</code>. React Native does not allow a bare string inside a <code>View</code>.</li>
+<li>This crashes the app. Remove the <code>Text</code> tags below and read the error.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Welcome</span><span class="w"> </span><span class="nx">to</span><span class="w"> </span><span class="nx">my</span><span class="w"> </span><span class="nx">app</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<ul>
+<li>Error: <code>Text strings must be rendered within a &lt;Text&gt; component.</code></li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>코드 해설: HTML 버전 → React Native 버전</strong></p>
+<table>
+<thead>
+<tr>
+<th>HTML 버전</th>
+<th>React Native 버전</th>
+<th>바뀐 점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;div&gt;</code></td>
+<td><code>&lt;View&gt;</code></td>
+<td>상자</td>
+</tr>
+<tr>
+<td><code>&lt;h1&gt;Welcome&lt;/h1&gt;</code></td>
+<td><code>&lt;Text&gt;Welcome&lt;/Text&gt;</code></td>
+<td>RN에는 h1이 없음. 글자는 다 Text</td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;{buttonText}&lt;/button&gt;</code></td>
+<td><code>&lt;Button title={buttonText} /&gt;</code></td>
+<td>글자를 <strong>title prop</strong>으로. 자식으로 안 씀. 그래서 self-closing <code>/&gt;</code></td>
+</tr>
+<tr>
+<td><code>function MyApp</code></td>
+<td><code>export default function MyApp</code></td>
+<td>Snack은 App.js의 <strong>default export</strong>를 앱 시작점으로 씀</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>맨 위 <code>import { View, Text, Button } from &quot;react-native&quot;;</code> 를 빼먹으면 &quot;View is not defined&quot; 에러.</li>
+<li>RN 컴포넌트 이름은 전부 <strong>대문자로 시작</strong>.</li>
+</ul>
+<p><strong>일부러 터뜨려 보기</strong>: <code>&lt;Text&gt;</code> 를 지우고 <code>&lt;View&gt;Welcome to my app&lt;/View&gt;</code> 로 바꾸면 에러가 나요.
+<code>Text strings must be rendered within a &lt;Text&gt; component.</code> 이 문장 그대로 시험에 나올 수 있어요. 뜻: &quot;글자는 반드시 Text 컴포넌트 안에서 그려야 한다.&quot;</p>
+</div><h3 id="html-to-react-native">💻 HTML to React Native <a class="anchor" aria-label="링크" href="#html-to-react-native">#</a></h3>
+<table>
+<thead>
+<tr>
+<th>HTML</th>
+<th>React Native</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;div&gt;</code></td>
+<td><code>View</code></td>
+<td>Container, no text directly inside</td>
+</tr>
+<tr>
+<td><code>&lt;p&gt;</code>, <code>&lt;h1&gt;</code>, <code>&lt;span&gt;</code></td>
+<td><code>Text</code></td>
+<td>All text, no separate heading components</td>
+</tr>
+<tr>
+<td><code>&lt;button&gt;</code></td>
+<td><code>Button</code></td>
+<td>Label goes in the <code>title</code> prop, not as children</td>
+</tr>
+<tr>
+<td><code>&lt;input&gt;</code></td>
+<td><code>TextInput</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>&lt;img&gt;</code></td>
+<td><code>Image</code></td>
+<td>Needs a <code>source</code> prop</td>
+</tr>
+<tr>
+<td><code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code></td>
+<td><code>View</code> + <code>Text</code></td>
+<td>Lists get their own component later</td>
+</tr>
+</tbody>
+</table>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이 표는 <strong>통째로 외우세요.</strong> 2주차 표가 이걸 확장한 버전이에요.</p>
+<ul>
+<li><code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code> 는 RN에 없어요. 지금은 <code>View</code> + <code>Text</code>로 흉내 내고, 5주차에 <code>FlatList</code>라는 전용 컴포넌트를 배워요.</li>
+<li><code>Image</code>는 <code>src</code>가 아니라 <code>source</code> prop을 써요.</li>
+</ul>
+</div><hr />
+<h2 id="7-lab-lab-1---components-and-props">7. 🧪 Lab: Lab 1 - Components and Props <a class="anchor" aria-label="링크" href="#7-lab-lab-1---components-and-props">#</a></h2>
+<blockquote>
+<p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-1.md</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 들어가기 전에</strong></p>
+<p>Lab 1은 위에서 배운 웹 React 예제(1.1, 1.2)를 내 손으로 다시 쓰는 연습이에요. 아래에서 각 문제가 <strong>어떤 예제를 참고하면 되는지</strong> 연결해 줄게요. 정답 코드를 통째로 주기보다, 막히는 지점과 핵심 패턴을 짚어 줄게요. (Lab 원문에도 &quot;AI가 대신 쓰게 하지 말고 막힐 때만 써라&quot;라고 되어 있어요.)</p>
+</div><h3 id="a-note-on-ai">🧪 A Note on AI <a class="anchor" aria-label="링크" href="#a-note-on-ai">#</a></h3>
+<p>AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste <strong>your</strong> code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished sandbox. It is the ability to write these components yourself, and having an assistant write them for you skips the only part that builds that ability.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>AI는 막혔을 때 도움 받는 용도로만 쓰고, 내가 한 줄 한 줄 설명 못 하는 코드는 남기지 말라는 안내예요. 시험장에서는 AI가 없으니, 이 노트로 공부할 때도 <strong>Snack 링크를 열어 직접 타이핑</strong>해 보는 게 제일 좋아요.</p>
+</div><h3 id="setup">🧪 Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h3>
+<ol>
+<li>You need a free CodeSandbox account. Sign in with your GitHub account, or create one at https://codesandbox.io.</li>
+<li>Open the React Playground (Professor's CodeSandbox Template) and fork it:
+(https://codesandbox.io/p/sandbox/react-basic-3rqll4)</li>
+<li>Rename the sandbox to <code>WEB530 Lab 1 - Your Name</code>.</li>
+<li>Open <code>package.json</code> and verify it matches the file below. It must use React 18 and include <code>prop-types</code>. If it does not, replace the contents with the file below and restart the sandbox.</li>
+</ol>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.0.0"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"keywords"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">  </span><span class="nt">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src/index.js"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"prop-types"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^15.8.1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^18.3.1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-dom"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^18.3.1"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"react-scripts"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^5.0.0"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"devDependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"loader-utils"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.2.1"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react-scripts start"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react-scripts build"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react-scripts test --env=jsdom"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"eject"</span><span class="p">:</span><span class="w"> </span><span class="s2">"react-scripts eject"</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">"browserslist"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"&gt;0.2%"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not dead"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not ie &lt;= 11"</span><span class="p">,</span><span class="w"> </span><span class="s2">"not op_mini all"</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>CodeSandbox 계정 만들고, 교수님 템플릿을 Fork, 이름 바꾸고, <code>package.json</code>에 <strong>React 18 + prop-types</strong> 가 있는지 확인. React 18이어야 PropTypes 경고가 보여요.</p>
+</div><h3 id="submission">🧪 Submission <a class="anchor" aria-label="링크" href="#submission">#</a></h3>
+<ul>
+<li>Submit <strong>one</strong> CodeSandbox link to the <code>Lab 1</code> assessment in Blackboard.</li>
+<li>The lab is due before the end of Friday's class.</li>
+<li>All questions go in the same sandbox. Write every component in <code>src/index.js</code>.</li>
+<li><code>MyApp</code> must render the answer to each question in order, under a heading, like this:</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="nx">Question</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">HelloMessage</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">h2</span><span class="p">&gt;</span><span class="nx">Question</span><span class="w"> </span><span class="mf">3</span><span class="p">&lt;/</span><span class="nt">h2</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">buttonText</span><span class="o">=</span><span class="s">"Save"</span><span class="w"> </span><span class="na">isEnabled</span><span class="o">=</span><span class="p">{</span><span class="kc">true</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">MyButton</span><span class="w"> </span><span class="na">buttonText</span><span class="o">=</span><span class="s">"Delete"</span><span class="w"> </span><span class="na">isEnabled</span><span class="o">=</span><span class="p">{</span><span class="kc">false</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+
+<span class="w">      </span><span class="p">{</span><span class="cm">/* and so on */</span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<ul>
+<li>Before submitting, make sure the sandbox is public. Open your link in a private browser window to confirm it loads without signing in.</li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>CodeSandbox 링크 <strong>하나</strong>만 Blackboard에 제출.</li>
+<li>모든 문제를 <code>src/index.js</code> 한 파일에.</li>
+<li><code>MyApp</code> 안에 <code>&lt;h2&gt;Question 1&lt;/h2&gt;</code> 처럼 제목 달고 순서대로 렌더링.</li>
+<li>제출 전에 <strong>시크릿 창</strong>에서 링크가 로그인 없이 열리는지 확인 (public 설정).</li>
+</ul>
+</div><h3 id="question-1---your-first-component-1-point">🧪 Question 1 - Your First Component (1 point) <a class="anchor" aria-label="링크" href="#question-1---your-first-component-1-point">#</a></h3>
+<p>Create a component called <code>HelloMessage</code> that displays the text: &quot;Hello from my component!&quot;</p>
+<p>Starter:</p>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">createRoot</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-dom/client"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;{</span><span class="cm">/* Render your HelloMessage component here */</span><span class="p">}&lt;/</span><span class="nt">div</span><span class="p">&gt;;</span>
+<span class="p">}</span>
+
+<span class="nx">createRoot</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"root"</span><span class="p">)).</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nt">MyApp</span><span class="w"> </span><span class="p">/&gt;);</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>참고 예제</strong>: 1.1 Simple Components.
+<code>HelloMessage</code> 라는 <strong>대문자</strong> 함수를 만들고 문장을 return. MyApp의 <code>&lt;div&gt;</code> 안에 <code>&lt;HelloMessage /&gt;</code>.</p>
+</div><h3 id="question-2---add-a-button-1-point">🧪 Question 2 - Add a Button (1 point) <a class="anchor" aria-label="링크" href="#question-2---add-a-button-1-point">#</a></h3>
+<p>Add a button under your text in <code>HelloMessage</code> that logs &quot;Button pressed!&quot; to the console.</p>
+<p>Hint:</p>
+<pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">onClick</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Button pressed!"</span><span class="p">)}&gt;</span><span class="nx">Press</span><span class="w"> </span><span class="nx">me</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</code></pre>
+<p>▶ 웹 React 코드예요. <a href="https://codesandbox.io/p/sandbox/react-basic-3rqll4" target="_blank" rel="noopener">교수님 CodeSandbox 템플릿</a>에 붙여넣어 실행하세요.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>포인트</strong>: HelloMessage가 이제 글자 + 버튼 두 개를 return 하니까 <strong>부모 태그로 감싸야</strong> 해요(1.1 Multiple Tags). <code>onClick</code>(웹 React는 onClick, RN은 onPress!)에 화살표 함수를 넣어요. 결과는 화면이 아니라 <strong>콘솔</strong>에서 확인.</p>
+</div><h3 id="question-3---create-a-reusable-button-component-1-point">🧪 Question 3 - Create a Reusable Button Component (1 point) <a class="anchor" aria-label="링크" href="#question-3---create-a-reusable-button-component-1-point">#</a></h3>
+<p>Create a component called <code>MyButton</code> that accepts:</p>
+<ul>
+<li><code>buttonText</code> (string)</li>
+<li><code>isEnabled</code> (boolean)</li>
+</ul>
+<p>The button must display <code>buttonText</code> and be disabled when <code>isEnabled</code> is false.</p>
+<p>Render it twice with different props.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>참고 예제</strong>: 1.1 Passing props의 최종형(구조 분해 + <code>disabled={!isEnabled}</code>) 거의 그대로예요. 두 번 렌더링할 때 하나는 <code>isEnabled={true}</code>, 하나는 <code>{false}</code>로 주면 회색 버튼이 보여요.</p>
+</div><h3 id="question-4---display-dynamic-text-1-point">🧪 Question 4 - Display Dynamic Text (1 point) <a class="anchor" aria-label="링크" href="#question-4---display-dynamic-text-1-point">#</a></h3>
+<p>Create a component called <code>WelcomeMessage</code> that accepts a <code>name</code> prop and displays:</p>
+<pre class="hl"><code class="language-jsx"><span class="nx">Welcome</span><span class="p">,</span><span class="w"> </span><span class="nx">NAME</span><span class="o">!</span>
+</code></pre>
+<p>Render it with your own name.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>포인트</strong>: <code>Welcome, {name}!</code> 처럼 JSX 글자 중간에 <code>{ }</code>. 쉼표와 느낌표 위치까지 문제와 똑같이.</p>
+</div><h3 id="question-5---using-javascript-inside-components-1-point">🧪 Question 5 - Using JavaScript Inside Components (1 point) <a class="anchor" aria-label="링크" href="#question-5---using-javascript-inside-components-1-point">#</a></h3>
+<p>Create a component called <code>ProfileCard</code> that displays:</p>
+<ul>
+<li>A name</li>
+<li>A program</li>
+<li>A fun fact</li>
+<li>A button that does nothing yet (we'll use it later)</li>
+</ul>
+<p>You must use JavaScript variables inside the component to store the values.</p>
+<p>Requirements:</p>
+<ul>
+<li>Inside <code>ProfileCard</code>, create three variables:</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Your Name"</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Your Program"</span><span class="p">;</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">funFact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Something interesting about you"</span><span class="p">;</span>
+</code></pre>
+<ul>
+<li>Display each variable inside a <code>&lt;p&gt;</code> element.</li>
+<li>Add a <code>&lt;button&gt;</code> at the bottom with the text &quot;Learn More&quot;.</li>
+<li>Render <code>&lt;ProfileCard /&gt;</code> inside <code>MyApp</code>.</li>
+</ul>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>참고 예제</strong>: 1.1 JS-Expressions. 변수는 <strong>컴포넌트 함수 안에</strong> <code>const</code>로 선언(문제 조건). 각 값을 <code>&lt;p&gt;{name}&lt;/p&gt;</code> 처럼 따로따로. 버튼은 아무 동작 없어도 됨.</p>
+</div><h3 id="question-6---prop-validation-1-point">🧪 Question 6 - Prop Validation (1 point) <a class="anchor" aria-label="링크" href="#question-6---prop-validation-1-point">#</a></h3>
+<p>Add PropTypes to two of your components:</p>
+<ul>
+<li><code>MyButton</code>: <code>buttonText</code> is a required string, <code>isEnabled</code> is an optional boolean.</li>
+<li><code>WelcomeMessage</code>: <code>name</code> is a required string.</li>
+</ul>
+<p>Then prove the validation works:</p>
+<ul>
+<li>In <code>MyApp</code>, add one <strong>commented-out</strong> line that would break one of these rules, for example passing a number as <code>name</code>.</li>
+<li>Above it, add a comment containing the warning React printed in the console when you tried it.</li>
+</ul>
+<p>Example of what this looks like:</p>
+<pre class="hl"><code class="language-jsx"><span class="p">{</span>
+<span class="w">  </span><span class="cm">/* Warning: Failed prop type: Invalid prop `name` of type `number` supplied to `WelcomeMessage`, expected `string`. */</span>
+<span class="p">}</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* &lt;WelcomeMessage name={42} /&gt; */</span>
+<span class="p">}</span>
+</code></pre>
+<p>Remember: PropTypes only warn in the console. The page still renders.</p>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>참고 예제</strong>: 1.2 PropTypes Greeting.</p>
+<ul>
+<li><code>buttonText: PropTypes.string.isRequired</code>, <code>isEnabled: PropTypes.bool</code> (optional이니 isRequired 없음)</li>
+<li><code>name: PropTypes.string.isRequired</code></li>
+<li>일부러 틀린 줄을 <strong>주석 처리</strong>해서 넣고, 그 위에 콘솔에 실제로 뜬 경고 문장을 주석으로 복사. JSX 안 주석은 <code>{/* ... */}</code> 형태라는 것도 기억!</li>
+</ul>
+</div><hr />
+<h2 id="week-1-시험-대비-체크리스트">✅ Week 1 시험 대비 체크리스트 <a class="anchor" aria-label="링크" href="#week-1-시험-대비-체크리스트">#</a></h2>
+<p>아래 질문에 영어 키워드로 답할 수 있으면 통과예요.</p>
+<ol>
+<li>React는 framework인가 library인가? → <strong>library</strong>, UI(View)만 담당.</li>
+<li>Declarative vs Imperative 차이? → <strong>what</strong> vs <strong>how</strong>.</li>
+<li>Diffing과 Patching은? → 비교해서 차이 찾기 / 차이만 실제 화면에 반영.</li>
+<li>JSX를 브라우저가 읽을 수 있게 바꿔 주는 것은? → <strong>transpiler</strong>.</li>
+<li>여러 태그를 return 하려면? → 부모 하나로 감싸거나 Fragment <code>&lt;&gt;...&lt;/&gt;</code>.</li>
+<li><code>props.children</code> 은 무엇? → 여는 태그와 닫는 태그 <strong>사이의 내용물</strong>.</li>
+<li>props 기본값 두 가지 방법? → <code>props.x || 기본값</code>, 구조 분해 <code>{ x = 기본값 }</code>.</li>
+<li><code>PropTypes.bool</code> vs <code>boolean</code>? → <strong>bool</strong>. 함수는 <strong>func</strong>.</li>
+<li><code>oneOf</code> vs <code>oneOfType</code>? → 값 목록 / 타입 목록.</li>
+<li>PropTypes가 실패하면? → 콘솔 <strong>경고만</strong>, 렌더링은 계속. React 19에서는 무시.</li>
+<li>RN에서 글자를 View에 바로 쓰면? → <code>Text strings must be rendered within a &lt;Text&gt; component.</code></li>
+<li>RN <code>Button</code> 글자는 어디에? → <strong><code>title</code></strong> prop.</li>
+</ol>
+<p><strong>손으로 써 보기 과제</strong>: 빈 Snack을 열고, 아래를 보지 않고 직접 써 보세요.</p>
+<ul>
+<li><code>ProfileCard</code> 컴포넌트: props로 <code>name</code>, <code>program</code>을 받고(기본값 있음), <code>View</code>와 <code>Text</code> 2개, <code>Button</code> 1개를 보여 주기.</li>
+<li>다 썼으면 아래 링크의 예시와 비교해 보세요.</li>
+</ul>
+<pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">ProfileCard</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Student"</span><span class="p">,</span><span class="w"> </span><span class="nx">program</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"CPA"</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">funFact</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I love React Native"</span><span class="p">;</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">100</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">}}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Program</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">program</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Fun</span><span class="w"> </span><span class="nx">fact</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">funFact</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Learn More"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">App</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">ProfileCard</span><span class="w"> </span><span class="na">name</span><span class="o">=</span><span class="s">"Paul"</span><span class="w"> </span><span class="p">/&gt;;</span>
+<span class="p">}</span>
+</code></pre>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20practice&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20ProfileCard%28%7B%20name%20%3D%20%22Student%22%2C%20program%20%3D%20%22CPA%22%20%7D%29%20%7B%0A%20%20const%20funFact%20%3D%20%22I%20love%20React%20Native%22%3B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%2C%20padding%3A%2016%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EName%3A%20%7Bname%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3EProgram%3A%20%7Bprogram%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3EFun%20fact%3A%20%7BfunFact%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Learn%20More%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%3CProfileCard%20name%3D%22Paul%22%20%2F%3E%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
+<p>다음 주(Week 2) 예고: 지금 만든 버튼은 눌러도 숫자가 안 바뀌어요. 화면이 &quot;기억&quot;하고 &quot;다시 그리게&quot; 하려면 <strong>state(useState)</strong> 가 필요해요.</p>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="https://snack.expo.dev/?name=Campus%20Spots%20W1%20-%20Components%20%26%20Props&amp;sdkVersion=54.0.0&amp;platform=web&amp;dependencies=prop-types%40%5E15.8.1&amp;code=%2F%2F%20Campus%20Spots%20-%20Week%201%3A%20Components%2C%20JSX%2C%20Props%2C%20PropTypes%0A%2F%2F%20%EC%9D%B4%EB%B2%88%20%EC%A3%BC%20%EB%AA%A9%ED%91%9C%3A%20%EC%BA%A0%ED%8D%BC%EC%8A%A4%20%EC%8A%A4%ED%8C%9F%EC%9D%84%20%EB%B3%B4%EC%97%AC%EC%A3%BC%EB%8A%94%20%22%EC%B9%B4%EB%93%9C%22%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A5%BC%20%EB%A7%8C%EB%93%A4%EA%B3%A0%20props%EB%A1%9C%20%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%A5%BC%20%EB%84%98%EA%B8%B4%EB%8B%A4.%0Aimport%20%7B%20View%2C%20Text%2C%20ScrollView%20%7D%20from%20%22react-native%22%3B%0Aimport%20PropTypes%20from%20%22prop-types%22%3B%0A%0A%2F%2F%201%29%20%EA%B0%80%EC%9E%A5%20%EC%9E%91%EC%9D%80%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%3A%20%EC%95%B1%20%EC%A0%9C%EB%AA%A9%0Afunction%20AppHeader%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20fontSize%3A%2028%2C%20fontWeight%3A%20%22bold%22%20%7D%7D%3ECampus%20Spots%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3EFind%20the%20best%20places%20on%20campus%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%202%29%20JS%20%ED%91%9C%ED%98%84%EC%8B%9D%20%7B%20%7D%20%EB%A5%BC%20%EC%93%B0%EB%8A%94%20%ED%95%A8%EC%88%98%3A%20%EC%88%AB%EC%9E%90%20%ED%8F%89%EC%A0%90%EC%9D%84%20%EB%B3%84%20%EB%AC%B8%EC%9E%90%EC%97%B4%EB%A1%9C%20%EB%B0%94%EA%BE%BC%EB%8B%A4%0Afunction%20toStars%28rating%29%20%7B%0A%20%20return%20%22%E2%98%85%22.repeat%28Math.round%28rating%29%29%20%2B%20%22%E2%98%86%22.repeat%285%20-%20Math.round%28rating%29%29%3B%0A%7D%0A%0A%2F%2F%203%29%20props%EB%A5%BC%20%EB%B0%9B%EB%8A%94%20%EC%9E%AC%EC%82%AC%EC%9A%A9%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%0A%2F%2F%20%20%20%20category%20%EA%B8%B0%EB%B3%B8%EA%B0%92%EC%9D%80%20%22Other%22%20%28default%20parameter%29%0Afunction%20SpotCard%28%7B%20name%2C%20category%20%3D%20%22Other%22%2C%20rating%2C%20campus%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20padding%3A%2012%2C%20marginTop%3A%2012%2C%20borderWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20fontSize%3A%2018%2C%20fontWeight%3A%20%22600%22%20%7D%7D%3E%7Bname%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%7Bcategory%7D%20%C2%B7%20%7Bcampus%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%7BtoStars%28rating%29%7D%20%28%7Brating.toFixed%281%29%7D%29%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%7B%2F%2A%20%EC%A1%B0%EA%B1%B4%EB%B6%80%20%EB%A0%8C%EB%8D%94%EB%A7%81%3A%20%ED%8F%89%EC%A0%90%EC%9D%B4%204.5%20%EC%9D%B4%EC%83%81%EC%9D%B4%EB%A9%B4%20%EB%B0%B0%EC%A7%80%EB%A5%BC%20%EB%B3%B4%EC%97%AC%EC%A4%80%EB%8B%A4%20%2A%2F%7D%0A%20%20%20%20%20%20%7Brating%20%3E%3D%204.5%20%26%26%20%3CText%20style%3D%7B%7B%20color%3A%20%22green%22%20%7D%7D%3ETop%20pick%21%3C%2FText%3E%7D%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%204%29%20PropTypes%EB%A1%9C%20props%20%EA%B2%80%EC%A6%9D%3A%20%EC%9E%98%EB%AA%BB%EB%90%9C%20%ED%83%80%EC%9E%85%EC%9D%B4%20%EB%93%A4%EC%96%B4%EC%98%A4%EB%A9%B4%20%EC%BD%98%EC%86%94%EC%97%90%20%EA%B2%BD%EA%B3%A0%EA%B0%80%20%EB%9C%AC%EB%8B%A4%0ASpotCard.propTypes%20%3D%20%7B%0A%20%20name%3A%20PropTypes.string.isRequired%2C%0A%20%20category%3A%20PropTypes.oneOf%28%5B%22Study%22%2C%20%22Food%22%2C%20%22Chill%22%2C%20%22Other%22%5D%29%2C%0A%20%20rating%3A%20PropTypes.number.isRequired%2C%0A%20%20campus%3A%20PropTypes.string.isRequired%2C%0A%7D%3B%0A%0A%2F%2F%205%29%20%EA%B0%80%EC%9E%A5%20%EB%B0%94%EA%B9%A5%28%EB%B6%80%EB%AA%A8%29%20%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20totalSpots%20%3D%203%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CScrollView%20contentContainerStyle%3D%7B%7B%20padding%3A%2020%2C%20paddingTop%3A%2060%20%7D%7D%3E%0A%20%20%20%20%20%20%3CAppHeader%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20marginTop%3A%208%20%7D%7D%3ETotal%20spots%3A%20%7BtotalSpots%7D%3C%2FText%3E%0A%0A%20%20%20%20%20%20%3CSpotCard%20name%3D%22Library%20Quiet%20Zone%22%20category%3D%22Study%22%20rating%3D%7B4.7%7D%20campus%3D%22Newnham%22%20%2F%3E%0A%20%20%20%20%20%20%3CSpotCard%20name%3D%22Tim%20Hortons%20%28Building%20A%29%22%20category%3D%22Food%22%20rating%3D%7B3.9%7D%20campus%3D%22Newnham%22%20%2F%3E%0A%20%20%20%20%20%20%3CSpotCard%20name%3D%22Courtyard%20Benches%22%20rating%3D%7B4.2%7D%20campus%3D%22Newnham%22%20%2F%3E%0A%0A%20%20%20%20%20%20%7B%2F%2A%20%EC%9D%BC%EB%B6%80%EB%9F%AC%20%ED%8B%80%EB%A0%A4%EB%B3%B4%EA%B8%B0%3A%20category%3D%22Coffee%22%20%EB%A1%9C%20%EB%B0%94%EA%BE%B8%EA%B1%B0%EB%82%98%20campus%EB%A5%BC%20%EC%A7%80%EC%9A%B0%EB%A9%B4%20PropTypes%20%EA%B2%BD%EA%B3%A0%EA%B0%80%20%EC%BD%98%EC%86%94%EC%97%90%20%EB%9C%AC%EB%8B%A4%20%2A%2F%7D%0A%20%20%20%20%3C%2FScrollView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">🧩 토이 Snack</a><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="web530-w1" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><span></span><a class="next" href="week-02.html"><small>다음 →</small>Week 2. 이벤트와 State</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme'),order=['', 'light','dark'];b.onclick=function(){var c=document.documentElement.dataset.theme||'';var n=order[(order.indexOf(c)+1)%3];if(n)document.documentElement.dataset.theme=n;else delete document.documentElement.dataset.theme;try{localStorage.setItem('studyhub-theme',n);if(!n)localStorage.removeItem('studyhub-theme');}catch(e){}};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/timer.js"></script>
+</body></html>
