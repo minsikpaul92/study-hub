@@ -1,6 +1,6 @@
 # Week 5. Lists: FlatList, 정렬과 검색, 데이터 불러오기, 목록과 상세, 당겨서 새로고침
 
-> 이 노트 읽는 법: 챕터마다 **🧭 먼저 한국어로**(짧은 미리보기) → **📘/💻/🧪 원문**(영어 그대로) → **▶ Snack** → **🇰🇷 한글 해설** 순서예요. 미리보기의 **⌨️** 표시는 Snack에서 직접 쳐 볼 것, **👀** 표시는 읽고 이해만 하면 되는 것이에요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
+> 이 노트 읽는 법: 챕터마다 맨 앞에 **🧭 먼저 한국어로** 상자가 한 번 나와요(그 챕터의 구성과 할 일). 그다음 원문 출처, **📘/💻/🧪 원문**(영어 그대로), **▶ Snack**, **🇰🇷 한글 해설** 순서예요. 코드 바로 위에 **⌨️ 이 코드는 Snack에서 직접 쳐 보세요**가 있으면 직접 타이핑할 코드이고, 표시가 없는 코드는 읽고 이해만 하면 돼요. **5~7주차는 Test 3 범위**라서 특히 꼼꼼하게 정리했어요.
 
 ## 0. 이번 주 한눈에 보기
 
@@ -27,22 +27,24 @@
 
 **⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**
 
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
 | # | 어디 | 무엇을 |
 | --- | --- | --- |
-| 1 | Example: FlatList | 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너 |
-| 2 | Example: Sorting and Filtering › Step 1 - Sort with a Button | ascending state + [...fruits].sort(localeCompare) + 정렬 버튼 |
-| 3 | Example: Sorting and Filtering › Step 2 - Filter with a TextInput | query state + TextInput + filter 다음 sort |
-| 4 | Example: Sorting and Filtering › Step 3 - Show an Empty State | ListEmptyComponent 추가 |
-| 5 | Example: Fetching List Data › Starter Code | posts state + useEffect에서 fetch + FlatList (시작 코드) |
-| 6 | Example: Fetching List Data › Step 1 - Show a Spinner While Loading | loading state(true로 시작) + finally에서 false + early return 스피너 |
-| 7 | Example: Fetching List Data › Step 2 - Handle Errors | error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼 |
-| 8 | Example: Fetching List Data › Step 3 - Show an Empty State | ListEmptyComponent + ?userId=99로 빈 목록 테스트 |
-| 9 | Example: List and Detail › Step 1 - Put the List in a Stack | MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기 |
-| 10 | Example: List and Detail › Step 2 - Make Each Row Tappable | 줄을 Pressable로 감싸고 navigate("Details", { post: item }) |
-| 11 | Example: List and Detail › Step 3 - Add the Details Screen | DetailsScreen에서 const { post } = route.params |
-| 12 | Example: Pull to Refresh › Step 1 - Track the Refresh | refreshing state + refresh 함수(true → loadPosts → finally false) |
-| 13 | Example: Pull to Refresh › Step 2 - Wire Up the List | FlatList에 refreshing, onRefresh 연결 |
-| 14 | Example: Pull to Refresh › Step 3 - Prove It Reloaded | updated 시각 state + ListHeaderComponent로 표시 |
+| 1 | [Example: FlatList](#practice-1) | 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너 |
+| 2 | [Example: Sorting and Filtering › Step 1 - Sort with a Button](#practice-2) | ascending state + [...fruits].sort(localeCompare) + 정렬 버튼 |
+| 3 | [Example: Sorting and Filtering › Step 2 - Filter with a TextInput](#practice-3) | query state + TextInput + filter 다음 sort |
+| 4 | [Example: Sorting and Filtering › Step 3 - Show an Empty State](#practice-4) | ListEmptyComponent 추가 |
+| 5 | [Example: Fetching List Data › Starter Code](#practice-5) | posts state + useEffect에서 fetch + FlatList (시작 코드) |
+| 6 | [Example: Fetching List Data › Step 1 - Show a Spinner While Loading](#practice-6) | loading state(true로 시작) + finally에서 false + early return 스피너 |
+| 7 | [Example: Fetching List Data › Step 2 - Handle Errors](#practice-7) | error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼 |
+| 8 | [Example: Fetching List Data › Step 3 - Show an Empty State](#practice-8) | ListEmptyComponent + ?userId=99로 빈 목록 테스트 |
+| 9 | [Example: List and Detail › Step 1 - Put the List in a Stack](#practice-9) | MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기 |
+| 10 | [Example: List and Detail › Step 2 - Make Each Row Tappable](#practice-10) | 줄을 Pressable로 감싸고 navigate("Details", { post: item }) |
+| 11 | [Example: List and Detail › Step 3 - Add the Details Screen](#practice-11) | DetailsScreen에서 const { post } = route.params |
+| 12 | [Example: Pull to Refresh › Step 1 - Track the Refresh](#practice-12) | refreshing state + refresh 함수(true → loadPosts → finally false) |
+| 13 | [Example: Pull to Refresh › Step 2 - Wire Up the List](#practice-13) | FlatList에 refreshing, onRefresh 연결 |
+| 14 | [Example: Pull to Refresh › Step 3 - Prove It Reloaded](#practice-14) | updated 시각 state + ListHeaderComponent로 표시 |
 
 나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
 
@@ -70,19 +72,16 @@
 
 코스노트의 FlatList 소개예요. 같은 내용을 아래 💻 인클래스 "Example: FlatList"에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
 
+**이 챕터 구성**
+
+- 👀 **FlatList**: FlatList는 data, renderItem, keyExtractor 세 개로 목록을 그려요. 화면 근처만 그려서(virtualization) 긴 목록도 빨라요. 코드는 Snack으로 실행만 해 보세요.
+- 👀 **FlatList › Fixed Height Rows**: 줄 높이가 모두 같으면 getItemLayout으로 미리 알려 줘서 더 빨라져요. 시험보다는 성능 팁이에요.
+
 </div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists
 
 ### 📘 FlatList
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-FlatList는 data, renderItem, keyExtractor 세 개로 목록을 그려요. 화면 근처만 그려서(virtualization) 긴 목록도 빨라요. 코드는 Snack으로 실행만 해 보세요.
-
-</div>
 
 React Native provides the `FlatList` component as the recommended way to render lists on both iOS and Android. While you can render lists using JavaScript’s `.map()`, this quickly becomes inefficient because `.map()` renders every item at once. `FlatList` is optimized for mobile performance through virtualization, meaning it only renders what is visible on screen.
 
@@ -143,14 +142,6 @@ Because `FlatList` is optimized for mobile scrolling through virtualization, it 
 
 #### 📘 Fixed Height Rows
 
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-줄 높이가 모두 같으면 getItemLayout으로 미리 알려 줘서 더 빨라져요. 시험보다는 성능 팁이에요.
-
-</div>
-
 If each row has a fixed height, you can add:
 
 ```jsx
@@ -178,17 +169,13 @@ This improves scroll-to-index performance and prevents layout jumps.
 
 정렬과 검색을 useMemo로 묶는 코스노트 버전이에요. 같은 기능을 💻 "Example: Sorting and Filtering"에서 더 쉬운 코드로 쳐 보니까 여기서는 useMemo가 왜 쓰였는지만 이해하면 돼요.
 
+**이 챕터 구성**
+
+- 👀 **시작 부분**: 검색어로 filter, 버튼으로 sort, 결과를 useMemo로 기억해서 필요할 때만 다시 계산해요. 실행해서 검색과 정렬이 어떻게 반응하는지 확인만 해 보세요.
+
 </div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-검색어로 filter, 버튼으로 sort, 결과를 useMemo로 기억해서 필요할 때만 다시 계산해요. 실행해서 검색과 정렬이 어떻게 반응하는지 확인만 해 보세요.
-
-</div>
 
 The `FlatList` component renders whatever items you pass into its `data` array. If you modify the array, by adding, removing, sorting, or filtering items, the list automatically re-renders to reflect those changes. This makes `FlatList` ideal for building interactive UIs where users can search, filter, or reorder content.
 
@@ -294,17 +281,15 @@ This example demonstrates how to combine sorting and filtering in a performant w
 
 API에서 목록을 받아 오는 코스노트예요. 시험에 나오는 loading, error, empty 처리는 💻 "Example: Fetching List Data"에서 단계별로 쳐 봐요.
 
+**이 챕터 구성**
+
+- 👀 **시작 부분**: useEffect에서 fetch → 받은 배열을 state에 저장 → FlatList에 넘겨요. 흐름만 이해하면 돼요.
+- 👀 **Lazy Loading of List Data**: 끝까지 스크롤하면 onEndReached로 다음 페이지를 더 불러오는 무한 스크롤이에요. 개념과 prop 이름만 알아 두세요.
+- ⏭️ **Lazy Loading of List Data › Best practices for infinite scrolling**: 무한 스크롤 주의사항 목록이에요. 중복 요청 막기, 로딩 표시, 끝 처리 정도만 기억하세요.
+
 </div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-useEffect에서 fetch → 받은 배열을 state에 저장 → FlatList에 넘겨요. 흐름만 이해하면 돼요.
-
-</div>
 
 Many applications need to load list data from a remote API. In this example, we fetch a list of user names and display them using a `FlatList`. We use the `useEffect()` hook to perform the asynchronous request when the component mounts, and we store the results in state so they can be sorted and filtered just like locally generated data.
 
@@ -453,14 +438,6 @@ export default function App() {
 
 ### 📘 Lazy Loading of List Data
 
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-끝까지 스크롤하면 onEndReached로 다음 페이지를 더 불러오는 무한 스크롤이에요. 개념과 prop 이름만 알아 두세요.
-
-</div>
-
 The `FlatList` component includes an `onEndReached` property that makes it easy to implement infinite scrolling. This pattern is common in social media feeds, where new content loads automatically as the user scrolls.
 
 To implement lazy loading:
@@ -492,14 +469,6 @@ To implement lazy loading:
 
 #### 📘 Best practices for infinite scrolling
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-무한 스크롤 주의사항 목록이에요. 중복 요청 막기, 로딩 표시, 끝 처리 정도만 기억하세요.
-
-</div>
-
 * Track a `loadingMore` state to avoid duplicate requests
 * Append new items using `setItems(prev => [...prev, ...newItems])`
 * Use stable keys to prevent flicker
@@ -523,19 +492,23 @@ To implement lazy loading:
 
 목록에서 줄을 누르면 상세 화면으로 가는 코스노트예요. 같은 구조를 💻 "Example: List and Detail"에서 쳐 보니까 여기서는 읽기만 해요.
 
+**이 챕터 구성**
+
+- ⏭️ **Introduction**: 목록은 요약, 상세는 전체를 보여 준다는 설명이에요.
+- ⏭️ **Example**: 아래 하위 단계들의 큰 그림이에요: 네비게이션 → 목록 화면 → 상세 화면 → 데이터 전달.
+- 👀 **Example › Navigation**: Stack 두 개 화면(목록, 상세)을 등록하는 4주차 코드 그대로예요.
+- 👀 **Example › List Screen**: 줄을 누르면 navigate("Details", { 데이터 })로 이동해요.
+- 👀 **Example › Detail Screen**: route.params에서 데이터를 꺼내서 보여 줘요.
+- 👀 **Example › Passing Data Between Screens**: 객체 통째로 넘기기 vs id만 넘기기. 큰 데이터는 id만 넘기는 게 원칙이에요.
+- 👀 **Example › Fetching Detail Data**: id만 받은 상세 화면이 직접 fetch하는 방법이에요. 개념만 알아 두세요.
+- 👀 **Full Solution (Local Data)**: 지금까지 조각을 합친 완성 코드예요. Snack으로 실행해서 눌러 보기만 하세요.
+- 👀 **Full Example (Fetching Remote Data)**: 같은 앱을 API 데이터로 바꾼 버전이에요. 실행해서 흐름만 확인하세요.
+
 </div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views
 
 ### 📘 Introduction
-
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-목록은 요약, 상세는 전체를 보여 준다는 설명이에요.
-
-</div>
 
 Many mobile apps follow a familiar pattern:
 
@@ -564,14 +537,6 @@ This page shows how to build a simple “List → Detail” flow.
 
 ### 📘 Example
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-아래 하위 단계들의 큰 그림이에요: 네비게이션 → 목록 화면 → 상세 화면 → 데이터 전달.
-
-</div>
-
 
 
 **🇰🇷 한글 해설**
@@ -579,14 +544,6 @@ This page shows how to build a simple “List → Detail” flow.
 아래 소단원들이 이 패턴을 조각조각 보여 줘요.
 
 #### 📘 Navigation
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-Stack 두 개 화면(목록, 상세)을 등록하는 4주차 코드 그대로예요.
-
-</div>
 
 To navigate between screens, we use the [Stack Navigator](https://seneca-ictoer.github.io/WEB530/D-Navigation/navigating) from React Navigation.
 
@@ -613,14 +570,6 @@ export default function App() {
 4주차 Stack Navigator 그대로. List와 Detail 두 화면 등록, Detail 헤더 제목은 params에서.
 
 #### 📘 List Screen
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-줄을 누르면 navigate("Details", { 데이터 })로 이동해요.
-
-</div>
 
 The list screen displays a list of items using `FlatList`. Each row is a `Pressable` that navigates to the detail screen.
 
@@ -679,14 +628,6 @@ const styles = StyleSheet.create({
 
 #### 📘 Detail Screen
 
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-route.params에서 데이터를 꺼내서 보여 줘요.
-
-</div>
-
 The detail screen receives the selected item through `route.params`.
 
 ```jsx
@@ -717,14 +658,6 @@ const styles = StyleSheet.create({
 
 #### 📘 Passing Data Between Screens
 
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-객체 통째로 넘기기 vs id만 넘기기. 큰 데이터는 id만 넘기는 게 원칙이에요.
-
-</div>
-
 React Navigation automatically passes parameters using:
 
 ```jsx
@@ -752,14 +685,6 @@ This makes it easy to show a list of items and then display more information abo
 보내기 `navigate('Detail', { item })`, 받기 `const { item } = route.params;`. 문자열, 숫자, 객체, 배열, API 결과 등 무엇이든 넘길 수 있어요.
 
 #### 📘 Fetching Detail Data
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-id만 받은 상세 화면이 직접 fetch하는 방법이에요. 개념만 알아 두세요.
-
-</div>
 
 Sometimes you only pass an ID, and the detail screen fetches the rest:
 
@@ -791,14 +716,6 @@ This is useful for:
 - 단점(비용): 상세 화면을 열 때마다 **요청 한 번 더**, 로딩 시간 발생. (Lab 5 Q5 주석으로 쓸 내용!)
 
 ### 📘 Full Solution (Local Data)
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-지금까지 조각을 합친 완성 코드예요. Snack으로 실행해서 눌러 보기만 하세요.
-
-</div>
 
 ```jsx
 import { View, Text, FlatList, Pressable, StyleSheet } from 'react-native';
@@ -920,14 +837,6 @@ const styles = StyleSheet.create({
 - 헤더 제목: `options={({ route }) => ({ title: route.params.item.title })}`.
 
 ### 📘 Full Example (Fetching Remote Data)
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-같은 앱을 API 데이터로 바꾼 버전이에요. 실행해서 흐름만 확인하세요.
-
-</div>
 
 ```jsx
 import { useEffect, useState } from 'react';
@@ -1107,19 +1016,19 @@ const styles = StyleSheet.create({
 
 당겨서 새로고침 코스노트예요. 시험용 버전은 💻 "Example: Pull to Refresh"에서 쳐 봐요.
 
+**이 챕터 구성**
+
+- ⏭️ **Introduction**: 목록을 아래로 당기면 다시 불러오는 익숙한 기능이에요.
+- 👀 **How Pull to Refresh Works**: FlatList에 refreshing(지금 새로고침 중인지)과 onRefresh(당겼을 때 할 일) 두 prop만 주면 돼요.
+- 👀 **Basic Pull‑to‑Refresh Example**: 가짜 데이터로 만든 가장 작은 예제예요. 휴대폰(Expo Go)에서 실행해서 당겨 보세요.
+- 👀 **Pull to Refresh with API Data**: API를 다시 fetch하는 버전이에요. 💻 예제와 거의 같아서 읽기만 해요.
+- ⏭️ **Best Practices**: 새로고침 중 중복 요청 막기, 스크롤 위치 유지 같은 팁이에요.
+
 </div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/E-Lists/pull-to-refresh
 
 ### 📘 Introduction
-
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-목록을 아래로 당기면 다시 불러오는 익숙한 기능이에요.
-
-</div>
 
 Mobile users expect lists to stay up‑to‑date. Whether checking email, refreshing a news feed, or reloading product data, the most common pattern is **pull to refresh**: the user drags downward at the top of a list to trigger a reload.
 
@@ -1130,14 +1039,6 @@ React Native provides built‑in support for this pattern through the `FlatList`
 **Pull to refresh(당겨서 새로고침)**: 목록 맨 위에서 아래로 끌어당기면 다시 불러오기. FlatList에 **내장**돼 있어서 제스처를 직접 감지할 필요 없어요.
 
 ### 📘 How Pull to Refresh Works
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-FlatList에 refreshing(지금 새로고침 중인지)과 onRefresh(당겼을 때 할 일) 두 prop만 주면 돼요.
-
-</div>
 
 `FlatList` exposes two props that enable pull‑to‑refresh:
 
@@ -1163,14 +1064,6 @@ props 2개:
 💡 터치가 필요해서 **Web 미리보기에서는 안 돼요.** iOS/Android 미리보기나 Expo Go 폰에서.
 
 ### 📘 Basic Pull‑to‑Refresh Example
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-가짜 데이터로 만든 가장 작은 예제예요. 휴대폰(Expo Go)에서 실행해서 당겨 보세요.
-
-</div>
 
 The example below shows how to refresh a list of items using a simulated network request.
 
@@ -1229,14 +1122,6 @@ const styles = StyleSheet.create({
 **코드 해설**: `onRefresh`에서 `setRefreshing(true)` → (가짜 네트워크 대기) → 데이터 갱신 → `setRefreshing(false)`. 스피너를 켜고 끄는 건 **내 책임**.
 
 ### 📘 Pull to Refresh with API Data
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-API를 다시 fetch하는 버전이에요. 💻 예제와 거의 같아서 읽기만 해요.
-
-</div>
 
 Pull‑to‑refresh becomes most useful when combined with remote data. Here is a version that fetches posts from an API and reloads them when the user pulls down.
 
@@ -1318,14 +1203,6 @@ const styles = StyleSheet.create({
 
 ### 📘 Best Practices
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-새로고침 중 중복 요청 막기, 스크롤 위치 유지 같은 팁이에요.
-
-</div>
-
 1. Keep refresh actions fast - Users expect refresh to complete quickly. If your API is slow, show a spinner and consider caching.
 2. Avoid refreshing on every screen load - Use pull‑to‑refresh for manual reloads. Use `useEffect` for initial loads.
 3. Do not modify `refreshing` directly - Always set it to `true` before loading and `false` after.
@@ -1351,19 +1228,38 @@ const styles = StyleSheet.create({
 
 교수님이 수업에서 라이브 코딩한 순서예요. 이번 주에서 가장 중요한 부분이고, 아래 ⌨️ 표시된 곳은 Snack을 새로 열고 처음부터 직접 쳐 보세요. 시험 코딩 문제가 이 모양으로 나와요.
 
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: 예제에 필요한 패키지와 데이터(jsonplaceholder posts) 안내예요.
+- 👀 **Why Lists?**: 좋은 목록의 디자인 원칙이에요. 객관식, 서술 문제로 나올 수 있어서 읽어 두세요.
+- ⌨️ **[Example: FlatList](#practice-1)**: 빈 Snack에서 과일 목록을 FlatList로 그려 보세요. renderItem에서 ({ item }) 구조분해, keyExtractor는 문자열, 컨테이너 flex: 1이 시험 단골 실수 포인트예요. (⌨️ 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너)
+- ⌨️ **Example: Sorting and Filtering**: 앞의 FlatList 코드에 정렬 버튼과 검색창을 단계별로 붙여요. Step 1부터 3까지 이어서 직접 쳐 보세요.
+- ⌨️ **[Example: Sorting and Filtering › Step 1 - Sort with a Button](#practice-2)**: state는 방향 하나, 정렬된 배열은 매번 계산해요. 복사([...]) 후 sort가 포인트. (⌨️ ascending state + [...fruits].sort(localeCompare) + 정렬 버튼)
+- ⌨️ **[Example: Sorting and Filtering › Step 2 - Filter with a TextInput](#practice-3)**: 검색어로 먼저 filter하고 그다음 sort해요. (⌨️ query state + TextInput + filter 다음 sort)
+- ⌨️ **[Example: Sorting and Filtering › Step 3 - Show an Empty State](#practice-4)**: 검색 결과가 없을 때 메시지를 보여 줘요. (⌨️ ListEmptyComponent 추가)
+- 👀 **Example: Sorting and Filtering › Finished Code**: 내가 친 코드와 비교해 보는 완성본이에요.
+- ⌨️ **Example: Fetching List Data**: API에서 posts를 받아 오면서 로딩, 에러, 빈 목록을 모두 처리해요. Test 3 코딩 문제의 핵심 뼈대예요.
+- ⌨️ **[Example: Fetching List Data › Starter Code](#practice-5)**: 여기서부터 Snack에 쳐서 시작해요. fetch → res.json() → setPosts 흐름. (⌨️ posts state + useEffect에서 fetch + FlatList (시작 코드))
+- ⌨️ **[Example: Fetching List Data › Step 1 - Show a Spinner While Loading](#practice-6)**: ActivityIndicator와 early return 패턴. (⌨️ loading state(true로 시작) + finally에서 false + early return 스피너)
+- ⌨️ **[Example: Fetching List Data › Step 2 - Handle Errors](#practice-7)**: fetch는 404여도 reject 안 해서 res.ok를 직접 확인해야 해요. 시험 최다 함정. (⌨️ error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼)
+- ⌨️ **[Example: Fetching List Data › Step 3 - Show an Empty State](#practice-8)**: 빈 응답도 사용자에게 알려 줘요. (⌨️ ListEmptyComponent + ?userId=99로 빈 목록 테스트)
+- 👀 **Example: Fetching List Data › Finished Code**: 시험 직전에 다시 볼 완성본이에요. 내 코드와 비교하세요.
+- ⌨️ **Example: List and Detail**: 앞의 Fetching 코드를 Stack에 넣고 줄을 누르면 상세로 가게 만들어요. 4주차 + 5주차 합체 문제라 꼭 쳐 보세요.
+- ⌨️ **[Example: List and Detail › Step 1 - Put the List in a Stack](#practice-9)**: 화면 컴포넌트와 앱 루트를 나누는 연습. (⌨️ MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기)
+- ⌨️ **[Example: List and Detail › Step 2 - Make Each Row Tappable](#practice-10)**: numberOfLines={1}로 미리보기 한 줄. (⌨️ 줄을 Pressable로 감싸고 navigate("Details", { post: item }))
+- ⌨️ **[Example: List and Detail › Step 3 - Add the Details Screen](#practice-11)**: 넘겨받은 데이터를 보여 줘요. (⌨️ DetailsScreen에서 const { post } = route.params)
+- 👀 **Example: List and Detail › Finished Code**: 4주차와 5주차가 합쳐진 완성본이에요. 비교용.
+- ⌨️ **Example: Pull to Refresh**: 앞 코드에 당겨서 새로고침을 붙여요. 휴대폰 Expo Go에서 확인하세요(Web은 안 돼요).
+- ⌨️ **[Example: Pull to Refresh › Step 1 - Track the Refresh](#practice-12)**: loading과 refreshing을 따로 두는 이유가 Lab 5 Q6에 나와요. (⌨️ refreshing state + refresh 함수(true → loadPosts → finally false))
+- ⌨️ **[Example: Pull to Refresh › Step 2 - Wire Up the List](#practice-13)**: prop 두 개면 끝. (⌨️ FlatList에 refreshing, onRefresh 연결)
+- ⌨️ **[Example: Pull to Refresh › Step 3 - Prove It Reloaded](#practice-14)**: 목록과 같이 스크롤되는 헤더. (⌨️ updated 시각 state + ListHeaderComponent로 표시)
+- 👀 **Example: Pull to Refresh › Finished PostsScreen**: state 5개짜리 최종본이에요. 비교용.
+
 </div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-05.1-notes.md
 
 ### 💻 React Native Playground
-
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-예제에 필요한 패키지와 데이터(jsonplaceholder posts) 안내예요.
-
-</div>
 
 React Native Playground (Snack)
 _Use this for the examples. Modify App.js_
@@ -1393,14 +1289,6 @@ _package.json_
 
 ### 💻 Why Lists?
 
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-좋은 목록의 디자인 원칙이에요. 객관식, 서술 문제로 나올 수 있어서 읽어 두세요.
-
-</div>
-
 - Most mobile apps are list-driven: messages, contacts, products, posts, notifications.
 - A `ScrollView` with `.map()` from Week 3 renders every child at once. Fine for a page of content, a problem for a thousand rows.
 - `FlatList` is the list component. It only renders the rows that are on screen plus a small buffer (windowing), and it reuses row components as you scroll (recycling).
@@ -1412,17 +1300,10 @@ _package.json_
 
 ### 💻 Example: FlatList
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-빈 Snack에서 과일 목록을 FlatList로 그려 보세요. renderItem에서 ({ item }) 구조분해, keyExtractor는 문자열, 컨테이너 flex: 1이 시험 단골 실수 포인트예요.
-
-**할 일**: 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너
-
-</div>
-
 - Show a list of fruit. Replace everything in `App.js`.
+
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 과일 배열 + FlatList(data, renderItem({ item }), keyExtractor) + flex: 1 컨테이너</p>
 
 ```jsx
 import { View, Text, FlatList, StyleSheet } from "react-native";
@@ -1525,14 +1406,6 @@ windowSize={3}
 
 ### 💻 Example: Sorting and Filtering
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-앞의 FlatList 코드에 정렬 버튼과 검색창을 단계별로 붙여요. Step 1부터 3까지 이어서 직접 쳐 보세요.
-
-</div>
-
 - Users expect a predictable order, and a way to narrow a long list down.
 - Neither one touches the UI. You change the array, and `FlatList` renders whatever it gets.
 - Start from the finished FlatList code.
@@ -1543,17 +1416,10 @@ windowSize={3}
 
 #### 💻 Step 1 - Sort with a Button
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-state는 방향 하나, 정렬된 배열은 매번 계산해요. 복사([...]) 후 sort가 포인트.
-
-**할 일**: ascending state + [...fruits].sort(localeCompare) + 정렬 버튼
-
-</div>
-
 - Add `useState` and `Button` to the imports.
+
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: ascending state + [...fruits].sort(localeCompare) + 정렬 버튼</p>
 
 ```jsx
 import { useState } from "react";
@@ -1599,18 +1465,11 @@ data={visible}
 
 #### 💻 Step 2 - Filter with a TextInput
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-검색어로 먼저 filter하고 그다음 sort해요.
-
-**할 일**: query state + TextInput + filter 다음 sort
-
-</div>
-
 - Add `TextInput` to the `react-native` import.
 - Add state for the search text, and filter before sorting. Replace the `visible` lines.
+
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: query state + TextInput + filter 다음 sort</p>
 
 ```jsx
 const [search, setSearch] = useState("");
@@ -1659,17 +1518,10 @@ input: {
 
 #### 💻 Step 3 - Show an Empty State
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-검색 결과가 없을 때 메시지를 보여 줘요.
-
-**할 일**: ListEmptyComponent 추가
-
-</div>
-
 - Add `ListEmptyComponent` to the `FlatList`. It renders only when `data` is empty.
+
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: ListEmptyComponent 추가</p>
 
 ```jsx
 ListEmptyComponent={<Text style={styles.empty}>No fruit matches.</Text>}
@@ -1688,14 +1540,6 @@ empty: { padding: 20, color: "#666" },
 `ListEmptyComponent`는 data가 **비었을 때만** 렌더링. 빈 화면도 사용자가 보는 상태이니 **말을 해 줘야** 해요. 서버에서 빈 목록이 와도 같은 prop이 처리.
 
 #### 💻 Finished Code
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-내가 친 코드와 비교해 보는 완성본이에요.
-
-</div>
 
 - Compare against this if something is not working.
 
@@ -1786,14 +1630,6 @@ const styles = StyleSheet.create({
 
 ### 💻 Example: Fetching List Data
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-API에서 posts를 받아 오면서 로딩, 에러, 빈 목록을 모두 처리해요. Test 3 코딩 문제의 핵심 뼈대예요.
-
-</div>
-
 - Real lists come from an API, and that changes the component. The data is not there when the screen first renders, and it might never arrive.
 - Fetching brings three states with it: loading, error and empty. The lifecycle is: start loading, show a spinner, fetch, render the list, and if it failed, say so and offer a retry.
 
@@ -1803,17 +1639,10 @@ API에서 posts를 받아 오면서 로딩, 에러, 빈 목록을 모두 처리�
 
 #### 💻 Starter Code
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-여기서부터 Snack에 쳐서 시작해요. fetch → res.json() → setPosts 흐름.
-
-**할 일**: posts state + useEffect에서 fetch + FlatList (시작 코드)
-
-</div>
-
 - This is a new app, so replace everything in `App.js`. It fetches the posts and shows them, and nothing else.
+
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: posts state + useEffect에서 fetch + FlatList (시작 코드)</p>
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -1886,18 +1715,11 @@ const styles = StyleSheet.create({
 
 #### 💻 Step 1 - Show a Spinner While Loading
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-ActivityIndicator와 early return 패턴.
-
-**할 일**: loading state(true로 시작) + finally에서 false + early return 스피너
-
-</div>
-
 - Add `ActivityIndicator` to the `react-native` import.
 - Add a `loading` state under `posts`. It starts as `true` because the first load starts right away.
+
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: loading state(true로 시작) + finally에서 false + early return 스피너</p>
 
 ```jsx
 const [loading, setLoading] = useState(true);
@@ -1941,18 +1763,11 @@ center: { flex: 1, justifyContent: "center", alignItems: "center" },
 
 #### 💻 Step 2 - Handle Errors
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-fetch는 404여도 reject 안 해서 res.ok를 직접 확인해야 해요. 시험 최다 함정.
-
-**할 일**: error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼
-
-</div>
-
 - Add `Button` to the `react-native` import.
 - Add an `error` state. `null` means no error.
+
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: error state + if (!res.ok) throw + catch 메시지 + Try Again 버튼</p>
 
 ```jsx
 const [error, setError] = useState(null);
@@ -2021,17 +1836,10 @@ error: { color: "red", textAlign: "center", padding: 20 },
 
 #### 💻 Step 3 - Show an Empty State
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-빈 응답도 사용자에게 알려 줘요.
-
-**할 일**: ListEmptyComponent + ?userId=99로 빈 목록 테스트
-
-</div>
-
 - Add `ListEmptyComponent` to the `FlatList`, as in the previous example.
+
+
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: ListEmptyComponent + ?userId=99로 빈 목록 테스트</p>
 
 ```jsx
 ListEmptyComponent={<Text style={styles.empty}>No posts yet.</Text>}
@@ -2051,14 +1859,6 @@ empty: { padding: 20, color: "#666" },
 `ListEmptyComponent` 추가. 테스트: `/posts?userId=99` → 서버가 `[]` 반환 → "없음" 메시지. 이로써 **전체 생명주기 완성**: 스피너 → 목록 → 에러 + 재시도 → 빈 목록 메시지.
 
 #### 💻 Finished Code
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-시험 직전에 다시 볼 완성본이에요. 내 코드와 비교하세요.
-
-</div>
 
 - Compare against this if something is not working.
 
@@ -2167,14 +1967,6 @@ const styles = StyleSheet.create({
 
 ### 💻 Example: List and Detail
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-앞의 Fetching 코드를 Stack에 넣고 줄을 누르면 상세로 가게 만들어요. 4주차 + 5주차 합체 문제라 꼭 쳐 보세요.
-
-</div>
-
 - Most mobile apps use this pattern. The list is the overview, and tapping a row opens the detail. Mail, Contacts and Instagram all work this way.
 - It is progressive disclosure: show what the user needs right now, and reveal the rest when they ask for it. The list stays clean, and the detail has room.
 - Under the hood it is the stack navigator from Week 4, with the row passed as a param.
@@ -2186,17 +1978,10 @@ const styles = StyleSheet.create({
 
 #### 💻 Step 1 - Put the List in a Stack
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-화면 컴포넌트와 앱 루트를 나누는 연습.
-
-**할 일**: MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기
-
-</div>
-
 - Add the navigation imports under the `react-native` import.
+
+
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MyApp → PostsScreen 이름 바꾸고 NavigationContainer + Stack 감싸기</p>
 
 ```jsx
 import { NavigationContainer } from "@react-navigation/native";
@@ -2216,6 +2001,9 @@ function PostsScreen({ navigation }) {
 ```
 
 - Add a new `MyApp` at the bottom, above the styles.
+
+
+<p class="typeit">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b></p>
 
 ```jsx
 export default function MyApp() {
@@ -2245,18 +2033,11 @@ container: { flex: 1 },
 
 #### 💻 Step 2 - Make Each Row Tappable
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-numberOfLines={1}로 미리보기 한 줄.
-
-**할 일**: 줄을 Pressable로 감싸고 navigate("Details", { post: item })
-
-</div>
-
 - Add `Pressable` to the `react-native` import.
 - Replace the row. The `View` becomes a `Pressable` that navigates, and the body is cut to one line.
+
+
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄을 Pressable로 감싸고 navigate(&quot;Details&quot;, { post: item })</p>
 
 ```jsx
 renderItem={({ item }) => (
@@ -2286,17 +2067,10 @@ renderItem={({ item }) => (
 
 #### 💻 Step 3 - Add the Details Screen
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-넘겨받은 데이터를 보여 줘요.
-
-**할 일**: DetailsScreen에서 const { post } = route.params
-
-</div>
-
 - Add the screen under `PostsScreen`. It reads the post from `route.params`, as in Week 4.
+
+
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: DetailsScreen에서 const { post } = route.params</p>
 
 ```jsx
 function DetailsScreen({ route }) {
@@ -2338,14 +2112,6 @@ body: { fontSize: 16, lineHeight: 24, marginTop: 10 },
 - params는 **작고 직렬화 가능**(serializable, JSON으로 바꿀 수 있는)해야 해요. 큰 레코드는 **id만** 넘기고 상세가 fetch.
 
 #### 💻 Finished Code
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-4주차와 5주차가 합쳐진 완성본이에요. 비교용.
-
-</div>
 
 - Compare against this if something is not working.
 
@@ -2487,14 +2253,6 @@ const styles = StyleSheet.create({
 
 ### 💻 Example: Pull to Refresh
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-앞 코드에 당겨서 새로고침을 붙여요. 휴대폰 Expo Go에서 확인하세요(Web은 안 돼요).
-
-</div>
-
 - Users expect to refresh a list by pulling down on it. Social feeds, email and dashboards all do it.
 - `FlatList` has it built in through two props, `refreshing` and `onRefresh`. There is no gesture code to write. React Native handles the pull, you handle the data.
 - Pulling needs a touch screen, so it does nothing in the web preview. Switch the preview to **iOS** or **Android**, or choose **My Device** and open it in Expo Go.
@@ -2506,17 +2264,10 @@ const styles = StyleSheet.create({
 
 #### 💻 Step 1 - Track the Refresh
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-loading과 refreshing을 따로 두는 이유가 Lab 5 Q6에 나와요.
-
-**할 일**: refreshing state + refresh 함수(true → loadPosts → finally false)
-
-</div>
-
 - Add a `refreshing` state under `error`, and a function that reloads the posts, next to `retry`.
+
+
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: refreshing state + refresh 함수(true → loadPosts → finally false)</p>
 
 ```jsx
 const [refreshing, setRefreshing] = useState(false);
@@ -2537,17 +2288,10 @@ function refreshPosts() {
 
 #### 💻 Step 2 - Wire Up the List
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-prop 두 개면 끝.
-
-**할 일**: FlatList에 refreshing, onRefresh 연결
-
-</div>
-
 - Add the two props to the `FlatList`.
+
+
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: FlatList에 refreshing, onRefresh 연결</p>
 
 ```jsx
 refreshing={refreshing}
@@ -2562,18 +2306,11 @@ onRefresh={refreshPosts}
 
 #### 💻 Step 3 - Prove It Reloaded
 
-<div class="sum" data-kind="type">
-
-**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
-
-목록과 같이 스크롤되는 헤더.
-
-**할 일**: updated 시각 state + ListHeaderComponent로 표시
-
-</div>
-
 - The API returns the same 100 posts every time, so nothing visibly changed. Record when the data arrived.
 - Add one more state.
+
+
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: updated 시각 state + ListHeaderComponent로 표시</p>
 
 ```jsx
 const [updatedAt, setUpdatedAt] = useState(null);
@@ -2613,14 +2350,6 @@ updated: { padding: 10, textAlign: "center", color: "#666" },
 API가 매번 같은 데이터를 줘서 바뀐 게 안 보이니, 받은 **시각**을 state로 기록(`new Date()`), `toLocaleTimeString()`으로 표시. 위치는 **`ListHeaderComponent`**: 목록과 **같이 스크롤**돼요(FlatList 위에 둔 Text는 안 따라옴).
 
 #### 💻 Finished PostsScreen
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-state 5개짜리 최종본이에요. 비교용.
-
-</div>
 
 - Only `PostsScreen` changed. Compare against this if something is not working.
 
@@ -2731,6 +2460,21 @@ updated: { padding: 10, textAlign: "center", color: "#666" },
 
 연락처 앱을 Q1부터 Q6까지 쌓아 가는 랩이에요. 💻 예제를 다 쳐 본 다음, 예제를 보지 않고 혼자 풀어 보세요. 막히면 아래 한글 해설의 힌트만 보세요.
 
+**이 챕터 구성**
+
+- ⏭️ **A Note on AI**: AI는 막혔을 때만, 내가 설명할 수 없는 코드는 내 것이 아니라는 안내예요.
+- ⏭️ **Overview**: 문제 6개, 각 1점.
+- 👀 **Setup**: 시작 코드(연락처 데이터와 스타일)예요. Snack으로 열어서 시작하세요.
+- ⏭️ **Styling Rules**: StyleSheet.create 사용 등 스타일 규칙이에요.
+- ⏭️ **Running Your App**: 실행 방법 안내예요.
+- ⏭️ **Submission**: 제출 방법이에요.
+- 🧪 **Question 1 - FlatList (1 point)**: 💻 Example: FlatList와 같은 문제예요. 연락처를 FlatList로.
+- 🧪 **Question 2 - Sorting (1 point)**: 💻 Sorting Step 1과 같은 패턴이에요.
+- 🧪 **Question 3 - Search, Count and Empty State (1 point)**: 💻 Sorting Step 2, 3 + 몇 개 보이는지 개수 표시.
+- 🧪 **Question 4 - Fetching the Contacts (1 point)**: 💻 Fetching List Data 전체 흐름. res.ok 확인 잊지 말기.
+- 🧪 **Question 5 - Contact Screen (1 point)**: 💻 List and Detail과 같은 구조예요.
+- 🧪 **Question 6 - Pull to Refresh (1 point)**: 💻 Pull to Refresh와 같아요. loading과 refreshing 분리.
+
 </div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-5.md
@@ -2741,14 +2485,6 @@ Lab 5는 연락처 앱 하나를 Q1부터 Q6까지 쌓아 가는 구조로, 5주
 
 ### 🧪 A Note on AI
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-AI는 막혔을 때만, 내가 설명할 수 없는 코드는 내 것이 아니라는 안내예요.
-
-</div>
-
 AI assistants are welcome in this course, but use them to get unstuck, not to do the work. Attempt every question yourself first. If you are stuck, paste **your** code and ask why it does not work or what concept you are missing, rather than asking for the answer. Never keep code you could not explain line by line to a classmate. If you cannot explain it, you cannot debug it or build on it, and it is not yours yet. The point of this lab is not the finished Snack. It is being able to put any array on screen as a list, and to handle everything that can happen while that array is on its way from a server.
 
 **🇰🇷 한글 해설**
@@ -2756,14 +2492,6 @@ AI assistants are welcome in this course, but use them to get unstuck, not to do
 AI는 막힐 때만. 주석으로 "내 말로 설명" 요구가 많은 랩이라 개념 이해가 중요해요.
 
 ### 🧪 Overview
-
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-문제 6개, 각 1점.
-
-</div>
 
 You build one app, a contact list, and each question adds to it. Plan for about 60 minutes.
 
@@ -2778,14 +2506,6 @@ Because every question builds on the one before, do them in order. Your submitte
 연락처 앱 하나를 단계별로. Q1~3 로컬 배열, Q4 API, Q5 상세 화면, Q6 새로고침. 순서대로.
 
 ### 🧪 Setup
-
-<div class="sum" data-kind="read">
-
-**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
-
-시작 코드(연락처 데이터와 스타일)예요. Snack으로 열어서 시작하세요.
-
-</div>
 
 1. Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.
 2. Rename the Snack to `WEB530 Lab 5 - Your Name` (click the name at the top left).
@@ -2901,14 +2621,6 @@ SDK 54 유지, `styles.js` 분리, starter 파일 3개 교체. 스택이 이미 
 
 ### 🧪 Styling Rules
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-StyleSheet.create 사용 등 스타일 규칙이에요.
-
-</div>
-
 - Every style is in `styles.js`, created with `StyleSheet.create()`, as in Lab 3. There are **no** inline `style={{ ... }}` objects anywhere in `App.js`.
 - Style names describe what they are for (`row`, `contactName`, `searchInput`), not what they look like (`bold`, `grey`, `box1`).
 - Keep the styling simple. This lab is about lists, not looks.
@@ -2919,14 +2631,6 @@ StyleSheet.create 사용 등 스타일 규칙이에요.
 
 ### 🧪 Running Your App
 
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-실행 방법 안내예요.
-
-</div>
-
 The **Web** preview is enough for Questions 1 to 5. Pull to refresh in Question 6 needs a touch screen, so check it on the **Android** or **iOS** tab, or on your phone with **My Device** and Expo Go.
 
 **🇰🇷 한글 해설**
@@ -2934,14 +2638,6 @@ The **Web** preview is enough for Questions 1 to 5. Pull to refresh in Question 
 Q1~5는 Web으로 충분, Q6(당겨서 새로고침)은 터치 필요.
 
 ### 🧪 Submission
-
-<div class="sum" data-kind="skim">
-
-**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
-
-제출 방법이에요.
-
-</div>
 
 - Submit **one** Snack link to the `Lab 5` assessment in Blackboard. After you save, the link looks like `https://snack.expo.dev/@yourname/web530-lab-5-...`.
 - The lab is due at the end of class. Submit before you leave.
@@ -2953,14 +2649,6 @@ Q1~5는 Web으로 충분, Q6(당겨서 새로고침)은 터치 필요.
 수업 끝나기 전 Snack 링크 제출, 시크릿 창으로 확인.
 
 ### 🧪 Question 1 - FlatList (1 point)
-
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 Example: FlatList와 같은 문제예요. 연락처를 FlatList로.
-
-</div>
 
 Replace the placeholder `Text` in `ContactsScreen` with a `FlatList` that shows every contact in `CONTACTS`.
 
@@ -2987,14 +2675,6 @@ Hint: Make the row a `View` with `flexDirection: "row"`. Wrap the name and email
 
 ### 🧪 Question 2 - Sorting (1 point)
 
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 Sorting Step 1과 같은 패턴이에요.
-
-</div>
-
 Add two buttons above the list: `Sort by name` and `Sort by city`.
 
 - The list starts sorted by name, A to Z.
@@ -3020,14 +2700,6 @@ Hint: `localeCompare` returns `0` when two strings are equal, and `0` is falsy. 
 
 ### 🧪 Question 3 - Search, Count and Empty State (1 point)
 
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 Sorting Step 2, 3 + 몇 개 보이는지 개수 표시.
-
-</div>
-
 Add a controlled `TextInput` between the buttons and the list, with the placeholder `Search by name or city`.
 
 - Typing filters the list. A contact stays in the list if the text appears in its **name or its city**. Upper and lower case do not matter: `tor`, `TOR` and `Tor` all find both Toronto contacts.
@@ -3050,14 +2722,6 @@ Requirements:
 - `No contacts match "zz".` → **ListEmptyComponent**.
 
 ### 🧪 Question 4 - Fetching the Contacts (1 point)
-
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 Fetching List Data 전체 흐름. res.ok 확인 잊지 말기.
-
-</div>
 
 Replace the starter data with real data from this API, which returns ten users in the same shape as the starter array (plus a few extra fields):
 
@@ -3092,14 +2756,6 @@ Hint: This is the Fetching List Data example from the week 5 notes. Use the same
 
 ### 🧪 Question 5 - Contact Screen (1 point)
 
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 List and Detail과 같은 구조예요.
-
-</div>
-
 Pressing a row opens a second screen in the stack that shows that contact's full details.
 
 - Register a second screen in the stack named `Contact`. Its header title is the contact's name.
@@ -3125,14 +2781,6 @@ Hint: `options` can be a function that receives `route`, as in week 4. The phone
 - 주석(내 말로): id만 넘기면 params가 작고 상세 화면이 항상 최신 데이터를 보여 주지만, 화면을 열 때마다 요청을 한 번 더 보내고 로딩을 기다려야 한다(비용).
 
 ### 🧪 Question 6 - Pull to Refresh (1 point)
-
-<div class="sum" data-kind="lab">
-
-**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
-
-💻 Pull to Refresh와 같아요. loading과 refreshing 분리.
-
-</div>
 
 Let the user reload the contacts by pulling down on the list.
 

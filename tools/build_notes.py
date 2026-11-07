@@ -12,7 +12,7 @@
   @@TEXT         자유 마크다운 (체크리스트, 연습 문제 등)
   {{TOC}}        목차 자리
 """
-import re, sys, os, json, glob, urllib.parse as up
+import re, sys, os, json, glob, html, urllib.parse as up
 SRC={}; CODE='COURSE'; RUNNER=None; ATTR=''
 VER={'@react-navigation/native':'^7.0.0','@react-navigation/native-stack':'^7.0.0','@react-navigation/bottom-tabs':'^7.0.0',
 '@react-navigation/drawer':'^7.0.0','react-native-screens':'~4.16.0','react-native-safe-area-context':'~5.6.0',
@@ -41,8 +41,9 @@ def snack(code,name):
     q={'name':name[:60],'platform':plat,'sdkVersion':'54.0.0','code':code}
     if d: q['dependencies']=','.join(f"{p}@{VER.get(p,'*')}" for p in d)
     return 'https://snack.expo.dev/?'+up.urlencode(q,quote_via=up.quote)
-def fix_body(text,name,kind):
-    out=[];lines=text.split('\n');i=0
+def fix_body(text,name,kind,mark=None):
+    """mark=(practice_no, todo): put a 'type this' line above every code block."""
+    out=[];lines=text.split('\n');i=0;first=True
     while i<len(lines):
         l=lines[i]
         if l.strip() in BOILER: i+=1; continue
@@ -52,6 +53,12 @@ def fix_body(text,name,kind):
             while j<len(lines) and not re.match(r'^\s*```\s*$',lines[j]): j+=1
             code='\n'.join(lines[i+1:j])
             if not lang: lang='json' if code.lstrip().startswith('{') and '"dependencies"' in code else 'jsx'
+            if mark and lang in('jsx','js','tsx','ts') and (first or 'export default' in code):
+                no,todo=mark; ind=m.group(1)
+                idattr=f' id="practice-{no}"' if (first and no) else ''
+                tail=f': {html.escape(todo)}' if (first and todo) else ''
+                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>{tail}</p>'); out.append('')
+                first=False
             out.append(m.group(1)+'```'+lang); out+=lines[i+1:j]; out.append(m.group(1)+'```')
             if RUNNER!='snack': pass
             elif 'export default' in code and 'react-native' in code and re.search(r'''from\s+['"](@/|\.\.?/|expo-router)''',code):
@@ -64,14 +71,24 @@ def fix_body(text,name,kind):
         out.append(l); i+=1
     return '\n'.join(out)
 KIND={'type':'⌨️ Snack에서 직접 쳐 보기','read':'👀 읽고 이해하기 (타이핑 안 해도 돼요)','lab':'🧪 혼자 풀어 보기','skim':'⏭️ 가볍게 훑기'}
-def summary(kind,text,where='',plan=None):
-    """원문 앞에 붙는 짧은 한글 미리보기. 첫 줄이 '할 일: ...'이면 연습 목록에 들어간다."""
-    lines=text.split('\n'); todo=''
-    if lines and lines[0].startswith('할 일:'):
-        todo=lines[0][4:].strip(); text='\n'.join(lines[1:]).strip()
-    if kind=='type' and todo and plan is not None: plan.append((where,todo))
+KICON={'type':'⌨️','read':'👀','lab':'🧪','skim':'⏭️'}
+def split_todo(text):
+    lines=text.split('\n')
+    if lines and lines[0].startswith('할 일:'): return lines[0][4:].strip(),'\n'.join(lines[1:]).strip()
+    return '',text.strip()
+def doc_box(kind,text,items):
+    """원문 출처 앞에 한 번만 나오는 한글 미리보기. items=[(kind, heading, text, todo, practice_no)]"""
     badge=f' · {KIND[kind]}' if kind in KIND else ''
-    return f'<div class="sum" data-kind="{kind}">\n\n**🧭 먼저 한국어로**{badge}\n\n{text}\n\n'+(f'**할 일**: {todo}\n\n' if todo else '')+'</div>\n'
+    md=f'<div class="sum" data-kind="{kind}">\n\n**🧭 먼저 한국어로**{badge}\n\n{text}\n\n'
+    if items:
+        md+='**이 챕터 구성**\n\n'
+        for k,h,t,todo,no in items:
+            hh=f'[{h}](#practice-{no})' if no else h
+            line=f'- {KICON.get(k,"•")} **{hh}**: '+' '.join(t.split())
+            if todo: line+=f' (⌨️ {todo})'
+            md+=line+'\n'
+        md+='\n'
+    return md+'</div>\n'
 def norm(h):
     return h.replace('\u2011','-').replace('\u2010','-').strip()
 def chunks(path):
@@ -116,21 +133,36 @@ def build(annpath,outpath):
             label={'NOTE':'📘 코스노트','LEC':'💻 인클래스 예제','LAB':'🧪 Lab','TEST':'📝 샘플 시험'}[typ]
             h=f'{sec}. {label}: {title}'; toc.append(h)
             out.append(f'\n---\n\n## {h}\n')
-            if summ.get('_doc'): out.append(summary(*summ['_doc'].pop(0)))
+            # one Korean preview per document: _doc text + every section's short preview, then source, then original
+            dk,dtext=summ['_doc'].pop(0) if summ.get('_doc') else ('','')
+            items=[]; marks={}
+            if pre and summ.get('_pre'):
+                kd,t=summ['_pre'].pop(0); todo,t=split_todo(t)
+                no=None
+                if kd=='type' and todo: plan.append((f'{sec}. {title}',todo)); no=len(plan); marks['_pre']=(no,todo)
+                items.append((kd,'시작 부분',t,todo,no))
+            parent=''
+            for ci,c in enumerate(chs):
+                if c['lvl']==2: parent=c['h']
+                nm=c['h'] if c['lvl']==2 else parent+' › '+c['h']
+                if summ.get(norm(c['h'])):
+                    kd,t=summ[norm(c['h'])].pop(0); todo,t=split_todo(t); no=None
+                    if kd=='type': no=len(plan)+1 if todo else None; marks[ci]=(no,todo)
+                    if no: plan.append((nm,todo))
+                    items.append((kd,nm,t,todo,no))
+            if dtext or items: out.append(doc_box(dk or (items[0][0] if items else ''),dtext,items))
             out.append(f'> 원문 출처: {src or (ATTR + "  " + os.path.basename(path))}\n')
             if '_intro' in kor: out.append('**🇰🇷 들어가기 전에**\n\n'+kor.pop('_intro')[0]+'\n')
-            if pre and summ.get('_pre'): out.append(summary(*summ['_pre'].pop(0),where=f'{sec}. {title}',plan=plan))
-            if pre: out.append(fix_body(pre,f'{CODE} W{wk} {title}',typ)+'\n')
+            if pre: out.append(fix_body(pre,f'{CODE} W{wk} {title}',typ,marks.get('_pre'))+'\n')
             if '_pre' in kor: out.append('**🇰🇷 한글 해설**\n\n'+kor.pop('_pre')[0]+'\n')
             parent=''
-            for c in chs:
+            for ci,c in enumerate(chs):
                 if c['lvl']==2: parent=c['h']
                 nm=c['h'] if c['lvl']==2 else parent+' - '+c['h']
                 hl='###' if c['lvl']==2 else '####'
                 ic={'NOTE':'📘','LEC':'💻','LAB':'🧪','TEST':'📝'}[typ]
                 out.append(f'{hl} {ic} {c["h"]}\n')
-                if summ.get(norm(c['h'])): out.append(summary(*summ[norm(c['h'])].pop(0),where=nm.replace(' - Step',' › Step').replace(' - Starter',' › Starter'),plan=plan))
-                out.append(fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ)+'\n')
+                out.append(fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ,marks.get(ci))+'\n')
                 if kor.get(norm(c['h'])):
                     out.append('**🇰🇷 한글 해설**\n\n'+kor[norm(c['h'])].pop(0)+'\n')
                 else: warn.append(f'{arg}: no K for [{c["h"]}]')
@@ -145,8 +177,8 @@ def build(annpath,outpath):
         else:
             warn.append('bad directive '+d); k+=1
     if plan:
-        rows=[f'| {i} | {w} | {t} |' for i,(w,t) in enumerate(plan,1)]
-        planmd='\n**⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
+        rows=[f'| {i} | [{w}](#practice-{i}) | {t} |' for i,(w,t) in enumerate(plan,1)]
+        planmd='\n**⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**\n\n어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
         out=[o.replace('{{PRACTICE}}',planmd) for o in out]
     tocmd='\n## 목차\n\n'+'\n'.join(f'- {t}' for t in toc)+'\n'
     body='\n'.join(out)
