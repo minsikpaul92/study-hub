@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -16,6 +16,9 @@
 <article class="md"><h1 id="week-3-스타일과-레이아웃-stylesheet-flexbox-platform-공통-컴포넌트">Week 3. 스타일과 레이아웃: StyleSheet, Flexbox, Platform, 공통 컴포넌트 <a class="anchor" aria-label="링크" href="#week-3-스타일과-레이아웃-stylesheet-flexbox-platform-공통-컴포넌트">#</a></h1>
 <blockquote>
 <p>이 노트 읽는 법: <strong>📘/💻/🧪 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요.</p>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p>이번 주는 앱을 <strong>예쁘게, 그리고 화면 크기에 맞게 배치</strong>하는 법을 배워요. React Native에는 CSS 파일이 없어요. 대신 <strong>JavaScript 객체</strong>로 스타일을 써요.</p>
@@ -66,8 +69,65 @@
 <li><strong><code>alignItems</code></strong> = <strong>교차축(cross axis)</strong> 정렬. 주축의 수직 방향.</li>
 <li><code>flexDirection</code>을 바꾸면 <strong>두 축도 바뀐다.</strong></li>
 </ul>
+<p><strong>⌨️ 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Example: Inline Styles</a></td>
+<td>Text에 style={{ fontSize: 24, color: &quot;blue&quot; }} 인라인 스타일 주기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: StyleSheet.create()</a></td>
+<td>인라인 스타일을 StyleSheet.create의 container, title로 옮기기</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: Layout with Flexbox</a></td>
+<td>상자 3개에 flexDirection, justifyContent, alignItems, flex를 바꿔 가며 배치</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Common Components › View</a></td>
+<td>View에 padding, borderWidth, borderRadius를 주고 글자는 Text로 감싸기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Common Components › Button</a></td>
+<td>Button 두 개를 View로 감싸 간격을 주고 color prop 바꿔 보기</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Common Components › Image</a></td>
+<td>원격 이미지 source={{ uri }}에 width, height 주기</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Common Components › TextInput</a></td>
+<td>useState + value + onChangeText로 controlled TextInput을 만들고 borderWidth 주기</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-react-native-stylesheets">1. 📘 코스노트: React Native StyleSheets <a class="anchor" aria-label="링크" href="#1-코스노트-react-native-stylesheets">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>StyleSheet와 Flexbox를 정리한 글이에요. 💻 3.1 예제에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 ** › Building responsive layouts using Flexbox**: Flexbox: 아이템을 한 방향(행 또는 열) 으로 배치하는 1차원 레이아웃 방식.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets</p>
 </blockquote>
@@ -206,6 +266,21 @@
 </ul>
 </div><hr />
 <h2 id="2-코스노트-common-react-native-components">2. 📘 코스노트: Common React Native Components <a class="anchor" aria-label="링크" href="#2-코스노트-common-react-native-components">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>기본 컴포넌트(View, Text, Image, TextInput 등)의 props 정리예요. 💻 3.1 Common Components에서 직접 쳐 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>View</strong>: View = 가장 기본 상자(컨테이너). iOS의 <code>UIView</code>, Android의 <code>android.View</code>, 웹의 <code>&lt;div&gt;</code>에 해당.</li>
+<li>👀 <strong>Text</strong>: Text = 글자 표시. 두 가지가 시험 포인트예요.</li>
+<li>👀 <strong>Button</strong>: Button = 플랫폼마다 알맞게 그려지는 기본 버튼.</li>
+<li>👀 <strong>TextInput</strong>: TextInput = 글자 입력창. props로 자동 수정(autoCorrect), 자동 대문자(autoCapitalize), placeholder, 여러 줄(multiline), 키보드 종류(숫자, 이메일 등)를 설정.</li>
+<li>👀 <strong>Switch</strong>: Switch = on/off 토글. Controlled component(제어 컴포넌트) 라서 프로그래머가 직접 state를 업데이트해야 움직여요.</li>
+<li>👀 <strong>FlatList &amp; SectionList</strong>: FlatList = 목록 전용 컴포넌트. Pull to Refresh(당겨서 새로고침), Scroll loading 지원.</li>
+<li>👀 <strong>Image</strong>: 이미지 불러오는 2가지 방법: 네트워크 <code>source={{ uri: 'https://...' }}</code> / 앱 안의 파일 <code>source={require('./a.png')}</code>.</li>
+<li>👀 <strong>Icons</strong>: 아이콘: Expo(그리고 Snack)에는 <code>@expo/vector-icons</code>가 기본으로 들어 있어요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp</p>
 </blockquote>
@@ -320,6 +395,29 @@
 <p>예제의 <code>gap: 24</code>는 자식들 사이 간격이에요.</p>
 </div><hr />
 <h2 id="3-인클래스-예제-week-31---notes-and-examples">3. 💻 인클래스 예제: Week 3.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#3-인클래스-예제-week-31---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>3.1 수업 예제예요. 스타일과 레이아웃은 직접 바꿔 보면서 결과를 봐야 감이 와요. ⌨️ 표시된 코드는 직접 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Native Playground</strong>: Snack 그대로 써요.</li>
+<li>⌨️ <strong><a href="#practice-1">Example: Inline Styles</a></strong>: 스타일은 JS 객체예요. 이름은 camelCase, 숫자는 px 없이 써요. (⌨️ Text에 style={{ fontSize: 24, color: &quot;blue&quot; }} 인라인 스타일 주기)</li>
+<li>⌨️ <strong><a href="#practice-2">Example: StyleSheet.create()</a></strong>: 스타일을 파일 아래쪽 한곳에 모아 재사용해요. (⌨️ 인라인 스타일을 StyleSheet.create의 container, title로 옮기기)</li>
+<li>⌨️ <strong><a href="#practice-3">Example: Layout with Flexbox</a></strong>: React Native의 flexDirection 기본값은 column이에요. (⌨️ 상자 3개에 flexDirection, justifyContent, alignItems, flex를 바꿔 가며 배치)</li>
+<li>👀 <strong>Example: Platform.OS</strong>: Platform.OS로 플랫폼마다 다른 내용을 보여 줘요.</li>
+<li>👀 <strong>Example: Platform-Specific Styles</strong>: 삼항 연산자로 플랫폼마다 다른 스타일을 줘요.</li>
+<li>👀 <strong>Example: Platform.select()</strong>: Platform.select의 키 5개(ios, android, native, web, default) 의미가 시험 포인트예요.</li>
+<li>👀 <strong>Example: Platform-Specific Files</strong>: 파일 이름(.ios.js, .android.js)으로 플랫폼을 나누는 방법이에요.</li>
+<li>👀 <strong>Common Components</strong>: 2주차 컴포넌트들에 이제 스타일을 입혀 봐요.</li>
+<li>⌨️ <strong><a href="#practice-4">Common Components › View</a></strong>: View 안에 글자를 바로 쓰면 안 돼요. (⌨️ View에 padding, borderWidth, borderRadius를 주고 글자는 Text로 감싸기)</li>
+<li>👀 <strong>Common Components › Text</strong>: Text 안의 Text는 스타일을 물려받아요.</li>
+<li>⌨️ <strong><a href="#practice-5">Common Components › Button</a></strong>: Button은 style을 못 받고 color만 바꿀 수 있어요. (⌨️ Button 두 개를 View로 감싸 간격을 주고 color prop 바꿔 보기)</li>
+<li>⌨️ <strong><a href="#practice-6">Common Components › Image</a></strong>: 원격 이미지는 크기를 꼭 정해야 보여요. (⌨️ 원격 이미지 source={{ uri }}에 width, height 주기)</li>
+<li>👀 <strong>Common Components › ScrollView</strong>: 내용이 화면보다 길면 ScrollView로 감싸야 스크롤돼요.</li>
+<li>⌨️ <strong><a href="#practice-7">Common Components › TextInput</a></strong>: onChangeText는 이벤트 객체가 아니라 문자열을 줘요. (⌨️ useState + value + onChangeText로 controlled TextInput을 만들고 borderWidth 주기)</li>
+<li>👀 <strong>Common Components › Switch</strong>: value + onValueChange로 켜고 끄는 controlled Switch예요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-03.1-notes.md</p>
 </blockquote>
@@ -336,6 +434,7 @@
 <li>They look like CSS, but property names are camelCase (<code>fontSize</code>, not <code>font-size</code>) and sizes are plain numbers, not <code>px</code>.</li>
 <li>Show a <code>View</code> and a <code>Text</code> styled inline.</li>
 </ul>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Text에 style={{ fontSize: 24, color: &quot;blue&quot; }} 인라인 스타일 주기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -346,7 +445,7 @@
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Inline%20Styles&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20padding%3A%2020%2C%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20fontSize%3A%2024%2C%20color%3A%20%22blue%22%20%7D%7D%3EHello%20Styles%21%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Inline%20Styles&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20padding%3A%2020%2C%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20fontSize%3A%2024%2C%20color%3A%20%22blue%22%20%7D%7D%3EHello%20Styles%21%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Notice the double braces. The outer <code>{ }</code> switches JSX into JavaScript, the inner <code>{ }</code> is the style object.</li>
 <li>Inline styles are fine for quick demos, but they get messy fast and cannot be reused.</li>
@@ -364,6 +463,7 @@
 <li>Move the styles into a <code>StyleSheet</code> at the bottom of the file.</li>
 <li>Each key (<code>container</code>, <code>title</code>) is a named style you can reuse.</li>
 </ul>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 인라인 스타일을 StyleSheet.create의 container, title로 옮기기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -386,7 +486,7 @@
 <span class="w">  </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20StyleSheet.create%28%29&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EHello%20Styles%21%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%20%20backgroundColor%3A%20%22%23eee%22%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%0A%20%20%20%20fontSize%3A%2028%2C%0A%20%20%20%20fontWeight%3A%20%22bold%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20StyleSheet.create%28%29&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EHello%20Styles%21%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%20%20backgroundColor%3A%20%22%23eee%22%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%0A%20%20%20%20fontSize%3A%2028%2C%0A%20%20%20%20fontWeight%3A%20%22bold%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>It keeps the JSX readable and puts all the styling in one place.</li>
 <li>A named style can be reused by as many components as you like.</li>
@@ -410,6 +510,7 @@
 <li>Start with a container holding three coloured boxes.</li>
 <li>The <code>style</code> prop also accepts an array. Styles are merged left to right, so later entries win.</li>
 </ul>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 상자 3개에 flexDirection, justifyContent, alignItems, flex를 바꿔 가며 배치</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -437,7 +538,7 @@
 <span class="w">  </span><span class="nx">blue</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Layout%20with%20Flexbox&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.red%5D%7D%20%2F%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.green%5D%7D%20%2F%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.blue%5D%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%20%20backgroundColor%3A%20%22%23eee%22%2C%0A%20%20%7D%2C%0A%20%20box%3A%20%7B%0A%20%20%20%20width%3A%2080%2C%0A%20%20%20%20height%3A%2080%2C%0A%20%20%7D%2C%0A%20%20red%3A%20%7B%20backgroundColor%3A%20%22tomato%22%20%7D%2C%0A%20%20green%3A%20%7B%20backgroundColor%3A%20%22mediumseagreen%22%20%7D%2C%0A%20%20blue%3A%20%7B%20backgroundColor%3A%20%22dodgerblue%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Layout%20with%20Flexbox&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.red%5D%7D%20%2F%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.green%5D%7D%20%2F%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.box%2C%20styles.blue%5D%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%20%20backgroundColor%3A%20%22%23eee%22%2C%0A%20%20%7D%2C%0A%20%20box%3A%20%7B%0A%20%20%20%20width%3A%2080%2C%0A%20%20%20%20height%3A%2080%2C%0A%20%20%7D%2C%0A%20%20red%3A%20%7B%20backgroundColor%3A%20%22tomato%22%20%7D%2C%0A%20%20green%3A%20%7B%20backgroundColor%3A%20%22mediumseagreen%22%20%7D%2C%0A%20%20blue%3A%20%7B%20backgroundColor%3A%20%22dodgerblue%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>The boxes stack top to bottom. In React Native <code>flexDirection</code> defaults to <code>&quot;column&quot;</code>. On the web it defaults to <code>&quot;row&quot;</code>.</li>
 <li><code>flex: 1</code> on the container makes it fill the space it is given, which here is the rest of the screen.</li>
@@ -470,6 +571,7 @@
 <li>Now build equal columns. Remove the fixed <code>width</code> and give each column <code>flex: 1</code> so they share the row evenly.</li>
 <li>Put a different amount of text in each column. They all end up the same height, because <code>alignItems</code> defaults to <code>&quot;stretch&quot;</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -510,7 +612,7 @@
 <span class="w">  </span><span class="nx">blue</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"dodgerblue"</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Layout%20with%20Flexbox&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.red%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3EShort%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.green%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20This%20column%20has%20a%20lot%20more%20text%2C%20but%20every%20column%20is%20still%20the%0A%20%20%20%20%20%20%20%20%20%20%20%20same%20height.%0A%20%20%20%20%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.blue%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3EMedium%20length%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20flexDirection%3A%20%22row%22%2C%0A%20%20%7D%2C%0A%20%20column%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20padding%3A%2010%2C%0A%20%20%7D%2C%0A%20%20red%3A%20%7B%20backgroundColor%3A%20%22tomato%22%20%7D%2C%0A%20%20green%3A%20%7B%20backgroundColor%3A%20%22mediumseagreen%22%20%7D%2C%0A%20%20blue%3A%20%7B%20backgroundColor%3A%20%22dodgerblue%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Example%3A%20Layout%20with%20Flexbox&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.red%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3EShort%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.green%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20This%20column%20has%20a%20lot%20more%20text%2C%20but%20every%20column%20is%20still%20the%0A%20%20%20%20%20%20%20%20%20%20%20%20same%20height.%0A%20%20%20%20%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%5Bstyles.column%2C%20styles.blue%5D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3EMedium%20length%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20flexDirection%3A%20%22row%22%2C%0A%20%20%7D%2C%0A%20%20column%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20padding%3A%2010%2C%0A%20%20%7D%2C%0A%20%20red%3A%20%7B%20backgroundColor%3A%20%22tomato%22%20%7D%2C%0A%20%20green%3A%20%7B%20backgroundColor%3A%20%22mediumseagreen%22%20%7D%2C%0A%20%20blue%3A%20%7B%20backgroundColor%3A%20%22dodgerblue%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Change the green column to <code>flex: 2</code> by adding <code>{ flex: 2 }</code> to the end of its style array. It now takes twice the space of the others.</li>
 <li>In React Native, <code>flex</code> takes a single number. It is not the <code>flex: 1 1 auto</code> shorthand from CSS.</li>
@@ -716,6 +818,7 @@
 <li>Styled with padding, margin, borders, background colour, and flexbox.</li>
 <li>Cannot hold bare text. Text must go inside a <code>Text</code>.</li>
 </ul>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: View에 padding, borderWidth, borderRadius를 주고 글자는 Text로 감싸기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -728,7 +831,7 @@
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20View&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%0A%20%20%20%20%20%20style%3D%7B%7B%20padding%3A%2020%2C%20marginTop%3A%20100%2C%20borderWidth%3A%202%2C%20borderRadius%3A%208%20%7D%7D%0A%20%20%20%20%3E%0A%20%20%20%20%20%20%3CText%3EHello%20again%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20View&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%0A%20%20%20%20%20%20style%3D%7B%7B%20padding%3A%2020%2C%20marginTop%3A%20100%2C%20borderWidth%3A%202%2C%20borderRadius%3A%208%20%7D%7D%0A%20%20%20%20%3E%0A%20%20%20%20%20%20%3CText%3EHello%20again%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설</strong>: View에 <code>padding</code>, <code>marginTop</code>, <code>borderWidth</code>, <code>borderRadius</code>. View 안에 글자를 바로 쓰면 안 되고 Text로 감싸야 해요.</p>
 </div><h4 id="text-1">💻 Text <a class="anchor" aria-label="링크" href="#text-1">#</a></h4>
@@ -783,6 +886,7 @@
 <li>It does not accept a <code>style</code> prop. You can only change its <code>color</code>.</li>
 <li>Later we will build custom buttons that can be fully styled.</li>
 </ul>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Button 두 개를 View로 감싸 간격을 주고 color prop 바꿔 보기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -803,6 +907,7 @@
 <li>FYI: to reuse a colour, keep it in a constant. It is not a global, just a normal variable you could move into its own file and <code>import</code>.</li>
 <li>On iOS <code>color</code> sets the text colour. On Android it sets the background.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -843,6 +948,7 @@
 <li><code>source</code> replaces the HTML <code>src</code>.</li>
 <li>A remote image must be given a <code>width</code> and <code>height</code>. React Native cannot know the size until it downloads the file, so without them nothing shows.</li>
 </ul>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 원격 이미지 source={{ uri }}에 width, height 주기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Image</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -856,7 +962,7 @@
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20Image&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Image%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%2C%20padding%3A%2020%20%7D%7D%3E%0A%20%20%20%20%20%20%3CImage%0A%20%20%20%20%20%20%20%20style%3D%7B%7B%20width%3A%20200%2C%20height%3A%20200%2C%20borderRadius%3A%2010%20%7D%7D%0A%20%20%20%20%20%20%20%20source%3D%7B%7B%20uri%3A%20%22https%3A%2F%2Fpicsum.photos%2F201%22%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20Image&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Image%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%2C%20padding%3A%2020%20%7D%7D%3E%0A%20%20%20%20%20%20%3CImage%0A%20%20%20%20%20%20%20%20style%3D%7B%7B%20width%3A%20200%2C%20height%3A%20200%2C%20borderRadius%3A%2010%20%7D%7D%0A%20%20%20%20%20%20%20%20source%3D%7B%7B%20uri%3A%20%22https%3A%2F%2Fpicsum.photos%2F201%22%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Notice the remote <code>source</code> is an object with a <code>uri</code> key.</li>
 <li>Local images use <code>require()</code> instead.</li>
@@ -929,6 +1035,7 @@
 <li>Use <code>onChangeText</code>, which gives you the new string. <code>onChange</code> gives an event object instead.</li>
 <li>Make it a controlled component: the state holds the value, and <code>value</code> shows it.</li>
 </ul>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useState + value + onChangeText로 controlled TextInput을 만들고 borderWidth 주기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">TextInput</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -964,7 +1071,7 @@
 <span class="w">  </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20TextInput&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20TextInput%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bname%2C%20setName%5D%20%3D%20useState%28%22%22%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CTextInput%0A%20%20%20%20%20%20%20%20style%3D%7Bstyles.input%7D%0A%20%20%20%20%20%20%20%20placeholder%3D%22Enter%20your%20name%22%0A%20%20%20%20%20%20%20%20value%3D%7Bname%7D%0A%20%20%20%20%20%20%20%20onChangeText%3D%7BsetName%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.greeting%7D%3EHello%20%7Bname%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%7D%2C%0A%20%20input%3A%20%7B%0A%20%20%20%20borderWidth%3A%201%2C%0A%20%20%20%20borderRadius%3A%206%2C%0A%20%20%20%20padding%3A%2010%2C%0A%20%20%7D%2C%0A%20%20greeting%3A%20%7B%0A%20%20%20%20marginTop%3A%2020%2C%0A%20%20%20%20fontSize%3A%2018%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Common%20Components%20-%20TextInput&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20TextInput%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bname%2C%20setName%5D%20%3D%20useState%28%22%22%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CTextInput%0A%20%20%20%20%20%20%20%20style%3D%7Bstyles.input%7D%0A%20%20%20%20%20%20%20%20placeholder%3D%22Enter%20your%20name%22%0A%20%20%20%20%20%20%20%20value%3D%7Bname%7D%0A%20%20%20%20%20%20%20%20onChangeText%3D%7BsetName%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.greeting%7D%3EHello%20%7Bname%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20marginTop%3A%20100%2C%0A%20%20%7D%2C%0A%20%20input%3A%20%7B%0A%20%20%20%20borderWidth%3A%201%2C%0A%20%20%20%20borderRadius%3A%206%2C%0A%20%20%20%20padding%3A%2010%2C%0A%20%20%7D%2C%0A%20%20greeting%3A%20%7B%0A%20%20%20%20marginTop%3A%2020%2C%0A%20%20%20%20fontSize%3A%2018%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>A <code>TextInput</code> has no border by default. Without <code>borderWidth</code> it is invisible until you tap it.</li>
 <li><code>onChangeText={setName}</code> passes the setter directly. It is the same as <code>onChangeText={(text) =&gt; setName(text)}</code>.</li>
@@ -1043,6 +1150,24 @@
 </ul>
 </div><hr />
 <h2 id="4-lab-lab-3---layout-and-styling">4. 🧪 Lab: Lab 3 - Layout and Styling <a class="anchor" aria-label="링크" href="#4-lab-lab-3---layout-and-styling">#</a></h2>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>Lab 3 문제예요. Flexbox Froggy 게임과 프로필 카드 만들기예요. 힌트만 적어 뒀으니 혼자 풀어 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>A Note on AI</strong>: AI는 막힐 때만. Flexbox Froggy 답도 찾아보지 말고 직접 풀라고 해요.</li>
+<li>👀 <strong>Overview</strong>: Q1은 Flexbox Froggy 게임 스크린샷, Q2는 Snack으로 프로필 카드 만들기.</li>
+<li>⏭️ <strong>Submission</strong>: 스크린샷 1장 + Snack 링크 1개. 시크릿 창으로 링크 열리는지 확인.</li>
+<li>🧪 <strong>Question 1 - Flexbox Froggy (1 point)</strong>: 24단계 전부 클리어. 게임은 CSS 문법(대시), RN은 camelCase + 문자열 값.</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points)</strong>: 4파트(A~D), 각 1점. 아래에서 파트별로 어떤 개념을 쓰는지 정리할게요.</li>
+<li>👀 <strong>Question 2 - Profile Card (4 points) › Setup</strong>: <code>styles.js</code> 파일을 따로 만들어 <code>export default StyleSheet.create({...})</code> 하고, App.js에서 <code>import styles from &quot;./styles&quot;;</code>.</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points) › The Component</strong>: props: <code>name</code>, <code>handle</code>, <code>imageUri</code>, <code>topic</code>(기본값 &quot;React Native&quot;), <code>posts</code>, <code>followers</code>, <code>following</code>.</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points) › Part A - Header Row (1 point)</strong>: 쓰는 개념: <code>flexDirection: &quot;row&quot;</code>(사진 왼쪽, 글자 오른쪽), Image width/height 80 + <code>borderRadius: 40</code>(원), 이름/핸들은 View로 묶어 세로로, 세로 가운데 정렬은 row 컨테이너에 `a...</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points) › Part B - Bio Line (1 point)</strong>: 쓰는 개념: Text 안의 Text 상속. 바깥 Text에 <code>fontSize: 16</code>, 안쪽 Text엔 굵기와 색만.</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points) › Part C - Stats Row (1 point)</strong>: 쓰는 개념: <code>Stat({ value, label })</code> 작은 컴포넌트를 3번 재사용.</li>
+<li>🧪 <strong>Question 2 - Profile Card (4 points) › Part D - The Card and Styles File (1 point)</strong>: 쓰는 개념: <code>...Platform.select({ ios: {...}, android: { elevation: 4 }, default: {...} })</code> 를 card 스타일 안에 spread.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-3.md</p>
 </blockquote>
@@ -1296,5 +1421,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>

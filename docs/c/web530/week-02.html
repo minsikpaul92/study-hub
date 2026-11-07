@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -16,6 +16,9 @@
 <article class="md"><h1 id="week-2-이벤트와-state-버튼을-누르면-화면이-바뀌게-만들기">Week 2. 이벤트와 State: 버튼을 누르면 화면이 바뀌게 만들기 <a class="anchor" aria-label="링크" href="#week-2-이벤트와-state-버튼을-누르면-화면이-바뀌게-만들기">#</a></h1>
 <blockquote>
 <p>이 노트 읽는 법: <strong>📘/💻/🧪 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요.</p>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p>1주차에 만든 화면은 &quot;그림&quot;일 뿐이었어요. 버튼을 눌러도 아무것도 안 바뀌었죠. 이번 주는 화면이 <strong>반응하고, 기억하고, 다시 그려지게</strong> 만드는 주예요. 1차 시험(Test 1)의 핵심 범위라서 아주 중요해요.</p>
@@ -88,8 +91,66 @@
 <p><strong>시험 필수 공식</strong> (원문에 3번 이상 반복돼요):
 <code>setCount((prev) =&gt; prev + 1)</code>, <code>setOn((prev) =&gt; !prev)</code>, <code>setItems((prev) =&gt; [...prev, item])</code>
 새 값이 <strong>이전 값에 따라</strong> 정해지면 무조건 함수형!</p>
+<p><strong>⌨️ 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Example: Event Handlers</a></td>
+<td>handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: Passing Props</a></td>
+<td>MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: State</a></td>
+<td>useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Example: Lifting State Up</a></td>
+<td>count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Example: useEffect</a></td>
+<td>useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Example: Using Context for State</a></td>
+<td>createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Example: Using Jotai</a></td>
+<td>파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-event-handling">1. 📘 코스노트: Event Handling <a class="anchor" aria-label="링크" href="#1-코스노트-event-handling">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>이벤트(onPress 등)를 처리하는 방법이에요. 💻 2.1 &quot;Event Handlers&quot;에서 직접 쳐 보니까 여기서는 읽기만 해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Event Handlers</strong>: Event handler(이벤트 핸들러) = 어떤 일이 일어났을 때(버튼 누름, 글자 입력) 실행되는 콜백 함수예요.</li>
+<li>👀 <strong>Synthetic Events</strong>: Synthetic event(합성 이벤트): React가 각 플랫폼의 진짜(native) 이벤트를 똑같은 모양의 객체로 포장한 것.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/events</p>
 </blockquote>
@@ -216,6 +277,22 @@ You may read in older tutorials that React reuses (&quot;pools&quot;) synthetic 
 <p>Event pooling(이벤트 풀링)은 옛날 React(16 이하) 이야기예요. React 17부터 없어졌어요. 지금은 이벤트 객체를 비동기 코드 안에서 읽어도 괜찮아요.</p>
 </div><hr />
 <h2 id="2-코스노트-hooks-for-stateful-components">2. 📘 코스노트: Hooks for Stateful Components <a class="anchor" aria-label="링크" href="#2-코스노트-hooks-for-stateful-components">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>useState, useEffect 같은 Hook 설명이에요. 💻 2.2 State, useEffect 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Introduction to Hooks</strong>: <code>useState()</code> 는 함수형 컴포넌트에 기억력을 주는 Hook이에요.</li>
+<li>👀 <strong>Introduction to Hooks › Updating state based on the previous value</strong>: 이 부분이 Week 2의 최대 함정이에요.</li>
+<li>👀 <strong>Running Side Effects with <code>useEffect</code></strong>: 컴포넌트의 본업은 JSX를 return 하는 것 하나예요.</li>
+<li>👀 <strong>Running Side Effects with <code>useEffect</code> › Cleaning up an effect</strong>: effect가 return 하는 함수 = cleanup(정리) 함수.</li>
+<li>👀 <strong>Running Side Effects with <code>useEffect</code> › Effects that depend on a value</strong>: effect가 props나 state를 쓰면 의존성 배열에 넣어요.</li>
+<li>👀 <strong>Lifting State Up</strong>: Lifting state up = state를 위로 올리기.</li>
+<li>👀 <strong>Keeping Functions Stable with <code>useCallback</code></strong>: 조금 어렵지만 인클래스 예제(2.2 useEffect)와 똑같은 내용이라 꼭 이해하세요.</li>
+<li>👀 <strong>Sharing data via context</strong>: Context API = 여러 컴포넌트가 같이 쓰는 전역 데이터를 props 없이 나눠 주는 방법.</li>
+<li>👀 <strong>Global State with Jotai</strong>: Context는 만들기, Provider로 감싸기, value 넘기기...</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/hooks</p>
 </blockquote>
@@ -897,6 +974,19 @@ User name is Wayne</p>
 <p>언제 뭘 쓰나: 테마, 설정 같은 건 Context도 좋고, <strong>자주 바뀌는 공유 데이터</strong>는 Jotai가 깔끔해요.</p>
 </div><hr />
 <h2 id="3-코스노트-class-components-optional">3. 📘 코스노트: Class Components (Optional) <a class="anchor" aria-label="링크" href="#3-코스노트-class-components-optional">#</a></h2>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>옛날 방식인 클래스 컴포넌트 소개예요. 함수 컴포넌트와 무엇이 다른지만 알면 되니까 가볍게 훑어요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Component state and properties</strong>: State: 컴포넌트 데이터의 스냅샷. 바뀌면 컴포넌트가 자동으로 다시 그려져요.</li>
+<li>👀 <strong>Working with component state</strong>: class에서는 <code>state = { ... }</code> 객체로 초기값을 주고, <code>this.setState({...})</code>로 바꿔요.</li>
+<li>👀 <strong>Working with component properties</strong>: Immutable(불변): 바꿀 수 없는 값. props는 불변이라 자식이 직접 바꾸면 안 돼요.</li>
+<li>👀 <strong>Passing data from parent to child components</strong>: 부모가 자기 state를 자식의 props로 내려 주는 패턴이에요.</li>
+<li>👀 <strong>Lifecycle methods</strong>: 컴포넌트의 일생: 생성(mount) → 업데이트(update) → 제거(unmount).</li>
+<li>👀 <strong>Lifecycle methods › Methods</strong>: 각 생명주기 메서드 목록이에요. 시험에는 함수형 기준으로 나오니 위 비교표 정도만 알아 두면 충분해요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/class-components</p>
 </blockquote>
@@ -1168,6 +1258,17 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <p>각 생명주기 메서드 목록이에요. 시험에는 함수형 기준으로 나오니 위 비교표 정도만 알아 두면 충분해요.</p>
 </div><hr />
 <h2 id="4-인클래스-예제-week-21---notes-and-examples">4. 💻 인클래스 예제: Week 2.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#4-인클래스-예제-week-21---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>2.1 수업 라이브 코딩 예제예요. ⌨️ 표시된 코드는 빈 Snack에서 직접 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Native Playground</strong>: Snack 안내예요.</li>
+<li>👀 <strong>Common Components</strong>: 기본 컴포넌트와 이벤트 이름 표예요. onPress, onChangeText, onValueChange는 외워 두세요.</li>
+<li>⌨️ <strong><a href="#practice-1">Example: Event Handlers</a></strong>: onPress={handlePress}처럼 함수를 넘기고, 괄호를 붙여 바로 부르지 않아요. (⌨️ handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결)</li>
+<li>⌨️ <strong><a href="#practice-2">Example: Passing Props</a></strong>: props 구조분해와 기본값을 연습해요. (⌨️ MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기)</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-02.1-notes.md</p>
 </blockquote>
@@ -1247,6 +1348,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Add the event handler using a function (defined in the component).</li>
 <li>Must run this on a device or emulator (Snack's iOS/Android preview or Expo Go). <code>Alert.alert</code> does nothing in the Web preview.</li>
 </ul>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1304,6 +1406,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Set a default value <code>text = &quot;Button&quot;</code>.</li>
 <li>Wire the button to read the props.</li>
 </ul>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Button"</span><span class="p">,</span><span class="w"> </span><span class="nx">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Button</span>
@@ -1331,6 +1434,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Wire the alert to receive the message.</li>
 <li>NOTE: You are already in a JS code block, you don't need the <code>{ }</code> brackets.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="p">,</span><span class="w"> </span><span class="nx">Alert</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span>
@@ -1366,6 +1470,19 @@ Called before <code>render()</code>, this method allows you to decide whether t
 </ul>
 </div><hr />
 <h2 id="5-인클래스-예제-week-22---notes-and-examples">5. 💻 인클래스 예제: Week 2.2 - Notes and Examples <a class="anchor" aria-label="링크" href="#5-인클래스-예제-week-22---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>2.2 수업 예제예요. State, useEffect, Context, Jotai는 코딩 문제의 핵심이라 ⌨️ 표시된 코드는 꼭 직접 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Native Playground</strong>: 같은 Snack에서 계속해요.</li>
+<li>⌨️ <strong><a href="#practice-3">Example: State</a></strong>: 일반 변수로는 화면이 안 바뀌고, state를 바꿔야 다시 그려져요. (⌨️ useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시)</li>
+<li>⌨️ <strong><a href="#practice-4">Example: Lifting State Up</a></strong>: state를 부모로 올려서 여러 자식이 같은 값을 나눠 써요. (⌨️ count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기)</li>
+<li>⌨️ <strong><a href="#practice-5">Example: useEffect</a></strong>: 의존성 배열과 cleanup이 시험 단골이에요. (⌨️ useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기)</li>
+<li>⌨️ <strong><a href="#practice-6">Example: Using Context for State</a></strong>: props 없이 멀리 있는 컴포넌트에 state를 나눠 줘요. (⌨️ createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기)</li>
+<li>⌨️ <strong><a href="#practice-7">Example: Using Jotai</a></strong>: Context보다 짧게 여러 컴포넌트가 함께 쓰는 state를 만들어요. (⌨️ 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기)</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-02.2-notes.md</p>
 </blockquote>
@@ -1379,6 +1496,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <ul>
 <li>Start from this version.</li>
 </ul>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">({</span><span class="w"> </span><span class="nx">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
@@ -1393,7 +1511,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20return%20%3CButton%20disabled%3D%7B%21enabled%7D%20title%3D%22Click%20Me%22%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20return%20%3CButton%20disabled%3D%7B%21enabled%7D%20title%3D%22Click%20Me%22%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Add a variable to the button to count how many times it is clicked.</li>
 </ul>
@@ -1437,6 +1555,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Let's fix this by adding state.</li>
 <li>Let's remove the Alert as well.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1462,7 +1581,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>The new count depends on the old one, so we pass a function to <code>setCount</code>. Show what goes wrong if we use <code>count</code> directly instead.</li>
 <li>Change the button to add 2 by calling <code>setCount</code> twice.</li>
@@ -1518,6 +1637,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Lift state up, so that the parent knows when the value changes.</li>
 <li>Move the press handler outside of the function and pass as a prop.</li>
 </ul>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1547,7 +1667,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Lifting%20State%20Up&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Lifting%20State%20Up&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설</strong></p>
 <ul>
@@ -1561,6 +1681,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Add a side effect.</li>
 <li>The function returned from the effect is the clean-up. Here it cancels the timer.</li>
 </ul>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1604,7 +1725,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20useEffect%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20useEffect%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Notice the program keeps counting and never stops!</li>
 <li>Each value change causes a render which causes useEffect to fire.</li>
@@ -1639,6 +1760,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>To get rid of the warning we can use <code>useCallback</code>.</li>
 <li><code>useCallback</code> keeps the same function between renders, so <code>[handlePress]</code> does not change and the effect only runs once.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="p">,</span><span class="w"> </span><span class="nx">useCallback</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1681,7 +1803,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20useEffect%2C%20useCallback%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%2C%20%5BhandlePress%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20useCallback%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%2C%20%5B%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20useEffect%2C%20useCallback%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%2C%20%5BhandlePress%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20useCallback%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%2C%20%5B%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>수업 흐름 따라가기</strong></p>
 <ol>
@@ -1694,6 +1816,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <ul>
 <li>Start from this version. It is the lifted state example with the <code>useEffect</code> and <code>useCallback</code> removed. Copy and paste it into <code>App.js</code>.</li>
 </ul>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1722,13 +1845,14 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Create the context and a provider component.</li>
 <li>Merge the context into the button.</li>
 <li>Create a new component for displaying the information.</li>
 <li>Update the MyApp component.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">createContext</span><span class="p">,</span><span class="w"> </span><span class="nx">useContext</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1777,7 +1901,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20createContext%2C%20useContext%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Create%20the%20Context%0Aconst%20CountContext%20%3D%20createContext%28%29%3B%0A%0Afunction%20CountProvider%28%7B%20children%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CCountContext.Provider%20value%3D%7B%7B%20count%2C%20handlePress%20%7D%7D%3E%0A%20%20%20%20%20%20%7Bchildren%7D%0A%20%20%20%20%3C%2FCountContext.Provider%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%7B%20count%2C%20handlePress%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%7B%20count%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CCountProvider%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FCountProvider%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%2C%20createContext%2C%20useContext%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Create%20the%20Context%0Aconst%20CountContext%20%3D%20createContext%28%29%3B%0A%0Afunction%20CountProvider%28%7B%20children%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CCountContext.Provider%20value%3D%7B%7B%20count%2C%20handlePress%20%7D%7D%3E%0A%20%20%20%20%20%20%7Bchildren%7D%0A%20%20%20%20%3C%2FCountContext.Provider%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%7B%20count%2C%20handlePress%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%7B%20count%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CCountProvider%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FCountProvider%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설 (4단계, 원문 bullet 순서)</strong></p>
 <ol>
@@ -1795,6 +1919,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Any component can read or update an atom directly, without prop-drilling or boilerplate.</li>
 </ul>
 <p><em>package.json</em></p>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기</p>
 <pre class="hl"><code class="language-js"><span class="p">{</span>
 <span class="w">  </span><span class="s2">"dependencies"</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="s2">"react-native-paper"</span><span class="o">:</span><span class="w"> </span><span class="s2">"4.9.2"</span><span class="p">,</span>
@@ -1808,6 +1933,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <ul>
 <li>Start from this version. It is the lifted state example with <code>CountDisplay</code> added and the Context removed. Copy and paste it into <code>App.js</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1840,7 +1966,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%7B%20count%20%7D%29%20%7B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20count%3D%7Bcount%7D%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%7B%20count%20%7D%29%20%7B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20count%3D%7Bcount%7D%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Create a global atom above the components.</li>
 <li>Replace the <code>useState</code> in <code>MyApp</code> with nothing. <code>MyApp</code> no longer owns the count.</li>
@@ -1848,6 +1974,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <li>Notice there is no provider to wrap and no props to pass.</li>
 </ul>
 <p><em>App.js</em></p>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">atom</span><span class="p">,</span><span class="w"> </span><span class="nx">useAtom</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"jotai"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1880,7 +2007,7 @@ Called before <code>render()</code>, this method allows you to decide whether t
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20atom%2C%20useAtom%20%7D%20from%20%22jotai%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Global%20atom%0Aconst%20countAtom%20%3D%20atom%280%29%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%5Bcount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A&amp;dependencies=%40types%2Freact%40%2A%2Cjotai%40%2A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20atom%2C%20useAtom%20%7D%20from%20%22jotai%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Global%20atom%0Aconst%20countAtom%20%3D%20atom%280%29%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%5Bcount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A&amp;dependencies=%40types%2Freact%40%2A%2Cjotai%40%2A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p><strong>코드 해설</strong></p>
 <ul>
@@ -1892,6 +2019,23 @@ Called before <code>render()</code>, this method allows you to decide whether t
 </ul>
 </div><hr />
 <h2 id="6-lab-lab-2---react-native-events-and-state">6. 🧪 Lab: Lab 2 - React Native, Events, and State <a class="anchor" aria-label="링크" href="#6-lab-lab-2---react-native-events-and-state">#</a></h2>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>Lab 2 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 혼자 풀어 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>A Note on AI</strong>: AI는 막혔을 때만 쓰고, 설명 못 하는 코드는 남기지 말라는 안내.</li>
+<li>👀 <strong>Setup</strong>: React Native만 써요(div, createRoot 없음).</li>
+<li>⏭️ <strong>Running Your App</strong>: Web 탭은 빠르지만 <code>Alert.alert</code>가 안 돼요.</li>
+<li>⏭️ <strong>Submission</strong>: Snack 링크 하나 제출, 모든 컴포넌트는 App.js에, MyApp에서 <code>&lt;Text&gt;Question N&lt;/Text&gt;</code> 제목과 함께 순서대로.</li>
+<li>🧪 <strong>Question 1 - Events and Props (1 point)</strong>: 연결 예제: 2.1 Passing Props.</li>
+<li>🧪 <strong>Question 2 - Text Input and State (1 point)</strong>: 연결 예제: 코스노트 Hooks의 TextInput 예제(controlled input).</li>
+<li>🧪 <strong>Question 3 - Toggling State and Conditional Rendering (1 point)</strong>: 연결 개념: boolean state + 함수형 토글 <code>setEnabled((prev) =&gt; !prev)</code> + 삼항 연산자.</li>
+<li>🧪 <strong>Question 4 - Lifting State Up (1 point)</strong>: 연결 예제: 2.2 Lifting State Up.</li>
+<li>🧪 <strong>Question 5 - useEffect and Cleanup (1 point)</strong>: 연결 예제: 2.2 useEffect + 코스노트 Cleaning up an effect.</li>
+<li>🧪 <strong>Question 6 - Shared State Without Props (1 point)</strong>: 연결 예제: 2.2 Using Context for State / Using Jotai.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-2.md</p>
 </blockquote>
@@ -2186,5 +2330,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>

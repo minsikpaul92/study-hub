@@ -25,7 +25,7 @@
 **fetch 최대 함정**: `fetch`는 **네트워크가 끊겼을 때만** 실패(reject)해요. 404나 500은 "성공한 응답"으로 와요. 그래서 반드시 **`if (!res.ok) throw new Error(...)`** 로 직접 에러를 던져야 catch로 가요.
 
 
-**⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
 
 어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
 
@@ -2049,9 +2049,6 @@ function PostsScreen({ navigation }) {
 ```
 
 - Add a new `MyApp` at the bottom, above the styles.
-
-
-<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 export default function MyApp() {

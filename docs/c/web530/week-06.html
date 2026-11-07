@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -16,6 +16,9 @@
 <article class="md"><h1 id="week-6-touch-pressable-hit-slop-스크롤-스와이프와-취소">Week 6. Touch: Pressable, Hit Slop, 스크롤, 스와이프와 취소 <a class="anchor" aria-label="링크" href="#week-6-touch-pressable-hit-slop-스크롤-스와이프와-취소">#</a></h1>
 <blockquote>
 <p>이 노트 읽는 법: <strong>📘/💻 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 <strong>손가락</strong> 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 <strong>폰(My Device + Expo Go)</strong> 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. <strong>Test 3 범위.</strong></p>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p><strong>제스처의 두 종류 (개념 문제 단골)</strong></p>
@@ -114,8 +117,119 @@
 </tr>
 </tbody>
 </table>
+<p><strong>⌨️ 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Example: Pressable › Starter Code</a></td>
+<td>버튼처럼 생긴 View 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: Pressable › Step 1 - Make It Pressable</a></td>
+<td>View를 Pressable로 바꾸고 onPress에서 setTaps((prev) =&gt; prev + 1)</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: Pressable › Step 2 - Show Pressed Feedback</a></td>
+<td>style={({ pressed }) =&gt; [styles.button, pressed &amp;&amp; styles.pressed]}</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Example: Pressable › Step 3 - Log Every Press Event</a></td>
+<td>onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Example: ScrollView › Starter Code</a></td>
+<td>Row 30개짜리 세로 ScrollView 쳐 두기</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Example: ScrollView › Step 1 - Add a Horizontal Row</a></td>
+<td>ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Example: Pressable Rows in a FlatList › Starter Code</a></td>
+<td>줄 40개 FlatList 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#practice-8">Example: Pressable Rows in a FlatList › Step 1 - Make the Rows Pressable</a></td>
+<td>줄 View를 Pressable로 바꾸고 pressed 피드백</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#practice-9">Example: Pressable Rows in a FlatList › Step 2 - Select Rows</a></td>
+<td>selected 객체 state + toggle(id)로 줄 선택 표시</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#practice-10">Example: Drag and Snap Back › Starter Code</a></td>
+<td>안 움직이는 카드 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#practice-11">Example: Drag and Snap Back › Step 1 - Follow the Finger</a></td>
+<td>useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#practice-12">Example: Drag and Snap Back › Step 2 - Snap Back on Release</a></td>
+<td>onPanResponderRelease에서 Animated.spring으로 복귀</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#practice-13">Example: Drag and Snap Back › Step 3 - Commit Past a Threshold</a></td>
+<td>Math.abs(dx) &gt; 120이면 Animated.timing으로 밀어내고 setDismissed(true)</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#practice-14">Example: Swipe to Delete › Starter Code</a></td>
+<td>MessageRow가 있는 받은편지함 FlatList 쳐 두기</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#practice-15">Example: Swipe to Delete › Step 1 - Add the Gesture Root</a></td>
+<td>바깥 View를 GestureHandlerRootView로 바꾸기</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#practice-16">Example: Swipe to Delete › Step 2 - Make the Rows Swipeable</a></td>
+<td>줄을 Swipeable renderRightActions로 감싸기</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#practice-17">Example: Swipe to Delete › Step 3 - Delete the Message</a></td>
+<td>remove(id)에서 filter로 지우고 onDelete prop 연결</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-handling-touch">1. 📘 코스노트: Handling Touch <a class="anchor" aria-label="링크" href="#1-코스노트-handling-touch">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>탭과 길게 누르기 같은 터치를 처리하는 방법이에요. 💻 6.1 Pressable 예제에서 직접 쳐 보니까 여기서는 읽기만 해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Pressable</strong>: Gesture Responder System(GRS): 사용자가 탭하려는 건지, 스크롤하려는 건지 등을 판단하는 RN 내장 시스템.</li>
+<li>👀 <strong>Long Press, Press In, and Press Out</strong>: 이벤트가 발생하는 순서가 핵심이에요(위 0번 표).</li>
+<li>👀 <strong>Improving Touch Targets with <code>hitSlop</code></strong>: 터치 대상은 최소 44×44 포인트(접근성, accessibility).</li>
+<li>👀 <strong>Android Ripple Effects</strong>: <code>android_ripple={{ color: '...' }}</code> → Android 고유의 물결 피드백(Material Design).</li>
+<li>👀 <strong>When to Use Gesture Handler</strong>: Pressable: 버튼, 카드, 목록 줄, 단순 탭/길게 누르기.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch</p>
 </blockquote>
@@ -359,6 +473,21 @@
 </ul>
 </div><hr />
 <h2 id="2-코스노트-scrolling">2. 📘 코스노트: Scrolling <a class="anchor" aria-label="링크" href="#2-코스노트-scrolling">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>ScrollView와 FlatList 스크롤 정리예요. 읽고 개념만 잡으면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Scrolling with your fingers</strong>: <code>ScrollView</code>는 자식을 전부 한 번에 렌더링.</li>
+<li>👀 <strong>ScrollView vs FlatList</strong>: FlatList는 화면에 나타날 때 렌더링(lazy), 화면 밖으로 나가면 unmount, virtualization, 구분선, 여러 열, 당겨서 새로고침, 무한 스크롤 지원.</li>
+<li>👀 <strong>SafeAreaView</strong>: 노치나 둥근 모서리가 있는 iOS 기기에서 시스템 UI(상태바, 홈 인디케이터)에 내용이 가려질 수 있어요.</li>
+<li>👀 <strong>Basic ScrollView Example</strong>: SafeAreaView로 감싼 세로 ScrollView.</li>
+<li>👀 <strong>Horizontal Scrolling</strong>: <code>&lt;ScrollView horizontal&gt;</code> → 가로 스크롤.</li>
+<li>👀 <strong>Momentum and Natural Scrolling</strong>: 스크롤은 continuous(손가락이 움직이는 동안 매 프레임), 탭은 discrete(한 번).</li>
+<li>👀 <strong>Nested Scrolling</strong>: 중첩 스크롤: 세로 페이지 안에 가로 카드 줄(앱스토어 홈 화면처럼).</li>
+<li>👀 <strong>Scrolling and Touch Together</strong>: 목록 줄은 스크롤도 되고 탭도 돼야 해요. 둘 다 손가락이 줄 위에서 시작하는데 RN이 판단해요:</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling</p>
 </blockquote>
@@ -680,6 +809,19 @@
 </ol>
 </div><hr />
 <h2 id="3-코스노트-swipeable-and-cancellable">3. 📘 코스노트: Swipeable and Cancellable <a class="anchor" aria-label="링크" href="#3-코스노트-swipeable-and-cancellable">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>스와이프와 취소 제스처예요. 💻 6.1 Drag and Snap Back, Swipe to Delete에서 직접 쳐 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Swipe Gestures</strong>: 스와이프 = 가로 드래그. 메일, 메시지, 할 일 앱에서 줄을 밀어 삭제, 보관, 읽음 표시.</li>
+<li>👀 <strong>Building a Cancellable Swipe</strong>: PanResponder: 손가락 위치를 알려 줌.</li>
+<li>👀 <strong>Building a Cancellable Swipe › Understanding the Example</strong>: 5가지 핵심 (그대로 시험에 나올 만해요)</li>
+<li>👀 <strong>Swipeable Rows</strong>: 모든 줄에 PanResponder를 직접 쓰는 건 노가다.</li>
+<li>👀 <strong>Swipeable Rows › Understanding the Example</strong>: <code>GestureHandlerRootView</code>: 모든 gesture-handler 컴포넌트는 이 안에 있어야 함.</li>
+<li>👀 <strong>When to Use Swipe Actions</strong>: 쓸 때: 보조 행동(삭제, 보관), 자주 하는 행동, 목록을 깔끔하게, 한 손 빠른 조작.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel</p>
 </blockquote>
@@ -958,6 +1100,46 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <p>💡 <code>Swipeable</code>은 <strong>deprecated</strong>(앞으로 없어질 수 있음). 수업용으로는 OK. 요즘은 <code>ReanimatedSwipeable</code>(거의 같은 API), Gesture API(<code>Gesture.Pan()</code>, <code>GestureDetector</code>), Reanimated를 써요. 이 예제를 그대로 두는 이유: Snack에서 잘 되고, 패턴을 명확히 보여 주고, Reanimated/Worklets의 복잡함을 피하려고.</p>
 </div><hr />
 <h2 id="4-인클래스-예제-week-61---notes-and-examples">4. 💻 인클래스 예제: Week 6.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#4-인클래스-예제-week-61---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>6.1 수업 라이브 코딩이에요. Starter Code에서 시작해 Step 순서대로 고쳐 가요. 스와이프 예제는 폰(Expo Go)에서 확인하세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Native Playground</strong>: 패키지와 실행 환경 안내예요.</li>
+<li>👀 <strong>Why Touch?</strong>: 탭 같은 discrete 제스처와 스크롤 같은 continuous 제스처를 구분해요.</li>
+<li>⌨️ <strong>Example: Pressable</strong>: Pressable은 모양이 없는 터치 컴포넌트예요.</li>
+<li>⌨️ <strong><a href="#practice-1">Example: Pressable › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 버튼처럼 생긴 View 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-2">Example: Pressable › Step 1 - Make It Pressable</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ View를 Pressable로 바꾸고 onPress에서 setTaps((prev) =&gt; prev + 1))</li>
+<li>⌨️ <strong><a href="#practice-3">Example: Pressable › Step 2 - Show Pressed Feedback</a></strong>: style을 함수로 줘서 누르는 동안 모양을 바꿔요. (⌨️ style={({ pressed }) =&gt; [styles.button, pressed &amp;&amp; styles.pressed]})</li>
+<li>⌨️ <strong><a href="#practice-4">Example: Pressable › Step 3 - Log Every Press Event</a></strong>: 이벤트 순서가 시험 포인트예요. (⌨️ onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기)</li>
+<li>👀 <strong>Example: Pressable › Finished Code</strong>: 완성 코드 해설: <code>taps</code>, <code>events</code> state.</li>
+<li>👀 <strong>Example: Hit Slop</strong>: hitSlop으로 작은 버튼의 터치 영역을 넓혀요.</li>
+<li>👀 <strong>Scrolling</strong>: 스크롤과 관성(momentum) 개념이에요.</li>
+<li>⌨️ <strong>Example: ScrollView</strong>: 세로 페이지 안에 가로 카드 줄을 넣어요.</li>
+<li>⌨️ <strong><a href="#practice-5">Example: ScrollView › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ Row 30개짜리 세로 ScrollView 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-6">Example: ScrollView › Step 1 - Add a Horizontal Row</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가)</li>
+<li>👀 <strong>Example: ScrollView › Finished Code</strong>: 완성 코드 해설: 바깥 세로 ScrollView 안에 제목 + 가로 ScrollView(카드들) + 세로 줄 30개.</li>
+<li>⌨️ <strong>Example: Pressable Rows in a FlatList</strong>: 목록은 스크롤도 되고 줄 탭도 돼야 해요.</li>
+<li>⌨️ <strong><a href="#practice-7">Example: Pressable Rows in a FlatList › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄 40개 FlatList 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-8">Example: Pressable Rows in a FlatList › Step 1 - Make the Rows Pressable</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄 View를 Pressable로 바꾸고 pressed 피드백)</li>
+<li>⌨️ <strong><a href="#practice-9">Example: Pressable Rows in a FlatList › Step 2 - Select Rows</a></strong>: 함수형 업데이트와 객체 복사를 연습해요. (⌨️ selected 객체 state + toggle(id)로 줄 선택 표시)</li>
+<li>👀 <strong>Example: Pressable Rows in a FlatList › Finished Code</strong>: 완성 코드 해설: <code>selected</code> 객체 state, <code>toggle</code> 함수, derived <code>count</code>, Pressable 줄 + 3단 스타일 배열, <code>extraData</code>.</li>
+<li>👀 <strong>Swipe and Cancel</strong>: 스와이프는 짧으면 취소되고 세로 스크롤을 막지 않아야 해요.</li>
+<li>⌨️ <strong>Example: Drag and Snap Back</strong>: PanResponder와 Animated로 직접 끌기를 만들어요. 폰에서 확인하세요.</li>
+<li>⌨️ <strong><a href="#practice-10">Example: Drag and Snap Back › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 안 움직이는 카드 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-11">Example: Drag and Snap Back › Step 1 - Follow the Finger</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기)</li>
+<li>⌨️ <strong><a href="#practice-12">Example: Drag and Snap Back › Step 2 - Snap Back on Release</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ onPanResponderRelease에서 Animated.spring으로 복귀)</li>
+<li>⌨️ <strong><a href="#practice-13">Example: Drag and Snap Back › Step 3 - Commit Past a Threshold</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ Math.abs(dx) &gt; 120이면 Animated.timing으로 밀어내고 setDismissed(true))</li>
+<li>👀 <strong>Example: Drag and Snap Back › Finished Code</strong>: 완성 코드 해설: useRef(Animated.Value, PanResponder) + 세 콜백(ShouldSet, Move, Release) + 임계값 120 + dismissed state + Reset 버튼.</li>
+<li>⌨️ <strong>Example: Swipe to Delete</strong>: 실제 앱처럼 Gesture Handler의 Swipeable을 써요. 폰에서 확인하세요.</li>
+<li>⌨️ <strong><a href="#practice-14">Example: Swipe to Delete › Starter Code</a></strong>: MessageRow는 MyApp 바깥에 선언해요. (⌨️ MessageRow가 있는 받은편지함 FlatList 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-15">Example: Swipe to Delete › Step 1 - Add the Gesture Root</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 바깥 View를 GestureHandlerRootView로 바꾸기)</li>
+<li>⌨️ <strong><a href="#practice-16">Example: Swipe to Delete › Step 2 - Make the Rows Swipeable</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄을 Swipeable renderRightActions로 감싸기)</li>
+<li>⌨️ <strong><a href="#practice-17">Example: Swipe to Delete › Step 3 - Delete the Message</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ remove(id)에서 filter로 지우고 onDelete prop 연결)</li>
+<li>👀 <strong>Example: Swipe to Delete › Finished Code</strong>: 완성 코드 해설: GestureHandlerRootView &gt; FlatList &gt; (최상위 선언) MessageRow &gt; Swipeable(renderRightActions = Delete Pressable).</li>
+<li>👀 <strong>Touch UX Checklist</strong>: 터치 UX 체크리스트 6개는 서술형으로 나올 수 있어요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-06.1-notes.md</p>
 </blockquote>
@@ -1001,6 +1183,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Replace everything in <code>App.js</code>. It is a box styled to look like a button, and nothing happens when you press it.</li>
 </ul>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 버튼처럼 생긴 View 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1026,7 +1209,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.button%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3ETap%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20alignItems%3A%20%22center%22%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20width%3A%20200%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%20%20message%3A%20%7B%20marginTop%3A%2020%2C%20marginBottom%3A%2010%2C%20fontSize%3A%2016%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.button%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3ETap%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20alignItems%3A%20%22center%22%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20width%3A%20200%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%20%20message%3A%20%7B%20marginTop%3A%2020%2C%20marginBottom%3A%2010%2C%20fontSize%3A%2016%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>A <code>View</code> has no <code>onPress</code>. Looking like a button is not enough.</li>
 </ul>
@@ -1036,17 +1219,20 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add <code>useState</code> and <code>Pressable</code> to the imports.</li>
 </ul>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: View를 Pressable로 바꾸고 onPress에서 setTaps((prev) =&gt; prev + 1)</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Add state for the tap count at the top of <code>MyApp</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">taps</span><span class="p">,</span><span class="w"> </span><span class="nx">setTaps</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Change the button <code>View</code> to a <code>Pressable</code> with an <code>onPress</code>, and show the count under it.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Pressable</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">}</span>
 <span class="w">  </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setTaps</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">)}</span>
@@ -1064,11 +1250,13 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li><code>style</code> on a <code>Pressable</code> can be a function. It receives <code>{ pressed }</code> and returns the style to use. Replace the <code>style</code> prop.</li>
 </ul>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: style={({ pressed }) =&gt; [styles.button, pressed &amp;&amp; styles.pressed]}</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
 </code></pre>
 <ul>
 <li>Add the pressed style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#1565C0"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1085,6 +1273,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li><code>onPress</code> is one of four events. Add a log to see them all. Under the <code>taps</code> state, add the list and a function that adds one entry to it.</li>
 </ul>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">events</span><span class="p">,</span><span class="w"> </span><span class="nx">setEvents</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">log</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1094,6 +1283,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Give the <code>Pressable</code> the other three events, and log <code>onPress</code> as well. <code>onPressIn</code> does not call <code>log</code>: it replaces the whole list, so every new press starts with an empty log and shows only its own events.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setTaps</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">log</span><span class="p">(</span><span class="s2">"onPress"</span><span class="p">);</span>
@@ -1105,12 +1295,14 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Show the log under the count, with its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">{</span><span class="nx">events</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">event</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">event</span><span class="p">}&gt;</span>
 <span class="w">    </span><span class="p">{</span><span class="nx">event</span><span class="p">}</span>
 <span class="w">  </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
 <span class="p">))}</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">event</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1260,6 +1452,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Replace everything in <code>App.js</code>.</li>
 </ul>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Row 30개짜리 세로 ScrollView 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">ScrollView</span><span class="p">,</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span><span class="w"> </span><span class="nx">length</span><span class="o">:</span><span class="w"> </span><span class="mf">30</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`Item </span><span class="si">${</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
@@ -1282,7 +1475,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20ScrollView%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20ScrollView%2C%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2030%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%60Item%20%24%7Bi%20%2B%201%7D%60%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CScrollView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%7Brows.map%28%28row%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CView%20key%3D%7Brow%7D%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Brow%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FScrollView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20marginTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20ScrollView%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20ScrollView%2C%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2030%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%60Item%20%24%7Bi%20%2B%201%7D%60%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CScrollView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%7Brows.map%28%28row%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CView%20key%3D%7Brow%7D%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Brow%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FScrollView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20marginTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li><code>Array.from({ length: 30 }, ...)</code> builds 30 strings without typing them. The string doubles as the <code>key</code>.</li>
 <li>On a phone, flick the list and watch it coast. Drag slowly and it follows your finger exactly. On the web preview, use the mouse wheel or the trackpad.</li>
@@ -1293,11 +1486,13 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add the cards above <code>rows</code>.</li>
 </ul>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">cards</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span><span class="w"> </span><span class="nx">length</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="sb">`Card </span><span class="si">${</span><span class="nx">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Add a heading and a horizontal <code>ScrollView</code> inside the outer one, above the rows.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&gt;</span><span class="nx">Featured</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">ScrollView</span>
 <span class="w">  </span><span class="na">horizontal</span>
@@ -1314,6 +1509,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add the styles.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">heading</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">22</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
 <span class="nx">cards</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
 <span class="nx">card</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
@@ -1403,6 +1599,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Replace everything in <code>App.js</code>. It is the Week 5 <code>FlatList</code> with 40 plain rows.</li>
 </ul>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄 40개 FlatList 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Array</span><span class="p">.</span><span class="kr">from</span><span class="p">({</span><span class="w"> </span><span class="nx">length</span><span class="o">:</span><span class="w"> </span><span class="mf">40</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">i</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span>
@@ -1432,7 +1629,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20Rows%20in%20a%20FlatList%20-%20Starter%20Co&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2040%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%28%7B%0A%20%20id%3A%20String%28i%20%2B%201%29%2C%0A%20%20title%3A%20%60Row%20%24%7Bi%20%2B%201%7D%60%2C%0A%7D%29%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Brows%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Bitem.title%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20Rows%20in%20a%20FlatList%20-%20Starter%20Co&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2040%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%28%7B%0A%20%20id%3A%20String%28i%20%2B%201%29%2C%0A%20%20title%3A%20%60Row%20%24%7Bi%20%2B%201%7D%60%2C%0A%7D%29%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Brows%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Bitem.title%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>5주차 FlatList, 평범한 줄 40개.</p>
 </div><h4 id="step-1---make-the-rows-pressable">💻 Step 1 - Make the Rows Pressable <a class="anchor" aria-label="링크" href="#step-1---make-the-rows-pressable">#</a></h4>
@@ -1440,6 +1637,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <li>Add <code>Pressable</code> to the <code>react-native</code> import.</li>
 <li>Change each row's <code>View</code> to a <code>Pressable</code> with pressed feedback.</li>
 </ul>
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄 View를 Pressable로 바꾸고 pressed 피드백</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Pressable</span>
 <span class="w">    </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
@@ -1451,6 +1649,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add the style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#eee"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -1463,6 +1662,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add <code>useState</code> to the imports. Store the selected rows as an object of ids, so <code>{ &quot;3&quot;: true, &quot;7&quot;: true }</code> means rows 3 and 7 are selected.</li>
 </ul>
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: selected 객체 state + toggle(id)로 줄 선택 표시</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">selected</span><span class="p">,</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">({});</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">toggle</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -1476,11 +1676,13 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <li><code>count</code> is derived on every render, like <code>visible</code> in Week 5. It is not state.</li>
 <li>Add the count above the <code>FlatList</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&gt;{</span><span class="nx">count</span><span class="p">}</span><span class="w"> </span><span class="nx">selected</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
 </code></pre>
 <ul>
 <li>Give each row an <code>onPress</code> and a selected style. The pressed style comes last so it still shows on a selected row.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Pressable</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">,</span>
@@ -1493,12 +1695,14 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add <code>extraData</code> to the <code>FlatList</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">extraData</span><span class="o">=</span><span class="p">{</span><span class="nx">selected</span><span class="p">}</span>
 </code></pre>
 <ul>
 <li><code>FlatList</code> skips re-rendering its rows when its props look unchanged, and <code>data</code> does not change when a row is selected. <code>extraData</code> tells it the rows also depend on <code>selected</code>. This list would happen to work without it, because the inline <code>renderItem</code> is a new function on every render, but a memoized <code>renderItem</code> would leave a tapped row looking unselected. Pass <code>extraData</code> whenever rows read state from outside <code>data</code>.</li>
 <li>Add the styles.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">heading</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
 <span class="nx">selected</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#BBDEFB"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
@@ -1588,6 +1792,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Replace everything in <code>App.js</code>. It is a card that does not move.</li>
 </ul>
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 안 움직이는 카드 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1606,25 +1811,28 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Drag%20and%20Snap%20Back%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3ESwipe%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%20100%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20card%3A%20%7B%20padding%3A%2020%2C%20borderRadius%3A%208%2C%20backgroundColor%3A%20%22%23eef%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Drag%20and%20Snap%20Back%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3ESwipe%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%20100%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20card%3A%20%7B%20padding%3A%2020%2C%20borderRadius%3A%208%2C%20backgroundColor%3A%20%22%23eef%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>안 움직이는 카드.</p>
 </div><h4 id="step-1---follow-the-finger">💻 Step 1 - Follow the Finger <a class="anchor" aria-label="링크" href="#step-1---follow-the-finger">#</a></h4>
 <ul>
 <li>Add <code>useRef</code>, <code>Animated</code> and <code>PanResponder</code> to the imports.</li>
 </ul>
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useRef</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Animated</span><span class="p">,</span><span class="w"> </span><span class="nx">PanResponder</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>At the top of <code>MyApp</code>, create an animated value for the card's horizontal offset.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">translateX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useRef</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">Animated</span><span class="p">.</span><span class="nx">Value</span><span class="p">(</span><span class="mf">0</span><span class="p">)).</span><span class="nx">current</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li><code>useRef</code> is a hook that keeps the same object for the whole life of the component. Writing <code>new Animated.Value(0)</code> straight in the component would make a new value, back at 0, on every render. <code>useRef</code> creates it once, and <code>.current</code> is the value it holds. Changing it does not cause a render.</li>
 <li>Under it, create the pan responder, also kept in a ref.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">pan</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useRef</span><span class="p">(</span>
 <span class="w">  </span><span class="nx">PanResponder</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
 <span class="w">    </span><span class="nx">onMoveShouldSetPanResponder</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">gesture</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">gesture</span><span class="p">.</span><span class="nx">dx</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">10</span><span class="p">,</span>
@@ -1640,6 +1848,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <li><code>onPanResponderMove</code> runs for every movement and sets the offset. No state, no re-render.</li>
 <li>Change the card <code>View</code> to an <code>Animated.View</code>, spread the handlers onto it, and move it with a transform.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Animated</span><span class="p">.</span><span class="na">View</span>
 <span class="w">  </span><span class="p">{</span><span class="na">...pan.panHandlers</span><span class="p">}</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">transform</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">translateX</span><span class="w"> </span><span class="p">}]</span><span class="w"> </span><span class="p">}]}</span>
@@ -1664,6 +1873,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add <code>onPanResponderRelease</code> to the <code>PanResponder.create</code> object.</li>
 </ul>
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: onPanResponderRelease에서 Animated.spring으로 복귀</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">onPanResponderRelease</span><span class="o">:</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">Animated</span><span class="p">.</span><span class="nx">spring</span><span class="p">(</span><span class="nx">translateX</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">toValue</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
@@ -1681,11 +1891,13 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>A short swipe should cancel and a long one should act. Add <code>useState</code> and <code>Button</code> to the imports, and a <code>dismissed</code> state at the top of <code>MyApp</code>.</li>
 </ul>
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Math.abs(dx) &gt; 120이면 Animated.timing으로 밀어내고 setDismissed(true)</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">dismissed</span><span class="p">,</span><span class="w"> </span><span class="nx">setDismissed</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Replace <code>onPanResponderRelease</code>. Past 120 points the card slides off the screen, and only then is it dismissed.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">onPanResponderRelease</span><span class="o">:</span><span class="w"> </span><span class="p">(</span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">gesture</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">gesture</span><span class="p">.</span><span class="nx">dx</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">120</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Animated</span><span class="p">.</span><span class="nx">timing</span><span class="p">(</span><span class="nx">translateX</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
@@ -1705,11 +1917,13 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <li><code>.start()</code> takes a callback that runs when the animation ends. The state changes after the card has left, not before.</li>
 <li>Add a reset function above the <code>return</code>, and show a button instead of the card once it is dismissed.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">reset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">translateX</span><span class="p">.</span><span class="nx">setValue</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">setDismissed</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">{</span><span class="nx">dismissed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Bring It Back"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">reset</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">(</span>
@@ -1813,6 +2027,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Replace everything in <code>App.js</code>. It is an inbox in a <code>FlatList</code>, with each row in its own component.</li>
 </ul>
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MessageRow가 있는 받은편지함 FlatList 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
@@ -1866,7 +2081,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <span class="w">  </span><span class="nx">subject</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Swipe%20to%20Delete%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20inbox%20%3D%20%5B%0A%20%20%7B%20id%3A%20%221%22%2C%20from%3A%20%22Registrar%22%2C%20subject%3A%20%22Your%20timetable%20is%20ready%22%20%7D%2C%0A%20%20%7B%20id%3A%20%222%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Book%20due%20Friday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%223%22%2C%20from%3A%20%22Campus%20Store%22%2C%20subject%3A%20%22Textbook%20back%20in%20stock%22%20%7D%2C%0A%20%20%7B%20id%3A%20%224%22%2C%20from%3A%20%22IT%20Services%22%2C%20subject%3A%20%22Password%20expires%20in%207%20days%22%20%7D%2C%0A%20%20%7B%20id%3A%20%225%22%2C%20from%3A%20%22Study%20Group%22%2C%20subject%3A%20%22Room%202104%20at%203%20PM%22%20%7D%2C%0A%20%20%7B%20id%3A%20%226%22%2C%20from%3A%20%22Athletics%22%2C%20subject%3A%20%22Intramural%20sign-ups%20open%22%20%7D%2C%0A%20%20%7B%20id%3A%20%227%22%2C%20from%3A%20%22Career%20Centre%22%2C%20subject%3A%20%22Resume%20workshop%20Thursday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%228%22%2C%20from%3A%20%22Student%20Union%22%2C%20subject%3A%20%22Free%20pancakes%20Monday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%229%22%2C%20from%3A%20%22Professor%22%2C%20subject%3A%20%22Lab%206%20posted%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2210%22%2C%20from%3A%20%22Transit%22%2C%20subject%3A%20%22Bus%20pass%20renewal%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2211%22%2C%20from%3A%20%22Food%20Services%22%2C%20subject%3A%20%22New%20menu%20this%20week%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2212%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Study%20rooms%20now%20bookable%22%20%7D%2C%0A%5D%3B%0A%0Afunction%20MessageRow%28%7B%20item%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.from%7D%3E%7Bitem.from%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.subject%7D%3E%7Bitem.subject%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bmessages%2C%20setMessages%5D%20%3D%20useState%28inbox%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Bmessages%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%3CMessageRow%20item%3D%7Bitem%7D%20%2F%3E%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderBottomWidth%3A%201%2C%0A%20%20%20%20borderColor%3A%20%22%23ddd%22%2C%0A%20%20%20%20backgroundColor%3A%20%22white%22%2C%0A%20%20%7D%2C%0A%20%20from%3A%20%7B%20fontSize%3A%2016%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20subject%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23666%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Swipe%20to%20Delete%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20inbox%20%3D%20%5B%0A%20%20%7B%20id%3A%20%221%22%2C%20from%3A%20%22Registrar%22%2C%20subject%3A%20%22Your%20timetable%20is%20ready%22%20%7D%2C%0A%20%20%7B%20id%3A%20%222%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Book%20due%20Friday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%223%22%2C%20from%3A%20%22Campus%20Store%22%2C%20subject%3A%20%22Textbook%20back%20in%20stock%22%20%7D%2C%0A%20%20%7B%20id%3A%20%224%22%2C%20from%3A%20%22IT%20Services%22%2C%20subject%3A%20%22Password%20expires%20in%207%20days%22%20%7D%2C%0A%20%20%7B%20id%3A%20%225%22%2C%20from%3A%20%22Study%20Group%22%2C%20subject%3A%20%22Room%202104%20at%203%20PM%22%20%7D%2C%0A%20%20%7B%20id%3A%20%226%22%2C%20from%3A%20%22Athletics%22%2C%20subject%3A%20%22Intramural%20sign-ups%20open%22%20%7D%2C%0A%20%20%7B%20id%3A%20%227%22%2C%20from%3A%20%22Career%20Centre%22%2C%20subject%3A%20%22Resume%20workshop%20Thursday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%228%22%2C%20from%3A%20%22Student%20Union%22%2C%20subject%3A%20%22Free%20pancakes%20Monday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%229%22%2C%20from%3A%20%22Professor%22%2C%20subject%3A%20%22Lab%206%20posted%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2210%22%2C%20from%3A%20%22Transit%22%2C%20subject%3A%20%22Bus%20pass%20renewal%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2211%22%2C%20from%3A%20%22Food%20Services%22%2C%20subject%3A%20%22New%20menu%20this%20week%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2212%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Study%20rooms%20now%20bookable%22%20%7D%2C%0A%5D%3B%0A%0Afunction%20MessageRow%28%7B%20item%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.from%7D%3E%7Bitem.from%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.subject%7D%3E%7Bitem.subject%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bmessages%2C%20setMessages%5D%20%3D%20useState%28inbox%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Bmessages%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%3CMessageRow%20item%3D%7Bitem%7D%20%2F%3E%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderBottomWidth%3A%201%2C%0A%20%20%20%20borderColor%3A%20%22%23ddd%22%2C%0A%20%20%20%20backgroundColor%3A%20%22white%22%2C%0A%20%20%7D%2C%0A%20%20from%3A%20%7B%20fontSize%3A%2016%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20subject%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23666%22%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li><code>MessageRow</code> is declared outside <code>MyApp</code>, at the top level, like every component so far. A component declared inside another one is a new component on every render, so React throws the old rows away and builds new ones. Each row would lose its swipe position every time the list changed.</li>
 <li>The row has a white background on purpose. The delete button sits underneath it, and a transparent row would show it before any swipe.</li>
@@ -1881,6 +2096,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add the Gesture Handler import under the <code>react-native</code> import.</li>
 </ul>
+<p class="typeit" id="practice-15">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 바깥 View를 GestureHandlerRootView로 바꾸기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">GestureHandlerRootView</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">Swipeable</span><span class="p">,</span>
@@ -1889,6 +2105,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Change the outer <code>View</code> in <code>MyApp</code> to a <code>GestureHandlerRootView</code>, keeping its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">GestureHandlerRootView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
 <span class="w">  </span><span class="p">...</span>
 <span class="p">&lt;/</span><span class="nt">GestureHandlerRootView</span><span class="p">&gt;</span>
@@ -1903,6 +2120,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Wrap the row in <code>MessageRow</code> in a <code>Swipeable</code>, with a delete panel on the right.</li>
 </ul>
+<p class="typeit" id="practice-16">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄을 Swipeable renderRightActions로 감싸기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MessageRow</span><span class="p">({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Swipeable</span>
@@ -1924,6 +2142,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add <code>Pressable</code> to the <code>react-native</code> import, and the styles.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="ow">delete</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span>
 <span class="w">  </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span>
@@ -1947,6 +2166,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Add a delete function to <code>MyApp</code>, under the state.</li>
 </ul>
+<p class="typeit" id="practice-17">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: remove(id)에서 filter로 지우고 onDelete prop 연결</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">deleteMessage</span><span class="p">(</span><span class="nx">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setMessages</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="w"> </span><span class="o">!==</span><span class="w"> </span><span class="nx">id</span><span class="p">));</span>
 <span class="p">}</span>
@@ -1954,6 +2174,7 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>Pass it to each row.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">MessageRow</span><span class="w"> </span><span class="na">item</span><span class="o">=</span><span class="p">{</span><span class="nx">item</span><span class="p">}</span><span class="w"> </span><span class="na">onDelete</span><span class="o">=</span><span class="p">{</span><span class="nx">deleteMessage</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="p">)}</span>
@@ -1961,15 +2182,19 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 <ul>
 <li>In <code>MessageRow</code>, accept the prop and call it from the button.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MessageRow</span><span class="p">({</span><span class="w"> </span><span class="nx">item</span><span class="p">,</span><span class="w"> </span><span class="nx">onDelete</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Pressable</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="ow">delete</span><span class="p">}</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">onDelete</span><span class="p">(</span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">)}&gt;</span>
 </code></pre>
 <ul>
 <li>Add an empty state to the <code>FlatList</code>, as in Week 5, with its style.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">ListEmptyComponent</span><span class="o">=</span><span class="p">{&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">empty</span><span class="p">}&gt;</span><span class="nx">No</span><span class="w"> </span><span class="nx">messages</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;}</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">empty</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
 </code></pre>
 <ul>
@@ -2194,5 +2419,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>

@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 3 범위.**
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **제스처의 두 종류 (개념 문제 단골)**
@@ -32,6 +34,34 @@
 | 스와이프해서 삭제 | `react-native-gesture-handler`의 `Swipeable` + `GestureHandlerRootView` |
 
 
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Pressable › Starter Code](#practice-1) | 버튼처럼 생긴 View 시작 코드 쳐 두기 |
+| 2 | [Example: Pressable › Step 1 - Make It Pressable](#practice-2) | View를 Pressable로 바꾸고 onPress에서 setTaps((prev) => prev + 1) |
+| 3 | [Example: Pressable › Step 2 - Show Pressed Feedback](#practice-3) | style={({ pressed }) => [styles.button, pressed && styles.pressed]} |
+| 4 | [Example: Pressable › Step 3 - Log Every Press Event](#practice-4) | onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기 |
+| 5 | [Example: ScrollView › Starter Code](#practice-5) | Row 30개짜리 세로 ScrollView 쳐 두기 |
+| 6 | [Example: ScrollView › Step 1 - Add a Horizontal Row](#practice-6) | ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가 |
+| 7 | [Example: Pressable Rows in a FlatList › Starter Code](#practice-7) | 줄 40개 FlatList 시작 코드 쳐 두기 |
+| 8 | [Example: Pressable Rows in a FlatList › Step 1 - Make the Rows Pressable](#practice-8) | 줄 View를 Pressable로 바꾸고 pressed 피드백 |
+| 9 | [Example: Pressable Rows in a FlatList › Step 2 - Select Rows](#practice-9) | selected 객체 state + toggle(id)로 줄 선택 표시 |
+| 10 | [Example: Drag and Snap Back › Starter Code](#practice-10) | 안 움직이는 카드 시작 코드 쳐 두기 |
+| 11 | [Example: Drag and Snap Back › Step 1 - Follow the Finger](#practice-11) | useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기 |
+| 12 | [Example: Drag and Snap Back › Step 2 - Snap Back on Release](#practice-12) | onPanResponderRelease에서 Animated.spring으로 복귀 |
+| 13 | [Example: Drag and Snap Back › Step 3 - Commit Past a Threshold](#practice-13) | Math.abs(dx) > 120이면 Animated.timing으로 밀어내고 setDismissed(true) |
+| 14 | [Example: Swipe to Delete › Starter Code](#practice-14) | MessageRow가 있는 받은편지함 FlatList 쳐 두기 |
+| 15 | [Example: Swipe to Delete › Step 1 - Add the Gesture Root](#practice-15) | 바깥 View를 GestureHandlerRootView로 바꾸기 |
+| 16 | [Example: Swipe to Delete › Step 2 - Make the Rows Swipeable](#practice-16) | 줄을 Swipeable renderRightActions로 감싸기 |
+| 17 | [Example: Swipe to Delete › Step 3 - Delete the Message](#practice-17) | remove(id)에서 filter로 지우고 onDelete prop 연결 |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
+
+
+
 ## 목차
 
 - 1. 📘 코스노트: Handling Touch
@@ -44,6 +74,22 @@
 ---
 
 ## 1. 📘 코스노트: Handling Touch
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+탭과 길게 누르기 같은 터치를 처리하는 방법이에요. 💻 6.1 Pressable 예제에서 직접 쳐 보니까 여기서는 읽기만 해요.
+
+**이 챕터 구성**
+
+- 👀 **Pressable**: Gesture Responder System(GRS): 사용자가 탭하려는 건지, 스크롤하려는 건지 등을 판단하는 RN 내장 시스템.
+- 👀 **Long Press, Press In, and Press Out**: 이벤트가 발생하는 순서가 핵심이에요(위 0번 표).
+- 👀 **Improving Touch Targets with `hitSlop`**: 터치 대상은 최소 44×44 포인트(접근성, accessibility).
+- 👀 **Android Ripple Effects**: `android_ripple={{ color: '...' }}` → Android 고유의 물결 피드백(Material Design).
+- 👀 **When to Use Gesture Handler**: Pressable: 버튼, 카드, 목록 줄, 단순 탭/길게 누르기.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch
 
@@ -331,6 +377,25 @@ These are ideal for building custom gesture‑driven UI.
 ---
 
 ## 2. 📘 코스노트: Scrolling
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+ScrollView와 FlatList 스크롤 정리예요. 읽고 개념만 잡으면 돼요.
+
+**이 챕터 구성**
+
+- 👀 **Scrolling with your fingers**: `ScrollView`는 자식을 전부 한 번에 렌더링.
+- 👀 **ScrollView vs FlatList**: FlatList는 화면에 나타날 때 렌더링(lazy), 화면 밖으로 나가면 unmount, virtualization, 구분선, 여러 열, 당겨서 새로고침, 무한 스크롤 지원.
+- 👀 **SafeAreaView**: 노치나 둥근 모서리가 있는 iOS 기기에서 시스템 UI(상태바, 홈 인디케이터)에 내용이 가려질 수 있어요.
+- 👀 **Basic ScrollView Example**: SafeAreaView로 감싼 세로 ScrollView.
+- 👀 **Horizontal Scrolling**: `<ScrollView horizontal>` → 가로 스크롤.
+- 👀 **Momentum and Natural Scrolling**: 스크롤은 continuous(손가락이 움직이는 동안 매 프레임), 탭은 discrete(한 번).
+- 👀 **Nested Scrolling**: 중첩 스크롤: 세로 페이지 안에 가로 카드 줄(앱스토어 홈 화면처럼).
+- 👀 **Scrolling and Touch Together**: 목록 줄은 스크롤도 되고 탭도 돼야 해요. 둘 다 손가락이 줄 위에서 시작하는데 RN이 판단해요:
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling
 
@@ -705,6 +770,23 @@ Tap rows to select them, and tap again to clear. On a phone, start a scroll with
 
 ## 3. 📘 코스노트: Swipeable and Cancellable
 
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+스와이프와 취소 제스처예요. 💻 6.1 Drag and Snap Back, Swipe to Delete에서 직접 쳐 봐요.
+
+**이 챕터 구성**
+
+- 👀 **Swipe Gestures**: 스와이프 = 가로 드래그. 메일, 메시지, 할 일 앱에서 줄을 밀어 삭제, 보관, 읽음 표시.
+- 👀 **Building a Cancellable Swipe**: PanResponder: 손가락 위치를 알려 줌.
+- 👀 **Building a Cancellable Swipe › Understanding the Example**: 5가지 핵심 (그대로 시험에 나올 만해요)
+- 👀 **Swipeable Rows**: 모든 줄에 PanResponder를 직접 쓰는 건 노가다.
+- 👀 **Swipeable Rows › Understanding the Example**: `GestureHandlerRootView`: 모든 gesture-handler 컴포넌트는 이 안에 있어야 함.
+- 👀 **When to Use Swipe Actions**: 쓸 때: 보조 행동(삭제, 보관), 자주 하는 행동, 목록을 깔끔하게, 한 손 빠른 조작.
+
+</div>
+
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/F-Touch/swipe-cancel
 
 ### 📘 Swipe Gestures
@@ -1019,6 +1101,50 @@ As you continue learning, you’ll see how the newer Gesture API can be used to 
 
 ## 4. 💻 인클래스 예제: Week 6.1 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+6.1 수업 라이브 코딩이에요. Starter Code에서 시작해 Step 순서대로 고쳐 가요. 스와이프 예제는 폰(Expo Go)에서 확인하세요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: 패키지와 실행 환경 안내예요.
+- 👀 **Why Touch?**: 탭 같은 discrete 제스처와 스크롤 같은 continuous 제스처를 구분해요.
+- ⌨️ **Example: Pressable**: Pressable은 모양이 없는 터치 컴포넌트예요.
+- ⌨️ **[Example: Pressable › Starter Code](#practice-1)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 버튼처럼 생긴 View 시작 코드 쳐 두기)
+- ⌨️ **[Example: Pressable › Step 1 - Make It Pressable](#practice-2)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ View를 Pressable로 바꾸고 onPress에서 setTaps((prev) => prev + 1))
+- ⌨️ **[Example: Pressable › Step 2 - Show Pressed Feedback](#practice-3)**: style을 함수로 줘서 누르는 동안 모양을 바꿔요. (⌨️ style={({ pressed }) => [styles.button, pressed && styles.pressed]})
+- ⌨️ **[Example: Pressable › Step 3 - Log Every Press Event](#practice-4)**: 이벤트 순서가 시험 포인트예요. (⌨️ onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기)
+- 👀 **Example: Pressable › Finished Code**: 완성 코드 해설: `taps`, `events` state.
+- 👀 **Example: Hit Slop**: hitSlop으로 작은 버튼의 터치 영역을 넓혀요.
+- 👀 **Scrolling**: 스크롤과 관성(momentum) 개념이에요.
+- ⌨️ **Example: ScrollView**: 세로 페이지 안에 가로 카드 줄을 넣어요.
+- ⌨️ **[Example: ScrollView › Starter Code](#practice-5)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ Row 30개짜리 세로 ScrollView 쳐 두기)
+- ⌨️ **[Example: ScrollView › Step 1 - Add a Horizontal Row](#practice-6)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가)
+- 👀 **Example: ScrollView › Finished Code**: 완성 코드 해설: 바깥 세로 ScrollView 안에 제목 + 가로 ScrollView(카드들) + 세로 줄 30개.
+- ⌨️ **Example: Pressable Rows in a FlatList**: 목록은 스크롤도 되고 줄 탭도 돼야 해요.
+- ⌨️ **[Example: Pressable Rows in a FlatList › Starter Code](#practice-7)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄 40개 FlatList 시작 코드 쳐 두기)
+- ⌨️ **[Example: Pressable Rows in a FlatList › Step 1 - Make the Rows Pressable](#practice-8)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄 View를 Pressable로 바꾸고 pressed 피드백)
+- ⌨️ **[Example: Pressable Rows in a FlatList › Step 2 - Select Rows](#practice-9)**: 함수형 업데이트와 객체 복사를 연습해요. (⌨️ selected 객체 state + toggle(id)로 줄 선택 표시)
+- 👀 **Example: Pressable Rows in a FlatList › Finished Code**: 완성 코드 해설: `selected` 객체 state, `toggle` 함수, derived `count`, Pressable 줄 + 3단 스타일 배열, `extraData`.
+- 👀 **Swipe and Cancel**: 스와이프는 짧으면 취소되고 세로 스크롤을 막지 않아야 해요.
+- ⌨️ **Example: Drag and Snap Back**: PanResponder와 Animated로 직접 끌기를 만들어요. 폰에서 확인하세요.
+- ⌨️ **[Example: Drag and Snap Back › Starter Code](#practice-10)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 안 움직이는 카드 시작 코드 쳐 두기)
+- ⌨️ **[Example: Drag and Snap Back › Step 1 - Follow the Finger](#practice-11)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기)
+- ⌨️ **[Example: Drag and Snap Back › Step 2 - Snap Back on Release](#practice-12)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ onPanResponderRelease에서 Animated.spring으로 복귀)
+- ⌨️ **[Example: Drag and Snap Back › Step 3 - Commit Past a Threshold](#practice-13)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ Math.abs(dx) > 120이면 Animated.timing으로 밀어내고 setDismissed(true))
+- 👀 **Example: Drag and Snap Back › Finished Code**: 완성 코드 해설: useRef(Animated.Value, PanResponder) + 세 콜백(ShouldSet, Move, Release) + 임계값 120 + dismissed state + Reset 버튼.
+- ⌨️ **Example: Swipe to Delete**: 실제 앱처럼 Gesture Handler의 Swipeable을 써요. 폰에서 확인하세요.
+- ⌨️ **[Example: Swipe to Delete › Starter Code](#practice-14)**: MessageRow는 MyApp 바깥에 선언해요. (⌨️ MessageRow가 있는 받은편지함 FlatList 쳐 두기)
+- ⌨️ **[Example: Swipe to Delete › Step 1 - Add the Gesture Root](#practice-15)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 바깥 View를 GestureHandlerRootView로 바꾸기)
+- ⌨️ **[Example: Swipe to Delete › Step 2 - Make the Rows Swipeable](#practice-16)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 줄을 Swipeable renderRightActions로 감싸기)
+- ⌨️ **[Example: Swipe to Delete › Step 3 - Delete the Message](#practice-17)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ remove(id)에서 filter로 지우고 onDelete prop 연결)
+- 👀 **Example: Swipe to Delete › Finished Code**: 완성 코드 해설: GestureHandlerRootView > FlatList > (최상위 선언) MessageRow > Swipeable(renderRightActions = Delete Pressable).
+- 👀 **Touch UX Checklist**: 터치 UX 체크리스트 6개는 서술형으로 나올 수 있어요.
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-06.1-notes.md
 
 ### 💻 React Native Playground
@@ -1070,6 +1196,9 @@ Pressable은 **모양이 없는** 터치 컴포넌트라 버튼, 카드, 목록 
 
 - Replace everything in `App.js`. It is a box styled to look like a button, and nothing happens when you press it.
 
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 버튼처럼 생긴 View 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, StyleSheet } from "react-native";
 
@@ -1097,7 +1226,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.button%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3ETap%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20alignItems%3A%20%22center%22%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20width%3A%20200%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%20%20message%3A%20%7B%20marginTop%3A%2020%2C%20marginBottom%3A%2010%2C%20fontSize%3A%2016%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.button%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3ETap%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20alignItems%3A%20%22center%22%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20width%3A%20200%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%20%20message%3A%20%7B%20marginTop%3A%2020%2C%20marginBottom%3A%2010%2C%20fontSize%3A%2016%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - A `View` has no `onPress`. Looking like a button is not enough.
 
@@ -1109,6 +1238,9 @@ const styles = StyleSheet.create({
 
 - Add `useState` and `Pressable` to the imports.
 
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: View를 Pressable로 바꾸고 onPress에서 setTaps((prev) =&gt; prev + 1)</p>
+
 ```jsx
 import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
@@ -1116,11 +1248,17 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 
 - Add state for the tap count at the top of `MyApp`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const [taps, setTaps] = useState(0);
 ```
 
 - Change the button `View` to a `Pressable` with an `onPress`, and show the count under it.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Pressable
@@ -1142,11 +1280,17 @@ View를 `Pressable`로 바꾸고 `onPress={() => setTaps((prev) => prev + 1)}`. 
 
 - `style` on a `Pressable` can be a function. It receives `{ pressed }` and returns the style to use. Replace the `style` prop.
 
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: style={({ pressed }) =&gt; [styles.button, pressed &amp;&amp; styles.pressed]}</p>
+
 ```jsx
 style={({ pressed }) => [styles.button, pressed && styles.pressed]}
 ```
 
 - Add the pressed style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 pressed: { backgroundColor: "#1565C0" },
@@ -1165,6 +1309,9 @@ pressed: { backgroundColor: "#1565C0" },
 
 - `onPress` is one of four events. Add a log to see them all. Under the `taps` state, add the list and a function that adds one entry to it.
 
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기</p>
+
 ```jsx
 const [events, setEvents] = useState([]);
 
@@ -1174,6 +1321,9 @@ function log(name) {
 ```
 
 - Give the `Pressable` the other three events, and log `onPress` as well. `onPressIn` does not call `log`: it replaces the whole list, so every new press starts with an empty log and shows only its own events.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 onPress={() => {
@@ -1187,6 +1337,9 @@ onLongPress={() => log("onLongPress")}
 
 - Show the log under the count, with its style.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 {events.map((event, index) => (
   <Text key={index} style={styles.event}>
@@ -1194,6 +1347,9 @@ onLongPress={() => log("onLongPress")}
   </Text>
 ))}
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 event: { fontSize: 14, color: "#666" },
@@ -1355,6 +1511,9 @@ hitSlop={20}
 
 - Replace everything in `App.js`.
 
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Row 30개짜리 세로 ScrollView 쳐 두기</p>
+
 ```jsx
 import { ScrollView, View, Text, StyleSheet } from "react-native";
 
@@ -1379,7 +1538,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20ScrollView%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20ScrollView%2C%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2030%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%60Item%20%24%7Bi%20%2B%201%7D%60%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CScrollView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%7Brows.map%28%28row%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CView%20key%3D%7Brow%7D%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Brow%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FScrollView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20marginTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20ScrollView%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20ScrollView%2C%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2030%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%60Item%20%24%7Bi%20%2B%201%7D%60%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CScrollView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%7Brows.map%28%28row%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CView%20key%3D%7Brow%7D%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Brow%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FScrollView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20marginTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - `Array.from({ length: 30 }, ...)` builds 30 strings without typing them. The string doubles as the `key`.
 - On a phone, flick the list and watch it coast. Drag slowly and it follows your finger exactly. On the web preview, use the mouse wheel or the trackpad.
@@ -1392,11 +1551,17 @@ const styles = StyleSheet.create({
 
 - Add the cards above `rows`.
 
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가</p>
+
 ```jsx
 const cards = Array.from({ length: 10 }, (_, i) => `Card ${i + 1}`);
 ```
 
 - Add a heading and a horizontal `ScrollView` inside the outer one, above the rows.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Text style={styles.heading}>Featured</Text>
@@ -1414,6 +1579,9 @@ const cards = Array.from({ length: 10 }, (_, i) => `Card ${i + 1}`);
 ```
 
 - Add the styles.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 heading: { fontSize: 22, fontWeight: "600", padding: 20 },
@@ -1512,6 +1680,9 @@ const styles = StyleSheet.create({
 
 - Replace everything in `App.js`. It is the Week 5 `FlatList` with 40 plain rows.
 
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄 40개 FlatList 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
@@ -1543,7 +1714,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20Rows%20in%20a%20FlatList%20-%20Starter%20Co&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2040%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%28%7B%0A%20%20id%3A%20String%28i%20%2B%201%29%2C%0A%20%20title%3A%20%60Row%20%24%7Bi%20%2B%201%7D%60%2C%0A%7D%29%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Brows%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Bitem.title%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Pressable%20Rows%20in%20a%20FlatList%20-%20Starter%20Co&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20rows%20%3D%20Array.from%28%7B%20length%3A%2040%20%7D%2C%20%28_%2C%20i%29%20%3D%3E%20%28%7B%0A%20%20id%3A%20String%28i%20%2B%201%29%2C%0A%20%20title%3A%20%60Row%20%24%7Bi%20%2B%201%7D%60%2C%0A%7D%29%29%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Brows%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3E%7Bitem.title%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ccc%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1553,6 +1724,9 @@ const styles = StyleSheet.create({
 
 - Add `Pressable` to the `react-native` import.
 - Change each row's `View` to a `Pressable` with pressed feedback.
+
+
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄 View를 Pressable로 바꾸고 pressed 피드백</p>
 
 ```jsx
 renderItem={({ item }) => (
@@ -1565,6 +1739,9 @@ renderItem={({ item }) => (
 ```
 
 - Add the style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 pressed: { backgroundColor: "#eee" },
@@ -1581,6 +1758,9 @@ pressed: { backgroundColor: "#eee" },
 
 - Add `useState` to the imports. Store the selected rows as an object of ids, so `{ "3": true, "7": true }` means rows 3 and 7 are selected.
 
+
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: selected 객체 state + toggle(id)로 줄 선택 표시</p>
+
 ```jsx
 const [selected, setSelected] = useState({});
 
@@ -1595,11 +1775,17 @@ const count = Object.values(selected).filter(Boolean).length;
 - `count` is derived on every render, like `visible` in Week 5. It is not state.
 - Add the count above the `FlatList`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 <Text style={styles.heading}>{count} selected</Text>
 ```
 
 - Give each row an `onPress` and a selected style. The pressed style comes last so it still shows on a selected row.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Pressable
@@ -1614,12 +1800,18 @@ const count = Object.values(selected).filter(Boolean).length;
 
 - Add `extraData` to the `FlatList`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 extraData={selected}
 ```
 
 - `FlatList` skips re-rendering its rows when its props look unchanged, and `data` does not change when a row is selected. `extraData` tells it the rows also depend on `selected`. This list would happen to work without it, because the inline `renderItem` is a new function on every render, but a memoized `renderItem` would leave a tapped row looking unselected. Pass `extraData` whenever rows read state from outside `data`.
 - Add the styles.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 heading: { fontSize: 18, fontWeight: "600", padding: 20 },
@@ -1720,6 +1912,9 @@ RN 내장 도구로 직접 만들어 보기: `PanResponder`(손가락 위치), `
 
 - Replace everything in `App.js`. It is a card that does not move.
 
+
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 안 움직이는 카드 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, StyleSheet } from "react-native";
 
@@ -1740,7 +1935,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Drag%20and%20Snap%20Back%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3ESwipe%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%20100%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20card%3A%20%7B%20padding%3A%2020%2C%20borderRadius%3A%208%2C%20backgroundColor%3A%20%22%23eef%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Drag%20and%20Snap%20Back%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.text%7D%3ESwipe%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%20100%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20card%3A%20%7B%20padding%3A%2020%2C%20borderRadius%3A%208%2C%20backgroundColor%3A%20%22%23eef%22%20%7D%2C%0A%20%20text%3A%20%7B%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1750,6 +1945,9 @@ const styles = StyleSheet.create({
 
 - Add `useRef`, `Animated` and `PanResponder` to the imports.
 
+
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기</p>
+
 ```jsx
 import { useRef } from "react";
 import { View, Text, Animated, PanResponder, StyleSheet } from "react-native";
@@ -1757,12 +1955,18 @@ import { View, Text, Animated, PanResponder, StyleSheet } from "react-native";
 
 - At the top of `MyApp`, create an animated value for the card's horizontal offset.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const translateX = useRef(new Animated.Value(0)).current;
 ```
 
 - `useRef` is a hook that keeps the same object for the whole life of the component. Writing `new Animated.Value(0)` straight in the component would make a new value, back at 0, on every render. `useRef` creates it once, and `.current` is the value it holds. Changing it does not cause a render.
 - Under it, create the pan responder, also kept in a ref.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const pan = useRef(
@@ -1779,6 +1983,9 @@ const pan = useRef(
 - `onMoveShouldSetPanResponder` decides whether this view takes the gesture. It only says yes after 10 points of sideways movement, so a tap or a vertical drag is left for anything else on the screen, like a scroll view. That is the gesture priority rule in one line.
 - `onPanResponderMove` runs for every movement and sets the offset. No state, no re-render.
 - Change the card `View` to an `Animated.View`, spread the handlers onto it, and move it with a transform.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Animated.View
@@ -1805,6 +2012,9 @@ const pan = useRef(
 
 - Add `onPanResponderRelease` to the `PanResponder.create` object.
 
+
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: onPanResponderRelease에서 Animated.spring으로 복귀</p>
+
 ```jsx
 onPanResponderRelease: () => {
   Animated.spring(translateX, {
@@ -1825,11 +2035,17 @@ onPanResponderRelease: () => {
 
 - A short swipe should cancel and a long one should act. Add `useState` and `Button` to the imports, and a `dismissed` state at the top of `MyApp`.
 
+
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Math.abs(dx) &gt; 120이면 Animated.timing으로 밀어내고 setDismissed(true)</p>
+
 ```jsx
 const [dismissed, setDismissed] = useState(false);
 ```
 
 - Replace `onPanResponderRelease`. Past 120 points the card slides off the screen, and only then is it dismissed.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 onPanResponderRelease: (_, gesture) => {
@@ -1851,12 +2067,18 @@ onPanResponderRelease: (_, gesture) => {
 - `.start()` takes a callback that runs when the animation ends. The state changes after the card has left, not before.
 - Add a reset function above the `return`, and show a button instead of the card once it is dismissed.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 function reset() {
   translateX.setValue(0);
   setDismissed(false);
 }
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 {dismissed ? (
@@ -1969,6 +2191,9 @@ const styles = StyleSheet.create({
 
 - Replace everything in `App.js`. It is an inbox in a `FlatList`, with each row in its own component.
 
+
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MessageRow가 있는 받은편지함 FlatList 쳐 두기</p>
+
 ```jsx
 import { useState } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
@@ -2024,7 +2249,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Swipe%20to%20Delete%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20inbox%20%3D%20%5B%0A%20%20%7B%20id%3A%20%221%22%2C%20from%3A%20%22Registrar%22%2C%20subject%3A%20%22Your%20timetable%20is%20ready%22%20%7D%2C%0A%20%20%7B%20id%3A%20%222%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Book%20due%20Friday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%223%22%2C%20from%3A%20%22Campus%20Store%22%2C%20subject%3A%20%22Textbook%20back%20in%20stock%22%20%7D%2C%0A%20%20%7B%20id%3A%20%224%22%2C%20from%3A%20%22IT%20Services%22%2C%20subject%3A%20%22Password%20expires%20in%207%20days%22%20%7D%2C%0A%20%20%7B%20id%3A%20%225%22%2C%20from%3A%20%22Study%20Group%22%2C%20subject%3A%20%22Room%202104%20at%203%20PM%22%20%7D%2C%0A%20%20%7B%20id%3A%20%226%22%2C%20from%3A%20%22Athletics%22%2C%20subject%3A%20%22Intramural%20sign-ups%20open%22%20%7D%2C%0A%20%20%7B%20id%3A%20%227%22%2C%20from%3A%20%22Career%20Centre%22%2C%20subject%3A%20%22Resume%20workshop%20Thursday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%228%22%2C%20from%3A%20%22Student%20Union%22%2C%20subject%3A%20%22Free%20pancakes%20Monday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%229%22%2C%20from%3A%20%22Professor%22%2C%20subject%3A%20%22Lab%206%20posted%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2210%22%2C%20from%3A%20%22Transit%22%2C%20subject%3A%20%22Bus%20pass%20renewal%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2211%22%2C%20from%3A%20%22Food%20Services%22%2C%20subject%3A%20%22New%20menu%20this%20week%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2212%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Study%20rooms%20now%20bookable%22%20%7D%2C%0A%5D%3B%0A%0Afunction%20MessageRow%28%7B%20item%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.from%7D%3E%7Bitem.from%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.subject%7D%3E%7Bitem.subject%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bmessages%2C%20setMessages%5D%20%3D%20useState%28inbox%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Bmessages%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%3CMessageRow%20item%3D%7Bitem%7D%20%2F%3E%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderBottomWidth%3A%201%2C%0A%20%20%20%20borderColor%3A%20%22%23ddd%22%2C%0A%20%20%20%20backgroundColor%3A%20%22white%22%2C%0A%20%20%7D%2C%0A%20%20from%3A%20%7B%20fontSize%3A%2016%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20subject%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23666%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W6%20Example%3A%20Swipe%20to%20Delete%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20FlatList%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20inbox%20%3D%20%5B%0A%20%20%7B%20id%3A%20%221%22%2C%20from%3A%20%22Registrar%22%2C%20subject%3A%20%22Your%20timetable%20is%20ready%22%20%7D%2C%0A%20%20%7B%20id%3A%20%222%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Book%20due%20Friday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%223%22%2C%20from%3A%20%22Campus%20Store%22%2C%20subject%3A%20%22Textbook%20back%20in%20stock%22%20%7D%2C%0A%20%20%7B%20id%3A%20%224%22%2C%20from%3A%20%22IT%20Services%22%2C%20subject%3A%20%22Password%20expires%20in%207%20days%22%20%7D%2C%0A%20%20%7B%20id%3A%20%225%22%2C%20from%3A%20%22Study%20Group%22%2C%20subject%3A%20%22Room%202104%20at%203%20PM%22%20%7D%2C%0A%20%20%7B%20id%3A%20%226%22%2C%20from%3A%20%22Athletics%22%2C%20subject%3A%20%22Intramural%20sign-ups%20open%22%20%7D%2C%0A%20%20%7B%20id%3A%20%227%22%2C%20from%3A%20%22Career%20Centre%22%2C%20subject%3A%20%22Resume%20workshop%20Thursday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%228%22%2C%20from%3A%20%22Student%20Union%22%2C%20subject%3A%20%22Free%20pancakes%20Monday%22%20%7D%2C%0A%20%20%7B%20id%3A%20%229%22%2C%20from%3A%20%22Professor%22%2C%20subject%3A%20%22Lab%206%20posted%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2210%22%2C%20from%3A%20%22Transit%22%2C%20subject%3A%20%22Bus%20pass%20renewal%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2211%22%2C%20from%3A%20%22Food%20Services%22%2C%20subject%3A%20%22New%20menu%20this%20week%22%20%7D%2C%0A%20%20%7B%20id%3A%20%2212%22%2C%20from%3A%20%22Library%22%2C%20subject%3A%20%22Study%20rooms%20now%20bookable%22%20%7D%2C%0A%5D%3B%0A%0Afunction%20MessageRow%28%7B%20item%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.from%7D%3E%7Bitem.from%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.subject%7D%3E%7Bitem.subject%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bmessages%2C%20setMessages%5D%20%3D%20useState%28inbox%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Bmessages%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%3CMessageRow%20item%3D%7Bitem%7D%20%2F%3E%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20row%3A%20%7B%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%20%20borderBottomWidth%3A%201%2C%0A%20%20%20%20borderColor%3A%20%22%23ddd%22%2C%0A%20%20%20%20backgroundColor%3A%20%22white%22%2C%0A%20%20%7D%2C%0A%20%20from%3A%20%7B%20fontSize%3A%2016%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20subject%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23666%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - `MessageRow` is declared outside `MyApp`, at the top level, like every component so far. A component declared inside another one is a new component on every render, so React throws the old rows away and builds new ones. Each row would lose its swipe position every time the list changed.
 - The row has a white background on purpose. The delete button sits underneath it, and a transparent row would show it before any swipe.
@@ -2039,6 +2264,9 @@ const styles = StyleSheet.create({
 
 - Add the Gesture Handler import under the `react-native` import.
 
+
+<p class="typeit" id="practice-15">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 바깥 View를 GestureHandlerRootView로 바꾸기</p>
+
 ```jsx
 import {
   GestureHandlerRootView,
@@ -2047,6 +2275,9 @@ import {
 ```
 
 - Change the outer `View` in `MyApp` to a `GestureHandlerRootView`, keeping its style.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <GestureHandlerRootView style={styles.container}>
@@ -2064,6 +2295,9 @@ import {
 #### 💻 Step 2 - Make the Rows Swipeable
 
 - Wrap the row in `MessageRow` in a `Swipeable`, with a delete panel on the right.
+
+
+<p class="typeit" id="practice-16">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 줄을 Swipeable renderRightActions로 감싸기</p>
 
 ```jsx
 function MessageRow({ item }) {
@@ -2086,6 +2320,9 @@ function MessageRow({ item }) {
 ```
 
 - Add `Pressable` to the `react-native` import, and the styles.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 delete: {
@@ -2111,6 +2348,9 @@ deleteText: { color: "white", fontWeight: "600" },
 
 - Add a delete function to `MyApp`, under the state.
 
+
+<p class="typeit" id="practice-17">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: remove(id)에서 filter로 지우고 onDelete prop 연결</p>
+
 ```jsx
 function deleteMessage(id) {
   setMessages((prev) => prev.filter((item) => item.id !== id));
@@ -2118,6 +2358,9 @@ function deleteMessage(id) {
 ```
 
 - Pass it to each row.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 renderItem={({ item }) => (
@@ -2127,9 +2370,15 @@ renderItem={({ item }) => (
 
 - In `MessageRow`, accept the prop and call it from the button.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 function MessageRow({ item, onDelete }) {
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Pressable style={styles.delete} onPress={() => onDelete(item.id)}>
@@ -2137,9 +2386,15 @@ function MessageRow({ item, onDelete }) {
 
 - Add an empty state to the `FlatList`, as in Week 5, with its style.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 ListEmptyComponent={<Text style={styles.empty}>No messages.</Text>}
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 empty: { padding: 20, color: "#666" },

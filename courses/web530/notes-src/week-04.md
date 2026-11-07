@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주 Snack 링크에는 React Navigation 패키지(버전 7, SDK 54용)가 자동으로 들어가 있어요. **SDK는 54 그대로** 두세요. 55에서는 안 돌아가요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 웹은 URL과 뒤로 가기 버튼이 공짜로 있지만, 앱은 **화면 이동을 전부 JavaScript로 관리**해야 해요. 그 표준 도구가 **React Navigation**이에요.
@@ -37,9 +39,13 @@ const Stack = createNativeStackNavigator();       // 1. 컴포넌트 바깥에�
 
 **params 공식**: 보내기 `navigation.navigate('Details', { id: 1 })` / 받기 `const { id = 0 } = route.params ?? {};`
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE D-Navigation/navigating.md
+@@S _doc | read
+Stack, Tab, Drawer 내비게이터와 화면 이동 방법을 정리한 글이에요. 💻 4.1 예제에서 단계별로 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
 @@K Testing Navigation in Snack
 코스노트 예제를 Snack에서 돌리려면 `package.json`을 이 내용으로 바꾸라는 안내예요. React Navigation은 **버전 7**에 맞춰 쓰여 있고, 나머지 패키지(screens, safe-area-context, gesture-handler, reanimated 등)는 **Expo SDK 54**와 버전이 맞아야 해요. 이 노트의 Snack 링크는 필요한 패키지를 이미 넣어 두었어요.
 
@@ -115,6 +121,8 @@ const Stack = createNativeStackNavigator();       // 1. 컴포넌트 바깥에�
 - Contacts(스택 바깥)에서 Thread 열기: `navigation.navigate('Messages', { screen: 'Thread', params: { from: 'Sam' } })` → **탭 이름 → 안쪽 화면 이름 → params**. 탭 내비게이터는 push를 안 하니까 여기선 navigate가 맞아요(탭 전환 + 안쪽 스택이 Thread를 엶).
 
 @@NOTE D-Navigation/handling-state.md
+@@S _doc | read
+여러 화면이 같은 데이터를 나눠 쓰는 방법이에요. 💻 4.1 "Handling State Across Screens"에서 Jotai로 직접 쳐 봐요.
 @@K _pre
 **여러 화면이 같이 쓰는 state**는 어떻게? React Navigation에는 **내비게이션 전용 state API가 없어요.** 그냥 일반 React 방식(2주차)을 써요. 여기서는 **Jotai**.
 
@@ -131,6 +139,156 @@ const Stack = createNativeStackNavigator();       // 1. 컴포넌트 바깥에�
 - 원문 팁: App에 state를 올려서(lifting) props로 내려도 되지만, 화면은 **내가 아니라 내비게이터가 렌더링**해서 props 전달이 번거로워요. Jotai가 더 깔끔.
 
 @@LEC week-04.1-notes.md
+@@S _doc | type
+4.1 수업 라이브 코딩이에요. Starter Code에서 시작해 Step 순서대로 고쳐 가요. ⌨️ 표시된 코드는 Snack에서 직접 쳐 보세요.
+@@S React Native Playground | skim
+수업 전에 Snack의 package.json을 바꾸라는 안내예요. 링크에는 이미 들어 있어요.
+@@S Why Navigation? | read
+웹과 달리 앱은 화면 이동과 기록을 JS로 관리해야 해요.
+@@S Example: The NavigationContainer | read
+NavigationContainer 규칙 3개가 시험 포인트예요.
+@@S Example: Stack Navigator | type
+스택 = 카드 더미. Starter Code부터 Step 5까지 이어서 쳐 보세요.
+@@S Starter Code | type
+할 일: Home, Settings 화면이 있는 시작 코드 쳐 두기
+화면과 버튼은 있고 연결만 안 된 상태예요.
+@@S Step 1 - Import the Navigation Pieces | type
+할 일: NavigationContainer, createNativeStackNavigator import
+core 패키지와 stack 패키지에서 가져와요.
+@@S Step 2 - Create the Stack | type
+할 일: 컴포넌트 바깥 맨 위에 const Stack = createNativeStackNavigator()
+컴포넌트 안에서 만들면 안 돼요.
+@@S Step 3 - Register the Screens | type
+할 일: NavigationContainer > Stack.Navigator > Stack.Screen name, component={HomeScreen}
+component에는 컴포넌트 자체를 넘겨요. <HomeScreen />이 아니에요.
+@@S Step 4 - Navigate Forward | type
+할 일: HomeScreen({ navigation })에서 navigation.navigate("Settings")
+navigate의 문자열은 Screen name과 정확히 같아야 해요.
+@@S Step 5 - Go Back | type
+할 일: Settings에 navigation.goBack() 버튼
+goBack은 헤더 뒤로 가기 화살표와 같은 일을 해요.
+@@S Example: Navigate vs Push | type
+이미 열린 화면을 부를 때 navigate와 push가 달라져요.
+@@S Step 1 - Make Room for More Buttons | type
+할 일: 버튼을 감싼 View에 gap: 8
+버튼 간격만 정리해요.
+@@S Step 2 - Navigate to the Screen You Are On | type
+할 일: Settings에서 navigate("Settings") 버튼 추가
+이미 거기 있으면 아무 일도 안 일어나요.
+@@S Step 3 - Push the Screen You Are On | type
+할 일: Settings에서 push("Settings") 버튼 추가
+push는 항상 복사본을 쌓아요.
+@@S Step 4 - Navigate to a Screen Below You | type
+할 일: Settings에서 navigate("Home") 버튼 추가
+함정이에요. 원래 Home으로 돌아가지 않고 새 Home이 쌓여요.
+@@S Example: Going Back | type
+뒤로 가는 방법 3가지(goBack, popTo, popToTop)예요.
+@@S Step 1 - Go Back One Screen | read
+goBack은 한 장만 빼요.
+@@S Step 2 - Fix the Navigate to Home Trap | type
+할 일: navigation.popTo("Home") 버튼
+Home이 맨 위가 될 때까지 빼서 원래 Home으로 가요.
+@@S Step 3 - Pop to the Top | type
+할 일: navigation.popToTop() 버튼
+스택의 첫 화면까지 한 번에 가요.
+@@S Example: The useNavigation Hook | type
+화면이 아닌 컴포넌트는 useNavigation 훅으로 navigation을 얻어요.
+@@S Step 1 - Move the Button into Its Own Component | type
+할 일: SettingsButton 컴포넌트로 분리하고 에러 확인
+등록된 화면이 아니라 navigation prop을 못 받아요.
+@@S Step 2 - Import the Hook | type
+할 일: import에 useNavigation 추가
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Call the Hook | type
+할 일: SettingsButton 첫 줄에 const navigation = useNavigation()
+Hook은 컴포넌트 안에서만 불러요.
+@@S Step 4 - Clean Up HomeScreen | type
+할 일: HomeScreen 파라미터에서 navigation 지우기
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Passing Params | type
+params = 다음 화면에 넘기는 데이터예요.
+@@S Step 1 - Remove the Navigate to Settings Button | type
+할 일: 이전 예제용 버튼 지우기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Send a Param | type
+할 일: navigation.navigate("Settings", { level: 1 })
+params는 두 번째 인자 객체로 보내요.
+@@S Step 3 - Read the Param | type
+할 일: SettingsScreen({ navigation, route })에서 route.params.level 읽기
+받는 쪽은 route.params예요.
+@@S Step 4 - Push the Next Level | type
+할 일: push("Settings", { level: level + 1 })
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 5 - Show the Crash, Then Fix It | type
+할 일: initialRouteName="Settings"로 크래시 보고 const { level = 1 } = route.params ?? {}로 고치기
+params 없이 열리면 undefined를 구조분해해서 크래시가 나요.
+@@S Step 6 - Update the Current Screen's Params | type
+할 일: navigation.setParams({ level: 1 }) 버튼
+이동 없이 지금 화면의 params만 바꿔요.
+@@S Example: Customizing the Header | type
+헤더 모양과 제목, 버튼을 바꿔요.
+@@S Step 1 - Style Every Header | type
+할 일: Stack.Navigator screenOptions에 headerStyle, headerTintColor
+모든 화면에 적용돼요.
+@@S Step 2 - Give Home a Title | type
+할 일: Home Screen에 options={{ title: "..." }}
+화면 하나에만 적용되고 screenOptions보다 우선해요.
+@@S Step 3 - Put the Level in the Header | type
+할 일: options={({ route }) => ({ title: `Settings Level ${...}` })}
+params를 쓰려면 options를 함수로 줘요.
+@@S Step 4 - Add a Header Button | type
+할 일: options 함수에서 headerRight: () => <Button />
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Tab Navigator | type
+탭 바는 항상 보이고, 스택과 같은 Navigator와 Screen 패턴을 써요.
+@@S Starter Code | type
+할 일: 카운터가 있는 Home과 Settings 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Import the Navigation Pieces | type
+할 일: createBottomTabNavigator import
+@react-navigation/bottom-tabs 패키지예요.
+@@S Step 2 - Create the Tabs | type
+할 일: const Tab = createBottomTabNavigator()
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Register the Screens | type
+할 일: NavigationContainer > Tab.Navigator > Tab.Screen 두 개
+탭에는 뒤로 가기 화살표가 없어요.
+@@S Step 4 - Show That Tabs Keep Their State | read
+탭은 다른 탭으로 가도 state가 남아요. 스택에서 pop된 화면은 사라져요.
+@@S Step 5 - Add Icons | type
+할 일: Ionicons import + options={{ tabBarIcon: ({ color, size }) => ... }}
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 6 - Colour the Selected Tab | type
+할 일: screenOptions={{ tabBarActiveTintColor: "purple" }}
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Drawer Navigator | read
+옆에서 나오는 메뉴예요. 실행해서 모양만 확인해요.
+@@S Example: Choosing a Navigator per Platform | read
+Platform.select로 플랫폼마다 다른 내비게이터를 골라요.
+@@S Example: Nesting Navigators | read
+스택 안에 탭을 넣는 중첩 패턴이에요.
+@@S Example: Handling State Across Screens | type
+params는 한 방향뿐이라 여러 화면이 함께 바꾸는 데이터는 Jotai로 공유해요.
+@@S Starter Code | type
+할 일: stock 객체와 Home, Details, BuyButton 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Import Jotai | type
+할 일: import { atom, useAtom } from "jotai"
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Turn the Object into an Atom | type
+할 일: const stockAtom = atom({ ... })
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Read the Atom in HomeScreen | type
+할 일: HomeScreen에 const [stock] = useAtom(stockAtom)
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 4 - Read the Atom in DetailsScreen | type
+할 일: DetailsScreen에도 같은 한 줄
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 5 - Read and Update the Atom in BuyButton | type
+할 일: const [stock, setStock] = useAtom(stockAtom) + 함수형 setStock으로 하나 줄이기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 6 - Show That Every Screen Stays in Sync | read
+Buy를 누르면 모든 화면 숫자가 같이 바뀌는지 확인해요.
 @@K React Native Playground
 수업 시작 전에 Snack의 `package.json`을 이 내용으로 **교체**하라는 안내. 버전 7 고정 이유: 7에서 `navigate()` 동작이 바뀌어서 옛날 튜토리얼과 다르게 보일 수 있어요. jotai는 마지막 예제용.
 @@K Why Navigation?
@@ -295,6 +453,8 @@ Apple에서 Buy → Details 숫자 감소 → 0이면 Buy 회색 → 뒤로 가�
 **완성 코드 해설**: `stockAtom` 하나를 HomeScreen(목록 수량), DetailsScreen(상세 수량), BuyButton(헤더, 감소)이 같이 씀. Lab 4 Part B4의 Save 버튼이 이 Buy 버튼의 **배열 버전**이에요.
 
 @@LAB lab-4.md
+@@S _doc | lab
+Lab 4는 짝과 함께 내비게이션 앱을 계획하고 만드는 랩이에요. 힌트만 적어 뒀으니 혼자 풀어 보세요.
 @@K _intro
 Lab 4는 4주차 전부(탭 + 중첩 스택 + params + 헤더 + push/popToTop + Jotai + useNavigation)를 한 앱에 넣는 **종합 문제**예요. Test 2 대비로 아주 좋아요. 아래에서 파트별로 어떤 인클래스 예제를 보면 되는지 연결했어요.
 @@K A Note on AI

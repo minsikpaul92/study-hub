@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 이번 주는 앱을 **예쁘게, 그리고 화면 크기에 맞게 배치**하는 법을 배워요. React Native에는 CSS 파일이 없어요. 대신 **JavaScript 객체**로 스타일을 써요.
@@ -20,9 +22,13 @@ Flexbox 두 축, 이것만 기억하면 레이아웃 문제 절반은 풀려요.
 - **`alignItems`** = **교차축(cross axis)** 정렬. 주축의 수직 방향.
 - `flexDirection`을 바꾸면 **두 축도 바뀐다.**
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE C-Styling/stylesheets.md
+@@S _doc | read
+StyleSheet와 Flexbox를 정리한 글이에요. 💻 3.1 예제에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
 @@K _pre
 **StyleSheet 기본**
 - 웹에서 CSS를 HTML 밖으로 빼듯이, RN에서도 스타일을 JSX 밖으로 빼서 코드를 깔끔하게 해요.
@@ -49,6 +55,8 @@ Flexbox 두 축, 이것만 기억하면 레이아웃 문제 절반은 풀려요.
 - `'column'`을 `'row'`로 바꾸면 Top/Middle/Bottom이 **가로로 나란히** 세 칸이 돼요. 직접 바꿔 보세요!
 
 @@NOTE C-Styling/common-comp.md
+@@S _doc | read
+기본 컴포넌트(View, Text, Image, TextInput 등)의 props 정리예요. 💻 3.1 Common Components에서 직접 쳐 봐요.
 @@K View
 **View** = 가장 기본 상자(컨테이너). iOS의 `UIView`, Android의 `android.View`, 웹의 `<div>`에 해당. 스타일 가능, 다른 컴포넌트를 담을 수 있어요.
 @@K Text
@@ -76,6 +84,47 @@ Flexbox 두 축, 이것만 기억하면 레이아웃 문제 절반은 풀려요.
 예제의 `gap: 24`는 자식들 사이 간격이에요.
 
 @@LEC week-03.1-notes.md
+@@S _doc | type
+3.1 수업 예제예요. 스타일과 레이아웃은 직접 바꿔 보면서 결과를 봐야 감이 와요. ⌨️ 표시된 코드는 직접 쳐 보세요.
+@@S React Native Playground | skim
+Snack 그대로 써요.
+@@S Example: Inline Styles | type
+할 일: Text에 style={{ fontSize: 24, color: "blue" }} 인라인 스타일 주기
+스타일은 JS 객체예요. 이름은 camelCase, 숫자는 px 없이 써요.
+@@S Example: StyleSheet.create() | type
+할 일: 인라인 스타일을 StyleSheet.create의 container, title로 옮기기
+스타일을 파일 아래쪽 한곳에 모아 재사용해요.
+@@S Example: Layout with Flexbox | type
+할 일: 상자 3개에 flexDirection, justifyContent, alignItems, flex를 바꿔 가며 배치
+React Native의 flexDirection 기본값은 column이에요.
+@@S Example: Platform.OS | read
+Platform.OS로 플랫폼마다 다른 내용을 보여 줘요.
+@@S Example: Platform-Specific Styles | read
+삼항 연산자로 플랫폼마다 다른 스타일을 줘요.
+@@S Example: Platform.select() | read
+Platform.select의 키 5개(ios, android, native, web, default) 의미가 시험 포인트예요.
+@@S Example: Platform-Specific Files | read
+파일 이름(.ios.js, .android.js)으로 플랫폼을 나누는 방법이에요.
+@@S Common Components | read
+2주차 컴포넌트들에 이제 스타일을 입혀 봐요.
+@@S View | type
+할 일: View에 padding, borderWidth, borderRadius를 주고 글자는 Text로 감싸기
+View 안에 글자를 바로 쓰면 안 돼요.
+@@S Text | read
+Text 안의 Text는 스타일을 물려받아요.
+@@S Button | type
+할 일: Button 두 개를 View로 감싸 간격을 주고 color prop 바꿔 보기
+Button은 style을 못 받고 color만 바꿀 수 있어요.
+@@S Image | type
+할 일: 원격 이미지 source={{ uri }}에 width, height 주기
+원격 이미지는 크기를 꼭 정해야 보여요.
+@@S ScrollView | read
+내용이 화면보다 길면 ScrollView로 감싸야 스크롤돼요.
+@@S TextInput | type
+할 일: useState + value + onChangeText로 controlled TextInput을 만들고 borderWidth 주기
+onChangeText는 이벤트 객체가 아니라 문자열을 줘요.
+@@S Switch | read
+value + onValueChange로 켜고 끄는 controlled Switch예요.
 @@K React Native Playground
 Snack 그대로 사용.
 @@K Example: Inline Styles
@@ -172,6 +221,8 @@ Flexbox Froggy 게임으로 연습하라고 했어요(Lab 3 Q1). 게임은 CSS �
 - 다크 모드처럼 상태에 따라 스타일을 바꾸는 패턴. 시험에 잘 나올 만한 유형이에요.
 
 @@LAB lab-3.md
+@@S _doc | lab
+Lab 3 문제예요. Flexbox Froggy 게임과 프로필 카드 만들기예요. 힌트만 적어 뒀으니 혼자 풀어 보세요.
 @@K _intro
 Lab 3는 **레이아웃 직접 짜기** 연습이에요. 문제 조건(스타일 이름, 파일 분리, flex로 같은 너비 등)이 아주 구체적이라 그대로 시험 채점 기준처럼 읽으면 좋아요.
 @@K A Note on AI

@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -16,6 +16,9 @@
 <article class="md"><h1 id="week-7-location-maps-위치-권한-현재-위치-실시간-추적-지도-마커-도형">Week 7. Location &amp; Maps: 위치 권한, 현재 위치, 실시간 추적, 지도, 마커, 도형 <a class="anchor" aria-label="링크" href="#week-7-location-maps-위치-권한-현재-위치-실시간-추적-지도-마커-도형">#</a></h1>
 <blockquote>
 <p>이 노트 읽는 법: <strong>📘/💻/🧪 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 코드 밑의 <strong>▶ Snack에서 바로 실행하기</strong>를 누르면 그 코드가 Expo Snack에서 열려요(<code>expo-location</code>, <code>react-native-maps</code> 자동 포함). <strong>지도는 Web에서 안 나와요.</strong> 오른쪽 위 <strong>My Device</strong>를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. <strong>Test 3 범위.</strong></p>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p><strong>위치 기능 4단계 공식</strong></p>
@@ -96,8 +99,137 @@
 </tbody>
 </table>
 <p><strong>좌표 상식</strong>: 위도(latitude)는 남북 -90~90, 경도(longitude)는 동서 -180~180. 그리니치 서쪽은 음수라서 토론토 경도는 약 <strong>-79.35</strong>. delta 0.01도 ≈ 약 1km, <strong>작을수록 확대</strong>.</p>
+<p><strong>⌨️ 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Example: Where Am I? › Starter Code</a></td>
+<td>&quot;찾는 중&quot; 스피너 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: Where Am I? › Step 1 - Ask for Permission</a></td>
+<td>useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: Where Am I? › Step 2 - Get the Position</a></td>
+<td>await Location.getCurrentPositionAsync({})로 좌표 받아 표시</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Example: Where Am I? › Step 3 - Find the Address</a></td>
+<td>reverseGeocodeAsync(coords)[0]으로 주소 표시</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Example: Live Location › Step 1 - Watch Instead of Get</a></td>
+<td>watchPositionAsync 구독 + cleanup에서 subscription.remove()</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Example: Live Location › Step 2 - Count the Updates</a></td>
+<td>setUpdates((prev) =&gt; prev + 1)로 업데이트 횟수 세기</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Example: Live Location › Step 3 - Pause and Resume</a></td>
+<td>tracking state + if (!tracking) return + 의존성 [tracking]</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#practice-8">Example: Your First Map › Starter Code</a></td>
+<td>Find Me 버튼이 떠 있는 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>9</td>
+<td><a href="#practice-9">Example: Your First Map › Step 1 - Show a Map</a></td>
+<td>import MapView(중괄호 없음) + style={{ flex: 1 }}</td>
+</tr>
+<tr>
+<td>10</td>
+<td><a href="#practice-10">Example: Your First Map › Step 2 - Start on Campus</a></td>
+<td>initialRegion에 위도, 경도, latitudeDelta, longitudeDelta</td>
+</tr>
+<tr>
+<td>11</td>
+<td><a href="#practice-11">Example: Your First Map › Step 3 - Show the Blue Dot</a></td>
+<td>권한 요청 후 showsUserLocation={hasPermission}</td>
+</tr>
+<tr>
+<td>12</td>
+<td><a href="#practice-12">Example: Your First Map › Step 4 - Find Me</a></td>
+<td>useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동</td>
+</tr>
+<tr>
+<td>13</td>
+<td><a href="#practice-13">Example: Campus Markers › Starter Code</a></td>
+<td>캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>14</td>
+<td><a href="#practice-14">Example: Campus Markers › Step 1 - Add One Marker</a></td>
+<td>import { Marker } + Marker 하나</td>
+</tr>
+<tr>
+<td>15</td>
+<td><a href="#practice-15">Example: Campus Markers › Step 2 - A Marker for Every Campus</a></td>
+<td>CAMPUSES.map으로 Marker 여러 개(key 필수)</td>
+</tr>
+<tr>
+<td>16</td>
+<td><a href="#practice-16">Example: Campus Markers › Step 3 - Show the Selected Campus</a></td>
+<td>selected state + Marker onPress로 카드에 캠퍼스 정보 표시</td>
+</tr>
+<tr>
+<td>17</td>
+<td><a href="#practice-17">Example: Campus Markers › Step 4 - Hide Other Places</a></td>
+<td>customMapStyle로 지도 기본 장소(poi) 숨기기</td>
+</tr>
+<tr>
+<td>18</td>
+<td><a href="#practice-18">Example: Drawing on the Map › Starter Code</a></td>
+<td>뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기</td>
+</tr>
+<tr>
+<td>19</td>
+<td><a href="#practice-19">Example: Drawing on the Map › Step 1 - Outline the Campus</a></td>
+<td>Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth</td>
+</tr>
+<tr>
+<td>20</td>
+<td><a href="#practice-20">Example: Drawing on the Map › Step 2 - Fill It In</a></td>
+<td>fillColor=&quot;rgba(255, 0, 0, 0.2)&quot;</td>
+</tr>
+<tr>
+<td>21</td>
+<td><a href="#practice-21">Example: Drawing on the Map › Step 3 - Draw Your Own Shape</a></td>
+<td>MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-requesting-user-location">1. 📘 코스노트: Requesting User Location <a class="anchor" aria-label="링크" href="#1-코스노트-requesting-user-location">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>사용자 위치를 한 번 가져오거나 계속 추적하는 방법이에요. 💻 7.1 Where Am I?, Live Location에서 직접 쳐 보니까 여기서는 읽기만 해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>One‑Time Location Lookup</strong>: 한 번만 위치 가져오기 (화면이 열릴 때 등).</li>
+<li>👀 <strong>Tracking Location in Real Time</strong>: 실시간 추적 (운동 앱, 내비게이션).</li>
+<li>👀 <strong>What You Should Remember</strong>: 비동기 위치 호출은 useEffect 안에서.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc</p>
 </blockquote>
@@ -262,6 +394,15 @@ If permission is denied, your app should handle that gracefully.</p>
 </ul>
 </div><hr />
 <h2 id="2-코스노트-displaying-maps">2. 📘 코스노트: Displaying Maps <a class="anchor" aria-label="링크" href="#2-코스노트-displaying-maps">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>MapView로 지도를 보여 주는 방법이에요. 💻 7.1 Your First Map에서 직접 쳐 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Rendering a Basic Map</strong>: 전체 화면 지도 + 파란 점(내 위치) + Find Me 버튼으로 다시 내 위치로 이동.</li>
+<li>👀 <strong>Understanding the Map Props</strong>: <code>showsUserLocation</code>: 파란 점.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps</p>
 </blockquote>
@@ -359,6 +500,16 @@ Keeps the map centred on the user as they move. It is Apple Maps only, so it doe
 </ul>
 </div><hr />
 <h2 id="3-코스노트-working-with-maps">3. 📘 코스노트: Working with Maps <a class="anchor" aria-label="링크" href="#3-코스노트-working-with-maps">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>지도에 Marker와 Polygon을 그리는 방법이에요. 💻 7.1 Campus Markers, Drawing on the Map에서 직접 쳐 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Adding Custom Markers</strong>: Marker = 특정 좌표의 핀(캠퍼스, 가게, 랜드마크).</li>
+<li>👀 <strong>Drawing Shapes (Polygons)</strong>: Polygon = 좌표 목록을 이어 닫힌 도형.</li>
+<li>👀 <strong>What You Should Remember</strong>: 점은 <code>Marker</code>, 영역은 <code>Polygon</code>.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps</p>
 </blockquote>
@@ -475,6 +626,48 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 </ul>
 </div><hr />
 <h2 id="4-인클래스-예제-week-71---notes-and-examples">4. 💻 인클래스 예제: Week 7.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#4-인클래스-예제-week-71---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>7.1 수업 라이브 코딩이에요. 위치와 지도는 폰(Expo Go)에서 확인하세요. Starter Code부터 Step 순서대로 쳐 가요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Native Playground</strong>: expo-location, react-native-maps 패키지 안내예요.</li>
+<li>👀 <strong>Why Location?</strong>: 위치는 사생활이라 권한을 조심해서 물어야 해요.</li>
+<li>⌨️ <strong>Example: Where Am I?</strong>: 한 번 묻고, 좌표를 보여 주고, 주소로 바꿔요.</li>
+<li>⌨️ <strong><a href="#practice-1">Example: Where Am I? › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ &quot;찾는 중&quot; 스피너 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-2">Example: Where Am I? › Step 1 - Ask for Permission</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리)</li>
+<li>⌨️ <strong><a href="#practice-3">Example: Where Am I? › Step 2 - Get the Position</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ await Location.getCurrentPositionAsync({})로 좌표 받아 표시)</li>
+<li>⌨️ <strong><a href="#practice-4">Example: Where Am I? › Step 3 - Find the Address</a></strong>: 배열을 돌려줘서 첫 번째를 써요. (⌨️ reverseGeocodeAsync(coords)[0]으로 주소 표시)</li>
+<li>👀 <strong>Example: Where Am I? › Finished Code</strong>: 완성 코드 해설: <code>errorMsg</code>, <code>location</code>, <code>address</code> state → useEffect 안 async <code>getLocation</code>(권한 → 위치 → 주소, try/catch) → early return 3단(에러 → 스피너 →...</li>
+<li>⌨️ <strong>Example: Live Location</strong>: watchPositionAsync로 위치가 바뀔 때마다 받고, 꼭 멈춰야 해요.</li>
+<li>⌨️ <strong><a href="#practice-5">Example: Live Location › Step 1 - Watch Instead of Get</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ watchPositionAsync 구독 + cleanup에서 subscription.remove())</li>
+<li>⌨️ <strong><a href="#practice-6">Example: Live Location › Step 2 - Count the Updates</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ setUpdates((prev) =&gt; prev + 1)로 업데이트 횟수 세기)</li>
+<li>⌨️ <strong><a href="#practice-7">Example: Live Location › Step 3 - Pause and Resume</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ tracking state + if (!tracking) return + 의존성 [tracking])</li>
+<li>👀 <strong>Example: Live Location › Finished Code</strong>: 완성 코드 해설: <code>[tracking]</code> 의존 effect 안에서 <code>cancelled</code> 깃발 + <code>subscription</code> 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscriptio...</li>
+<li>👀 <strong>Maps</strong>: MapView는 폰의 진짜 지도를 감싼 컴포넌트예요.</li>
+<li>⌨️ <strong>Example: Your First Map</strong>: 지도 띄우기, 캠퍼스에서 시작, 파란 점, Find Me 버튼까지 만들어요.</li>
+<li>⌨️ <strong><a href="#practice-8">Example: Your First Map › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ Find Me 버튼이 떠 있는 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-9">Example: Your First Map › Step 1 - Show a Map</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ import MapView(중괄호 없음) + style={{ flex: 1 }})</li>
+<li>⌨️ <strong><a href="#practice-10">Example: Your First Map › Step 2 - Start on Campus</a></strong>: delta가 작을수록 확대돼요. (⌨️ initialRegion에 위도, 경도, latitudeDelta, longitudeDelta)</li>
+<li>⌨️ <strong><a href="#practice-11">Example: Your First Map › Step 3 - Show the Blue Dot</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 권한 요청 후 showsUserLocation={hasPermission})</li>
+<li>⌨️ <strong><a href="#practice-12">Example: Your First Map › Step 4 - Find Me</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동)</li>
+<li>👀 <strong>Example: Your First Map › Finished Code</strong>: 완성 코드 해설: MapView(ref, initialRegion, showsUserLocation) + 권한 effect + findMe(getCurrentPosition → animateToRegion) + 떠 있는 Pressable 버튼.</li>
+<li>⌨️ <strong>Example: Campus Markers</strong>: Marker는 MapView 안의 자식이라 배열을 .map()으로 그려요.</li>
+<li>⌨️ <strong><a href="#practice-13">Example: Campus Markers › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-14">Example: Campus Markers › Step 1 - Add One Marker</a></strong>: Marker는 named export라 중괄호를 써요. (⌨️ import { Marker } + Marker 하나)</li>
+<li>⌨️ <strong><a href="#practice-15">Example: Campus Markers › Step 2 - A Marker for Every Campus</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ CAMPUSES.map으로 Marker 여러 개(key 필수))</li>
+<li>⌨️ <strong><a href="#practice-16">Example: Campus Markers › Step 3 - Show the Selected Campus</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ selected state + Marker onPress로 카드에 캠퍼스 정보 표시)</li>
+<li>⌨️ <strong><a href="#practice-17">Example: Campus Markers › Step 4 - Hide Other Places</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ customMapStyle로 지도 기본 장소(poi) 숨기기)</li>
+<li>👀 <strong>Example: Campus Markers › Finished Code</strong>: 완성 코드 해설: CAMPUSES 배열 → <code>.map()</code> Marker(key, coordinate, title, onPress) → selected state → 하단 카드.</li>
+<li>⌨️ <strong>Example: Drawing on the Map</strong>: Polygon으로 영역을 그리고 탭한 좌표를 받아요.</li>
+<li>⌨️ <strong><a href="#practice-18">Example: Drawing on the Map › Starter Code</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기)</li>
+<li>⌨️ <strong><a href="#practice-19">Example: Drawing on the Map › Step 1 - Outline the Campus</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth)</li>
+<li>⌨️ <strong><a href="#practice-20">Example: Drawing on the Map › Step 2 - Fill It In</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ fillColor=&quot;rgba(255, 0, 0, 0.2)&quot;)</li>
+<li>⌨️ <strong><a href="#practice-21">Example: Drawing on the Map › Step 3 - Draw Your Own Shape</a></strong>: 이 단계 코드를 직접 쳐 보세요. (⌨️ MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear)</li>
+<li>👀 <strong>Example: Drawing on the Map › Finished Code</strong>: 완성 코드 해설: 고정 Polygon(캠퍼스) + 사용자가 탭한 점들(Marker) + 3점 이상이면 사용자 Polygon + Clear 버튼.</li>
+<li>👀 <strong>Location and Maps Checklist</strong>: 위치와 지도 체크리스트 8개는 서술형으로 나올 수 있어요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-07.1-notes.md</p>
 </blockquote>
@@ -526,6 +719,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace everything in <code>App.js</code>. The screen says it is finding you and spins forever, because nothing asks for the location yet.</li>
 </ul>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: &quot;찾는 중&quot; 스피너 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">ActivityIndicator</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -551,13 +745,14 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Where%20Am%20I%3F%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20ActivityIndicator%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.center%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EWhere%20Am%20I%3F%3C%2FText%3E%0A%20%20%20%20%20%20%3CActivityIndicator%20size%3D%22large%22%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.message%7D%3EFinding%20you...%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20center%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%2C%20marginBottom%3A%2020%20%7D%2C%0A%20%20message%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22%23666%22%2C%20marginTop%3A%2010%20%7D%2C%0A%20%20error%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22red%22%2C%20textAlign%3A%20%22center%22%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2018%2C%20marginBottom%3A%206%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Where%20Am%20I%3F%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20ActivityIndicator%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.center%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EWhere%20Am%20I%3F%3C%2FText%3E%0A%20%20%20%20%20%20%3CActivityIndicator%20size%3D%22large%22%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.message%7D%3EFinding%20you...%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20center%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%2C%20marginBottom%3A%2020%20%7D%2C%0A%20%20message%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22%23666%22%2C%20marginTop%3A%2010%20%7D%2C%0A%20%20error%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22red%22%2C%20textAlign%3A%20%22center%22%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2018%2C%20marginBottom%3A%206%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
 <p>&quot;찾는 중&quot; 스피너가 영원히 돌아요. 아직 아무도 위치를 묻지 않으니까.</p>
 </div><h4 id="step-1---ask-for-permission">💻 Step 1 - Ask for Permission <a class="anchor" aria-label="링크" href="#step-1---ask-for-permission">#</a></h4>
 <ul>
 <li>Add the hooks and <code>expo-location</code> above the <code>react-native</code> import.</li>
 </ul>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">Location</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"expo-location"</span><span class="p">;</span>
 </code></pre>
@@ -565,11 +760,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li><code>import * as Location</code> puts every export of the package on one <code>Location</code> object: <code>Location.requestForegroundPermissionsAsync</code>, <code>Location.getCurrentPositionAsync</code>, and so on.</li>
 <li>Add an <code>errorMsg</code> state at the top of <code>MyApp</code>. <code>null</code> means no error.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">errorMsg</span><span class="p">,</span><span class="w"> </span><span class="nx">setErrorMsg</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Add an effect under it that asks for permission when the screen opens.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">getLocation</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">requestForegroundPermissionsAsync</span><span class="p">();</span>
@@ -588,6 +785,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>Foreground permission means location while the app is open, which is all this week needs. Background location, while the app is closed, needs extra setup and app store review.</li>
 <li>Above the main <code>return</code>, return an error screen when permission was denied.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">errorMsg</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
@@ -613,11 +811,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add a <code>location</code> state under <code>errorMsg</code>.</li>
 </ul>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: await Location.getCurrentPositionAsync({})로 좌표 받아 표시</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">location</span><span class="p">,</span><span class="w"> </span><span class="nx">setLocation</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Inside <code>getLocation</code>, after the permission check, ask for the position and store its coordinates. The <code>try</code> / <code>catch</code> handles a phone with location services turned off.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">getCurrentPositionAsync</span><span class="p">({});</span>
 <span class="w">  </span><span class="nx">setLocation</span><span class="p">(</span><span class="nx">pos</span><span class="p">.</span><span class="nx">coords</span><span class="p">);</span>
@@ -631,6 +831,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li><code>try</code> / <code>catch</code> is how <code>await</code> code handles a rejected promise. It is the <code>.catch()</code> from Week 5.</li>
 <li>Under the error screen, return the spinner screen until the location arrives.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">location</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
@@ -643,6 +844,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace the main <code>return</code> with the coordinates.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Where</span><span class="w"> </span><span class="nx">Am</span><span class="w"> </span><span class="nx">I</span><span class="o">?</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
@@ -673,11 +875,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Coordinates mean nothing to a user. <code>reverseGeocodeAsync</code> turns them into an address. Add an <code>address</code> state under <code>location</code>.</li>
 </ul>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: reverseGeocodeAsync(coords)[0]으로 주소 표시</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">address</span><span class="p">,</span><span class="w"> </span><span class="nx">setAddress</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Inside the <code>try</code>, after <code>setLocation</code>, look up the address.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">places</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">reverseGeocodeAsync</span><span class="p">(</span><span class="nx">pos</span><span class="p">.</span><span class="nx">coords</span><span class="p">);</span>
 <span class="nx">setAddress</span><span class="p">(</span><span class="nx">places</span><span class="p">[</span><span class="mf">0</span><span class="p">]);</span>
 </code></pre>
@@ -685,6 +889,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>It returns an array of possible matches, best first, so the code keeps the first one.</li>
 <li>Show it under the accuracy line. The address arrives after the coordinates, so check it first.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">{</span><span class="nx">address</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">value</span><span class="p">}&gt;</span>
 <span class="w">    </span><span class="p">{</span><span class="nx">address</span><span class="p">.</span><span class="nx">city</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nx">address</span><span class="p">.</span><span class="nx">region</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nx">address</span><span class="p">.</span><span class="nx">country</span><span class="p">}</span>
@@ -804,6 +1009,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>Change the title in the main <code>return</code> to <code>Live Location</code>.</li>
 <li>Replace the whole effect.</li>
 </ul>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: watchPositionAsync 구독 + cleanup에서 subscription.remove()</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">subscription</span><span class="p">;</span>
 <span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">cancelled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
@@ -865,11 +1071,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add an <code>updates</code> state under <code>location</code>.</li>
 </ul>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: setUpdates((prev) =&gt; prev + 1)로 업데이트 횟수 세기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">updates</span><span class="p">,</span><span class="w"> </span><span class="nx">setUpdates</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Make the callback count each update as well. The count depends on the previous count, so use the updater form.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">(</span><span class="nx">pos</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="nx">setLocation</span><span class="p">(</span><span class="nx">pos</span><span class="p">.</span><span class="nx">coords</span><span class="p">);</span>
 <span class="w">  </span><span class="nx">setUpdates</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">prev</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
@@ -878,6 +1086,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Show the count under the accuracy line.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">message</span><span class="p">}&gt;</span><span class="nx">Updates</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">updates</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
 </code></pre>
 <ul>
@@ -889,11 +1098,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Tracking should stop when the user does not need it. Add <code>Button</code> to the <code>react-native</code> import, and a <code>tracking</code> state under <code>updates</code>.</li>
 </ul>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: tracking state + if (!tracking) return + 의존성 [tracking]</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">tracking</span><span class="p">,</span><span class="w"> </span><span class="nx">setTracking</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>In the effect, add a check as the first line, and change the dependency array to <code>[tracking]</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">tracking</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
 
@@ -904,6 +1115,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add the button under the updates count.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Button</span>
 <span class="w">  </span><span class="na">title</span><span class="o">=</span><span class="p">{</span><span class="nx">tracking</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"Pause"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Resume"</span><span class="p">}</span>
 <span class="w">  </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setTracking</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="o">!</span><span class="nx">prev</span><span class="p">)}</span>
@@ -1053,6 +1265,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace everything in <code>App.js</code>. It has a <strong>Find Me</strong> button over an empty screen, and the region for Newnham Campus, which the steps use.</li>
 </ul>
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Find Me 버튼이 떠 있는 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">const</span><span class="w"> </span><span class="nx">NEWNHAM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
@@ -1089,7 +1302,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <span class="w">  </span><span class="nx">buttonText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"white"</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
 <span class="p">});</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Your%20First%20Map%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Pressable%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20NEWNHAM%20%3D%20%7B%0A%20%20latitude%3A%2043.79457%2C%0A%20%20longitude%3A%20-79.35043%2C%0A%20%20latitudeDelta%3A%200.01%2C%0A%20%20longitudeDelta%3A%200.01%2C%0A%7D%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CPressable%0A%20%20%20%20%20%20%20%20style%3D%7B%28%7B%20pressed%20%7D%29%20%3D%3E%20%5Bstyles.button%2C%20pressed%20%26%26%20styles.pressed%5D%7D%0A%20%20%20%20%20%20%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3EFind%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20map%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20position%3A%20%22absolute%22%2C%0A%20%20%20%20bottom%3A%2040%2C%0A%20%20%20%20alignSelf%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20pressed%3A%20%7B%20backgroundColor%3A%20%22%231565C0%22%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Your%20First%20Map%20-%20Starter%20Code&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Pressable%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20NEWNHAM%20%3D%20%7B%0A%20%20latitude%3A%2043.79457%2C%0A%20%20longitude%3A%20-79.35043%2C%0A%20%20latitudeDelta%3A%200.01%2C%0A%20%20longitudeDelta%3A%200.01%2C%0A%7D%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CPressable%0A%20%20%20%20%20%20%20%20style%3D%7B%28%7B%20pressed%20%7D%29%20%3D%3E%20%5Bstyles.button%2C%20pressed%20%26%26%20styles.pressed%5D%7D%0A%20%20%20%20%20%20%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3EFind%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20map%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20position%3A%20%22absolute%22%2C%0A%20%20%20%20bottom%3A%2040%2C%0A%20%20%20%20alignSelf%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20pressed%3A%20%7B%20backgroundColor%3A%20%22%231565C0%22%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li><code>position: &quot;absolute&quot;</code> takes the button out of the flexbox layout and places it 40 points above the bottom edge, on top of whatever else is there. <code>alignSelf: &quot;center&quot;</code> centres it across.</li>
 <li>The button is the <code>Pressable</code> from Week 6, with its pressed style. It does nothing yet.</li>
@@ -1103,11 +1316,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Import <code>MapView</code> under the <code>react-native</code> import. It is the package's default export, so it has no braces.</li>
 </ul>
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import MapView(중괄호 없음) + style={{ flex: 1 }}</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Add the map as the first child of the container, above the button.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
 </code></pre>
 <ul>
@@ -1126,6 +1341,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Give the map a starting region.</li>
 </ul>
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: initialRegion에 위도, 경도, latitudeDelta, longitudeDelta</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span><span class="w"> </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">NEWNHAM</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
 </code></pre>
 <ul>
@@ -1144,12 +1360,14 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li><code>showsUserLocation</code> draws the user as a blue dot, but on Android it fails silently unless the app already has location permission. So ask first with <code>expo-location</code>, as in the first example.</li>
 <li>Add the imports.</li>
 </ul>
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 권한 요청 후 showsUserLocation={hasPermission}</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="kr">as</span><span class="w"> </span><span class="nx">Location</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"expo-location"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Add a state and an effect at the top of <code>MyApp</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">canShowUser</span><span class="p">,</span><span class="w"> </span><span class="nx">setCanShowUser</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
 
 <span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
@@ -1164,6 +1382,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Pass the result to the map.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span>
 <span class="w">  </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">NEWNHAM</span><span class="p">}</span>
@@ -1185,16 +1404,19 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>To move the map from code, the code needs the map itself. Add <code>useRef</code> to the React import.</li>
 </ul>
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="p">,</span><span class="w"> </span><span class="nx">useRef</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Create a ref under the state.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">mapRef</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useRef</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Give the map the ref.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span>
 <span class="w">  </span><span class="na">ref</span><span class="o">=</span><span class="p">{</span><span class="nx">mapRef</span><span class="p">}</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span>
@@ -1206,6 +1428,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>Week 6 used <code>useRef</code> to keep an animated value. A ref passed as the <code>ref</code> prop works the other way: React puts the component into <code>mapRef.current</code> after it renders. The map component has methods, and <code>animateToRegion</code> moves the map.</li>
 <li>Add a function under the effect that finds the user and moves the map there.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">findMe</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">Location</span><span class="p">.</span><span class="nx">getCurrentPositionAsync</span><span class="p">({});</span>
 <span class="w">  </span><span class="nx">mapRef</span><span class="p">.</span><span class="nx">current</span><span class="p">.</span><span class="nx">animateToRegion</span><span class="p">(</span>
@@ -1223,6 +1446,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>The second argument is how long the animation takes, in milliseconds. iOS ignores it and uses its own speed.</li>
 <li>Wire up the button. <code>disabled</code> stops it from working until permission is granted.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Pressable</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
 <span class="w">  </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">findMe</span><span class="p">}</span>
@@ -1330,6 +1554,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace everything in <code>App.js</code>. It has the Seneca campuses as data, a map that fits them all, and an info card at the bottom that the steps fill in.</li>
 </ul>
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 
@@ -1410,11 +1635,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li><code>Marker</code> is a named export of <code>react-native-maps</code>. Change the import.</li>
 </ul>
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import { Marker } + Marker 하나</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Marker</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Give the map a child. <code>MapView</code> is no longer self-closing.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span><span class="w"> </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">GTA_NORTH</span><span class="p">}&gt;</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Marker</span>
 <span class="w">    </span><span class="na">coordinate</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.79457</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.35043</span><span class="w"> </span><span class="p">}}</span>
@@ -1438,6 +1665,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace the single marker with one marker per campus.</li>
 </ul>
+<p class="typeit" id="practice-15">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: CAMPUSES.map으로 Marker 여러 개(key 필수)</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span><span class="w"> </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">GTA_NORTH</span><span class="p">}&gt;</span>
 <span class="w">  </span><span class="p">{</span><span class="nx">CAMPUSES</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">campus</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">Marker</span>
@@ -1459,13 +1687,16 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>A callout is small. Most apps show details in their own panel instead. Add <code>useState</code> above the <code>react-native</code> import, and a <code>selected</code> state at the top of <code>MyApp</code>.</li>
 </ul>
+<p class="typeit" id="practice-16">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: selected state + Marker onPress로 카드에 캠퍼스 정보 표시</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">selected</span><span class="p">,</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
 </code></pre>
 <ul>
 <li>Give each marker an <code>onPress</code> that selects its campus.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Marker</span>
 <span class="w">  </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">campus</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
 <span class="w">  </span><span class="na">coordinate</span><span class="o">=</span><span class="p">{{</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="nx">campus</span><span class="p">.</span><span class="nx">latitude</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="nx">campus</span><span class="p">.</span><span class="nx">longitude</span><span class="w"> </span><span class="p">}}</span>
@@ -1477,6 +1708,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace the hint in the card with the selected campus, or the hint when nothing is selected.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">}&gt;</span>
 <span class="w">  </span><span class="p">{</span><span class="nx">selected</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;&gt;</span>
@@ -1506,11 +1738,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>The base map is full of restaurants, shops and bus stops. They compete with your markers. Hiding them is different on each platform.</li>
 <li>Add a map style above <code>MyApp</code>. It is Google Maps' styling format: a list of rules, each picking a kind of feature and changing how it looks.</li>
 </ul>
+<p class="typeit" id="practice-17">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: customMapStyle로 지도 기본 장소(poi) 숨기기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">HIDE_PLACES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">featureType</span><span class="o">:</span><span class="w"> </span><span class="s2">"poi"</span><span class="p">,</span><span class="w"> </span><span class="nx">stylers</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">visibility</span><span class="o">:</span><span class="w"> </span><span class="s2">"off"</span><span class="w"> </span><span class="p">}]</span><span class="w"> </span><span class="p">}];</span>
 </code></pre>
 <ul>
 <li>Give the map both props.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span>
 <span class="w">  </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">GTA_NORTH</span><span class="p">}</span>
@@ -1643,6 +1877,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Replace everything in <code>App.js</code>. It is a map of Newnham Campus with a <strong>Clear</strong> button that the last step uses.</li>
 </ul>
+<p class="typeit" id="practice-18">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Pressable</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 <span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 
@@ -1688,11 +1923,13 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add <code>Polygon</code> to the map import.</li>
 </ul>
+<p class="typeit" id="practice-19">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Polygon</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Add the campus corners above <code>MyApp</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="nx">CAMPUS_OUTLINE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
 <span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.79701</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.35178</span><span class="w"> </span><span class="p">},</span>
 <span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">latitude</span><span class="o">:</span><span class="w"> </span><span class="mf">43.79849</span><span class="p">,</span><span class="w"> </span><span class="nx">longitude</span><span class="o">:</span><span class="w"> </span><span class="o">-</span><span class="mf">79.3453</span><span class="w"> </span><span class="p">},</span>
@@ -1703,6 +1940,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Draw it inside the map.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span><span class="w"> </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">CAMPUS</span><span class="p">}&gt;</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Polygon</span><span class="w"> </span><span class="na">coordinates</span><span class="o">=</span><span class="p">{</span><span class="nx">CAMPUS_OUTLINE</span><span class="p">}</span><span class="w"> </span><span class="na">strokeWidth</span><span class="o">=</span><span class="p">{</span><span class="mf">3</span><span class="p">}</span><span class="w"> </span><span class="na">strokeColor</span><span class="o">=</span><span class="s">"red"</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="p">&lt;/</span><span class="nt">MapView</span><span class="p">&gt;</span>
@@ -1722,6 +1960,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add a fill.</li>
 </ul>
+<p class="typeit" id="practice-20">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: fillColor=&quot;rgba(255, 0, 0, 0.2)&quot;</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Polygon</span>
 <span class="w">  </span><span class="na">coordinates</span><span class="o">=</span><span class="p">{</span><span class="nx">CAMPUS_OUTLINE</span><span class="p">}</span>
 <span class="w">  </span><span class="na">strokeWidth</span><span class="o">=</span><span class="p">{</span><span class="mf">3</span><span class="p">}</span>
@@ -1739,18 +1978,22 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <ul>
 <li>Add <code>useState</code> above the <code>react-native</code> import, and <code>Marker</code> to the map import.</li>
 </ul>
+<p class="typeit" id="practice-21">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
 </code></pre>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">MapView</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Marker</span><span class="p">,</span><span class="w"> </span><span class="nx">Polygon</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native-maps"</span><span class="p">;</span>
 </code></pre>
 <ul>
 <li>Add a <code>points</code> state at the top of <code>MyApp</code>.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">points</span><span class="p">,</span><span class="w"> </span><span class="nx">setPoints</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
 </code></pre>
 <ul>
 <li>Give the map an <code>onPress</code>. The tapped coordinate is in <code>e.nativeEvent.coordinate</code>. Adding it depends on the previous list, so use the updater form.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">MapView</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">map</span><span class="p">}</span>
 <span class="w">  </span><span class="na">initialRegion</span><span class="o">=</span><span class="p">{</span><span class="nx">CAMPUS</span><span class="p">}</span>
@@ -1764,6 +2007,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>The coordinate is read into <code>point</code> first, so the updater only needs a plain value when React runs it later.</li>
 <li>Inside the map, under the campus polygon, show a marker for each point, and the shape once there are enough points for one.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">{</span><span class="nx">points</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">point</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
 <span class="w">  </span><span class="p">&lt;</span><span class="nt">Marker</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="w"> </span><span class="na">coordinate</span><span class="o">=</span><span class="p">{</span><span class="nx">point</span><span class="p">}</span><span class="w"> </span><span class="na">pinColor</span><span class="o">=</span><span class="s">"blue"</span><span class="w"> </span><span class="p">/&gt;</span>
 <span class="p">))}</span>
@@ -1781,6 +2025,7 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 <li>A polygon needs at least three points to have an area, so <code>&amp;&amp;</code> waits until there are three.</li>
 <li>Make the button clear the points.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="p">&lt;</span><span class="nt">Pressable</span>
 <span class="w">  </span><span class="na">style</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">,</span><span class="w"> </span><span class="nx">pressed</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">styles</span><span class="p">.</span><span class="nx">pressed</span><span class="p">]}</span>
 <span class="w">  </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setPoints</span><span class="p">([])}</span>
@@ -1902,6 +2147,24 @@ You can also hide the map's own points of interest (shops, restaurants, landmark
 </ol>
 </div><hr />
 <h2 id="5-lab-lab-6---location-and-maps">5. 🧪 Lab: Lab 6 - Location and Maps <a class="anchor" aria-label="링크" href="#5-lab-lab-6---location-and-maps">#</a></h2>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>Lab 6은 주차 위치를 저장하고 지도에 보여 주는 앱이에요. 힌트만 적어 뒀으니 혼자 풀어 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>A Note on AI</strong>: AI는 막힐 때만. 목표: 적절한 순간에 위치를 묻고, 지도에 올리고, 다 쓰면 그만 쓰기.</li>
+<li>👀 <strong>Overview</strong>: Part 1 지도, 2 주차 위치 저장, 3 주소, 4 거리, 5 수동 수정과 귀가.</li>
+<li>👀 <strong>Setup</strong>: SDK 54, styles.js 분리, starter 3개 파일.</li>
+<li>⏭️ <strong>Styling Rules</strong>: App.js에 인라인 스타일 금지. Pressable의 style 함수가 배열을 return 하는 건 OK.</li>
+<li>⏭️ <strong>Running Your App</strong>: 폰(My Device)에서. 안 되면 Android 탭(위치가 오샤와로 고정).</li>
+<li>⏭️ <strong>Submission</strong>: 수업 끝나기 전 Snack 링크 제출.</li>
+<li>🧪 <strong>Part 1 - The Map (1 point)</strong>: 연결: 7.1 Your First Map Step 1~2 + Campus Markers Step 4.</li>
+<li>🧪 <strong>Part 2 - Park Here (1 point)</strong>: 연결: 7.1 Your First Map Step 3~4, 단 권한 요청을 버튼 안으로 이동.</li>
+<li>🧪 <strong>Part 3 - The Address (1 point)</strong>: 연결: 7.1 Where Am I Step 3 + Live Location의 cancelled 깃발.</li>
+<li>🧪 <strong>Part 4 - How Far Is the Car? (1 point)</strong>: 연결: 7.1 Live Location.</li>
+<li>🧪 <strong>Part 5 - Fix the Spot and Go Home (1 point)</strong>: 연결: 7.1 Drawing on the Map Step 3.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-6.md</p>
 </blockquote>
@@ -2301,5 +2564,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>

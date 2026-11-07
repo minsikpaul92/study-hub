@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 1주차에 만든 화면은 "그림"일 뿐이었어요. 버튼을 눌러도 아무것도 안 바뀌었죠. 이번 주는 화면이 **반응하고, 기억하고, 다시 그려지게** 만드는 주예요. 1차 시험(Test 1)의 핵심 범위라서 아주 중요해요.
@@ -24,9 +26,13 @@
 `setCount((prev) => prev + 1)`, `setOn((prev) => !prev)`, `setItems((prev) => [...prev, item])`
 새 값이 **이전 값에 따라** 정해지면 무조건 함수형!
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE B-Components/events.md
+@@S _doc | read
+이벤트(onPress 등)를 처리하는 방법이에요. 💻 2.1 "Event Handlers"에서 직접 쳐 보니까 여기서는 읽기만 해요.
 @@K Event Handlers
 **Event handler(이벤트 핸들러)** = 어떤 일이 일어났을 때(버튼 누름, 글자 입력) 실행되는 **콜백 함수**예요.
 
@@ -51,6 +57,8 @@
 Event pooling(이벤트 풀링)은 옛날 React(16 이하) 이야기예요. React 17부터 없어졌어요. 지금은 이벤트 객체를 비동기 코드 안에서 읽어도 괜찮아요.
 
 @@NOTE B-Components/hooks.md
+@@S _doc | read
+useState, useEffect 같은 Hook 설명이에요. 💻 2.2 State, useEffect 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.
 @@K Introduction to Hooks
 **`useState()`** 는 함수형 컴포넌트에 **기억력**을 주는 Hook이에요. 원래 함수는 호출될 때마다 처음부터 다시 실행돼서 변수가 리셋되거든요. useState로 만든 값은 다시 그려져도 **유지**돼요.
 
@@ -198,6 +206,8 @@ const [count, setCount] = useAtom(countAtom); // useState랑 똑같이 생김!
 언제 뭘 쓰나: 테마, 설정 같은 건 Context도 좋고, **자주 바뀌는 공유 데이터**는 Jotai가 깔끔해요.
 
 @@NOTE B-Components/class-components.md
+@@S _doc | skim
+옛날 방식인 클래스 컴포넌트 소개예요. 함수 컴포넌트와 무엇이 다른지만 알면 되니까 가볍게 훑어요.
 @@K _pre
 **(선택 읽기)** class 컴포넌트는 옛날 방식이에요. 수업에서는 함수형만 써요. 다만 인터넷 예제나 오래된 문서에서 볼 수 있으니 **읽을 줄만** 알면 돼요. 함수형과 비교표만 기억하세요.
 
@@ -225,6 +235,18 @@ class에서는 `state = { ... }` 객체로 초기값을 주고, `this.setState({
 각 생명주기 메서드 목록이에요. 시험에는 함수형 기준으로 나오니 위 비교표 정도만 알아 두면 충분해요.
 
 @@LEC week-02.1-notes.md
+@@S _doc | type
+2.1 수업 라이브 코딩 예제예요. ⌨️ 표시된 코드는 빈 Snack에서 직접 쳐 보세요.
+@@S React Native Playground | skim
+Snack 안내예요.
+@@S Common Components | read
+기본 컴포넌트와 이벤트 이름 표예요. onPress, onChangeText, onValueChange는 외워 두세요.
+@@S Example: Event Handlers | type
+할 일: handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결
+onPress={handlePress}처럼 함수를 넘기고, 괄호를 붙여 바로 부르지 않아요.
+@@S Example: Passing Props | type
+할 일: MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기
+props 구조분해와 기본값을 연습해요.
 @@K React Native Playground
 2주차부터는 계속 **Snack**에서 해요. `App.js`만 고치면 돼요.
 
@@ -254,6 +276,25 @@ class에서는 `state = { ... }` 객체로 초기값을 주고, `this.setState({
 - 부모: `<MyButton text="Click Me!" message="That felt great!" />` → enabled는 안 넘겼으니 기본값 true.
 
 @@LEC week-02.2-notes.md
+@@S _doc | type
+2.2 수업 예제예요. State, useEffect, Context, Jotai는 코딩 문제의 핵심이라 ⌨️ 표시된 코드는 꼭 직접 쳐 보세요.
+@@S React Native Playground | skim
+같은 Snack에서 계속해요.
+@@S Example: State | type
+할 일: useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시
+일반 변수로는 화면이 안 바뀌고, state를 바꿔야 다시 그려져요.
+@@S Example: Lifting State Up | type
+할 일: count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기
+state를 부모로 올려서 여러 자식이 같은 값을 나눠 써요.
+@@S Example: useEffect | type
+할 일: useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기
+의존성 배열과 cleanup이 시험 단골이에요.
+@@S Example: Using Context for State | type
+할 일: createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기
+props 없이 멀리 있는 컴포넌트에 state를 나눠 줘요.
+@@S Example: Using Jotai | type
+할 일: 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기
+Context보다 짧게 여러 컴포넌트가 함께 쓰는 state를 만들어요.
 @@K React Native Playground
 같은 Snack에서 계속.
 
@@ -300,6 +341,8 @@ Provider로 감싸지 않은 곳에서 `useContext`를 쓰면 값이 `undefined`
 - MyApp에 state도, Provider도, props도 **없어요.** Context 버전과 비교해 보세요. 코드가 훨씬 짧아요.
 
 @@LAB lab-2.md
+@@S _doc | lab
+Lab 2 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 혼자 풀어 보세요.
 @@K _intro
 Lab 2는 Test 1 대비용으로 아주 좋은 문제들이에요. 각 문제가 어떤 인클래스 예제와 연결되는지, 어디서 실수하기 쉬운지 정리했어요. 정답 코드를 통째로 쓰기보다 **핵심 패턴**만 보여 줄게요. 직접 Snack에 쳐 보세요.
 @@K A Note on AI

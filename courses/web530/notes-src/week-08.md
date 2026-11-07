@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 강의 노트와 랩이 없어서 **코스노트만** 다뤄요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **Expo Router 파일 이름 규칙 4가지 (시험 단골)**
@@ -32,9 +34,13 @@
 - `@/store/...`의 `@/`는 **프로젝트 루트**를 뜻하는 별칭(alias)이에요. Snack에는 없어요.
 - `npx expo start --tunnel`에서 ngrok 에러가 나면 `npm install -g @expo/ngrok@4.1.0`.
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE Z-Guides/tool-dev-setup.md
+@@S _doc | type
+Snack을 졸업하고 내 컴퓨터에 Expo 프로젝트를 만드는 준비 과정이에요. 명령어는 터미널에서 직접 따라 쳐 보세요.
 @@K _pre
 로컬 개발을 시작하기 전에 설치할 도구 목록이에요. 시험에 나올 내용은 거의 없지만, **이게 안 되면 Week 8부터 아무것도 못 해요**.
 @@K VS Code
@@ -53,6 +59,8 @@ Expo는 **Node.js** 위에서 돌아가요. **LTS(장기 지원) 버전**을 받
 선택 사항. 학생 인증하면 무료로 쓸 수 있는 AI 코딩 도우미예요.
 
 @@NOTE H-Expo/expo.md
+@@S _doc | type
+npx create-expo-app으로 프로젝트를 만들고 Expo Go로 폰에서 실행하는 방법이에요. 직접 따라 해 보세요.
 @@K _pre
 **Expo**가 뭔지, 그리고 이제 Snack을 떠나 **내 컴퓨터에서** 개발하는 방법.
 @@K What is Expo?
@@ -98,6 +106,8 @@ npx expo start --tunnel                        # 3. 개발 서버 실행 (QR 코
 **App.js**를 고치면 돼요(Snack과 똑같이). 직접 만든 컴포넌트는 **`/components`** 폴더에 따로 넣는 게 규칙이에요.
 
 @@NOTE Z-Guides/typescript.md
+@@S _doc | read
+TypeScript 기초(타입, interface, props 타입)예요. 읽고 이해하면서, 다음 Expo Router 예제에서 직접 써 봐요.
 @@K _pre
 **TypeScript(TS)** = JavaScript + **타입(type)**. 변수, 함수 매개변수, props가 **어떤 종류의 값인지 미리 적어 두는** 언어예요. Expo Router 템플릿이 전부 `.tsx`라서 이번 주에 같이 봐요.
 - `.ts` = 타입이 있는 JS 파일, `.tsx` = 타입 + JSX가 있는 파일(컴포넌트).
@@ -145,6 +155,8 @@ fetch로 받는 데이터(Week 5)의 **모양을 interface로** 정하고, `useS
 TS = 안전 + 명확. props는 **interface**, state는 필요할 때 `<타입>`.
 
 @@NOTE H-Expo/expo-router.md
+@@S _doc | type
+app 폴더 구조로 화면을 만드는 Expo Router예요. VS Code의 로컬 Expo 프로젝트에서 직접 만들어 보세요.
 @@K _pre
 **Expo Router** = **파일 기반 라우팅(file-based routing)**. Week 4 React Navigation 위에 만들어졌어요.
 핵심 한 줄: **"폴더/파일 구조 = 앱의 화면 구조"**. Next.js 같은 웹 프레임워크와 같은 아이디어예요.

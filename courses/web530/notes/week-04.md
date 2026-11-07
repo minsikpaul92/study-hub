@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주 Snack 링크에는 React Navigation 패키지(버전 7, SDK 54용)가 자동으로 들어가 있어요. **SDK는 54 그대로** 두세요. 55에서는 안 돌아가요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 웹은 URL과 뒤로 가기 버튼이 공짜로 있지만, 앱은 **화면 이동을 전부 JavaScript로 관리**해야 해요. 그 표준 도구가 **React Navigation**이에요.
@@ -38,6 +40,55 @@ const Stack = createNativeStackNavigator();       // 1. 컴포넌트 바깥에�
 **params 공식**: 보내기 `navigation.navigate('Details', { id: 1 })` / 받기 `const { id = 0 } = route.params ?? {};`
 
 
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Stack Navigator › Starter Code](#practice-1) | Home, Settings 화면이 있는 시작 코드 쳐 두기 |
+| 2 | [Example: Stack Navigator › Step 1 - Import the Navigation Pieces](#practice-2) | NavigationContainer, createNativeStackNavigator import |
+| 3 | [Example: Stack Navigator › Step 2 - Create the Stack](#practice-3) | 컴포넌트 바깥 맨 위에 const Stack = createNativeStackNavigator() |
+| 4 | [Example: Stack Navigator › Step 3 - Register the Screens](#practice-4) | NavigationContainer > Stack.Navigator > Stack.Screen name, component={HomeScreen} |
+| 5 | [Example: Stack Navigator › Step 4 - Navigate Forward](#practice-5) | HomeScreen({ navigation })에서 navigation.navigate("Settings") |
+| 6 | [Example: Stack Navigator › Step 5 - Go Back](#practice-6) | Settings에 navigation.goBack() 버튼 |
+| 7 | [Example: Navigate vs Push › Step 1 - Make Room for More Buttons](#practice-7) | 버튼을 감싼 View에 gap: 8 |
+| 8 | [Example: Navigate vs Push › Step 2 - Navigate to the Screen You Are On](#practice-8) | Settings에서 navigate("Settings") 버튼 추가 |
+| 9 | [Example: Navigate vs Push › Step 3 - Push the Screen You Are On](#practice-9) | Settings에서 push("Settings") 버튼 추가 |
+| 10 | [Example: Navigate vs Push › Step 4 - Navigate to a Screen Below You](#practice-10) | Settings에서 navigate("Home") 버튼 추가 |
+| 11 | [Example: Going Back › Step 2 - Fix the Navigate to Home Trap](#practice-11) | navigation.popTo("Home") 버튼 |
+| 12 | [Example: Going Back › Step 3 - Pop to the Top](#practice-12) | navigation.popToTop() 버튼 |
+| 13 | [Example: The useNavigation Hook › Step 1 - Move the Button into Its Own Component](#practice-13) | SettingsButton 컴포넌트로 분리하고 에러 확인 |
+| 14 | [Example: The useNavigation Hook › Step 2 - Import the Hook](#practice-14) | import에 useNavigation 추가 |
+| 15 | [Example: The useNavigation Hook › Step 3 - Call the Hook](#practice-15) | SettingsButton 첫 줄에 const navigation = useNavigation() |
+| 16 | [Example: The useNavigation Hook › Step 4 - Clean Up HomeScreen](#practice-16) | HomeScreen 파라미터에서 navigation 지우기 |
+| 17 | [Example: Passing Params › Step 1 - Remove the Navigate to Settings Button](#practice-17) | 이전 예제용 버튼 지우기 |
+| 18 | [Example: Passing Params › Step 2 - Send a Param](#practice-18) | navigation.navigate("Settings", { level: 1 }) |
+| 19 | [Example: Passing Params › Step 3 - Read the Param](#practice-19) | SettingsScreen({ navigation, route })에서 route.params.level 읽기 |
+| 20 | [Example: Passing Params › Step 4 - Push the Next Level](#practice-20) | push("Settings", { level: level + 1 }) |
+| 21 | [Example: Passing Params › Step 5 - Show the Crash, Then Fix It](#practice-21) | initialRouteName="Settings"로 크래시 보고 const { level = 1 } = route.params ?? {}로 고치기 |
+| 22 | [Example: Passing Params › Step 6 - Update the Current Screen's Params](#practice-22) | navigation.setParams({ level: 1 }) 버튼 |
+| 23 | [Example: Customizing the Header › Step 1 - Style Every Header](#practice-23) | Stack.Navigator screenOptions에 headerStyle, headerTintColor |
+| 24 | [Example: Customizing the Header › Step 2 - Give Home a Title](#practice-24) | Home Screen에 options={{ title: "..." }} |
+| 25 | [Example: Customizing the Header › Step 3 - Put the Level in the Header](#practice-25) | options={({ route }) => ({ title: `Settings Level ${...}` })} |
+| 26 | [Example: Customizing the Header › Step 4 - Add a Header Button](#practice-26) | options 함수에서 headerRight: () => <Button /> |
+| 27 | [Example: Tab Navigator › Starter Code](#practice-27) | 카운터가 있는 Home과 Settings 시작 코드 쳐 두기 |
+| 28 | [Example: Tab Navigator › Step 1 - Import the Navigation Pieces](#practice-28) | createBottomTabNavigator import |
+| 29 | [Example: Tab Navigator › Step 2 - Create the Tabs](#practice-29) | const Tab = createBottomTabNavigator() |
+| 30 | [Example: Tab Navigator › Step 3 - Register the Screens](#practice-30) | NavigationContainer > Tab.Navigator > Tab.Screen 두 개 |
+| 31 | [Example: Tab Navigator › Step 5 - Add Icons](#practice-31) | Ionicons import + options={{ tabBarIcon: ({ color, size }) => ... }} |
+| 32 | [Example: Tab Navigator › Step 6 - Colour the Selected Tab](#practice-32) | screenOptions={{ tabBarActiveTintColor: "purple" }} |
+| 33 | [Example: Handling State Across Screens › Starter Code](#practice-33) | stock 객체와 Home, Details, BuyButton 시작 코드 쳐 두기 |
+| 34 | [Example: Handling State Across Screens › Step 1 - Import Jotai](#practice-34) | import { atom, useAtom } from "jotai" |
+| 35 | [Example: Handling State Across Screens › Step 2 - Turn the Object into an Atom](#practice-35) | const stockAtom = atom({ ... }) |
+| 36 | [Example: Handling State Across Screens › Step 3 - Read the Atom in HomeScreen](#practice-36) | HomeScreen에 const [stock] = useAtom(stockAtom) |
+| 37 | [Example: Handling State Across Screens › Step 4 - Read the Atom in DetailsScreen](#practice-37) | DetailsScreen에도 같은 한 줄 |
+| 38 | [Example: Handling State Across Screens › Step 5 - Read and Update the Atom in BuyButton](#practice-38) | const [stock, setStock] = useAtom(stockAtom) + 함수형 setStock으로 하나 줄이기 |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
+
+
+
 ## 목차
 
 - 1. 📘 코스노트: Navigating Between Screens
@@ -50,6 +101,26 @@ const Stack = createNativeStackNavigator();       // 1. 컴포넌트 바깥에�
 ---
 
 ## 1. 📘 코스노트: Navigating Between Screens
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+Stack, Tab, Drawer 내비게이터와 화면 이동 방법을 정리한 글이에요. 💻 4.1 예제에서 단계별로 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
+
+**이 챕터 구성**
+
+- 👀 **Testing Navigation in Snack**: 코스노트 예제를 Snack에서 돌리려면 `package.json`을 이 내용으로 바꾸라는 안내예요.
+- 👀 **Introduction to Navigation**: 왜 Navigation 라이브러리가 필요해? 앱도 화면, 화면 전환, 뒤로 가기 기록(history), deep linking(링크를 누르면 앱의 특정 화면이 바로 열리는 것)이 필요한데 RN에는 내장된 게 없어요.
+- 👀 **Introduction to Navigation › Passing data between screens**: 화면 사이에 데이터 넘기기 (쇼핑앱에서 상품을 누르면 그 상품 상세가 나오는 것처럼).
+- 👀 **Introduction to Navigation › Customizing navigation header bars**: 헤더 꾸미기: `<Stack.Screen options={...}>`
+- 👀 **Introduction to Navigation › Updating params**: `navigation.setParams({ title: 'Super Widget' })` → 현재 화면의 params를 바꿔요.
+- 👀 **Introduction to Navigation › Moving through the stack**: 위 0번의 "스택 이동 메서드" 표가 바로 이 표예요.
+- 👀 **Introduction to Navigation › The useNavigation hook**: `navigation` prop은 Stack.Screen으로 등록된 "화면"만 받아요.
+- 👀 **Introduction to Navigation › Tab and drawer navigators**: Tab: 앱의 큰 섹션(최상위)용. Drawer: 옆에서 나오는 메뉴.
+- 👀 **Introduction to Navigation › Nesting navigators**: 내비게이터 중첩 = 한 내비게이터를 다른 내비게이터의 Screen 안에 넣기.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/D-Navigation/navigating
 
@@ -842,6 +913,14 @@ Two things to notice. First, a tab navigator draws a header of its own, and so d
 
 ## 2. 📘 코스노트: Handling State
 
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+여러 화면이 같은 데이터를 나눠 쓰는 방법이에요. 💻 4.1 "Handling State Across Screens"에서 Jotai로 직접 쳐 봐요.
+
+</div>
+
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/D-Navigation/handling-state
 
 On the previous page, we looked at examples that passed data between screens using route parameters. But many apps need shared global state, for example, an inventory count that updates across multiple screens. In React Navigation, there is no special navigation-specific state API. Instead, you manage global state the same way you would in any React app.
@@ -979,6 +1058,84 @@ This example uses Jotai to manage global state in a way that feels natural with 
 
 ## 3. 💻 인클래스 예제: Week 4.1 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+4.1 수업 라이브 코딩이에요. Starter Code에서 시작해 Step 순서대로 고쳐 가요. ⌨️ 표시된 코드는 Snack에서 직접 쳐 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: 수업 전에 Snack의 package.json을 바꾸라는 안내예요. 링크에는 이미 들어 있어요.
+- 👀 **Why Navigation?**: 웹과 달리 앱은 화면 이동과 기록을 JS로 관리해야 해요.
+- 👀 **Example: The NavigationContainer**: NavigationContainer 규칙 3개가 시험 포인트예요.
+- ⌨️ **Example: Stack Navigator**: 스택 = 카드 더미. Starter Code부터 Step 5까지 이어서 쳐 보세요.
+- ⌨️ **[Example: Stack Navigator › Starter Code](#practice-1)**: 화면과 버튼은 있고 연결만 안 된 상태예요. (⌨️ Home, Settings 화면이 있는 시작 코드 쳐 두기)
+- ⌨️ **[Example: Stack Navigator › Step 1 - Import the Navigation Pieces](#practice-2)**: core 패키지와 stack 패키지에서 가져와요. (⌨️ NavigationContainer, createNativeStackNavigator import)
+- ⌨️ **[Example: Stack Navigator › Step 2 - Create the Stack](#practice-3)**: 컴포넌트 안에서 만들면 안 돼요. (⌨️ 컴포넌트 바깥 맨 위에 const Stack = createNativeStackNavigator())
+- ⌨️ **[Example: Stack Navigator › Step 3 - Register the Screens](#practice-4)**: component에는 컴포넌트 자체를 넘겨요. <HomeScreen />이 아니에요. (⌨️ NavigationContainer > Stack.Navigator > Stack.Screen name, component={HomeScreen})
+- ⌨️ **[Example: Stack Navigator › Step 4 - Navigate Forward](#practice-5)**: navigate의 문자열은 Screen name과 정확히 같아야 해요. (⌨️ HomeScreen({ navigation })에서 navigation.navigate("Settings"))
+- ⌨️ **[Example: Stack Navigator › Step 5 - Go Back](#practice-6)**: goBack은 헤더 뒤로 가기 화살표와 같은 일을 해요. (⌨️ Settings에 navigation.goBack() 버튼)
+- 👀 **Example: Stack Navigator › Finished Code**: 완성 코드 해설: import 2줄 → `Stack` 생성 → 화면 컴포넌트(각자 `{ navigation }` 받음) → `MyApp`에서 Container > Navigator > Screen 2개.
+- ⌨️ **Example: Navigate vs Push**: 이미 열린 화면을 부를 때 navigate와 push가 달라져요.
+- ⌨️ **[Example: Navigate vs Push › Step 1 - Make Room for More Buttons](#practice-7)**: 버튼 간격만 정리해요. (⌨️ 버튼을 감싼 View에 gap: 8)
+- ⌨️ **[Example: Navigate vs Push › Step 2 - Navigate to the Screen You Are On](#practice-8)**: 이미 거기 있으면 아무 일도 안 일어나요. (⌨️ Settings에서 navigate("Settings") 버튼 추가)
+- ⌨️ **[Example: Navigate vs Push › Step 3 - Push the Screen You Are On](#practice-9)**: push는 항상 복사본을 쌓아요. (⌨️ Settings에서 push("Settings") 버튼 추가)
+- ⌨️ **[Example: Navigate vs Push › Step 4 - Navigate to a Screen Below You](#practice-10)**: 함정이에요. 원래 Home으로 돌아가지 않고 새 Home이 쌓여요. (⌨️ Settings에서 navigate("Home") 버튼 추가)
+- 👀 **Example: Navigate vs Push › Finished SettingsScreen**: 버튼 4개(Go Back, Navigate to Settings, Push Settings, Navigate to Home)를 비교하는 화면.
+- ⌨️ **Example: Going Back**: 뒤로 가는 방법 3가지(goBack, popTo, popToTop)예요.
+- 👀 **Example: Going Back › Step 1 - Go Back One Screen**: goBack은 한 장만 빼요.
+- ⌨️ **[Example: Going Back › Step 2 - Fix the Navigate to Home Trap](#practice-11)**: Home이 맨 위가 될 때까지 빼서 원래 Home으로 가요. (⌨️ navigation.popTo("Home") 버튼)
+- ⌨️ **[Example: Going Back › Step 3 - Pop to the Top](#practice-12)**: 스택의 첫 화면까지 한 번에 가요. (⌨️ navigation.popToTop() 버튼)
+- 👀 **Example: Going Back › Finished SettingsScreen**: 버튼: Go Back / Navigate to Settings / Push Settings / Pop to Home / Pop to Top.
+- ⌨️ **Example: The useNavigation Hook**: 화면이 아닌 컴포넌트는 useNavigation 훅으로 navigation을 얻어요.
+- ⌨️ **[Example: The useNavigation Hook › Step 1 - Move the Button into Its Own Component](#practice-13)**: 등록된 화면이 아니라 navigation prop을 못 받아요. (⌨️ SettingsButton 컴포넌트로 분리하고 에러 확인)
+- ⌨️ **[Example: The useNavigation Hook › Step 2 - Import the Hook](#practice-14)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ import에 useNavigation 추가)
+- ⌨️ **[Example: The useNavigation Hook › Step 3 - Call the Hook](#practice-15)**: Hook은 컴포넌트 안에서만 불러요. (⌨️ SettingsButton 첫 줄에 const navigation = useNavigation())
+- ⌨️ **[Example: The useNavigation Hook › Step 4 - Clean Up HomeScreen](#practice-16)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ HomeScreen 파라미터에서 navigation 지우기)
+- 👀 **Example: The useNavigation Hook › Finished Code**: 완성 코드 해설: `SettingsButton`이 `useNavigation()`으로 스스로 이동.
+- ⌨️ **Example: Passing Params**: params = 다음 화면에 넘기는 데이터예요.
+- ⌨️ **[Example: Passing Params › Step 1 - Remove the Navigate to Settings Button](#practice-17)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 이전 예제용 버튼 지우기)
+- ⌨️ **[Example: Passing Params › Step 2 - Send a Param](#practice-18)**: params는 두 번째 인자 객체로 보내요. (⌨️ navigation.navigate("Settings", { level: 1 }))
+- ⌨️ **[Example: Passing Params › Step 3 - Read the Param](#practice-19)**: 받는 쪽은 route.params예요. (⌨️ SettingsScreen({ navigation, route })에서 route.params.level 읽기)
+- ⌨️ **[Example: Passing Params › Step 4 - Push the Next Level](#practice-20)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ push("Settings", { level: level + 1 }))
+- ⌨️ **[Example: Passing Params › Step 5 - Show the Crash, Then Fix It](#practice-21)**: params 없이 열리면 undefined를 구조분해해서 크래시가 나요. (⌨️ initialRouteName="Settings"로 크래시 보고 const { level = 1 } = route.params ?? {}로 고치기)
+- ⌨️ **[Example: Passing Params › Step 6 - Update the Current Screen's Params](#practice-22)**: 이동 없이 지금 화면의 params만 바꿔요. (⌨️ navigation.setParams({ level: 1 }) 버튼)
+- 👀 **Example: Passing Params › Finished Code**: 완성 코드 해설: SettingsButton이 `{ level: 1 }` 전달 → SettingsScreen이 안전하게 읽고(`?? {}` + 기본값), Push로 level+1, Reset으로 setParams.
+- ⌨️ **Example: Customizing the Header**: 헤더 모양과 제목, 버튼을 바꿔요.
+- ⌨️ **[Example: Customizing the Header › Step 1 - Style Every Header](#practice-23)**: 모든 화면에 적용돼요. (⌨️ Stack.Navigator screenOptions에 headerStyle, headerTintColor)
+- ⌨️ **[Example: Customizing the Header › Step 2 - Give Home a Title](#practice-24)**: 화면 하나에만 적용되고 screenOptions보다 우선해요. (⌨️ Home Screen에 options={{ title: "..." }})
+- ⌨️ **[Example: Customizing the Header › Step 3 - Put the Level in the Header](#practice-25)**: params를 쓰려면 options를 함수로 줘요. (⌨️ options={({ route }) => ({ title: `Settings Level ${...}` })})
+- ⌨️ **[Example: Customizing the Header › Step 4 - Add a Header Button](#practice-26)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ options 함수에서 headerRight: () => <Button />)
+- 👀 **Example: Customizing the Header › Finished Code**: 완성 코드 해설: 변경은 `MyApp`만. Navigator의 `screenOptions`(전체 보라색 헤더) + Home의 `options` 객체(title) + Settings의 `options` 함수(level 제목 + headerRight...
+- ⌨️ **Example: Tab Navigator**: 탭 바는 항상 보이고, 스택과 같은 Navigator와 Screen 패턴을 써요.
+- ⌨️ **[Example: Tab Navigator › Starter Code](#practice-27)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 카운터가 있는 Home과 Settings 시작 코드 쳐 두기)
+- ⌨️ **[Example: Tab Navigator › Step 1 - Import the Navigation Pieces](#practice-28)**: @react-navigation/bottom-tabs 패키지예요. (⌨️ createBottomTabNavigator import)
+- ⌨️ **[Example: Tab Navigator › Step 2 - Create the Tabs](#practice-29)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ const Tab = createBottomTabNavigator())
+- ⌨️ **[Example: Tab Navigator › Step 3 - Register the Screens](#practice-30)**: 탭에는 뒤로 가기 화살표가 없어요. (⌨️ NavigationContainer > Tab.Navigator > Tab.Screen 두 개)
+- 👀 **Example: Tab Navigator › Step 4 - Show That Tabs Keep Their State**: 탭은 다른 탭으로 가도 state가 남아요. 스택에서 pop된 화면은 사라져요.
+- ⌨️ **[Example: Tab Navigator › Step 5 - Add Icons](#practice-31)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ Ionicons import + options={{ tabBarIcon: ({ color, size }) => ... }})
+- ⌨️ **[Example: Tab Navigator › Step 6 - Colour the Selected Tab](#practice-32)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ screenOptions={{ tabBarActiveTintColor: "purple" }})
+- 👀 **Example: Tab Navigator › Finished Code**: 완성 코드 해설: Tab 생성 → `screenOptions`로 활성 색 → 탭 3개, 각자 `tabBarIcon`.
+- 👀 **Example: Drawer Navigator**: 옆에서 나오는 메뉴예요. 실행해서 모양만 확인해요.
+- 👀 **Example: Choosing a Navigator per Platform**: Platform.select로 플랫폼마다 다른 내비게이터를 골라요.
+- 👀 **Example: Choosing a Navigator per Platform › How It Works**: 키는 `ios`, `android`, `default`.
+- 👀 **Example: Choosing a Navigator per Platform › What to Show**: Web: default 스택. Home 헤더만, 탭도 메뉴도 없음.
+- 👀 **Example: Nesting Navigators**: 스택 안에 탭을 넣는 중첩 패턴이에요.
+- 👀 **Example: Nesting Navigators › How It Works**: `MainTabs`는 `Tab.Navigator`를 return 하는 평범한 컴포넌트, 스택이 이걸 `Main` 화면으로 등록 → 탭 전체가 스택의 화면 하나.
+- 👀 **Example: Nesting Navigators › What to Show**: Feed 탭, 헤더 하나(탭의 헤더).
+- ⌨️ **Example: Handling State Across Screens**: params는 한 방향뿐이라 여러 화면이 함께 바꾸는 데이터는 Jotai로 공유해요.
+- ⌨️ **[Example: Handling State Across Screens › Starter Code](#practice-33)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ stock 객체와 Home, Details, BuyButton 시작 코드 쳐 두기)
+- ⌨️ **[Example: Handling State Across Screens › Step 1 - Import Jotai](#practice-34)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ import { atom, useAtom } from "jotai")
+- ⌨️ **[Example: Handling State Across Screens › Step 2 - Turn the Object into an Atom](#practice-35)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ const stockAtom = atom({ ... }))
+- ⌨️ **[Example: Handling State Across Screens › Step 3 - Read the Atom in HomeScreen](#practice-36)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ HomeScreen에 const [stock] = useAtom(stockAtom))
+- ⌨️ **[Example: Handling State Across Screens › Step 4 - Read the Atom in DetailsScreen](#practice-37)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ DetailsScreen에도 같은 한 줄)
+- ⌨️ **[Example: Handling State Across Screens › Step 5 - Read and Update the Atom in BuyButton](#practice-38)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ const [stock, setStock] = useAtom(stockAtom) + 함수형 setStock으로 하나 줄이기)
+- 👀 **Example: Handling State Across Screens › Step 6 - Show That Every Screen Stays in Sync**: Buy를 누르면 모든 화면 숫자가 같이 바뀌는지 확인해요.
+- 👀 **Example: Handling State Across Screens › Finished Code**: 완성 코드 해설: `stockAtom` 하나를 HomeScreen(목록 수량), DetailsScreen(상세 수량), BuyButton(헤더, 감소)이 같이 씀.
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-04.1-notes.md
 
 ### 💻 React Native Playground
@@ -1071,6 +1228,9 @@ export default function MyApp() {
 - Paste this into `App.js`. The screens, buttons and styles are done. Nothing is connected yet.
 - It runs as is: `MyApp` shows `HomeScreen` directly, and the button does nothing.
 
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Home, Settings 화면이 있는 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, Button, StyleSheet } from "react-native";
 
@@ -1105,7 +1265,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Stack%20Navigator%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20HomeScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EHome%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Go%20to%20Settings%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20SettingsScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3ESettings%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Go%20Back%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%3CHomeScreen%20%2F%3E%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Stack%20Navigator%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20HomeScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EHome%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Go%20to%20Settings%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20SettingsScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3ESettings%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Go%20Back%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%3CHomeScreen%20%2F%3E%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1114,6 +1274,9 @@ const styles = StyleSheet.create({
 #### 💻 Step 1 - Import the Navigation Pieces
 
 - Add two imports under the `react-native` import.
+
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: NavigationContainer, createNativeStackNavigator import</p>
 
 ```jsx
 import { NavigationContainer } from "@react-navigation/native";
@@ -1131,6 +1294,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 - Add this line under the imports, outside every component.
 
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 컴포넌트 바깥 맨 위에 const Stack = createNativeStackNavigator()</p>
+
 ```jsx
 const Stack = createNativeStackNavigator();
 ```
@@ -1145,6 +1311,9 @@ const Stack = createNativeStackNavigator();
 #### 💻 Step 3 - Register the Screens
 
 - Replace the `return` in `MyApp` with the container, the navigator, and one `Stack.Screen` per screen.
+
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: NavigationContainer &gt; Stack.Navigator &gt; Stack.Screen name, component={HomeScreen}</p>
 
 ```jsx
 export default function MyApp() {
@@ -1176,11 +1345,17 @@ export default function MyApp() {
 
 - Every screen registered in Step 3 receives a `navigation` prop automatically. Destructure it in `HomeScreen`.
 
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: HomeScreen({ navigation })에서 navigation.navigate(&quot;Settings&quot;)</p>
+
 ```jsx
 function HomeScreen({ navigation }) {
 ```
 
 - Give the button an `onPress` that navigates to the `Settings` route.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Button
@@ -1202,9 +1377,15 @@ function HomeScreen({ navigation }) {
 
 - Do the same in `SettingsScreen`: destructure `navigation`, then add an `onPress` to the button.
 
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Settings에 navigation.goBack() 버튼</p>
+
 ```jsx
 function SettingsScreen({ navigation }) {
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Button title="Go Back" onPress={() => navigation.goBack()} />
@@ -1288,6 +1469,9 @@ const styles = StyleSheet.create({
 
 - Add `gap: 8` to `styles.screen` so the buttons don't touch.
 
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 버튼을 감싼 View에 gap: 8</p>
+
 ```jsx
 screen: {
   flex: 1,
@@ -1304,6 +1488,9 @@ screen: {
 #### 💻 Step 2 - Navigate to the Screen You Are On
 
 - Add this button to `SettingsScreen`, under the **Go Back** button.
+
+
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Settings에서 navigate(&quot;Settings&quot;) 버튼 추가</p>
 
 ```jsx
 <Button
@@ -1322,6 +1509,9 @@ Settings에서 `navigate("Settings")` → **아무 일도 안 일어남**. 이�
 
 - Add a second button under it. The only difference is `push` instead of `navigate`.
 
+
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Settings에서 push(&quot;Settings&quot;) 버튼 추가</p>
+
 ```jsx
 <Button title="Push Settings" onPress={() => navigation.push("Settings")} />
 ```
@@ -1336,6 +1526,9 @@ Settings에서 `navigate("Settings")` → **아무 일도 안 일어남**. 이�
 #### 💻 Step 4 - Navigate to a Screen Below You
 
 - Add a third button that navigates to Home.
+
+
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Settings에서 navigate(&quot;Home&quot;) 버튼 추가</p>
 
 ```jsx
 <Button
@@ -1405,6 +1598,9 @@ function SettingsScreen({ navigation }) {
 
 - In the last example, **Navigate to Home** put a second Home on top. Change that button to use `popTo()`, and rename it.
 
+
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: navigation.popTo(&quot;Home&quot;) 버튼</p>
+
 ```jsx
 <Button title="Pop to Home" onPress={() => navigation.popTo("Home")} />
 ```
@@ -1420,6 +1616,9 @@ function SettingsScreen({ navigation }) {
 #### 💻 Step 3 - Pop to the Top
 
 - Add one more button under **Pop to Home**.
+
+
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: navigation.popToTop() 버튼</p>
 
 ```jsx
 <Button title="Pop to Top" onPress={() => navigation.popToTop()} />
@@ -1472,6 +1671,9 @@ function SettingsScreen({ navigation }) {
 
 - Add a new component above `HomeScreen`, and move Home's **Go to Settings** button into it.
 
+
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: SettingsButton 컴포넌트로 분리하고 에러 확인</p>
+
 ```jsx
 // Not a screen, so it doesn't receive a navigation prop.
 function SettingsButton() {
@@ -1485,6 +1687,9 @@ function SettingsButton() {
 ```
 
 - In `HomeScreen`, put the new component where the button was.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <SettingsButton />
@@ -1501,6 +1706,9 @@ function SettingsButton() {
 
 - Add `useNavigation` to the existing `@react-navigation/native` import.
 
+
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import에 useNavigation 추가</p>
+
 ```jsx
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 ```
@@ -1512,6 +1720,9 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 #### 💻 Step 3 - Call the Hook
 
 - Add this as the first line inside `SettingsButton`.
+
+
+<p class="typeit" id="practice-15">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: SettingsButton 첫 줄에 const navigation = useNavigation()</p>
 
 ```jsx
 const navigation = useNavigation();
@@ -1528,6 +1739,9 @@ const navigation = useNavigation();
 #### 💻 Step 4 - Clean Up HomeScreen
 
 - `HomeScreen` no longer uses `navigation`, so remove it from the parameters.
+
+
+<p class="typeit" id="practice-16">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: HomeScreen 파라미터에서 navigation 지우기</p>
 
 ```jsx
 function HomeScreen() {
@@ -1584,6 +1798,8 @@ function HomeScreen() {
 
 params = 다음 화면에 넘기는 데이터. `navigate()`/`push()`의 **두 번째 인자** 객체 → 받는 쪽은 `route.params`. 이번엔 Settings 복사본마다 `level`을 줘서 구분해요.
 
+<div class="pt" id="practice-17"></div>
+
 #### 💻 Step 1 - Remove the Navigate to Settings Button
 
 - Delete the **Navigate to Settings** button from `SettingsScreen`. It was only there for the Navigate vs Push example.
@@ -1595,6 +1811,9 @@ params = 다음 화면에 넘기는 데이터. `navigate()`/`push()`의 **두 �
 #### 💻 Step 2 - Send a Param
 
 - In `SettingsButton`, add a second argument to `navigate()`.
+
+
+<p class="typeit" id="practice-18">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: navigation.navigate(&quot;Settings&quot;, { level: 1 })</p>
 
 ```jsx
 onPress={() => navigation.navigate("Settings", { level: 1 })}
@@ -1610,12 +1829,18 @@ onPress={() => navigation.navigate("Settings", { level: 1 })}
 
 - Every screen gets a `route` prop alongside `navigation`. Add it to `SettingsScreen`, and read `level` from `route.params`.
 
+
+<p class="typeit" id="practice-19">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: SettingsScreen({ navigation, route })에서 route.params.level 읽기</p>
+
 ```jsx
 function SettingsScreen({ navigation, route }) {
   const { level } = route.params;
 ```
 
 - Change the text to show the level.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Text>Settings Level {level}</Text>
@@ -1630,6 +1855,9 @@ function SettingsScreen({ navigation, route }) {
 #### 💻 Step 4 - Push the Next Level
 
 - Give **Push Settings** a param too, one higher than the current level.
+
+
+<p class="typeit" id="practice-20">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: push(&quot;Settings&quot;, { level: level + 1 })</p>
 
 ```jsx
 <Button
@@ -1649,12 +1877,18 @@ function SettingsScreen({ navigation, route }) {
 - Always treat params as optional. A screen opened without them (as the first screen, or from a deep link) gets `undefined`, and destructuring `undefined` crashes the app.
 - Show the crash. In `MyApp`, change `initialRouteName` to `"Settings"`.
 
+
+<p class="typeit" id="practice-21">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: initialRouteName=&quot;Settings&quot;로 크래시 보고 const { level = 1 } = route.params ?? {}로 고치기</p>
+
 ```jsx
 <Stack.Navigator initialRouteName="Settings">
 ```
 
 - Run it. The app crashes, because nothing passed params to the first screen.
 - Fix the line in `SettingsScreen`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const { level = 1 } = route.params ?? {};
@@ -1670,6 +1904,9 @@ const { level = 1 } = route.params ?? {};
 #### 💻 Step 6 - Update the Current Screen's Params
 
 - Add a button under **Push Settings** that resets the level without navigating.
+
+
+<p class="typeit" id="practice-22">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: navigation.setParams({ level: 1 }) 버튼</p>
 
 ```jsx
 <Button
@@ -1744,6 +1981,9 @@ function SettingsScreen({ navigation, route }) {
 
 - Add `screenOptions` to `Stack.Navigator`.
 
+
+<p class="typeit" id="practice-23">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Stack.Navigator screenOptions에 headerStyle, headerTintColor</p>
+
 ```jsx
 <Stack.Navigator
   initialRouteName="Home"
@@ -1766,6 +2006,9 @@ function SettingsScreen({ navigation, route }) {
 
 - Add `options` to the Home screen.
 
+
+<p class="typeit" id="practice-24">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Home Screen에 options={{ title: &quot;...&quot; }}</p>
+
 ```jsx
 <Stack.Screen
   name="Home"
@@ -1784,6 +2027,9 @@ function SettingsScreen({ navigation, route }) {
 #### 💻 Step 3 - Put the Level in the Header
 
 - Settings needs a title that changes with its params, so its `options` is a function that receives the `route`.
+
+
+<p class="typeit" id="practice-25">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: options={({ route }) =&gt; ({ title: `Settings Level ${...}` })}</p>
 
 ```jsx
 <Stack.Screen
@@ -1806,6 +2052,9 @@ function SettingsScreen({ navigation, route }) {
 #### 💻 Step 4 - Add a Header Button
 
 - The `options` function also receives `navigation`. Add `headerRight` to put a **Reset** button in the header, greyed out when you are already on level 1.
+
+
+<p class="typeit" id="practice-26">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: options 함수에서 headerRight: () =&gt; &lt;Button /&gt;</p>
 
 ```jsx
 options={({ navigation, route }) => ({
@@ -1891,6 +2140,9 @@ export default function MyApp() {
 - This is a new app, so replace everything in `App.js`. The three screens and styles are done. Nothing is connected yet.
 - It runs as is: `MyApp` shows `HomeScreen` directly. The counter on Home is there to show what happens to state when you switch tabs.
 
+
+<p class="typeit" id="practice-27">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 카운터가 있는 Home과 Settings 시작 코드 쳐 두기</p>
+
 ```jsx
 import { useState } from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
@@ -1937,7 +2189,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Tab%20Navigator%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20Button%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20HomeScreen%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EHome%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3ECount%3A%20%7Bcount%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Add%20One%22%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20ProfileScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EProfile%20Screen%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20SettingsScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3ESettings%20Screen%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%3CHomeScreen%20%2F%3E%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20gap%3A%208%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Tab%20Navigator%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Text%2C%20Button%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20HomeScreen%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EHome%20Screen%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3ECount%3A%20%7Bcount%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Add%20One%22%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20ProfileScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3EProfile%20Screen%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20SettingsScreen%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3ESettings%20Screen%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%3CHomeScreen%20%2F%3E%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20gap%3A%208%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1946,6 +2198,9 @@ const styles = StyleSheet.create({
 #### 💻 Step 1 - Import the Navigation Pieces
 
 - Add two imports under the `react-native` import.
+
+
+<p class="typeit" id="practice-28">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: createBottomTabNavigator import</p>
 
 ```jsx
 import { NavigationContainer } from "@react-navigation/native";
@@ -1963,6 +2218,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 - Add this line under the imports, outside every component.
 
+
+<p class="typeit" id="practice-29">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: const Tab = createBottomTabNavigator()</p>
+
 ```jsx
 const Tab = createBottomTabNavigator();
 ```
@@ -1976,6 +2234,9 @@ const Tab = createBottomTabNavigator();
 #### 💻 Step 3 - Register the Screens
 
 - Replace the `return` in `MyApp` with the container, the navigator, and one `Tab.Screen` per screen.
+
+
+<p class="typeit" id="practice-30">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: NavigationContainer &gt; Tab.Navigator &gt; Tab.Screen 두 개</p>
 
 ```jsx
 export default function MyApp() {
@@ -2015,11 +2276,17 @@ export default function MyApp() {
 
 - Import an icon set under the other imports.
 
+
+<p class="typeit" id="practice-31">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Ionicons import + options={{ tabBarIcon: ({ color, size }) =&gt; ... }}</p>
+
 ```jsx
 import { Ionicons } from "@expo/vector-icons";
 ```
 
 - Give the Home tab an `options` prop with a `tabBarIcon`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Tab.Screen
@@ -2045,6 +2312,9 @@ import { Ionicons } from "@expo/vector-icons";
 #### 💻 Step 6 - Colour the Selected Tab
 
 - Add `screenOptions` to `Tab.Navigator`, the same prop the stack used for its headers.
+
+
+<p class="typeit" id="practice-32">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: screenOptions={{ tabBarActiveTintColor: &quot;purple&quot; }}</p>
 
 ```jsx
 <Tab.Navigator screenOptions={{ tabBarActiveTintColor: "#4f46e5" }}>
@@ -2474,6 +2744,9 @@ params는 **한 방향**(다음 화면으로)만. 여러 화면이 같이 **바�
 - This is a new app, so replace everything in `App.js`. The navigator, both screens, the header button and the styles are done.
 - It runs as is, but the counts are a plain object, so nothing can change them. **Buy** does nothing, and it is greyed out for Banana because Banana starts at 0.
 
+
+<p class="typeit" id="practice-33">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: stock 객체와 Home, Details, BuyButton 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Button, Text, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -2544,7 +2817,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Handling%20State%20Across%20Screens%20-%20Starter%20C&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Button%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0Aimport%20%7B%20NavigationContainer%20%7D%20from%20%22%40react-navigation%2Fnative%22%3B%0Aimport%20%7B%20createNativeStackNavigator%20%7D%20from%20%22%40react-navigation%2Fnative-stack%22%3B%0A%0Aconst%20Stack%20%3D%20createNativeStackNavigator%28%29%3B%0A%0A%2F%2F%20Stock%20counts.%20A%20plain%20object%20for%20now%2C%20so%20nothing%20can%20change%20them.%0Aconst%20stock%20%3D%20%7B%20Apple%3A%205%2C%20Banana%3A%200%2C%20Cherry%3A%2015%20%7D%3B%0A%0Afunction%20HomeScreen%28%7B%20navigation%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%7BObject.keys%28stock%29.map%28%28item%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CButton%0A%20%20%20%20%20%20%20%20%20%20key%3D%7Bitem%7D%0A%20%20%20%20%20%20%20%20%20%20title%3D%7B%60%24%7Bitem%7D%20%28%24%7Bstock%5Bitem%5D%7D%29%60%7D%0A%20%20%20%20%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20navigation.navigate%28%22Details%22%2C%20%7B%20item%20%7D%29%7D%0A%20%20%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20DetailsScreen%28%7B%20route%20%7D%29%20%7B%0A%20%20const%20%7B%20item%20%3D%20%22Apple%22%20%7D%20%3D%20route.params%20%3F%3F%20%7B%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%7Bitem%7D%3A%20%7Bstock%5Bitem%5D%7D%20in%20stock%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20Lives%20in%20the%20header%2C%20not%20inside%20a%20screen.%0Afunction%20BuyButton%28%7B%20item%20%7D%29%20%7B%0A%20%20const%20qty%20%3D%20stock%5Bitem%5D%20%3F%3F%200%3B%0A%0A%20%20return%20%3CButton%20title%3D%22Buy%22%20disabled%3D%7Bqty%20%3D%3D%3D%200%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CNavigationContainer%3E%0A%20%20%20%20%20%20%3CStack.Navigator%3E%0A%20%20%20%20%20%20%20%20%3CStack.Screen%20name%3D%22Home%22%20component%3D%7BHomeScreen%7D%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CStack.Screen%0A%20%20%20%20%20%20%20%20%20%20name%3D%22Details%22%0A%20%20%20%20%20%20%20%20%20%20component%3D%7BDetailsScreen%7D%0A%20%20%20%20%20%20%20%20%20%20options%3D%7B%28%7B%20route%20%7D%29%20%3D%3E%20%28%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20title%3A%20route.params%3F.item%20%3F%3F%20%22Details%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20headerRight%3A%20%28%29%20%3D%3E%20%3CBuyButton%20item%3D%7Broute.params%3F.item%7D%20%2F%3E%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%29%7D%0A%20%20%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%3C%2FStack.Navigator%3E%0A%20%20%20%20%3C%2FNavigationContainer%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A&dependencies=%40react-navigation%2Fnative%40%5E7.0.0%2C%40react-navigation%2Fnative-stack%40%5E7.0.0%2Creact-native-safe-area-context%40~5.6.0%2Creact-native-screens%40~4.16.0)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W4%20Example%3A%20Handling%20State%20Across%20Screens%20-%20Starter%20C&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Button%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0Aimport%20%7B%20NavigationContainer%20%7D%20from%20%22%40react-navigation%2Fnative%22%3B%0Aimport%20%7B%20createNativeStackNavigator%20%7D%20from%20%22%40react-navigation%2Fnative-stack%22%3B%0A%0Aconst%20Stack%20%3D%20createNativeStackNavigator%28%29%3B%0A%0A%2F%2F%20Stock%20counts.%20A%20plain%20object%20for%20now%2C%20so%20nothing%20can%20change%20them.%0Aconst%20stock%20%3D%20%7B%20Apple%3A%205%2C%20Banana%3A%200%2C%20Cherry%3A%2015%20%7D%3B%0A%0Afunction%20HomeScreen%28%7B%20navigation%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%7BObject.keys%28stock%29.map%28%28item%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CButton%0A%20%20%20%20%20%20%20%20%20%20key%3D%7Bitem%7D%0A%20%20%20%20%20%20%20%20%20%20title%3D%7B%60%24%7Bitem%7D%20%28%24%7Bstock%5Bitem%5D%7D%29%60%7D%0A%20%20%20%20%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20navigation.navigate%28%22Details%22%2C%20%7B%20item%20%7D%29%7D%0A%20%20%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20DetailsScreen%28%7B%20route%20%7D%29%20%7B%0A%20%20const%20%7B%20item%20%3D%20%22Apple%22%20%7D%20%3D%20route.params%20%3F%3F%20%7B%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.screen%7D%3E%0A%20%20%20%20%20%20%3CText%3E%0A%20%20%20%20%20%20%20%20%7Bitem%7D%3A%20%7Bstock%5Bitem%5D%7D%20in%20stock%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20Lives%20in%20the%20header%2C%20not%20inside%20a%20screen.%0Afunction%20BuyButton%28%7B%20item%20%7D%29%20%7B%0A%20%20const%20qty%20%3D%20stock%5Bitem%5D%20%3F%3F%200%3B%0A%0A%20%20return%20%3CButton%20title%3D%22Buy%22%20disabled%3D%7Bqty%20%3D%3D%3D%200%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CNavigationContainer%3E%0A%20%20%20%20%20%20%3CStack.Navigator%3E%0A%20%20%20%20%20%20%20%20%3CStack.Screen%20name%3D%22Home%22%20component%3D%7BHomeScreen%7D%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CStack.Screen%0A%20%20%20%20%20%20%20%20%20%20name%3D%22Details%22%0A%20%20%20%20%20%20%20%20%20%20component%3D%7BDetailsScreen%7D%0A%20%20%20%20%20%20%20%20%20%20options%3D%7B%28%7B%20route%20%7D%29%20%3D%3E%20%28%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20title%3A%20route.params%3F.item%20%3F%3F%20%22Details%22%2C%0A%20%20%20%20%20%20%20%20%20%20%20%20headerRight%3A%20%28%29%20%3D%3E%20%3CBuyButton%20item%3D%7Broute.params%3F.item%7D%20%2F%3E%2C%0A%20%20%20%20%20%20%20%20%20%20%7D%29%7D%0A%20%20%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%3C%2FStack.Navigator%3E%0A%20%20%20%20%3C%2FNavigationContainer%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20screen%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A&dependencies=%40react-navigation%2Fnative%40%5E7.0.0%2C%40react-navigation%2Fnative-stack%40%5E7.0.0%2Creact-native-safe-area-context%40~5.6.0%2Creact-native-screens%40~4.16.0)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Before adding anything, point out the problem. `BuyButton` needs to change a count, and `HomeScreen` and `DetailsScreen` need to show it.
 - `useState` in one of them can't reach the others. `BuyButton` is rendered by the header, and both screens are rendered by the navigator, so none of them is a parent you control.
@@ -2558,6 +2831,9 @@ const styles = StyleSheet.create({
 
 - Add this import under the others.
 
+
+<p class="typeit" id="practice-34">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import { atom, useAtom } from &quot;jotai&quot;</p>
+
 ```jsx
 import { atom, useAtom } from "jotai";
 ```
@@ -2569,6 +2845,9 @@ import { atom, useAtom } from "jotai";
 #### 💻 Step 2 - Turn the Object into an Atom
 
 - Replace the plain `stock` object with an atom. Same values, wrapped in `atom()`, with a new name.
+
+
+<p class="typeit" id="practice-35">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: const stockAtom = atom({ ... })</p>
 
 ```jsx
 // Global stock counts, shared by every screen.
@@ -2586,6 +2865,9 @@ const stockAtom = atom({ Apple: 5, Banana: 0, Cherry: 15 });
 
 - Add this as the first line inside `HomeScreen`.
 
+
+<p class="typeit" id="practice-36">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: HomeScreen에 const [stock] = useAtom(stockAtom)</p>
+
 ```jsx
 const [stock] = useAtom(stockAtom);
 ```
@@ -2601,6 +2883,9 @@ const [stock] = useAtom(stockAtom);
 
 - Add the same line as the first line inside `DetailsScreen`.
 
+
+<p class="typeit" id="practice-37">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: DetailsScreen에도 같은 한 줄</p>
+
 ```jsx
 const [stock] = useAtom(stockAtom);
 ```
@@ -2613,11 +2898,17 @@ const [stock] = useAtom(stockAtom);
 
 - `BuyButton` needs the setter too. Add this as its first line.
 
+
+<p class="typeit" id="practice-38">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: const [stock, setStock] = useAtom(stockAtom) + 함수형 setStock으로 하나 줄이기</p>
+
 ```jsx
 const [stock, setStock] = useAtom(stockAtom);
 ```
 
 - Give the button an `onPress` that takes one off this item's count.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Button
@@ -2743,6 +3034,30 @@ const styles = StyleSheet.create({
 ---
 
 ## 4. 🧪 Lab: Lab 4 - Navigation
+
+<div class="sum" data-kind="lab">
+
+**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
+
+Lab 4는 짝과 함께 내비게이션 앱을 계획하고 만드는 랩이에요. 힌트만 적어 뒀으니 혼자 풀어 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **A Note on AI**: AI는 막혔을 때만. 이번 랩은 그룹 활동 + 서로 테스트까지 있어요.
+- 👀 **Overview**: 그룹이 같이 앱 지도를 그리고(A), 각자 직접 만들고(B), 서로 테스트(C).
+- ⏭️ **Overview › The Clock**: 수업 시간 안에 끝내는 랩이라 시간 배분 안내예요.
+- ⏭️ **Submission**: 지도 사진 + Snack 링크, 테스트 결과 주석 블록 포함.
+- 👀 **Setup**: 교수님 starter Snack을 Fork. package.json 그대로, SDK 54 유지.
+- 🧪 **Part A - Plan Together**: 지도에 들어갈 것: 앱 이름, 탭 3개(browse, saved, about) 이름과 Ionicons 아이콘 이름, 모든 route 이름(browse 안의 스택 화면 2개 포함), 아이템 데이터 4개 이상(`id`, `name` + 필드 2개),...
+- 🧪 **Part B - Build It Yourself**: 지도 그대로 직접 구현. ITEMS 배열을 그룹 데이터로 교체.
+- 🧪 **Part B - Build It Yourself › Part B1 - Tabs and a Nested Stack**: 연결: 코스노트 Nesting navigators의 두 번째 예제(Messages/Contacts) 와 똑같은 패턴(Tabs → Stack).
+- 🧪 **Part B - Build It Yourself › Part B2 - Params and the Header**: 연결: 4.1 Passing Params, Customizing the Header.
+- 🧪 **Part B - Build It Yourself › Part B3 - Push and Pop**: 연결: 4.1 Navigate vs Push, Going Back.
+- 🧪 **Part B - Build It Yourself › Part B4 - Saved Items and Shared State**: 연결: 4.1 Handling State Across Screens(Buy 버튼) + useNavigation Hook.
+- 🧪 **Part B - Build It Yourself › Bonus - Open a Saved Item**: saved 탭은 browse 스택 바깥이라 `navigate("Browse", { screen: "Details", params: { id, name } })`.
+- 🧪 **Part C - Test Each Other**: 그룹원끼리 서로의 Snack을 주석 체크리스트대로 테스트하고 결과(pass/fail/not built)를 적기.
+
+</div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-4.md
 

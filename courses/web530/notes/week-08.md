@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 강의 노트와 랩이 없어서 **코스노트만** 다뤄요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **Expo Router 파일 이름 규칙 4가지 (시험 단골)**
@@ -33,6 +35,8 @@
 - `npx expo start --tunnel`에서 ngrok 에러가 나면 `npm install -g @expo/ngrok@4.1.0`.
 
 
+
+
 ## 목차
 
 - 1. 📘 코스노트: Setup Tools & Dev Environment
@@ -46,6 +50,24 @@
 ---
 
 ## 1. 📘 코스노트: Setup Tools & Dev Environment
+
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+Snack을 졸업하고 내 컴퓨터에 Expo 프로젝트를 만드는 준비 과정이에요. 명령어는 터미널에서 직접 따라 쳐 보세요.
+
+**이 챕터 구성**
+
+- 👀 **VS Code**: VS Code = 코드 편집기(워드가 문서 편집기인 것처럼).
+- 👀 **VS Code › VS Code Extensions**: 확장 프로그램 7개 설치. 꼭 필요한 건 ESLint(실수 잡기), Prettier(자동 정리), Expo Tools.
+- 👀 **VS Code › Setup formatting**: 저장할 때 자동으로 코드 정리되게 하기: Settings에서 Format On Save, Format On Paste 켜고, Default Formatter를 Prettier로.
+- 👀 **Node.js and npm (Node Package Manager)**: Expo는 Node.js 위에서 돌아가요. LTS(장기 지원) 버전을 받으세요("Current"는 불안정할 수 있음).
+- 👀 **Expo Go App**: 폰에 Expo Go 설치 → 컴퓨터에서 프로젝트를 실행하면 나오는 QR 코드를 찍으면 앱이 폰에 떠요.
+- 👀 **Git**: `git --version`으로 확인하고 없으면 설치.
+- 👀 **Git › Optional: GitHub Copilot**: 선택 사항. 학생 인증하면 무료로 쓸 수 있는 AI 코딩 도우미예요.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/Z-Guides/tool-dev-setup
 
@@ -187,6 +209,26 @@ If you don’t already have it, it is highly recommended to sign up for GitHub C
 ---
 
 ## 2. 📘 코스노트: Introduction to Expo
+
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+npx create-expo-app으로 프로젝트를 만들고 Expo Go로 폰에서 실행하는 방법이에요. 직접 따라 해 보세요.
+
+**이 챕터 구성**
+
+- 👀 **What is Expo?**: Expo = React Native 위에 만든 오픈소스 프레임워크 + 도구 모음.
+- 👀 **What is Expo? › Core Benefits**: 장점 4가지 (시험에 "Expo를 쓰는 이유"로 나올 수 있어요)
+- 👀 **Expo vs. Bare React Native**: Bare(순수) React Native는 Android 프로젝트(Java/Kotlin)와 iOS 프로젝트(Swift/Obj-C)를 따로 관리해야 하고 Android Studio, Xcode 같은 무거운 프로그램이 필요해요.
+- 👀 **Moving Beyond Expo Snack**: Snack은 연습장으로는 최고지만 실제 앱에는 한계가 있어요.
+- 👀 **How Expo Works: The Managed Workflow**: 이 수업은 Managed Workflow를 써요.
+- 👀 **How Expo Works: The Managed Workflow › The Magic of Expo Go**: `npx expo start`를 하면 컴퓨터가 앱 전체를 빌드하는 게 아니라 Metro라는 번들러를 켜요.
+- 👀 **Creating a New Expo Project**: npx create-expo-app myapp --template blank # 1.
+- 👀 **Running Your New App**: 폰에서 Expo Go로 QR 찍기(추천). 아니면 iOS 시뮬레이터(Mac만) 또는 Android 에뮬레이터.
+- 👀 **Modifying the App**: App.js를 고치면 돼요(Snack과 똑같이).
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/H-Expo/expo
 
@@ -356,6 +398,30 @@ You can make changes to App.js (just like when working with Snack). When creatin
 ---
 
 ## 3. 📘 코스노트: TypeScript for React Native
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+TypeScript 기초(타입, interface, props 타입)예요. 읽고 이해하면서, 다음 Expo Router 예제에서 직접 써 봐요.
+
+**이 챕터 구성**
+
+- 👀 **Why Use TypeScript in React Native?**: 실행 전에 에러를 잡아요 (오타, 잘못된 값).
+- 👀 **Introduction to TypeScript Syntax**: TS가 처음이라면 알아야 할 기초 문법 3가지(변수, 배열, 객체)예요.
+- 👀 **Introduction to TypeScript Syntax › Variables and Types**: `이름: 타입 = 값`. 기본 타입 3개: `number`, `string`, `boolean`.
+- 👀 **Introduction to TypeScript Syntax › Arrays**: 배열은 `타입[]`. `number[]` = 숫자만 들어가는 배열.
+- 👀 **Introduction to TypeScript Syntax › Objects**: 객체는 `{ 속성: 타입; 속성: 타입 }` 으로 모양(shape) 을 적어요.
+- 👀 **Using TypeScript in React Native Components › Functional Component Without Props**: props가 없으면 JS와 똑같아요. 타입을 적을 게 없으니까요.
+- 👀 **Using TypeScript in React Native Components › Typing Component Props with Interfaces**: `interface GreetingProps { name: string; excited?: boolean; }`: props의 설계도.
+- 👀 **Typing State with useState**: `useState<number>(0)`: 꺾쇠 `<>` 안에 state 타입.
+- 👀 **Typing Event Handlers**: `(): void`: 아무것도 반환하지 않는 함수.
+- 👀 **Combining Props, State, and Events**: `CounterProps`로 `start`를 숫자로 정하고, `useState(start)`는 숫자로 추론, 버튼은 `prev => prev + 1`(Week 2 함수형 업데이트).
+- 👀 **Typing API Data (Beginner Level)**: fetch로 받는 데이터(Week 5)의 모양을 interface로 정하고, `useState<Post[]>([])`로 "Post들의 배열"이라고 알려 줘요.
+- 👀 **When You Don’t Need to Use Types**: 생략: 타입이 뻔할 때(`useState(0)`), 빠르게 실험할 때, 단순 UI.
+- 👀 **Summary**: TS = 안전 + 명확. props는 interface, state는 필요할 때 `<타입>`.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript
 
@@ -661,6 +727,45 @@ TS = 안전 + 명확. props는 **interface**, state는 필요할 때 `<타입>`.
 ---
 
 ## 4. 📘 코스노트: Introduction to Expo Router
+
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+app 폴더 구조로 화면을 만드는 Expo Router예요. VS Code의 로컬 Expo 프로젝트에서 직접 만들어 보세요.
+
+**이 챕터 구성**
+
+- 👀 **What is Expo Router?**: React Navigation은 `NavigationContainer`, `Stack.Screen`을 코드로 하나하나 등록해야 했어요.
+- 👀 **Why Use Expo Router?**: 화면 = 파일: 파일 경로가 곧 화면 주소.
+- 👀 **Core Concepts & File Conventions**: 프로젝트 루트의 `app/` 폴더 안 파일 하나하나가 경로(route)가 돼요.
+- 👀 **Core Concepts & File Conventions › 1. The Entry Point: `index.tsx`**: `index` = 그 폴더의 기본 화면. 웹사이트의 `index.html`과 같아요.
+- 👀 **Core Concepts & File Conventions › 2. Layout Files: `_layout.tsx`**: `_layout` = 같은 폴더의 화면들을 감싸는 틀.
+- 👀 **Core Concepts & File Conventions › 3. Route Groups: `(directory-name)`**: 괄호 폴더 = 정리용 폴더. 경로에서 이름이 사라져요.
+- 👀 **Core Concepts & File Conventions › 4. Dynamic Routes: `[id].tsx`**: 대괄호 = 값이 바뀌는 자리. `app/profile/[id].tsx` 하나로 `/profile/123`, `/profile/steve` 모두 처리.
+- 👀 **Structural Visualization: Layouts vs. Screens**: 파일 트리가 실제 화면 구조로 어떻게 바뀌는지 보는 부분.
+- 👀 **Structural Visualization: Layouts vs. Screens › Example Directory Architecture**: 읽는 연습 (시험에 "이 파일의 경로는?"이 나올 수 있어요)
+- 👀 **Setting Up Expo Router**: Week 8 앞부분과 같은데 템플릿만 다름: `npx create-expo-app@latest MyRouterApp --template tabs`.
+- 👀 **Running Your New App**: 실행 방법은 위 Expo 노트와 같아요(Expo Go로 QR).
+- 👀 **Understanding the Default File Architecture**: `(tabs)/_layout.tsx`: 아래 탭 바 설정.
+- 👀 **Begin implementing a Product Shop application**: 여기부터 Product Shop 앱을 단계별로 만들어요: 탭 설정 → 설정 화면 → Jotai로 상품 목록 → 상품 목록 화면 → `[id]` 상세 화면 → 탭 안 Stack으로 고치기.
+- 👀 **Begin implementing a Product Shop application › Configure Tabs**: 두 번째 탭을 Settings로 바꾸기
+- 👀 **Begin implementing a Product Shop application › Update the Settings Screen**: `settings.tsx`를 덮어써서 컴포넌트 이름을 `SettingsScreen`으로, 제목을 "Settings"로.
+- 👀 **Begin implementing a Product Shop application › Install Jotai and Configure a Product List**: Jotai로 상품 목록을 전역 state로 (Week 4에서 배운 Jotai 그대로)
+- 👀 **Begin implementing a Product Shop application › Update Tab One - Make it the Product Shop**: 코드 해설 (Week 5 FlatList + Week 4 Jotai + 새로운 `Link`)
+- 👀 **Begin implementing a Product Shop application › Create the Dynamic Product Details Screen**: `app/product/[id].tsx` 해설
+- 👀 **Begin implementing a Product Shop application › Checkpoint & Architecture Review**: 지금까지: 탭 2개, Jotai 전역 상품 목록, `[id]` 동적 상세 화면.
+- 👀 **Resolving the Issues: Building a Tab-Nested Stack**: 루트의 `product/` 폴더를 없애고, 첫 번째 탭 안에 Stack을 중첩해요.
+- 👀 **Resolving the Issues: Building a Tab-Nested Stack › Step 1: Restructure Your Directories**: `app/(tabs)/products/` 폴더 만들기.
+- 👀 **Resolving the Issues: Building a Tab-Nested Stack › Step 2: Create the Products Stack Layout**: `(tabs)/products/_layout.tsx` 해설
+- 👀 **Resolving the Issues: Building a Tab-Nested Stack › Step 3: Update the Root Tabs Layout**: `(tabs)/_layout.tsx` 수정
+- 👀 **Resolving the Issues: Building a Tab-Nested Stack › Step 4: Fix Relative Links**: 링크 주소를 새 구조에 맞게 `/products/${item.id}` 로.
+- 👀 **Summary: What You Learned › 1. File-Based Routing with Expo Router**: 파일 트리 = 화면 구조. `_layout.tsx`가 틀, `(tabs)` 같은 괄호 폴더는 경로에 안 나옴.
+- 👀 **Summary: What You Learned › 2. State Splitting with Jotai**: 상품 데이터를 화면 안 배열이 아니라 atom(전역) 에 두고 목록과 상세 화면이 같이 읽어요.
+- 👀 **Summary: What You Learned › 3. Dynamic Screen Rendering**: `[id].tsx` 하나가 모든 상품 상세를 담당, 값은 `useLocalSearchParams`.
+- 👀 **Summary: What You Learned › 4. Advanced Tab-to-Stack Architecture**: 상세 화면을 탭 밖에 두면 탭 바가 사라져요. 탭 폴더 안에 Stack(`_layout.tsx`)을 중첩하면 탭 바 유지 + 깔끔한 제목 + 뒤로 가기.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/H-Expo/expo-router
 

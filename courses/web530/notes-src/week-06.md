@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요. 이번 주는 **손가락** 주간이라, Pressable 예제는 Web에서도 되지만 hitSlop, 관성 스크롤, 스와이프는 **폰(My Device + Expo Go)** 에서 해 봐야 느낌이 와요. 스와이프 예제 링크는 iOS 미리보기로 열리게 해 두었어요. **Test 3 범위.**
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **제스처의 두 종류 (개념 문제 단골)**
@@ -31,9 +33,13 @@
 | 직접 드래그 구현 | `PanResponder` + `Animated` + `useRef` |
 | 스와이프해서 삭제 | `react-native-gesture-handler`의 `Swipeable` + `GestureHandlerRootView` |
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE F-Touch/handling-touch.md
+@@S _doc | read
+탭과 길게 누르기 같은 터치를 처리하는 방법이에요. 💻 6.1 Pressable 예제에서 직접 쳐 보니까 여기서는 읽기만 해요.
 @@K Pressable
 **Gesture Responder System(GRS)**: 사용자가 탭하려는 건지, 스크롤하려는 건지 등을 **판단**하는 RN 내장 시스템. 강력하지만 직접 쓸 일은 드물고, 더 쉬운 컴포넌트를 써요.
 
@@ -70,6 +76,8 @@ Pressable이 주는 것 (원문 6개):
 - `Gesture.Tap()`, `Gesture.LongPress()`, `Gesture.Pan()`(드래그, 스와이프), `Gesture.Pinch()`.
 
 @@NOTE F-Touch/scrolling.md
+@@S _doc | read
+ScrollView와 FlatList 스크롤 정리예요. 읽고 개념만 잡으면 돼요.
 @@K Scrolling with your fingers
 `ScrollView`는 자식을 **전부 한 번에** 렌더링. 그래서 정적 콘텐츠, 짧은 목록, 폼, 긴 글에 적합.
 **주의**: ScrollView는 **높이가 제한(bounded height)** 되어야 해요. 제한이 없으면 자식 크기만큼 늘어나서 스크롤이 안 돼요.
@@ -105,6 +113,8 @@ FlatList는 화면에 나타날 때 렌더링(lazy), 화면 밖으로 나가면 
 3. **`extraData={selected}`** → FlatList에게 "줄이 data 말고 다른 것(selected)에도 의존한다"고 알려 줌. 없으면 최적화된 목록이 다시 그리기를 건너뛰어 탭한 줄이 선택 안 된 것처럼 보일 수 있어요.
 
 @@NOTE F-Touch/swipe-cancel.md
+@@S _doc | read
+스와이프와 취소 제스처예요. 💻 6.1 Drag and Snap Back, Swipe to Delete에서 직접 쳐 봐요.
 @@K Swipe Gestures
 **스와이프** = 가로 드래그. 메일, 메시지, 할 일 앱에서 줄을 밀어 삭제, 보관, 읽음 표시.
 **필수 조건 2가지 (시험 포인트)**:
@@ -145,6 +155,81 @@ Swipeable이 주는 것: 물리 기반 부드러운 스와이프, 왼쪽/오른�
 💡 `Swipeable`은 **deprecated**(앞으로 없어질 수 있음). 수업용으로는 OK. 요즘은 `ReanimatedSwipeable`(거의 같은 API), Gesture API(`Gesture.Pan()`, `GestureDetector`), Reanimated를 써요. 이 예제를 그대로 두는 이유: Snack에서 잘 되고, 패턴을 명확히 보여 주고, Reanimated/Worklets의 복잡함을 피하려고.
 
 @@LEC week-06.1-notes.md
+@@S _doc | type
+6.1 수업 라이브 코딩이에요. Starter Code에서 시작해 Step 순서대로 고쳐 가요. 스와이프 예제는 폰(Expo Go)에서 확인하세요.
+@@S React Native Playground | skim
+패키지와 실행 환경 안내예요.
+@@S Why Touch? | read
+탭 같은 discrete 제스처와 스크롤 같은 continuous 제스처를 구분해요.
+@@S Example: Pressable | type
+Pressable은 모양이 없는 터치 컴포넌트예요.
+@@S Starter Code | type
+할 일: 버튼처럼 생긴 View 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Make It Pressable | type
+할 일: View를 Pressable로 바꾸고 onPress에서 setTaps((prev) => prev + 1)
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Show Pressed Feedback | type
+할 일: style={({ pressed }) => [styles.button, pressed && styles.pressed]}
+style을 함수로 줘서 누르는 동안 모양을 바꿔요.
+@@S Step 3 - Log Every Press Event | type
+할 일: onPressIn, onPressOut, onPress, onLongPress를 로그로 찍기
+이벤트 순서가 시험 포인트예요.
+@@S Example: Hit Slop | read
+hitSlop으로 작은 버튼의 터치 영역을 넓혀요.
+@@S Scrolling | read
+스크롤과 관성(momentum) 개념이에요.
+@@S Example: ScrollView | type
+세로 페이지 안에 가로 카드 줄을 넣어요.
+@@S Starter Code | type
+할 일: Row 30개짜리 세로 ScrollView 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Add a Horizontal Row | type
+할 일: ScrollView horizontal + contentContainerStyle로 가로 카드 줄 추가
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Pressable Rows in a FlatList | type
+목록은 스크롤도 되고 줄 탭도 돼야 해요.
+@@S Starter Code | type
+할 일: 줄 40개 FlatList 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Make the Rows Pressable | type
+할 일: 줄 View를 Pressable로 바꾸고 pressed 피드백
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Select Rows | type
+할 일: selected 객체 state + toggle(id)로 줄 선택 표시
+함수형 업데이트와 객체 복사를 연습해요.
+@@S Swipe and Cancel | read
+스와이프는 짧으면 취소되고 세로 스크롤을 막지 않아야 해요.
+@@S Example: Drag and Snap Back | type
+PanResponder와 Animated로 직접 끌기를 만들어요. 폰에서 확인하세요.
+@@S Starter Code | type
+할 일: 안 움직이는 카드 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Follow the Finger | type
+할 일: useRef(new Animated.Value(0)) + PanResponder로 손가락 따라가기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Snap Back on Release | type
+할 일: onPanResponderRelease에서 Animated.spring으로 복귀
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Commit Past a Threshold | type
+할 일: Math.abs(dx) > 120이면 Animated.timing으로 밀어내고 setDismissed(true)
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Swipe to Delete | type
+실제 앱처럼 Gesture Handler의 Swipeable을 써요. 폰에서 확인하세요.
+@@S Starter Code | type
+할 일: MessageRow가 있는 받은편지함 FlatList 쳐 두기
+MessageRow는 MyApp 바깥에 선언해요.
+@@S Step 1 - Add the Gesture Root | type
+할 일: 바깥 View를 GestureHandlerRootView로 바꾸기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Make the Rows Swipeable | type
+할 일: 줄을 Swipeable renderRightActions로 감싸기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Delete the Message | type
+할 일: remove(id)에서 filter로 지우고 onDelete prop 연결
+이 단계 코드를 직접 쳐 보세요.
+@@S Touch UX Checklist | read
+터치 UX 체크리스트 6개는 서술형으로 나올 수 있어요.
 @@K React Native Playground
 마지막 예제(Swipe to Delete)만 `react-native-gesture-handler` 필요(링크에 자동 포함). Web은 마우스뿐이라: 클릭 = 탭, 꾹 누르기 = long press는 Web에서 OK. hitSlop, 관성 스크롤, 스와이프는 **폰**에서.
 @@K Why Touch?

@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 3 범위.**
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **위치 기능 4단계 공식**
@@ -29,9 +31,13 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 
 **좌표 상식**: 위도(latitude)는 남북 -90~90, 경도(longitude)는 동서 -180~180. 그리니치 서쪽은 음수라서 토론토 경도는 약 **-79.35**. delta 0.01도 ≈ 약 1km, **작을수록 확대**.
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE G-Geolocation/handuser-loc.md
+@@S _doc | read
+사용자 위치를 한 번 가져오거나 계속 추적하는 방법이에요. 💻 7.1 Where Am I?, Live Location에서 직접 쳐 보니까 여기서는 읽기만 해요.
 @@K _pre
 위치가 필요한 앱: 근처 식당, 길 찾기, 위치 맞춤 콘텐츠. RN에서는 **`expo-location`** 라이브러리로 GPS를 써요(Snack에서도 동작). Web 미리보기는 브라우저 위치를 쓰는데 권한이 없을 수 있어서, **실제 폰(My Device + Expo Go)** 이 확실해요.
 
@@ -48,6 +54,8 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 - watcher는 **반드시 정리**. 화면이 닫힌 **뒤에** 시작된 watcher까지 (그래서 `cancelled` 깃발이 필요해요, 아래 7.1 Live Location 참고).
 
 @@NOTE G-Geolocation/disp-maps.md
+@@S _doc | read
+MapView로 지도를 보여 주는 방법이에요. 💻 7.1 Your First Map에서 직접 쳐 봐요.
 @@K _pre
 지도는 **`react-native-maps`** 의 **`MapView`** 컴포넌트로 보여 줘요.
 - Snack에서는 Expo Go(실제 폰)에서만 보이고 **Web 미리보기에서는 안 보여요**.
@@ -62,6 +70,8 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 - **`followsUserLocation`**: 사용자 따라 중심 유지. **Apple Maps 전용**, Android에선 아무것도 안 함. 두 플랫폼 다 하려면 animateToRegion으로 직접.
 
 @@NOTE G-Geolocation/work-maps.md
+@@S _doc | read
+지도에 Marker와 Polygon을 그리는 방법이에요. 💻 7.1 Campus Markers, Drawing on the Map에서 직접 쳐 봐요.
 @@K _pre
 지도에 내 **마커(핀)**, **도형**, 데이터를 올리면 훨씬 유용해져요.
 @@K Adding Custom Markers
@@ -79,6 +89,89 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 - 모두 Expo Go 실제 기기에서 동작.
 
 @@LEC week-07.1-notes.md
+@@S _doc | type
+7.1 수업 라이브 코딩이에요. 위치와 지도는 폰(Expo Go)에서 확인하세요. Starter Code부터 Step 순서대로 쳐 가요.
+@@S React Native Playground | skim
+expo-location, react-native-maps 패키지 안내예요.
+@@S Why Location? | read
+위치는 사생활이라 권한을 조심해서 물어야 해요.
+@@S Example: Where Am I? | type
+한 번 묻고, 좌표를 보여 주고, 주소로 바꿔요.
+@@S Starter Code | type
+할 일: "찾는 중" 스피너 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Ask for Permission | type
+할 일: useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Get the Position | type
+할 일: await Location.getCurrentPositionAsync({})로 좌표 받아 표시
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Find the Address | type
+할 일: reverseGeocodeAsync(coords)[0]으로 주소 표시
+배열을 돌려줘서 첫 번째를 써요.
+@@S Example: Live Location | type
+watchPositionAsync로 위치가 바뀔 때마다 받고, 꼭 멈춰야 해요.
+@@S Step 1 - Watch Instead of Get | type
+할 일: watchPositionAsync 구독 + cleanup에서 subscription.remove()
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Count the Updates | type
+할 일: setUpdates((prev) => prev + 1)로 업데이트 횟수 세기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Pause and Resume | type
+할 일: tracking state + if (!tracking) return + 의존성 [tracking]
+이 단계 코드를 직접 쳐 보세요.
+@@S Maps | read
+MapView는 폰의 진짜 지도를 감싼 컴포넌트예요.
+@@S Example: Your First Map | type
+지도 띄우기, 캠퍼스에서 시작, 파란 점, Find Me 버튼까지 만들어요.
+@@S Starter Code | type
+할 일: Find Me 버튼이 떠 있는 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Show a Map | type
+할 일: import MapView(중괄호 없음) + style={{ flex: 1 }}
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Start on Campus | type
+할 일: initialRegion에 위도, 경도, latitudeDelta, longitudeDelta
+delta가 작을수록 확대돼요.
+@@S Step 3 - Show the Blue Dot | type
+할 일: 권한 요청 후 showsUserLocation={hasPermission}
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 4 - Find Me | type
+할 일: useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Campus Markers | type
+Marker는 MapView 안의 자식이라 배열을 .map()으로 그려요.
+@@S Starter Code | type
+할 일: 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Add One Marker | type
+할 일: import { Marker } + Marker 하나
+Marker는 named export라 중괄호를 써요.
+@@S Step 2 - A Marker for Every Campus | type
+할 일: CAMPUSES.map으로 Marker 여러 개(key 필수)
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Show the Selected Campus | type
+할 일: selected state + Marker onPress로 카드에 캠퍼스 정보 표시
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 4 - Hide Other Places | type
+할 일: customMapStyle로 지도 기본 장소(poi) 숨기기
+이 단계 코드를 직접 쳐 보세요.
+@@S Example: Drawing on the Map | type
+Polygon으로 영역을 그리고 탭한 좌표를 받아요.
+@@S Starter Code | type
+할 일: 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 1 - Outline the Campus | type
+할 일: Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 2 - Fill It In | type
+할 일: fillColor="rgba(255, 0, 0, 0.2)"
+이 단계 코드를 직접 쳐 보세요.
+@@S Step 3 - Draw Your Own Shape | type
+할 일: MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear
+이 단계 코드를 직접 쳐 보세요.
+@@S Location and Maps Checklist | read
+위치와 지도 체크리스트 8개는 서술형으로 나올 수 있어요.
 @@K React Native Playground
 패키지 2개 필요: `expo-location`(위치), `react-native-maps`(지도). 이번 주는 **폰**에서. 위치 예제는 Web에서도 되지만(브라우저가 위치를 물음) 노트북 위치는 Wi-Fi 기반이라 부정확. **지도는 Web 불가**. Expo Go의 권한 답은 Snack별이 아니라 **Expo Go 앱 단위**로 기억돼요. 다시 보려면 폰 설정에서 Expo Go 위치 권한을 바꾸세요.
 @@K Why Location?
@@ -222,6 +315,8 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 8. 실제 폰에서, 가능하면 iOS와 Android 둘 다 테스트. Web은 지도 불가.
 
 @@LAB lab-6.md
+@@S _doc | lab
+Lab 6은 주차 위치를 저장하고 지도에 보여 주는 앱이에요. 힌트만 적어 뒀으니 혼자 풀어 보세요.
 @@K _intro
 Lab 6 **Park It**(주차 위치 기억 앱)은 7주차 예제 4개(Where Am I, Live Location, Your First Map, Drawing on the Map)를 합친 문제예요. 각 파트의 연결 예제와 "내 말로 설명" 주석 포인트를 정리했어요.
 @@K A Note on AI

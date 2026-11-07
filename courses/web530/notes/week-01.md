@@ -6,6 +6,8 @@
 > - **▶ Snack에서 바로 실행하기**: 누르면 그 코드가 들어간 Expo Snack이 열립니다. 오른쪽 미리보기에서 결과를 보고, 코드를 직접 바꿔 보세요.
 > - **💻 인클래스 예제**: 교수님이 수업 중에 라이브 코딩한 순서 그대로입니다. 단계별로 코드가 어떻게 바뀌는지 따라가 보세요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 이번 주는 "앱 화면을 레고 블록처럼 조립하는 법"을 배우는 주예요.
@@ -27,6 +29,23 @@
 5. PropTypes는 **경고만** 한다. 화면은 그대로 그려진다. 그리고 React 19부터는 아예 무시된다.
 
 
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Simple Components](#practice-1) | MyButton 컴포넌트를 만들고 MyApp 안에서 <MyButton />으로 쓰기 |
+| 2 | [Example: Multiple Tags](#practice-2) | h1과 MyButton을 div(또는 Fragment <>)로 감싸서 함께 return |
+| 3 | [Example: JS-Expressions](#practice-3) | 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기 |
+| 4 | [Example: Passing props](#practice-4) | MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기 |
+| 5 | [Example: PropTypes and Validation](#practice-5) | MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인 |
+| 6 | [Example: Introduce React Native Components (not HTML)](#practice-6) | 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행 |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
+
+
+
 ## 목차
 
 - 1. 📘 코스노트: Introduction to React
@@ -42,6 +61,22 @@
 ---
 
 ## 1. 📘 코스노트: Introduction to React
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+React가 무엇이고 왜 컴포넌트로 화면을 나누는지 소개하는 글이에요. 아래 💻 1.1 예제에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
+
+**이 챕터 구성**
+
+- 👀 **What is React**: React가 뭐냐? 화면(UI, User Interface)을 만드는 JavaScript 라이브러리예요.
+- 👀 **React components**: JSX는 처음 그릴 때는 그냥 "HTML 비슷한 글자"예요.
+- 👀 **React components › JavaScript XML (JSX)**: JSX = JavaScript + XML(HTML 비슷한 태그).
+- 👀 **React components › Writing components using JSX**: 컴포넌트 = JSX를 return 하는 함수. 이게 전부예요.
+- 👀 **React components › Using JavaScript expressions**: JSX 안에서 중괄호 `{ }` 는 "여기는 JavaScript야" 라는 표시예요.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react
 
@@ -384,6 +419,14 @@ JSX 안에서 **중괄호 `{ }` 는 "여기는 JavaScript야"** 라는 표시예
 
 ## 2. 📘 코스노트: Introduction to React Native
 
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+React Native가 웹 React와 무엇이 다른지 설명해요. HTML 태그 대신 View, Text 같은 네이티브 컴포넌트를 쓴다는 게 핵심이에요. 읽고 이해만 하면 돼요.
+
+</div>
+
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react-native
 
 On Android, developers build Java apps while on iOS developers implement Swift apps. As a mobile app developer, you will have to learn both languages since picking only one platform is not realistic for success. As a React native developer, you only need to learn one language to target both platforms.
@@ -421,6 +464,20 @@ It is important to mention that although iOS and Android have several areas of o
 ---
 
 ## 3. 📘 코스노트: Functional Components
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+함수 컴포넌트와 props를 정리한 글이에요. 💻 1.1 "Passing props"에서 직접 쳐 보니까 여기서는 읽기만 해요.
+
+**이 챕터 구성**
+
+- 👀 **Introduction**: Functional Component(함수형 컴포넌트) 는 함수로 만든 컴포넌트예요.
+- 👀 **Functional components**: 여기서부터 React Native 코드예요. `View`(상자)와 `Text`(글자)를 `react-native`에서 import 해요.
+- 👀 **Properties (`props`)**: Props = 부모가 자식에게 주는 값(속성).
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/func-components
 
@@ -583,6 +640,24 @@ This is a functional component. It has default props.
 ---
 
 ## 4. 📘 코스노트: Validating Props
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+PropTypes로 props 타입을 검사하는 방법이에요. 💻 1.2 PropTypes 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.
+
+**이 챕터 구성**
+
+- 👀 **Validating Component Properties**: PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요.
+- 👀 **Validating Component Properties › Type Validation**: `prop-types` 패키지를 import 하고, `컴포넌트이름.propTypes = { ...
+- 👀 **Validating Component Properties › Required Values**: 타입 뒤에 `.isRequired` 를 붙이면 "반드시 넘겨야 함"이 돼요.
+- 👀 **Validating Component Properties › Any value**: `PropTypes.any.isRequired`: "타입은 아무거나 괜찮은데 뭔가는 꼭 넘겨라."
+- 👀 **Validating Component Properties › Specific types**: `instanceOf(MyComponent)`: 특정 클래스의 인스턴스여야 함.
+- 👀 **Validating Component Properties › Specific values**: 타입이 아니라 값 자체를 검사하는 것들이에요.
+- 👀 **Validating Component Properties › Custom validators**: 직접 검사 함수를 만들 수도 있어요. 함수는 `(props, name, component)` 3개를 받아요.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/validating-props
 
@@ -748,6 +823,22 @@ MyComponent.propTypes = {
 
 ## 5. 💻 인클래스 예제: Week 1.1 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+교수님이 1.1 수업에서 라이브 코딩한 웹 React 예제예요. ⌨️ 표시된 코드는 CodeSandbox 템플릿을 Fork해서 처음부터 직접 쳐 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **Playground**: 교수님 CodeSandbox 템플릿 링크예요. Fork해서 내 것으로 만들어 두세요.
+- ⌨️ **[Example: Simple Components](#practice-1)**: 컴포넌트는 화면 조각을 돌려주는 대문자 함수예요. (⌨️ MyButton 컴포넌트를 만들고 MyApp 안에서 <MyButton />으로 쓰기)
+- ⌨️ **[Example: Multiple Tags](#practice-2)**: JSX는 부모 태그 하나만 return할 수 있어요. (⌨️ h1과 MyButton을 div(또는 Fragment <>)로 감싸서 함께 return)
+- ⌨️ **[Example: JS-Expressions](#practice-3)**: JSX 안에서 { }를 쓰면 JS 값을 넣을 수 있어요. (⌨️ 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기)
+- ⌨️ **[Example: Passing props](#practice-4)**: Week 1의 핵심이에요. 같은 컴포넌트를 다른 값으로 재사용해요. (⌨️ MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기)
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.1-notes.md
 
 **🇰🇷 들어가기 전에**
@@ -771,6 +862,9 @@ React Playground (Professor's CodeSpace Template)
   - HTML should remain in lower case.
   - Our custom components will have an uppercase letter at the start.
 - Show that after return there is ( ) surrounding the HTML, it is not required. `return <MyButton />;`
+
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton 컴포넌트를 만들고 MyApp 안에서 &lt;MyButton /&gt;으로 쓰기</p>
 
 ```jsx
 function MyButton() {
@@ -799,6 +893,9 @@ function MyApp() {
 - If you need multiple tags, they cannot be side by side.
 - Create a parent tag then add the children.
 - Show how to add the H1 tag
+
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: h1과 MyButton을 div(또는 Fragment &lt;&gt;)로 감싸서 함께 return</p>
 
 ```jsx
 function MyApp() {
@@ -838,6 +935,9 @@ function MyApp() {
 
 - Show that we can define JS constants
 - Show that we can use those constants in a tag argument using { }
+
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기</p>
 
 ```jsx
 function MyButton() {
@@ -888,6 +988,9 @@ function MyButton() {
 
 - Pass props to our button component and read information from there instead of constants.
 - Show what happens if `buttonText` is omitted.
+
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기</p>
 
 ```jsx
 function MyButton(props) {
@@ -964,6 +1067,22 @@ function MyApp() {
 
 ## 6. 💻 인클래스 예제: Week 1.2 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+1.2 수업 예제예요. 앞부분 PropTypes는 웹 React(CodeSandbox), 뒷부분부터 React Native(Snack)예요. ⌨️ 표시된 코드는 직접 쳐 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Playground**: PropTypes 예제용 CodeSandbox 템플릿 안내예요.
+- ⌨️ **[Example: PropTypes and Validation](#practice-5)**: PropTypes는 개발 모드에서 콘솔 경고만 내요. (⌨️ MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인)
+- ⏭️ **React Native Playground**: 여기서부터 Expo Snack을 써요. App.js를 고치면 오른쪽에 결과가 나와요.
+- ⌨️ **[Example: Introduce React Native Components (not HTML)](#practice-6)**: HTML 태그 대신 React Native 컴포넌트를 써요. (⌨️ 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행)
+- 👀 **HTML to React Native**: HTML 태그와 React Native 컴포넌트 대응표예요. 통째로 외워 두세요.
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.2-notes.md
 
 ### 💻 React Playground
@@ -981,6 +1100,9 @@ React Playground (Professor's CodeSpace Template)
 - React checks the contract **in development only** and prints a warning in the console. Nothing is enforced in production.
 - The checks come from the separate `prop-types` package, so it must be installed and imported.
 - PropTypes is deprecated. React 19 no longer checks it, and TypeScript replaces it. We will revisit this when we learn TypeScript.
+
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인</p>
 
 ```jsx
 import PropTypes from "prop-types";
@@ -1173,6 +1295,9 @@ function MyApp() {
 
 - Notice React Native component names begin with capital letters.
 
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행</p>
+
 ```jsx
 import { View, Text, Button } from "react-native";
 
@@ -1193,10 +1318,13 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Show that text must live inside `Text`. React Native does not allow a bare string inside a `View`.
 - This crashes the app. Remove the `Text` tags below and read the error.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { View, Text } from "react-native";
@@ -1210,7 +1338,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Error: `Text strings must be rendered within a <Text> component.`
 
@@ -1252,6 +1380,26 @@ export default function MyApp() {
 ---
 
 ## 7. 🧪 Lab: Lab 1 - Components and Props
+
+<div class="sum" data-kind="lab">
+
+**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
+
+Lab 1 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 위 예제를 다 쳐 본 다음 혼자 풀어 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **A Note on AI**: AI는 막혔을 때 도움 받는 용도로만 쓰고, 내가 한 줄 한 줄 설명 못 하는 코드는 남기지 말라는 안내예요.
+- 👀 **Setup**: CodeSandbox 계정 만들고, 교수님 템플릿을 Fork, 이름 바꾸고, `package.json`에 React 18 + prop-types 가 있는지 확인.
+- ⏭️ **Submission**: CodeSandbox 링크 하나만 Blackboard에 제출.
+- 🧪 **Question 1 - Your First Component (1 point)**: 참고 예제: 1.1 Simple Components.
+- 🧪 **Question 2 - Add a Button (1 point)**: 포인트: HelloMessage가 이제 글자 + 버튼 두 개를 return 하니까 부모 태그로 감싸야 해요(1.1 Multiple Tags).
+- 🧪 **Question 3 - Create a Reusable Button Component (1 point)**: 참고 예제: 1.1 Passing props의 최종형(구조 분해 + `disabled={!isEnabled}`) 거의 그대로예요.
+- 🧪 **Question 4 - Display Dynamic Text (1 point)**: 포인트: `Welcome, {name}!` 처럼 JSX 글자 중간에 `{ }`.
+- 🧪 **Question 5 - Using JavaScript Inside Components (1 point)**: 참고 예제: 1.1 JS-Expressions.
+- 🧪 **Question 6 - Prop Validation (1 point)**: 참고 예제: 1.2 PropTypes Greeting.
+
+</div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-1.md
 

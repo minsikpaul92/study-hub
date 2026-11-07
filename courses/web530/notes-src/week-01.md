@@ -6,6 +6,8 @@
 > - **▶ Snack에서 바로 실행하기**: 누르면 그 코드가 들어간 Expo Snack이 열립니다. 오른쪽 미리보기에서 결과를 보고, 코드를 직접 바꿔 보세요.
 > - **💻 인클래스 예제**: 교수님이 수업 중에 라이브 코딩한 순서 그대로입니다. 단계별로 코드가 어떻게 바뀌는지 따라가 보세요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 이번 주는 "앱 화면을 레고 블록처럼 조립하는 법"을 배우는 주예요.
@@ -26,9 +28,13 @@
 4. `<Button>`의 글자는 자식이 아니라 `title` prop으로 준다.
 5. PropTypes는 **경고만** 한다. 화면은 그대로 그려진다. 그리고 React 19부터는 아예 무시된다.
 
+{{PRACTICE}}
+
 {{TOC}}
 
 @@NOTE A-Introduction/intro-react.md
+@@S _doc | read
+React가 무엇이고 왜 컴포넌트로 화면을 나누는지 소개하는 글이에요. 아래 💻 1.1 예제에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.
 @@K What is React
 **React가 뭐냐?** 화면(UI, User Interface)을 만드는 JavaScript **라이브러리**예요. 2013년 Facebook(지금의 Meta)이 만들었어요.
 
@@ -93,6 +99,8 @@ JSX 안에서 **중괄호 `{ }` 는 "여기는 JavaScript야"** 라는 표시예
 - `.map()`으로 만든 항목에는 반드시 **`key`** 를 줘야 해요. key는 React가 "누가 누군지" 구분하는 학생증 번호 같은 거예요. 없으면 경고가 떠요. 보통 `id`를 key로 써요.
 
 @@NOTE A-Introduction/intro-react-native.md
+@@S _doc | read
+React Native가 웹 React와 무엇이 다른지 설명해요. HTML 태그 대신 View, Text 같은 네이티브 컴포넌트를 쓴다는 게 핵심이에요. 읽고 이해만 하면 돼요.
 @@K _pre
 **React Native는 뭐가 다른가?**
 - 원래 Android 앱은 Java(또는 Kotlin), iOS 앱은 Swift로 따로 만들어야 해요. 언어를 두 개 배워야 하죠.
@@ -109,6 +117,8 @@ JSX 안에서 **중괄호 `{ }` 는 "여기는 JavaScript야"** 라는 표시예
 마지막 문단도 중요해요. iOS와 Android 코드를 100% 똑같이 쓰는 게 목표가 아니에요. **각 플랫폼 사용자가 기대하는 최고의 경험**을 주는 게 목표예요. (그래서 3주차에 `Platform.OS` 를 배워요.)
 
 @@NOTE B-Components/func-components.md
+@@S _doc | read
+함수 컴포넌트와 props를 정리한 글이에요. 💻 1.1 "Passing props"에서 직접 쳐 보니까 여기서는 읽기만 해요.
 @@K Introduction
 **Functional Component(함수형 컴포넌트)** 는 함수로 만든 컴포넌트예요. 옛날에는 class로 만들었는데(옵션 읽을거리), 요즘은 함수형이 표준이에요. 이유: 짧고, 읽기 쉽고, **Hooks**(2주차)로 상태(state)와 생명주기(lifecycle)를 다룰 수 있어서요.
 
@@ -134,6 +144,8 @@ JSX 안에서 **중괄호 `{ }` 는 "여기는 JavaScript야"** 라는 표시예
 구조 분해가 낯설면 이렇게 생각하세요. `props`라는 가방을 받아서 `props.heading`, `props.body` 하고 하나씩 꺼내는 대신, 가방을 받자마자 `{ heading, body }`로 **내용물을 바로 꺼내 놓는 것**이에요.
 
 @@NOTE B-Components/validating-props.md
+@@S _doc | read
+PropTypes로 props 타입을 검사하는 방법이에요. 💻 1.2 PropTypes 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.
 @@K Validating Component Properties
 PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요. 다만 검사 대상이 **사용자가 아니라 개발자**예요. "이 컴포넌트를 쓰는 다른 개발자가 이상한 값을 넣으면 알려 주자"는 목적이에요.
 
@@ -179,6 +191,22 @@ PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요. 다
 예제는 "10 이상 99 이하의 숫자인지" 검사해요. `Number.isFinite(x)` 는 "진짜 유한한 숫자인지" 확인하는 함수예요.
 
 @@LEC week-01.1-notes.md
+@@S _doc | type
+교수님이 1.1 수업에서 라이브 코딩한 웹 React 예제예요. ⌨️ 표시된 코드는 CodeSandbox 템플릿을 Fork해서 처음부터 직접 쳐 보세요.
+@@S Playground | skim
+교수님 CodeSandbox 템플릿 링크예요. Fork해서 내 것으로 만들어 두세요.
+@@S Example: Simple Components | type
+할 일: MyButton 컴포넌트를 만들고 MyApp 안에서 <MyButton />으로 쓰기
+컴포넌트는 화면 조각을 돌려주는 대문자 함수예요.
+@@S Example: Multiple Tags | type
+할 일: h1과 MyButton을 div(또는 Fragment <>)로 감싸서 함께 return
+JSX는 부모 태그 하나만 return할 수 있어요.
+@@S Example: JS-Expressions | type
+할 일: 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기
+JSX 안에서 { }를 쓰면 JS 값을 넣을 수 있어요.
+@@S Example: Passing props | type
+할 일: MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기
+Week 1의 핵심이에요. 같은 컴포넌트를 다른 값으로 재사용해요.
 @@K _intro
 여기부터는 교수님이 1주차 첫 수업(1.1)에서 **라이브 코딩한 예제**예요. 원문 bullet(•)은 교수님이 수업 중에 "이걸 보여 줘라(Show that ...)" 하고 적어 둔 메모예요. 1.1은 **웹 React**라서 `<div>`, `<button>` 같은 HTML 태그를 쓰고, CodeSandbox 템플릿에서 돌려요.
 
@@ -217,6 +245,20 @@ PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요. 다
 주의: 숫자나 boolean, 변수는 `isEnabled={true}` 처럼 **중괄호**로, 문자열은 `buttonText="My Button"` 처럼 **따옴표**로 넘겨요. `isEnabled="true"` 라고 쓰면 그건 문자열이에요!
 
 @@LEC week-01.2-notes.md
+@@S _doc | type
+1.2 수업 예제예요. 앞부분 PropTypes는 웹 React(CodeSandbox), 뒷부분부터 React Native(Snack)예요. ⌨️ 표시된 코드는 직접 쳐 보세요.
+@@S React Playground | skim
+PropTypes 예제용 CodeSandbox 템플릿 안내예요.
+@@S Example: PropTypes and Validation | type
+할 일: MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인
+PropTypes는 개발 모드에서 콘솔 경고만 내요.
+@@S React Native Playground | skim
+여기서부터 Expo Snack을 써요. App.js를 고치면 오른쪽에 결과가 나와요.
+@@S Example: Introduce React Native Components (not HTML) | type
+할 일: 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행
+HTML 태그 대신 React Native 컴포넌트를 써요.
+@@S HTML to React Native | read
+HTML 태그와 React Native 컴포넌트 대응표예요. 통째로 외워 두세요.
 @@K React Playground
 1.2 수업 앞부분(PropTypes)도 웹 React라서 같은 CodeSandbox 템플릿을 써요. 이 템플릿은 **React 18**이라 PropTypes 경고가 보여요.
 
@@ -271,6 +313,8 @@ PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요. 다
 - `Image`는 `src`가 아니라 `source` prop을 써요.
 
 @@LAB lab-1.md
+@@S _doc | lab
+Lab 1 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 위 예제를 다 쳐 본 다음 혼자 풀어 보세요.
 @@K _intro
 Lab 1은 위에서 배운 웹 React 예제(1.1, 1.2)를 내 손으로 다시 쓰는 연습이에요. 아래에서 각 문제가 **어떤 예제를 참고하면 되는지** 연결해 줄게요. 정답 코드를 통째로 주기보다, 막히는 지점과 핵심 패턴을 짚어 줄게요. (Lab 원문에도 "AI가 대신 쓰게 하지 말고 막힐 때만 써라"라고 되어 있어요.)
 

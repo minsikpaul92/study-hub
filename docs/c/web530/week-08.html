@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -16,6 +16,9 @@
 <article class="md"><h1 id="week-8-expo-로컬-개발-typescript-expo-router-snack을-졸업하고-진짜-프로젝트로">Week 8. Expo 로컬 개발 + TypeScript + Expo Router: Snack을 졸업하고 진짜 프로젝트로 <a class="anchor" aria-label="링크" href="#week-8-expo-로컬-개발-typescript-expo-router-snack을-졸업하고-진짜-프로젝트로">#</a></h1>
 <blockquote>
 <p>이 노트 읽는 법: <strong>📘 원문</strong>(영어 그대로) 바로 밑에 <strong>🇰🇷 한글 해설</strong>이 있어요. 이번 주는 강의 노트와 랩이 없어서 <strong>코스노트만</strong> 다뤄요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 <strong>내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서</strong> 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 &quot;로컬 프로젝트에서 실행&quot; 안내가 붙어 있어요. 대신 맨 끝 <strong>손으로 써 보기</strong>에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 <strong>Snack 한 파일</strong>로 흉내 낸 연습 앱을 넣어 뒀어요.</p>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p><strong>Expo Router 파일 이름 규칙 4가지 (시험 단골)</strong></p>
@@ -98,6 +101,20 @@
 </ul>
 <hr />
 <h2 id="1-코스노트-setup-tools-dev-environment">1. 📘 코스노트: Setup Tools &amp; Dev Environment <a class="anchor" aria-label="링크" href="#1-코스노트-setup-tools-dev-environment">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>Snack을 졸업하고 내 컴퓨터에 Expo 프로젝트를 만드는 준비 과정이에요. 명령어는 터미널에서 직접 따라 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>VS Code</strong>: VS Code = 코드 편집기(워드가 문서 편집기인 것처럼).</li>
+<li>👀 <strong>VS Code › VS Code Extensions</strong>: 확장 프로그램 7개 설치. 꼭 필요한 건 ESLint(실수 잡기), Prettier(자동 정리), Expo Tools.</li>
+<li>👀 <strong>VS Code › Setup formatting</strong>: 저장할 때 자동으로 코드 정리되게 하기: Settings에서 Format On Save, Format On Paste 켜고, Default Formatter를 Prettier로.</li>
+<li>👀 <strong>Node.js and npm (Node Package Manager)</strong>: Expo는 Node.js 위에서 돌아가요. LTS(장기 지원) 버전을 받으세요(&quot;Current&quot;는 불안정할 수 있음).</li>
+<li>👀 <strong>Expo Go App</strong>: 폰에 Expo Go 설치 → 컴퓨터에서 프로젝트를 실행하면 나오는 QR 코드를 찍으면 앱이 폰에 떠요.</li>
+<li>👀 <strong>Git</strong>: <code>git --version</code>으로 확인하고 없으면 설치.</li>
+<li>👀 <strong>Git › Optional: GitHub Copilot</strong>: 선택 사항. 학생 인증하면 무료로 쓸 수 있는 AI 코딩 도우미예요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/Z-Guides/tool-dev-setup</p>
 </blockquote>
@@ -209,6 +226,22 @@
 <p>선택 사항. 학생 인증하면 무료로 쓸 수 있는 AI 코딩 도우미예요.</p>
 </div><hr />
 <h2 id="2-코스노트-introduction-to-expo">2. 📘 코스노트: Introduction to Expo <a class="anchor" aria-label="링크" href="#2-코스노트-introduction-to-expo">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>npx create-expo-app으로 프로젝트를 만들고 Expo Go로 폰에서 실행하는 방법이에요. 직접 따라 해 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is Expo?</strong>: Expo = React Native 위에 만든 오픈소스 프레임워크 + 도구 모음.</li>
+<li>👀 <strong>What is Expo? › Core Benefits</strong>: 장점 4가지 (시험에 &quot;Expo를 쓰는 이유&quot;로 나올 수 있어요)</li>
+<li>👀 <strong>Expo vs. Bare React Native</strong>: Bare(순수) React Native는 Android 프로젝트(Java/Kotlin)와 iOS 프로젝트(Swift/Obj-C)를 따로 관리해야 하고 Android Studio, Xcode 같은 무거운 프로그램이 필요해요.</li>
+<li>👀 <strong>Moving Beyond Expo Snack</strong>: Snack은 연습장으로는 최고지만 실제 앱에는 한계가 있어요.</li>
+<li>👀 <strong>How Expo Works: The Managed Workflow</strong>: 이 수업은 Managed Workflow를 써요.</li>
+<li>👀 <strong>How Expo Works: The Managed Workflow › The Magic of Expo Go</strong>: <code>npx expo start</code>를 하면 컴퓨터가 앱 전체를 빌드하는 게 아니라 Metro라는 번들러를 켜요.</li>
+<li>👀 <strong>Creating a New Expo Project</strong>: npx create-expo-app myapp --template blank # 1.</li>
+<li>👀 <strong>Running Your New App</strong>: 폰에서 Expo Go로 QR 찍기(추천). 아니면 iOS 시뮬레이터(Mac만) 또는 Android 에뮬레이터.</li>
+<li>👀 <strong>Modifying the App</strong>: App.js를 고치면 돼요(Snack과 똑같이).</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/H-Expo/expo</p>
 </blockquote>
@@ -365,6 +398,26 @@ install the latest version by going to (<a href="https://expo.dev/go" target="_b
 <p><strong>App.js</strong>를 고치면 돼요(Snack과 똑같이). 직접 만든 컴포넌트는 <strong><code>/components</code></strong> 폴더에 따로 넣는 게 규칙이에요.</p>
 </div><hr />
 <h2 id="3-코스노트-typescript-for-react-native">3. 📘 코스노트: TypeScript for React Native <a class="anchor" aria-label="링크" href="#3-코스노트-typescript-for-react-native">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>TypeScript 기초(타입, interface, props 타입)예요. 읽고 이해하면서, 다음 Expo Router 예제에서 직접 써 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Why Use TypeScript in React Native?</strong>: 실행 전에 에러를 잡아요 (오타, 잘못된 값).</li>
+<li>👀 <strong>Introduction to TypeScript Syntax</strong>: TS가 처음이라면 알아야 할 기초 문법 3가지(변수, 배열, 객체)예요.</li>
+<li>👀 <strong>Introduction to TypeScript Syntax › Variables and Types</strong>: <code>이름: 타입 = 값</code>. 기본 타입 3개: <code>number</code>, <code>string</code>, <code>boolean</code>.</li>
+<li>👀 <strong>Introduction to TypeScript Syntax › Arrays</strong>: 배열은 <code>타입[]</code>. <code>number[]</code> = 숫자만 들어가는 배열.</li>
+<li>👀 <strong>Introduction to TypeScript Syntax › Objects</strong>: 객체는 <code>{ 속성: 타입; 속성: 타입 }</code> 으로 모양(shape) 을 적어요.</li>
+<li>👀 <strong>Using TypeScript in React Native Components › Functional Component Without Props</strong>: props가 없으면 JS와 똑같아요. 타입을 적을 게 없으니까요.</li>
+<li>👀 <strong>Using TypeScript in React Native Components › Typing Component Props with Interfaces</strong>: <code>interface GreetingProps { name: string; excited?: boolean; }</code>: props의 설계도.</li>
+<li>👀 <strong>Typing State with useState</strong>: <code>useState&lt;number&gt;(0)</code>: 꺾쇠 <code>&lt;&gt;</code> 안에 state 타입.</li>
+<li>👀 <strong>Typing Event Handlers</strong>: <code>(): void</code>: 아무것도 반환하지 않는 함수.</li>
+<li>👀 <strong>Combining Props, State, and Events</strong>: <code>CounterProps</code>로 <code>start</code>를 숫자로 정하고, <code>useState(start)</code>는 숫자로 추론, 버튼은 <code>prev =&gt; prev + 1</code>(Week 2 함수형 업데이트).</li>
+<li>👀 <strong>Typing API Data (Beginner Level)</strong>: fetch로 받는 데이터(Week 5)의 모양을 interface로 정하고, <code>useState&lt;Post[]&gt;([])</code>로 &quot;Post들의 배열&quot;이라고 알려 줘요.</li>
+<li>👀 <strong>When You Don’t Need to Use Types</strong>: 생략: 타입이 뻔할 때(<code>useState(0)</code>), 빠르게 실험할 때, 단순 UI.</li>
+<li>👀 <strong>Summary</strong>: TS = 안전 + 명확. props는 interface, state는 필요할 때 <code>&lt;타입&gt;</code>.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/Z-Guides/typescript</p>
 </blockquote>
@@ -583,6 +636,41 @@ install the latest version by going to (<a href="https://expo.dev/go" target="_b
 <p>TS = 안전 + 명확. props는 <strong>interface</strong>, state는 필요할 때 <code>&lt;타입&gt;</code>.</p>
 </div><hr />
 <h2 id="4-코스노트-introduction-to-expo-router">4. 📘 코스노트: Introduction to Expo Router <a class="anchor" aria-label="링크" href="#4-코스노트-introduction-to-expo-router">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>app 폴더 구조로 화면을 만드는 Expo Router예요. VS Code의 로컬 Expo 프로젝트에서 직접 만들어 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is Expo Router?</strong>: React Navigation은 <code>NavigationContainer</code>, <code>Stack.Screen</code>을 코드로 하나하나 등록해야 했어요.</li>
+<li>👀 <strong>Why Use Expo Router?</strong>: 화면 = 파일: 파일 경로가 곧 화면 주소.</li>
+<li>👀 <strong>Core Concepts &amp; File Conventions</strong>: 프로젝트 루트의 <code>app/</code> 폴더 안 파일 하나하나가 경로(route)가 돼요.</li>
+<li>👀 <strong>Core Concepts &amp; File Conventions › 1. The Entry Point: <code>index.tsx</code></strong>: <code>index</code> = 그 폴더의 기본 화면. 웹사이트의 <code>index.html</code>과 같아요.</li>
+<li>👀 <strong>Core Concepts &amp; File Conventions › 2. Layout Files: <code>_layout.tsx</code></strong>: <code>_layout</code> = 같은 폴더의 화면들을 감싸는 틀.</li>
+<li>👀 <strong>Core Concepts &amp; File Conventions › 3. Route Groups: <code>(directory-name)</code></strong>: 괄호 폴더 = 정리용 폴더. 경로에서 이름이 사라져요.</li>
+<li>👀 <strong>Core Concepts &amp; File Conventions › 4. Dynamic Routes: <code>[id].tsx</code></strong>: 대괄호 = 값이 바뀌는 자리. <code>app/profile/[id].tsx</code> 하나로 <code>/profile/123</code>, <code>/profile/steve</code> 모두 처리.</li>
+<li>👀 <strong>Structural Visualization: Layouts vs. Screens</strong>: 파일 트리가 실제 화면 구조로 어떻게 바뀌는지 보는 부분.</li>
+<li>👀 <strong>Structural Visualization: Layouts vs. Screens › Example Directory Architecture</strong>: 읽는 연습 (시험에 &quot;이 파일의 경로는?&quot;이 나올 수 있어요)</li>
+<li>👀 <strong>Setting Up Expo Router</strong>: Week 8 앞부분과 같은데 템플릿만 다름: <code>npx create-expo-app@latest MyRouterApp --template tabs</code>.</li>
+<li>👀 <strong>Running Your New App</strong>: 실행 방법은 위 Expo 노트와 같아요(Expo Go로 QR).</li>
+<li>👀 <strong>Understanding the Default File Architecture</strong>: <code>(tabs)/_layout.tsx</code>: 아래 탭 바 설정.</li>
+<li>👀 <strong>Begin implementing a Product Shop application</strong>: 여기부터 Product Shop 앱을 단계별로 만들어요: 탭 설정 → 설정 화면 → Jotai로 상품 목록 → 상품 목록 화면 → <code>[id]</code> 상세 화면 → 탭 안 Stack으로 고치기.</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Configure Tabs</strong>: 두 번째 탭을 Settings로 바꾸기</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Update the Settings Screen</strong>: <code>settings.tsx</code>를 덮어써서 컴포넌트 이름을 <code>SettingsScreen</code>으로, 제목을 &quot;Settings&quot;로.</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Install Jotai and Configure a Product List</strong>: Jotai로 상품 목록을 전역 state로 (Week 4에서 배운 Jotai 그대로)</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Update Tab One - Make it the Product Shop</strong>: 코드 해설 (Week 5 FlatList + Week 4 Jotai + 새로운 <code>Link</code>)</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Create the Dynamic Product Details Screen</strong>: <code>app/product/[id].tsx</code> 해설</li>
+<li>👀 <strong>Begin implementing a Product Shop application › Checkpoint &amp; Architecture Review</strong>: 지금까지: 탭 2개, Jotai 전역 상품 목록, <code>[id]</code> 동적 상세 화면.</li>
+<li>👀 <strong>Resolving the Issues: Building a Tab-Nested Stack</strong>: 루트의 <code>product/</code> 폴더를 없애고, 첫 번째 탭 안에 Stack을 중첩해요.</li>
+<li>👀 <strong>Resolving the Issues: Building a Tab-Nested Stack › Step 1: Restructure Your Directories</strong>: <code>app/(tabs)/products/</code> 폴더 만들기.</li>
+<li>👀 <strong>Resolving the Issues: Building a Tab-Nested Stack › Step 2: Create the Products Stack Layout</strong>: <code>(tabs)/products/_layout.tsx</code> 해설</li>
+<li>👀 <strong>Resolving the Issues: Building a Tab-Nested Stack › Step 3: Update the Root Tabs Layout</strong>: <code>(tabs)/_layout.tsx</code> 수정</li>
+<li>👀 <strong>Resolving the Issues: Building a Tab-Nested Stack › Step 4: Fix Relative Links</strong>: 링크 주소를 새 구조에 맞게 <code>/products/${item.id}</code> 로.</li>
+<li>👀 <strong>Summary: What You Learned › 1. File-Based Routing with Expo Router</strong>: 파일 트리 = 화면 구조. <code>_layout.tsx</code>가 틀, <code>(tabs)</code> 같은 괄호 폴더는 경로에 안 나옴.</li>
+<li>👀 <strong>Summary: What You Learned › 2. State Splitting with Jotai</strong>: 상품 데이터를 화면 안 배열이 아니라 atom(전역) 에 두고 목록과 상세 화면이 같이 읽어요.</li>
+<li>👀 <strong>Summary: What You Learned › 3. Dynamic Screen Rendering</strong>: <code>[id].tsx</code> 하나가 모든 상품 상세를 담당, 값은 <code>useLocalSearchParams</code>.</li>
+<li>👀 <strong>Summary: What You Learned › 4. Advanced Tab-to-Stack Architecture</strong>: 상세 화면을 탭 밖에 두면 탭 바가 사라져요. 탭 폴더 안에 Stack(<code>_layout.tsx</code>)을 중첩하면 탭 바 유지 + 깔끔한 제목 + 뒤로 가기.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/H-Expo/expo-router</p>
 </blockquote>
@@ -1399,5 +1487,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>

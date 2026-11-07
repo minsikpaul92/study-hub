@@ -43,9 +43,12 @@ def snack(code,name):
     q={'name':name[:60],'platform':plat,'sdkVersion':'54.0.0','code':code}
     if d: q['dependencies']=','.join(f"{p}@{VER.get(p,'*')}" for p in d)
     return 'https://snack.expo.dev/?'+up.urlencode(q,quote_via=up.quote)
+def where_to_type(code):
+    web=re.search(r'<div|<button|<h1|createRoot|function MyApp',code) and 'react-native' not in code
+    return 'CodeSandbox' if (web or RUNNER!='snack') and web else 'Snack'
 def fix_body(text,name,kind,mark=None):
     """mark=(practice_no, todo): put a 'type this' line above every code block."""
-    out=[];lines=text.split('\n');i=0;first=True
+    out=[];lines=text.split('\n');i=0;first=True;has_rn='react-native' in text
     while i<len(lines):
         l=lines[i]
         if l.strip() in BOILER: i+=1; continue
@@ -56,12 +59,13 @@ def fix_body(text,name,kind,mark=None):
             code='\n'.join(lines[i+1:j])
             if not lang: lang='json' if code.lstrip().startswith('{') and '"dependencies"' in code else 'jsx'
             marked=False
-            if mark and lang in('jsx','js','tsx','ts') and (first or len(mark)>2 or 'export default' in code):
+            skipweb=has_rn and where_to_type(code)=='CodeSandbox'   # HTML 'before' version next to the RN version
+            if mark and not skipweb and lang in('jsx','js','tsx','ts') and (first or len(mark)>2 or 'export default' in code):
                 marked=True
                 no,todo=mark[:2]; ind=m.group(1)
                 idattr=f' id="practice-{no}"' if (first and no) else ''
                 tail=f': {html.escape(todo)}' if (first and todo) else ''
-                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>{tail}</p>' if first else f'{ind}<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>'); out.append('')
+                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 {where_to_type(code)}에서 직접 쳐 보세요</b>{tail}</p>' if first else f'{ind}<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>'); out.append('')
                 first=False
             out.append(m.group(1)+'```'+lang); out+=lines[i+1:j]; out.append(m.group(1)+'```')
             if RUNNER!='snack': pass
@@ -81,6 +85,27 @@ def split_todo(text):
     lines=text.split('\n')
     if lines and lines[0].startswith('할 일:'): return lines[0][4:].strip(),'\n'.join(lines[1:]).strip()
     return '',text.strip()
+SKIM=('A Note on AI','Submission','Running Your App','Styling Rules','The Clock','Playground','React Playground','React Native Playground')
+def auto_kind(typ,h,body):
+    if typ=='LAB':
+        if h.startswith(SKIM) or h.endswith('Playground'): return 'skim'
+        return 'read' if h in('Setup','Overview') else 'lab'
+    if typ=='LEC':
+        if h.endswith('Playground'): return 'skim'
+        if h.startswith('Finished') or h.startswith(('Why','How It Works','What to Show')) or 'Checklist' in h: return 'read'
+        if (h.startswith('Example') and '```' in body) or h.startswith(('Starter','Step')): return 'type'
+    return 'read'
+def first_line(k):
+    for l in k.split('\n'):
+        l=l.strip()
+        if not l or l.startswith(('```','|','>','#')): continue
+        l=re.sub(r'^[-*]\s+|^\d+\.\s+','',l).replace('**','')
+        l=re.sub(r'^(코드 해설|예제 해설|해설|요점|핵심)\s*[:：]\s*','',l)
+        if re.fullmatch(r'[^:：]{0,20}[:：]?',l): continue   # labels like "코드 해설", "예제 해설:"
+        m=re.search(r'(.{25,}?(?:요\.|다\.|\.\s))',l+' ')
+        l=(m.group(1) if m else l).strip()
+        return l if len(l)<=140 else l[:137].rstrip()+'...'
+    return ''
 def doc_box(kind,text,items):
     """원문 출처 앞에 한 번만 나오는 한글 미리보기. items=[(kind, heading, text, todo, practice_no)]"""
     badge=f' · {KIND[kind]}' if kind in KIND else ''
@@ -146,12 +171,19 @@ def build(annpath,outpath):
                 no=None
                 if kd=='type' and todo: plan.append((f'{sec}. {title}',todo)); no=len(plan); marks['_pre']=(no,todo)
                 items.append((kd,'시작 부분',t,todo,no))
-            parent=''
+            parent=''; seen={}
             for ci,c in enumerate(chs):
                 if c['lvl']==2: parent=c['h']
                 nm=c['h'] if c['lvl']==2 else parent+' › '+c['h']
-                if summ.get(norm(c['h'])):
-                    kd,t=summ[norm(c['h'])].pop(0); todo,t=split_todo(t); no=None
+                key=norm(c['h']); occ=seen.get(key,0); seen[key]=occ+1
+                if not summ.get(key):
+                    # no @@S: guess the kind from the heading and borrow the first line of the Korean explanation
+                    kt=kor.get(key,[]); kt=kt[occ] if occ<len(kt) else ''
+                    t=first_line(kt)
+                    if t: items.append((auto_kind(typ,c['h'],'\n'.join(c['body'])),nm,t,'',None))
+                    continue
+                if summ.get(key):
+                    kd,t=summ[key].pop(0); todo,t=split_todo(t); no=None
                     if kd=='type': no=len(plan)+1 if todo else None; marks[ci]=(no,todo,'all') if c['h'].startswith(('Step','Starter')) else (no,todo)
                     if no: plan.append((nm,todo))
                     items.append((kd,nm,t,todo,no))
@@ -166,8 +198,12 @@ def build(annpath,outpath):
                 nm=c['h'] if c['lvl']==2 else parent+' - '+c['h']
                 hl='###' if c['lvl']==2 else '####'
                 ic={'NOTE':'📘','LEC':'💻','LAB':'🧪','TEST':'📝'}[typ]
+                bd=fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ,marks.get(ci))
+                mk=marks.get(ci)
+                if mk and mk[0] and f'id="practice-{mk[0]}"' not in bd:
+                    out.append(f'<div class="pt" id="practice-{mk[0]}"></div>\n')   # table link target when the step has no code
                 out.append(f'{hl} {ic} {c["h"]}\n')
-                out.append(fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ,marks.get(ci))+'\n')
+                out.append(bd+'\n')
                 if kor.get(norm(c['h'])):
                     out.append('**🇰🇷 한글 해설**\n\n'+kor[norm(c['h'])].pop(0)+'\n')
                 else: warn.append(f'{arg}: no K for [{c["h"]}]')
@@ -183,8 +219,9 @@ def build(annpath,outpath):
             warn.append('bad directive '+d); k+=1
     if plan:
         rows=[f'| {i} | [{w}](#practice-{i}) | {t} |' for i,(w,t) in enumerate(plan,1)]
-        planmd='\n**⌨️ Snack에서 직접 쳐 볼 것 (이 순서대로)**\n\n어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
+        planmd='\n**⌨️ 직접 쳐 볼 것 (이 순서대로)**\n\n어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
         out=[o.replace('{{PRACTICE}}',planmd) for o in out]
+    out=[o.replace('{{PRACTICE}}','') for o in out]
     tocmd='\n## 목차\n\n'+'\n'.join(f'- {t}' for t in toc)+'\n'
     body='\n'.join(out)
     body=body.replace('{{TOC}}',tocmd)

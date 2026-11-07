@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요(`expo-location`, `react-native-maps` 자동 포함). **지도는 Web에서 안 나와요.** 오른쪽 위 **My Device**를 고르고 폰의 Expo Go로 QR을 찍거나, Android/iOS 미리보기를 쓰세요. **Test 3 범위.**
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 **위치 기능 4단계 공식**
@@ -30,6 +32,38 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 **좌표 상식**: 위도(latitude)는 남북 -90~90, 경도(longitude)는 동서 -180~180. 그리니치 서쪽은 음수라서 토론토 경도는 약 **-79.35**. delta 0.01도 ≈ 약 1km, **작을수록 확대**.
 
 
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Where Am I? › Starter Code](#practice-1) | "찾는 중" 스피너 시작 코드 쳐 두기 |
+| 2 | [Example: Where Am I? › Step 1 - Ask for Permission](#practice-2) | useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리 |
+| 3 | [Example: Where Am I? › Step 2 - Get the Position](#practice-3) | await Location.getCurrentPositionAsync({})로 좌표 받아 표시 |
+| 4 | [Example: Where Am I? › Step 3 - Find the Address](#practice-4) | reverseGeocodeAsync(coords)[0]으로 주소 표시 |
+| 5 | [Example: Live Location › Step 1 - Watch Instead of Get](#practice-5) | watchPositionAsync 구독 + cleanup에서 subscription.remove() |
+| 6 | [Example: Live Location › Step 2 - Count the Updates](#practice-6) | setUpdates((prev) => prev + 1)로 업데이트 횟수 세기 |
+| 7 | [Example: Live Location › Step 3 - Pause and Resume](#practice-7) | tracking state + if (!tracking) return + 의존성 [tracking] |
+| 8 | [Example: Your First Map › Starter Code](#practice-8) | Find Me 버튼이 떠 있는 시작 코드 쳐 두기 |
+| 9 | [Example: Your First Map › Step 1 - Show a Map](#practice-9) | import MapView(중괄호 없음) + style={{ flex: 1 }} |
+| 10 | [Example: Your First Map › Step 2 - Start on Campus](#practice-10) | initialRegion에 위도, 경도, latitudeDelta, longitudeDelta |
+| 11 | [Example: Your First Map › Step 3 - Show the Blue Dot](#practice-11) | 권한 요청 후 showsUserLocation={hasPermission} |
+| 12 | [Example: Your First Map › Step 4 - Find Me](#practice-12) | useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동 |
+| 13 | [Example: Campus Markers › Starter Code](#practice-13) | 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기 |
+| 14 | [Example: Campus Markers › Step 1 - Add One Marker](#practice-14) | import { Marker } + Marker 하나 |
+| 15 | [Example: Campus Markers › Step 2 - A Marker for Every Campus](#practice-15) | CAMPUSES.map으로 Marker 여러 개(key 필수) |
+| 16 | [Example: Campus Markers › Step 3 - Show the Selected Campus](#practice-16) | selected state + Marker onPress로 카드에 캠퍼스 정보 표시 |
+| 17 | [Example: Campus Markers › Step 4 - Hide Other Places](#practice-17) | customMapStyle로 지도 기본 장소(poi) 숨기기 |
+| 18 | [Example: Drawing on the Map › Starter Code](#practice-18) | 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기 |
+| 19 | [Example: Drawing on the Map › Step 1 - Outline the Campus](#practice-19) | Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth |
+| 20 | [Example: Drawing on the Map › Step 2 - Fill It In](#practice-20) | fillColor="rgba(255, 0, 0, 0.2)" |
+| 21 | [Example: Drawing on the Map › Step 3 - Draw Your Own Shape](#practice-21) | MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
+
+
+
 ## 목차
 
 - 1. 📘 코스노트: Requesting User Location
@@ -43,6 +77,20 @@ const [place] = await Location.reverseGeocodeAsync(pos.coords);         // 4. �
 ---
 
 ## 1. 📘 코스노트: Requesting User Location
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+사용자 위치를 한 번 가져오거나 계속 추적하는 방법이에요. 💻 7.1 Where Am I?, Live Location에서 직접 쳐 보니까 여기서는 읽기만 해요.
+
+**이 챕터 구성**
+
+- 👀 **One‑Time Location Lookup**: 한 번만 위치 가져오기 (화면이 열릴 때 등).
+- 👀 **Tracking Location in Real Time**: 실시간 추적 (운동 앱, 내비게이션).
+- 👀 **What You Should Remember**: 비동기 위치 호출은 useEffect 안에서.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/handuser-loc
 
@@ -232,6 +280,19 @@ const styles = StyleSheet.create({
 
 ## 2. 📘 코스노트: Displaying Maps
 
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+MapView로 지도를 보여 주는 방법이에요. 💻 7.1 Your First Map에서 직접 쳐 봐요.
+
+**이 챕터 구성**
+
+- 👀 **Rendering a Basic Map**: 전체 화면 지도 + 파란 점(내 위치) + Find Me 버튼으로 다시 내 위치로 이동.
+- 👀 **Understanding the Map Props**: `showsUserLocation`: 파란 점.
+
+</div>
+
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps
 
 Interactive maps are a common feature in mobile apps, whether you're showing nearby places, tracking movement, or visualizing routes. In React Native, the easiest way to display a map is by using the react-native-maps library, which provides the `MapView` component.
@@ -347,6 +408,20 @@ Keeps the map centred on the user as they move. It is Apple Maps only, so it doe
 ---
 
 ## 3. 📘 코스노트: Working with Maps
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+지도에 Marker와 Polygon을 그리는 방법이에요. 💻 7.1 Campus Markers, Drawing on the Map에서 직접 쳐 봐요.
+
+**이 챕터 구성**
+
+- 👀 **Adding Custom Markers**: Marker = 특정 좌표의 핀(캠퍼스, 가게, 랜드마크).
+- 👀 **Drawing Shapes (Polygons)**: Polygon = 좌표 목록을 이어 닫힌 도형.
+- 👀 **What You Should Remember**: 점은 `Marker`, 영역은 `Polygon`.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/G-Geolocation/work-maps
 
@@ -487,6 +562,52 @@ const styles = StyleSheet.create({
 
 ## 4. 💻 인클래스 예제: Week 7.1 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+7.1 수업 라이브 코딩이에요. 위치와 지도는 폰(Expo Go)에서 확인하세요. Starter Code부터 Step 순서대로 쳐 가요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: expo-location, react-native-maps 패키지 안내예요.
+- 👀 **Why Location?**: 위치는 사생활이라 권한을 조심해서 물어야 해요.
+- ⌨️ **Example: Where Am I?**: 한 번 묻고, 좌표를 보여 주고, 주소로 바꿔요.
+- ⌨️ **[Example: Where Am I? › Starter Code](#practice-1)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ "찾는 중" 스피너 시작 코드 쳐 두기)
+- ⌨️ **[Example: Where Am I? › Step 1 - Ask for Permission](#practice-2)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리)
+- ⌨️ **[Example: Where Am I? › Step 2 - Get the Position](#practice-3)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ await Location.getCurrentPositionAsync({})로 좌표 받아 표시)
+- ⌨️ **[Example: Where Am I? › Step 3 - Find the Address](#practice-4)**: 배열을 돌려줘서 첫 번째를 써요. (⌨️ reverseGeocodeAsync(coords)[0]으로 주소 표시)
+- 👀 **Example: Where Am I? › Finished Code**: 완성 코드 해설: `errorMsg`, `location`, `address` state → useEffect 안 async `getLocation`(권한 → 위치 → 주소, try/catch) → early return 3단(에러 → 스피너 →...
+- ⌨️ **Example: Live Location**: watchPositionAsync로 위치가 바뀔 때마다 받고, 꼭 멈춰야 해요.
+- ⌨️ **[Example: Live Location › Step 1 - Watch Instead of Get](#practice-5)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ watchPositionAsync 구독 + cleanup에서 subscription.remove())
+- ⌨️ **[Example: Live Location › Step 2 - Count the Updates](#practice-6)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ setUpdates((prev) => prev + 1)로 업데이트 횟수 세기)
+- ⌨️ **[Example: Live Location › Step 3 - Pause and Resume](#practice-7)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ tracking state + if (!tracking) return + 의존성 [tracking])
+- 👀 **Example: Live Location › Finished Code**: 완성 코드 해설: `[tracking]` 의존 effect 안에서 `cancelled` 깃발 + `subscription` 변수 → async 함수(권한 → watch) → cleanup에서 `cancelled = true; subscriptio...
+- 👀 **Maps**: MapView는 폰의 진짜 지도를 감싼 컴포넌트예요.
+- ⌨️ **Example: Your First Map**: 지도 띄우기, 캠퍼스에서 시작, 파란 점, Find Me 버튼까지 만들어요.
+- ⌨️ **[Example: Your First Map › Starter Code](#practice-8)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ Find Me 버튼이 떠 있는 시작 코드 쳐 두기)
+- ⌨️ **[Example: Your First Map › Step 1 - Show a Map](#practice-9)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ import MapView(중괄호 없음) + style={{ flex: 1 }})
+- ⌨️ **[Example: Your First Map › Step 2 - Start on Campus](#practice-10)**: delta가 작을수록 확대돼요. (⌨️ initialRegion에 위도, 경도, latitudeDelta, longitudeDelta)
+- ⌨️ **[Example: Your First Map › Step 3 - Show the Blue Dot](#practice-11)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 권한 요청 후 showsUserLocation={hasPermission})
+- ⌨️ **[Example: Your First Map › Step 4 - Find Me](#practice-12)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동)
+- 👀 **Example: Your First Map › Finished Code**: 완성 코드 해설: MapView(ref, initialRegion, showsUserLocation) + 권한 effect + findMe(getCurrentPosition → animateToRegion) + 떠 있는 Pressable 버튼.
+- ⌨️ **Example: Campus Markers**: Marker는 MapView 안의 자식이라 배열을 .map()으로 그려요.
+- ⌨️ **[Example: Campus Markers › Starter Code](#practice-13)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기)
+- ⌨️ **[Example: Campus Markers › Step 1 - Add One Marker](#practice-14)**: Marker는 named export라 중괄호를 써요. (⌨️ import { Marker } + Marker 하나)
+- ⌨️ **[Example: Campus Markers › Step 2 - A Marker for Every Campus](#practice-15)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ CAMPUSES.map으로 Marker 여러 개(key 필수))
+- ⌨️ **[Example: Campus Markers › Step 3 - Show the Selected Campus](#practice-16)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ selected state + Marker onPress로 카드에 캠퍼스 정보 표시)
+- ⌨️ **[Example: Campus Markers › Step 4 - Hide Other Places](#practice-17)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ customMapStyle로 지도 기본 장소(poi) 숨기기)
+- 👀 **Example: Campus Markers › Finished Code**: 완성 코드 해설: CAMPUSES 배열 → `.map()` Marker(key, coordinate, title, onPress) → selected state → 하단 카드.
+- ⌨️ **Example: Drawing on the Map**: Polygon으로 영역을 그리고 탭한 좌표를 받아요.
+- ⌨️ **[Example: Drawing on the Map › Starter Code](#practice-18)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기)
+- ⌨️ **[Example: Drawing on the Map › Step 1 - Outline the Campus](#practice-19)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth)
+- ⌨️ **[Example: Drawing on the Map › Step 2 - Fill It In](#practice-20)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ fillColor="rgba(255, 0, 0, 0.2)")
+- ⌨️ **[Example: Drawing on the Map › Step 3 - Draw Your Own Shape](#practice-21)**: 이 단계 코드를 직접 쳐 보세요. (⌨️ MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear)
+- 👀 **Example: Drawing on the Map › Finished Code**: 완성 코드 해설: 고정 Polygon(캠퍼스) + 사용자가 탭한 점들(Marker) + 3점 이상이면 사용자 Polygon + Clear 버튼.
+- 👀 **Location and Maps Checklist**: 위치와 지도 체크리스트 8개는 서술형으로 나올 수 있어요.
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-07.1-notes.md
 
 ### 💻 React Native Playground
@@ -544,6 +665,9 @@ _package.json_
 
 - Replace everything in `App.js`. The screen says it is finding you and spins forever, because nothing asks for the location yet.
 
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: &quot;찾는 중&quot; 스피너 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 
@@ -571,7 +695,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Where%20Am%20I%3F%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20ActivityIndicator%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.center%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EWhere%20Am%20I%3F%3C%2FText%3E%0A%20%20%20%20%20%20%3CActivityIndicator%20size%3D%22large%22%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.message%7D%3EFinding%20you...%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20center%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%2C%20marginBottom%3A%2020%20%7D%2C%0A%20%20message%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22%23666%22%2C%20marginTop%3A%2010%20%7D%2C%0A%20%20error%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22red%22%2C%20textAlign%3A%20%22center%22%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2018%2C%20marginBottom%3A%206%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Where%20Am%20I%3F%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20ActivityIndicator%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.center%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EWhere%20Am%20I%3F%3C%2FText%3E%0A%20%20%20%20%20%20%3CActivityIndicator%20size%3D%22large%22%20%2F%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.message%7D%3EFinding%20you...%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20center%3A%20%7B%0A%20%20%20%20flex%3A%201%2C%0A%20%20%20%20justifyContent%3A%20%22center%22%2C%0A%20%20%20%20alignItems%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2020%2C%0A%20%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%2C%20marginBottom%3A%2020%20%7D%2C%0A%20%20message%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22%23666%22%2C%20marginTop%3A%2010%20%7D%2C%0A%20%20error%3A%20%7B%20fontSize%3A%2016%2C%20color%3A%20%22red%22%2C%20textAlign%3A%20%22center%22%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2018%2C%20marginBottom%3A%206%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -581,6 +705,9 @@ const styles = StyleSheet.create({
 
 - Add the hooks and `expo-location` above the `react-native` import.
 
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useEffect 안 async 함수에서 Location.requestForegroundPermissionsAsync()와 errorMsg 처리</p>
+
 ```jsx
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
@@ -589,11 +716,17 @@ import * as Location from "expo-location";
 - `import * as Location` puts every export of the package on one `Location` object: `Location.requestForegroundPermissionsAsync`, `Location.getCurrentPositionAsync`, and so on.
 - Add an `errorMsg` state at the top of `MyApp`. `null` means no error.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const [errorMsg, setErrorMsg] = useState(null);
 ```
 
 - Add an effect under it that asks for permission when the screen opens.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 useEffect(() => {
@@ -613,6 +746,9 @@ useEffect(() => {
 - The effect function itself cannot be `async`, because an effect may only return a clean-up function, and an `async` function always returns a promise. So the effect defines an `async` function and calls it.
 - Foreground permission means location while the app is open, which is all this week needs. Background location, while the app is closed, needs extra setup and app store review.
 - Above the main `return`, return an error screen when permission was denied.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 if (errorMsg) {
@@ -640,11 +776,17 @@ if (errorMsg) {
 
 - Add a `location` state under `errorMsg`.
 
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: await Location.getCurrentPositionAsync({})로 좌표 받아 표시</p>
+
 ```jsx
 const [location, setLocation] = useState(null);
 ```
 
 - Inside `getLocation`, after the permission check, ask for the position and store its coordinates. The `try` / `catch` handles a phone with location services turned off.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 try {
@@ -660,6 +802,9 @@ try {
 - `try` / `catch` is how `await` code handles a rejected promise. It is the `.catch()` from Week 5.
 - Under the error screen, return the spinner screen until the location arrives.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 if (!location) {
   return (
@@ -672,6 +817,9 @@ if (!location) {
 ```
 
 - Replace the main `return` with the coordinates.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 return (
@@ -704,11 +852,17 @@ return (
 
 - Coordinates mean nothing to a user. `reverseGeocodeAsync` turns them into an address. Add an `address` state under `location`.
 
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: reverseGeocodeAsync(coords)[0]으로 주소 표시</p>
+
 ```jsx
 const [address, setAddress] = useState(null);
 ```
 
 - Inside the `try`, after `setLocation`, look up the address.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const places = await Location.reverseGeocodeAsync(pos.coords);
@@ -717,6 +871,9 @@ setAddress(places[0]);
 
 - It returns an array of possible matches, best first, so the code keeps the first one.
 - Show it under the accuracy line. The address arrives after the coordinates, so check it first.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 {address && (
@@ -843,6 +1000,9 @@ const styles = StyleSheet.create({
 - Change the title in the main `return` to `Live Location`.
 - Replace the whole effect.
 
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: watchPositionAsync 구독 + cleanup에서 subscription.remove()</p>
+
 ```jsx
 useEffect(() => {
   let subscription;
@@ -902,11 +1062,17 @@ useEffect(() => {
 
 - Add an `updates` state under `location`.
 
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: setUpdates((prev) =&gt; prev + 1)로 업데이트 횟수 세기</p>
+
 ```jsx
 const [updates, setUpdates] = useState(0);
 ```
 
 - Make the callback count each update as well. The count depends on the previous count, so use the updater form.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 (pos) => {
@@ -916,6 +1082,9 @@ const [updates, setUpdates] = useState(0);
 ```
 
 - Show the count under the accuracy line.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Text style={styles.message}>Updates: {updates}</Text>
@@ -931,11 +1100,17 @@ const [updates, setUpdates] = useState(0);
 
 - Tracking should stop when the user does not need it. Add `Button` to the `react-native` import, and a `tracking` state under `updates`.
 
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: tracking state + if (!tracking) return + 의존성 [tracking]</p>
+
 ```jsx
 const [tracking, setTracking] = useState(true);
 ```
 
 - In the effect, add a check as the first line, and change the dependency array to `[tracking]`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 useEffect(() => {
@@ -947,6 +1122,9 @@ useEffect(() => {
 ```
 
 - Add the button under the updates count.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Button
@@ -1109,6 +1287,9 @@ const styles = StyleSheet.create({
 
 - Replace everything in `App.js`. It has a **Find Me** button over an empty screen, and the region for Newnham Campus, which the steps use.
 
+
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Find Me 버튼이 떠 있는 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
@@ -1147,7 +1328,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Your%20First%20Map%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Pressable%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20NEWNHAM%20%3D%20%7B%0A%20%20latitude%3A%2043.79457%2C%0A%20%20longitude%3A%20-79.35043%2C%0A%20%20latitudeDelta%3A%200.01%2C%0A%20%20longitudeDelta%3A%200.01%2C%0A%7D%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CPressable%0A%20%20%20%20%20%20%20%20style%3D%7B%28%7B%20pressed%20%7D%29%20%3D%3E%20%5Bstyles.button%2C%20pressed%20%26%26%20styles.pressed%5D%7D%0A%20%20%20%20%20%20%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3EFind%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20map%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20position%3A%20%22absolute%22%2C%0A%20%20%20%20bottom%3A%2040%2C%0A%20%20%20%20alignSelf%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20pressed%3A%20%7B%20backgroundColor%3A%20%22%231565C0%22%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W7%20Example%3A%20Your%20First%20Map%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Pressable%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Aconst%20NEWNHAM%20%3D%20%7B%0A%20%20latitude%3A%2043.79457%2C%0A%20%20longitude%3A%20-79.35043%2C%0A%20%20latitudeDelta%3A%200.01%2C%0A%20%20longitudeDelta%3A%200.01%2C%0A%7D%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CPressable%0A%20%20%20%20%20%20%20%20style%3D%7B%28%7B%20pressed%20%7D%29%20%3D%3E%20%5Bstyles.button%2C%20pressed%20%26%26%20styles.pressed%5D%7D%0A%20%20%20%20%20%20%3E%0A%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.buttonText%7D%3EFind%20Me%3C%2FText%3E%0A%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20map%3A%20%7B%20flex%3A%201%20%7D%2C%0A%20%20button%3A%20%7B%0A%20%20%20%20position%3A%20%22absolute%22%2C%0A%20%20%20%20bottom%3A%2040%2C%0A%20%20%20%20alignSelf%3A%20%22center%22%2C%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%232196F3%22%2C%0A%20%20%7D%2C%0A%20%20pressed%3A%20%7B%20backgroundColor%3A%20%22%231565C0%22%20%7D%2C%0A%20%20buttonText%3A%20%7B%20color%3A%20%22white%22%2C%20fontSize%3A%2018%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - `position: "absolute"` takes the button out of the flexbox layout and places it 40 points above the bottom edge, on top of whatever else is there. `alignSelf: "center"` centres it across.
 - The button is the `Pressable` from Week 6, with its pressed style. It does nothing yet.
@@ -1161,11 +1342,17 @@ const styles = StyleSheet.create({
 
 - Import `MapView` under the `react-native` import. It is the package's default export, so it has no braces.
 
+
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import MapView(중괄호 없음) + style={{ flex: 1 }}</p>
+
 ```jsx
 import MapView from "react-native-maps";
 ```
 
 - Add the map as the first child of the container, above the button.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView style={styles.map} />
@@ -1186,6 +1373,9 @@ import MapView from "react-native-maps";
 
 - Give the map a starting region.
 
+
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: initialRegion에 위도, 경도, latitudeDelta, longitudeDelta</p>
+
 ```jsx
 <MapView style={styles.map} initialRegion={NEWNHAM} />
 ```
@@ -1205,12 +1395,18 @@ import MapView from "react-native-maps";
 - `showsUserLocation` draws the user as a blue dot, but on Android it fails silently unless the app already has location permission. So ask first with `expo-location`, as in the first example.
 - Add the imports.
 
+
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 권한 요청 후 showsUserLocation={hasPermission}</p>
+
 ```jsx
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
 ```
 
 - Add a state and an effect at the top of `MyApp`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const [canShowUser, setCanShowUser] = useState(false);
@@ -1226,6 +1422,9 @@ useEffect(() => {
 ```
 
 - Pass the result to the map.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView
@@ -1249,17 +1448,26 @@ useEffect(() => {
 
 - To move the map from code, the code needs the map itself. Add `useRef` to the React import.
 
+
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useRef로 mapRef를 만들고 animateToRegion으로 내 위치 이동</p>
+
 ```jsx
 import { useState, useEffect, useRef } from "react";
 ```
 
 - Create a ref under the state.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const mapRef = useRef(null);
 ```
 
 - Give the map the ref.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView
@@ -1272,6 +1480,9 @@ const mapRef = useRef(null);
 
 - Week 6 used `useRef` to keep an animated value. A ref passed as the `ref` prop works the other way: React puts the component into `mapRef.current` after it renders. The map component has methods, and `animateToRegion` moves the map.
 - Add a function under the effect that finds the user and moves the map there.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 async function findMe() {
@@ -1290,6 +1501,9 @@ async function findMe() {
 
 - The second argument is how long the animation takes, in milliseconds. iOS ignores it and uses its own speed.
 - Wire up the button. `disabled` stops it from working until permission is granted.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Pressable
@@ -1405,6 +1619,9 @@ const styles = StyleSheet.create({
 
 - Replace everything in `App.js`. It has the Seneca campuses as data, a map that fits them all, and an info card at the bottom that the steps fill in.
 
+
+<p class="typeit" id="practice-13">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 캠퍼스 데이터와 정보 카드 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
@@ -1489,11 +1706,17 @@ const styles = StyleSheet.create({
 
 - `Marker` is a named export of `react-native-maps`. Change the import.
 
+
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: import { Marker } + Marker 하나</p>
+
 ```jsx
 import MapView, { Marker } from "react-native-maps";
 ```
 
 - Give the map a child. `MapView` is no longer self-closing.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView style={styles.map} initialRegion={GTA_NORTH}>
@@ -1519,6 +1742,9 @@ import MapView, { Marker } from "react-native-maps";
 
 - Replace the single marker with one marker per campus.
 
+
+<p class="typeit" id="practice-15">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: CAMPUSES.map으로 Marker 여러 개(key 필수)</p>
+
 ```jsx
 <MapView style={styles.map} initialRegion={GTA_NORTH}>
   {CAMPUSES.map((campus) => (
@@ -1543,15 +1769,24 @@ import MapView, { Marker } from "react-native-maps";
 
 - A callout is small. Most apps show details in their own panel instead. Add `useState` above the `react-native` import, and a `selected` state at the top of `MyApp`.
 
+
+<p class="typeit" id="practice-16">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: selected state + Marker onPress로 카드에 캠퍼스 정보 표시</p>
+
 ```jsx
 import { useState } from "react";
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const [selected, setSelected] = useState(null);
 ```
 
 - Give each marker an `onPress` that selects its campus.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Marker
@@ -1564,6 +1799,9 @@ const [selected, setSelected] = useState(null);
 ```
 
 - Replace the hint in the card with the selected campus, or the hint when nothing is selected.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <View style={styles.card}>
@@ -1595,11 +1833,17 @@ const [selected, setSelected] = useState(null);
 - The base map is full of restaurants, shops and bus stops. They compete with your markers. Hiding them is different on each platform.
 - Add a map style above `MyApp`. It is Google Maps' styling format: a list of rules, each picking a kind of feature and changing how it looks.
 
+
+<p class="typeit" id="practice-17">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: customMapStyle로 지도 기본 장소(poi) 숨기기</p>
+
 ```jsx
 const HIDE_PLACES = [{ featureType: "poi", stylers: [{ visibility: "off" }] }];
 ```
 
 - Give the map both props.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView
@@ -1740,6 +1984,9 @@ const styles = StyleSheet.create({
 
 - Replace everything in `App.js`. It is a map of Newnham Campus with a **Clear** button that the last step uses.
 
+
+<p class="typeit" id="practice-18">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 뉴넘 캠퍼스 지도와 Clear 버튼 시작 코드 쳐 두기</p>
+
 ```jsx
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import MapView from "react-native-maps";
@@ -1790,11 +2037,17 @@ const styles = StyleSheet.create({
 
 - Add `Polygon` to the map import.
 
+
+<p class="typeit" id="practice-19">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Polygon coordinates={CAMPUS_CORNERS} strokeColor, strokeWidth</p>
+
 ```jsx
 import MapView, { Polygon } from "react-native-maps";
 ```
 
 - Add the campus corners above `MyApp`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 const CAMPUS_OUTLINE = [
@@ -1806,6 +2059,9 @@ const CAMPUS_OUTLINE = [
 ```
 
 - Draw it inside the map.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView style={styles.map} initialRegion={CAMPUS}>
@@ -1827,6 +2083,9 @@ const CAMPUS_OUTLINE = [
 
 - Add a fill.
 
+
+<p class="typeit" id="practice-20">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: fillColor=&quot;rgba(255, 0, 0, 0.2)&quot;</p>
+
 ```jsx
 <Polygon
   coordinates={CAMPUS_OUTLINE}
@@ -1847,9 +2106,15 @@ const CAMPUS_OUTLINE = [
 
 - Add `useState` above the `react-native` import, and `Marker` to the map import.
 
+
+<p class="typeit" id="practice-21">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MapView onPress로 points 배열에 좌표 추가 + Polygon으로 그리기 + Clear</p>
+
 ```jsx
 import { useState } from "react";
 ```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import MapView, { Marker, Polygon } from "react-native-maps";
@@ -1857,11 +2122,17 @@ import MapView, { Marker, Polygon } from "react-native-maps";
 
 - Add a `points` state at the top of `MyApp`.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 const [points, setPoints] = useState([]);
 ```
 
 - Give the map an `onPress`. The tapped coordinate is in `e.nativeEvent.coordinate`. Adding it depends on the previous list, so use the updater form.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <MapView
@@ -1876,6 +2147,9 @@ const [points, setPoints] = useState([]);
 
 - The coordinate is read into `point` first, so the updater only needs a plain value when React runs it later.
 - Inside the map, under the campus polygon, show a marker for each point, and the shape once there are enough points for one.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 {points.map((point, index) => (
@@ -1894,6 +2168,9 @@ const [points, setPoints] = useState([]);
 - The points have no ids, so the index is the key. That is safe here because points are only ever added to the end or cleared, never reordered.
 - A polygon needs at least three points to have an area, so `&&` waits until there are three.
 - Make the button clear the points.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 <Pressable
@@ -2025,6 +2302,28 @@ const styles = StyleSheet.create({
 ---
 
 ## 5. 🧪 Lab: Lab 6 - Location and Maps
+
+<div class="sum" data-kind="lab">
+
+**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
+
+Lab 6은 주차 위치를 저장하고 지도에 보여 주는 앱이에요. 힌트만 적어 뒀으니 혼자 풀어 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **A Note on AI**: AI는 막힐 때만. 목표: 적절한 순간에 위치를 묻고, 지도에 올리고, 다 쓰면 그만 쓰기.
+- 👀 **Overview**: Part 1 지도, 2 주차 위치 저장, 3 주소, 4 거리, 5 수동 수정과 귀가.
+- 👀 **Setup**: SDK 54, styles.js 분리, starter 3개 파일.
+- ⏭️ **Styling Rules**: App.js에 인라인 스타일 금지. Pressable의 style 함수가 배열을 return 하는 건 OK.
+- ⏭️ **Running Your App**: 폰(My Device)에서. 안 되면 Android 탭(위치가 오샤와로 고정).
+- ⏭️ **Submission**: 수업 끝나기 전 Snack 링크 제출.
+- 🧪 **Part 1 - The Map (1 point)**: 연결: 7.1 Your First Map Step 1~2 + Campus Markers Step 4.
+- 🧪 **Part 2 - Park Here (1 point)**: 연결: 7.1 Your First Map Step 3~4, 단 권한 요청을 버튼 안으로 이동.
+- 🧪 **Part 3 - The Address (1 point)**: 연결: 7.1 Where Am I Step 3 + Live Location의 cancelled 깃발.
+- 🧪 **Part 4 - How Far Is the Car? (1 point)**: 연결: 7.1 Live Location.
+- 🧪 **Part 5 - Fix the Spot and Go Home (1 point)**: 연결: 7.1 Drawing on the Map Step 3.
+
+</div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-6.md
 

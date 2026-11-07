@@ -2,6 +2,8 @@
 
 > 이 노트 읽는 법: **📘/💻/🧪 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 코드 밑의 **▶ Snack에서 바로 실행하기**를 누르면 그 코드가 Expo Snack에서 열려요.
 
+> 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
+
 ## 0. 이번 주 한눈에 보기
 
 1주차에 만든 화면은 "그림"일 뿐이었어요. 버튼을 눌러도 아무것도 안 바뀌었죠. 이번 주는 화면이 **반응하고, 기억하고, 다시 그려지게** 만드는 주예요. 1차 시험(Test 1)의 핵심 범위라서 아주 중요해요.
@@ -25,6 +27,24 @@
 새 값이 **이전 값에 따라** 정해지면 무조건 함수형!
 
 
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Event Handlers](#practice-1) | handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결 |
+| 2 | [Example: Passing Props](#practice-2) | MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기 |
+| 3 | [Example: State](#practice-3) | useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시 |
+| 4 | [Example: Lifting State Up](#practice-4) | count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기 |
+| 5 | [Example: useEffect](#practice-5) | useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기 |
+| 6 | [Example: Using Context for State](#practice-6) | createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기 |
+| 7 | [Example: Using Jotai](#practice-7) | 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기 |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
+
+
+
 ## 목차
 
 - 1. 📘 코스노트: Event Handling
@@ -39,6 +59,19 @@
 ---
 
 ## 1. 📘 코스노트: Event Handling
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+이벤트(onPress 등)를 처리하는 방법이에요. 💻 2.1 "Event Handlers"에서 직접 쳐 보니까 여기서는 읽기만 해요.
+
+**이 챕터 구성**
+
+- 👀 **Event Handlers**: Event handler(이벤트 핸들러) = 어떤 일이 일어났을 때(버튼 누름, 글자 입력) 실행되는 콜백 함수예요.
+- 👀 **Synthetic Events**: Synthetic event(합성 이벤트): React가 각 플랫폼의 진짜(native) 이벤트를 똑같은 모양의 객체로 포장한 것.
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/events
 
@@ -197,6 +230,26 @@ Event pooling(이벤트 풀링)은 옛날 React(16 이하) 이야기예요. Reac
 ---
 
 ## 2. 📘 코스노트: Hooks for Stateful Components
+
+<div class="sum" data-kind="read">
+
+**🧭 먼저 한국어로** · 👀 읽고 이해하기 (타이핑 안 해도 돼요)
+
+useState, useEffect 같은 Hook 설명이에요. 💻 2.2 State, useEffect 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.
+
+**이 챕터 구성**
+
+- 👀 **Introduction to Hooks**: `useState()` 는 함수형 컴포넌트에 기억력을 주는 Hook이에요.
+- 👀 **Introduction to Hooks › Updating state based on the previous value**: 이 부분이 Week 2의 최대 함정이에요.
+- 👀 **Running Side Effects with `useEffect`**: 컴포넌트의 본업은 JSX를 return 하는 것 하나예요.
+- 👀 **Running Side Effects with `useEffect` › Cleaning up an effect**: effect가 return 하는 함수 = cleanup(정리) 함수.
+- 👀 **Running Side Effects with `useEffect` › Effects that depend on a value**: effect가 props나 state를 쓰면 의존성 배열에 넣어요.
+- 👀 **Lifting State Up**: Lifting state up = state를 위로 올리기.
+- 👀 **Keeping Functions Stable with `useCallback`**: 조금 어렵지만 인클래스 예제(2.2 useEffect)와 똑같은 내용이라 꼭 이해하세요.
+- 👀 **Sharing data via context**: Context API = 여러 컴포넌트가 같이 쓰는 전역 데이터를 props 없이 나눠 주는 방법.
+- 👀 **Global State with Jotai**: Context는 만들기, Provider로 감싸기, value 넘기기...
+
+</div>
 
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/hooks
 
@@ -1030,6 +1083,23 @@ const [count, setCount] = useAtom(countAtom); // useState랑 똑같이 생김!
 
 ## 3. 📘 코스노트: Class Components (Optional)
 
+<div class="sum" data-kind="skim">
+
+**🧭 먼저 한국어로** · ⏭️ 가볍게 훑기
+
+옛날 방식인 클래스 컴포넌트 소개예요. 함수 컴포넌트와 무엇이 다른지만 알면 되니까 가볍게 훑어요.
+
+**이 챕터 구성**
+
+- 👀 **Component state and properties**: State: 컴포넌트 데이터의 스냅샷. 바뀌면 컴포넌트가 자동으로 다시 그려져요.
+- 👀 **Working with component state**: class에서는 `state = { ... }` 객체로 초기값을 주고, `this.setState({...})`로 바꿔요.
+- 👀 **Working with component properties**: Immutable(불변): 바꿀 수 없는 값. props는 불변이라 자식이 직접 바꾸면 안 돼요.
+- 👀 **Passing data from parent to child components**: 부모가 자기 state를 자식의 props로 내려 주는 패턴이에요.
+- 👀 **Lifecycle methods**: 컴포넌트의 일생: 생성(mount) → 업데이트(update) → 제거(unmount).
+- 👀 **Lifecycle methods › Methods**: 각 생명주기 메서드 목록이에요. 시험에는 함수형 기준으로 나오니 위 비교표 정도만 알아 두면 충분해요.
+
+</div>
+
 > 원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/class-components
 
 This page documents how to work with props and state in [React's legacy Class Components](https://react.dev/reference/react/Component). You will be using [functional components](https://seneca-ictoer.github.io/WEB530/B-Components/func-components) in your apps, but you might come across older code samples or documentation that uses class-based components, so this can be useful context to have.
@@ -1338,6 +1408,21 @@ There are three main lifecycle flows in React: when the component is first rende
 
 ## 4. 💻 인클래스 예제: Week 2.1 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+2.1 수업 라이브 코딩 예제예요. ⌨️ 표시된 코드는 빈 Snack에서 직접 쳐 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: Snack 안내예요.
+- 👀 **Common Components**: 기본 컴포넌트와 이벤트 이름 표예요. onPress, onChangeText, onValueChange는 외워 두세요.
+- ⌨️ **[Example: Event Handlers](#practice-1)**: onPress={handlePress}처럼 함수를 넘기고, 괄호를 붙여 바로 부르지 않아요. (⌨️ handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결)
+- ⌨️ **[Example: Passing Props](#practice-2)**: props 구조분해와 기본값을 연습해요. (⌨️ MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기)
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-02.1-notes.md
 
 ### 💻 React Native Playground
@@ -1382,6 +1467,9 @@ _Use this for the examples. Modify App.js_
 - Create an app with a Button.
 - Add the event handler using a function (defined in the component).
 - Must run this on a device or emulator (Snack's iOS/Android preview or Expo Go). `Alert.alert` does nothing in the Web preview.
+
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: handlePress를 함수 선언, 화살표 함수, 인라인 세 방식으로 onPress에 연결</p>
 
 ```jsx
 import { View, Button, Alert } from "react-native";
@@ -1444,6 +1532,9 @@ function MyButton() {
 - Set a default value `text = "Button"`.
 - Wire the button to read the props.
 
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: MyButton({ text, enabled, message })에 기본값을 주고 disabled={!enabled}, Alert로 message 보여 주기</p>
+
 ```jsx
 function MyButton({ text = "Button", enabled = true }) {
   return (
@@ -1473,6 +1564,9 @@ export default function MyApp() {
 - Add another prop `message` and set the default value to `That felt good`.
 - Wire the alert to receive the message.
 - NOTE: You are already in a JS code block, you don't need the `{ }` brackets.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { View, Button, Alert } from "react-native";
@@ -1515,6 +1609,23 @@ export default function MyApp() {
 
 ## 5. 💻 인클래스 예제: Week 2.2 - Notes and Examples
 
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+2.2 수업 예제예요. State, useEffect, Context, Jotai는 코딩 문제의 핵심이라 ⌨️ 표시된 코드는 꼭 직접 쳐 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: 같은 Snack에서 계속해요.
+- ⌨️ **[Example: State](#practice-3)**: 일반 변수로는 화면이 안 바뀌고, state를 바꿔야 다시 그려져요. (⌨️ useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시)
+- ⌨️ **[Example: Lifting State Up](#practice-4)**: state를 부모로 올려서 여러 자식이 같은 값을 나눠 써요. (⌨️ count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기)
+- ⌨️ **[Example: useEffect](#practice-5)**: 의존성 배열과 cleanup이 시험 단골이에요. (⌨️ useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기)
+- ⌨️ **[Example: Using Context for State](#practice-6)**: props 없이 멀리 있는 컴포넌트에 state를 나눠 줘요. (⌨️ createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기)
+- ⌨️ **[Example: Using Jotai](#practice-7)**: Context보다 짧게 여러 컴포넌트가 함께 쓰는 state를 만들어요. (⌨️ 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기)
+
+</div>
+
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-02.2-notes.md
 
 ### 💻 React Native Playground
@@ -1530,6 +1641,9 @@ _Use this for the examples. Modify App.js_
 ### 💻 Example: State
 
 - Start from this version.
+
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useState로 count를 만들고 버튼을 누를 때 setCount(count + 1), 버튼 제목에 count 표시</p>
 
 ```jsx
 import { View, Button } from "react-native";
@@ -1547,7 +1661,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20return%20%3CButton%20disabled%3D%7B%21enabled%7D%20title%3D%22Click%20Me%22%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20return%20%3CButton%20disabled%3D%7B%21enabled%7D%20title%3D%22Click%20Me%22%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Add a variable to the button to count how many times it is clicked.
 
@@ -1593,6 +1707,9 @@ function MyButton({ enabled = true }) {
 - Let's fix this by adding state.
 - Let's remove the Alert as well.
 
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
 ```jsx
 import { useState } from "react";
 import { View, Button } from "react-native";
@@ -1620,7 +1737,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - The new count depends on the old one, so we pass a function to `setCount`. Show what goes wrong if we use `count` directly instead.
 - Change the button to add 2 by calling `setCount` twice.
@@ -1680,6 +1797,9 @@ function MyButton({ enabled = true }) {
 - Lift state up, so that the parent knows when the value changes.
 - Move the press handler outside of the function and pass as a prop.
 
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: count state를 부모 MyApp으로 옮기고 count와 handlePress를 props로 내려 주기</p>
+
 ```jsx
 import { useState } from "react";
 import { Text, View, Button } from "react-native";
@@ -1711,7 +1831,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Lifting%20State%20Up&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Lifting%20State%20Up&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1725,6 +1845,9 @@ export default function MyApp() {
 
 - Add a side effect.
 - The function returned from the effect is the clean-up. Here it cancels the timer.
+
+
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useEffect + setTimeout으로 1초마다 세고, 의존성 배열과 clearTimeout cleanup 넣기</p>
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -1771,7 +1894,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20useEffect%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20useEffect%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%0A%20%20%20%20%20%20%20%20count%3D%7Bcount%7D%0A%20%20%20%20%20%20%20%20handlePress%3D%7B%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%20%20%20%20%20%20%7D%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Notice the program keeps counting and never stops!
 - Each value change causes a render which causes useEffect to fire.
@@ -1806,6 +1929,9 @@ function MyButton({ enabled = true, handlePress, count }) {
 
 - To get rid of the warning we can use `useCallback`.
 - `useCallback` keeps the same function between renders, so `[handlePress]` does not change and the effect only runs once.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { useState, useEffect, useCallback } from "react";
@@ -1851,7 +1977,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20useEffect%2C%20useCallback%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%2C%20%5BhandlePress%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20useCallback%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%2C%20%5B%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20useEffect&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20useEffect%2C%20useCallback%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%2F%2F%20Initialize%20the%20component%0A%0A%20%20%20%20%2F%2F%20Start%20async%20task%0A%20%20%20%20const%20id%20%3D%20setTimeout%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20handlePress%28%29%3B%0A%20%20%20%20%7D%2C%201000%29%3B%0A%0A%20%20%20%20return%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20%20%20%2F%2F%20Cleanup%20code%20here%0A%20%20%20%20%20%20clearTimeout%28id%29%3B%0A%20%20%20%20%7D%3B%0A%20%20%7D%2C%20%5BhandlePress%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20useCallback%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%2C%20%5B%5D%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1865,6 +1991,9 @@ export default function MyApp() {
 ### 💻 Example: Using Context for State
 
 - Start from this version. It is the lifted state example with the `useEffect` and `useCallback` removed. Copy and paste it into `App.js`.
+
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: createContext, CountProvider(value={{ count, handlePress }}), useContext로 꺼내 쓰기</p>
 
 ```jsx
 import { useState } from "react";
@@ -1896,12 +2025,15 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Create the context and a provider component.
 - Merge the context into the button.
 - Create a new component for displaying the information.
 - Update the MyApp component.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { useState, createContext, useContext } from "react";
@@ -1953,7 +2085,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20createContext%2C%20useContext%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Create%20the%20Context%0Aconst%20CountContext%20%3D%20createContext%28%29%3B%0A%0Afunction%20CountProvider%28%7B%20children%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CCountContext.Provider%20value%3D%7B%7B%20count%2C%20handlePress%20%7D%7D%3E%0A%20%20%20%20%20%20%7Bchildren%7D%0A%20%20%20%20%3C%2FCountContext.Provider%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%7B%20count%2C%20handlePress%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%7B%20count%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CCountProvider%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FCountProvider%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Context%20for%20State&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20createContext%2C%20useContext%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Create%20the%20Context%0Aconst%20CountContext%20%3D%20createContext%28%29%3B%0A%0Afunction%20CountProvider%28%7B%20children%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CCountContext.Provider%20value%3D%7B%7B%20count%2C%20handlePress%20%7D%7D%3E%0A%20%20%20%20%20%20%7Bchildren%7D%0A%20%20%20%20%3C%2FCountContext.Provider%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%7B%20count%2C%20handlePress%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%7B%20count%20%7D%20%3D%20useContext%28CountContext%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CCountProvider%3E%0A%20%20%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%3C%2FCountProvider%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -1974,6 +2106,9 @@ Provider로 감싸지 않은 곳에서 `useContext`를 쓰면 값이 `undefined`
 
 _package.json_
 
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 파일 맨 위에 countAtom = atom(0), 컴포넌트에서 useAtom(countAtom)으로 읽고 바꾸기</p>
+
 ```js
 {
   "dependencies": {
@@ -1987,6 +2122,9 @@ _package.json_
 ```
 
 - Start from this version. It is the lifted state example with `CountDisplay` added and the Context removed. Copy and paste it into `App.js`.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { useState } from "react";
@@ -2022,7 +2160,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%7B%20count%20%7D%29%20%7B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20count%3D%7Bcount%7D%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%2C%20handlePress%2C%20count%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7BhandlePress%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%7B%20count%20%7D%29%20%7B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useState%280%29%3B%0A%0A%20%20const%20handlePress%20%3D%20%28%29%20%3D%3E%20%7B%0A%20%20%20%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%3B%0A%20%20%7D%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20count%3D%7Bcount%7D%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20count%3D%7Bcount%7D%20handlePress%3D%7BhandlePress%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
 
 - Create a global atom above the components.
 - Replace the `useState` in `MyApp` with nothing. `MyApp` no longer owns the count.
@@ -2030,6 +2168,9 @@ export default function MyApp() {
 - Notice there is no provider to wrap and no props to pass.
 
 _App.js_
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 
 ```jsx
 import { atom, useAtom } from "jotai";
@@ -2065,7 +2206,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&platform=web&sdkVersion=54.0.0&code=import%20%7B%20atom%2C%20useAtom%20%7D%20from%20%22jotai%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Global%20atom%0Aconst%20countAtom%20%3D%20atom%280%29%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%5Bcount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A&dependencies=%40types%2Freact%40%2A%2Cjotai%40%2A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W2%20Example%3A%20Using%20Jotai&platform=web&sdkVersion=54.0.0&code=import%20%7B%20atom%2C%20useAtom%20%7D%20from%20%22jotai%22%3B%0Aimport%20%7B%20Text%2C%20View%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0A%2F%2F%20Global%20atom%0Aconst%20countAtom%20%3D%20atom%280%29%3B%0A%0Afunction%20MyButton%28%7B%20enabled%20%3D%20true%20%7D%29%20%7B%0A%20%20const%20%5Bcount%2C%20setCount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%0A%20%20return%20%28%0A%20%20%20%20%3CButton%0A%20%20%20%20%20%20disabled%3D%7B%21enabled%7D%0A%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20setCount%28%28prev%29%20%3D%3E%20prev%20%2B%201%29%7D%0A%20%20%20%20%20%20title%3D%7B%60Button%20clicked%20%24%7Bcount%7D%20times%60%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0Afunction%20CountDisplay%28%29%20%7B%0A%20%20const%20%5Bcount%5D%20%3D%20useAtom%28countAtom%29%3B%0A%20%20return%20%3CText%3EButton%20clicked%20%7Bcount%7D%20times%3C%2FText%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7B%7B%20marginTop%3A%20100%20%7D%7D%3E%0A%20%20%20%20%20%20%3CCountDisplay%20%2F%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A&dependencies=%40types%2Freact%40%2A%2Cjotai%40%2A)** (SDK 54, 필요한 패키지 자동 포함)
 
 **🇰🇷 한글 해설**
 
@@ -2080,6 +2221,27 @@ export default function MyApp() {
 ---
 
 ## 6. 🧪 Lab: Lab 2 - React Native, Events, and State
+
+<div class="sum" data-kind="lab">
+
+**🧭 먼저 한국어로** · 🧪 혼자 풀어 보기
+
+Lab 2 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 혼자 풀어 보세요.
+
+**이 챕터 구성**
+
+- ⏭️ **A Note on AI**: AI는 막혔을 때만 쓰고, 설명 못 하는 코드는 남기지 말라는 안내.
+- 👀 **Setup**: React Native만 써요(div, createRoot 없음).
+- ⏭️ **Running Your App**: Web 탭은 빠르지만 `Alert.alert`가 안 돼요.
+- ⏭️ **Submission**: Snack 링크 하나 제출, 모든 컴포넌트는 App.js에, MyApp에서 `<Text>Question N</Text>` 제목과 함께 순서대로.
+- 🧪 **Question 1 - Events and Props (1 point)**: 연결 예제: 2.1 Passing Props.
+- 🧪 **Question 2 - Text Input and State (1 point)**: 연결 예제: 코스노트 Hooks의 TextInput 예제(controlled input).
+- 🧪 **Question 3 - Toggling State and Conditional Rendering (1 point)**: 연결 개념: boolean state + 함수형 토글 `setEnabled((prev) => !prev)` + 삼항 연산자.
+- 🧪 **Question 4 - Lifting State Up (1 point)**: 연결 예제: 2.2 Lifting State Up.
+- 🧪 **Question 5 - useEffect and Cleanup (1 point)**: 연결 예제: 2.2 useEffect + 코스노트 Cleaning up an effect.
+- 🧪 **Question 6 - Shared State Without Props (1 point)**: 연결 예제: 2.2 Using Context for State / Using Jotai.
+
+</div>
 
 > 원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-2.md
 

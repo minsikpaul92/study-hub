@@ -4,7 +4,7 @@
 <script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../../assets/site.css?v=4069d316">
+<link rel="stylesheet" href="../../assets/site.css?v=b58da801">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -22,6 +22,9 @@
 <li><strong>▶ Snack에서 바로 실행하기</strong>: 누르면 그 코드가 들어간 Expo Snack이 열립니다. 오른쪽 미리보기에서 결과를 보고, 코드를 직접 바꿔 보세요.</li>
 <li><strong>💻 인클래스 예제</strong>: 교수님이 수업 중에 라이브 코딩한 순서 그대로입니다. 단계별로 코드가 어떻게 바뀌는지 따라가 보세요.</li>
 </ul>
+</blockquote>
+<blockquote>
+<p>🧭 <strong>챕터 읽는 순서</strong>: 챕터마다 맨 앞의 <strong>🧭 먼저 한국어로</strong> 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 <strong>⌨️</strong>가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 <strong>👀 여기서 결과 보기</strong>로 결과만 확인하면 돼요.</p>
 </blockquote>
 <h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
 <p>이번 주는 &quot;앱 화면을 레고 블록처럼 조립하는 법&quot;을 배우는 주예요.</p>
@@ -74,8 +77,64 @@
 <li><code>&lt;Button&gt;</code>의 글자는 자식이 아니라 <code>title</code> prop으로 준다.</li>
 <li>PropTypes는 <strong>경고만</strong> 한다. 화면은 그대로 그려진다. 그리고 React 19부터는 아예 무시된다.</li>
 </ol>
+<p><strong>⌨️ 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Example: Simple Components</a></td>
+<td>MyButton 컴포넌트를 만들고 MyApp 안에서 <MyButton />으로 쓰기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: Multiple Tags</a></td>
+<td>h1과 MyButton을 div(또는 Fragment &lt;&gt;)로 감싸서 함께 return</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: JS-Expressions</a></td>
+<td>변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Example: Passing props</a></td>
+<td>MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Example: PropTypes and Validation</a></td>
+<td>MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Example: Introduce React Native Components (not HTML)</a></td>
+<td>1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
 <hr />
 <h2 id="1-코스노트-introduction-to-react">1. 📘 코스노트: Introduction to React <a class="anchor" aria-label="링크" href="#1-코스노트-introduction-to-react">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>React가 무엇이고 왜 컴포넌트로 화면을 나누는지 소개하는 글이에요. 아래 💻 1.1 예제에서 직접 쳐 보니까 여기서는 읽고 개념만 잡으면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is React</strong>: React가 뭐냐? 화면(UI, User Interface)을 만드는 JavaScript 라이브러리예요.</li>
+<li>👀 <strong>React components</strong>: JSX는 처음 그릴 때는 그냥 &quot;HTML 비슷한 글자&quot;예요.</li>
+<li>👀 <strong>React components › JavaScript XML (JSX)</strong>: JSX = JavaScript + XML(HTML 비슷한 태그).</li>
+<li>👀 <strong>React components › Writing components using JSX</strong>: 컴포넌트 = JSX를 return 하는 함수. 이게 전부예요.</li>
+<li>👀 <strong>React components › Using JavaScript expressions</strong>: JSX 안에서 중괄호 <code>{ }</code> 는 &quot;여기는 JavaScript야&quot; 라는 표시예요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react</p>
 </blockquote>
@@ -345,6 +404,10 @@ A <a href="https://en.wikipedia.org/wiki/Source-to-source_compiler" target="_bl
 </ul>
 </div><hr />
 <h2 id="2-코스노트-introduction-to-react-native">2. 📘 코스노트: Introduction to React Native <a class="anchor" aria-label="링크" href="#2-코스노트-introduction-to-react-native">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>React Native가 웹 React와 무엇이 다른지 설명해요. HTML 태그 대신 View, Text 같은 네이티브 컴포넌트를 쓴다는 게 핵심이에요. 읽고 이해만 하면 돼요.</p>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/A-Introduction/intro-react-native</p>
 </blockquote>
@@ -377,6 +440,16 @@ A <a href="https://en.wikipedia.org/wiki/Source-to-source_compiler" target="_bl
 <p>마지막 문단도 중요해요. iOS와 Android 코드를 100% 똑같이 쓰는 게 목표가 아니에요. <strong>각 플랫폼 사용자가 기대하는 최고의 경험</strong>을 주는 게 목표예요. (그래서 3주차에 <code>Platform.OS</code> 를 배워요.)</p>
 </div><hr />
 <h2 id="3-코스노트-functional-components">3. 📘 코스노트: Functional Components <a class="anchor" aria-label="링크" href="#3-코스노트-functional-components">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>함수 컴포넌트와 props를 정리한 글이에요. 💻 1.1 &quot;Passing props&quot;에서 직접 쳐 보니까 여기서는 읽기만 해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Introduction</strong>: Functional Component(함수형 컴포넌트) 는 함수로 만든 컴포넌트예요.</li>
+<li>👀 <strong>Functional components</strong>: 여기서부터 React Native 코드예요. <code>View</code>(상자)와 <code>Text</code>(글자)를 <code>react-native</code>에서 import 해요.</li>
+<li>👀 <strong>Properties (<code>props</code>)</strong>: Props = 부모가 자식에게 주는 값(속성).</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/func-components</p>
 </blockquote>
@@ -499,6 +572,20 @@ This is a functional component. It has default props.</p>
 <p>구조 분해가 낯설면 이렇게 생각하세요. <code>props</code>라는 가방을 받아서 <code>props.heading</code>, <code>props.body</code> 하고 하나씩 꺼내는 대신, 가방을 받자마자 <code>{ heading, body }</code>로 <strong>내용물을 바로 꺼내 놓는 것</strong>이에요.</p>
 </div><hr />
 <h2 id="4-코스노트-validating-props">4. 📘 코스노트: Validating Props <a class="anchor" aria-label="링크" href="#4-코스노트-validating-props">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>PropTypes로 props 타입을 검사하는 방법이에요. 💻 1.2 PropTypes 예제와 같은 내용이라 읽고 개념만 잡으면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Validating Component Properties</strong>: PropTypes는 HTML 폼의 입력값 검사(field validation)와 비슷해요.</li>
+<li>👀 <strong>Validating Component Properties › Type Validation</strong>: <code>prop-types</code> 패키지를 import 하고, `컴포넌트이름.propTypes = { ...</li>
+<li>👀 <strong>Validating Component Properties › Required Values</strong>: 타입 뒤에 <code>.isRequired</code> 를 붙이면 &quot;반드시 넘겨야 함&quot;이 돼요.</li>
+<li>👀 <strong>Validating Component Properties › Any value</strong>: <code>PropTypes.any.isRequired</code>: &quot;타입은 아무거나 괜찮은데 뭔가는 꼭 넘겨라.&quot;</li>
+<li>👀 <strong>Validating Component Properties › Specific types</strong>: <code>instanceOf(MyComponent)</code>: 특정 클래스의 인스턴스여야 함.</li>
+<li>👀 <strong>Validating Component Properties › Specific values</strong>: 타입이 아니라 값 자체를 검사하는 것들이에요.</li>
+<li>👀 <strong>Validating Component Properties › Custom validators</strong>: 직접 검사 함수를 만들 수도 있어요. 함수는 <code>(props, name, component)</code> 3개를 받아요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: https://seneca-ictoer.github.io/WEB530/B-Components/validating-props</p>
 </blockquote>
@@ -653,6 +740,18 @@ This is a functional component. It has default props.</p>
 <p>예제는 &quot;10 이상 99 이하의 숫자인지&quot; 검사해요. <code>Number.isFinite(x)</code> 는 &quot;진짜 유한한 숫자인지&quot; 확인하는 함수예요.</p>
 </div><hr />
 <h2 id="5-인클래스-예제-week-11---notes-and-examples">5. 💻 인클래스 예제: Week 1.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#5-인클래스-예제-week-11---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>교수님이 1.1 수업에서 라이브 코딩한 웹 React 예제예요. ⌨️ 표시된 코드는 CodeSandbox 템플릿을 Fork해서 처음부터 직접 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>Playground</strong>: 교수님 CodeSandbox 템플릿 링크예요. Fork해서 내 것으로 만들어 두세요.</li>
+<li>⌨️ <strong><a href="#practice-1">Example: Simple Components</a></strong>: 컴포넌트는 화면 조각을 돌려주는 대문자 함수예요. (⌨️ MyButton 컴포넌트를 만들고 MyApp 안에서 <MyButton />으로 쓰기)</li>
+<li>⌨️ <strong><a href="#practice-2">Example: Multiple Tags</a></strong>: JSX는 부모 태그 하나만 return할 수 있어요. (⌨️ h1과 MyButton을 div(또는 Fragment &lt;&gt;)로 감싸서 함께 return)</li>
+<li>⌨️ <strong><a href="#practice-3">Example: JS-Expressions</a></strong>: JSX 안에서 { }를 쓰면 JS 값을 넣을 수 있어요. (⌨️ 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기)</li>
+<li>⌨️ <strong><a href="#practice-4">Example: Passing props</a></strong>: Week 1의 핵심이에요. 같은 컴포넌트를 다른 값으로 재사용해요. (⌨️ MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기)</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.1-notes.md</p>
 </blockquote>
@@ -675,6 +774,7 @@ This is a functional component. It has default props.</p>
 </li>
 <li>Show that after return there is ( ) surrounding the HTML, it is not required. <code>return &lt;MyButton /&gt;;</code></li>
 </ul>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton 컴포넌트를 만들고 MyApp 안에서 &lt;MyButton /&gt;으로 쓰기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span><span class="nx">I</span>'<span class="nx">m</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">button</span><span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
 <span class="p">}</span>
@@ -699,6 +799,7 @@ This is a functional component. It has default props.</p>
 <li>Create a parent tag then add the children.</li>
 <li>Show how to add the H1 tag</li>
 </ul>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: h1과 MyButton을 div(또는 Fragment &lt;&gt;)로 감싸서 함께 return</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
 <span class="w">    </span><span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
@@ -733,6 +834,7 @@ This is a functional component. It has default props.</p>
 <li>Show that we can define JS constants</li>
 <li>Show that we can use those constants in a tag argument using { }</li>
 </ul>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: 변수를 만들고 { }로 버튼 글자와 disabled 속성에 넣기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">buttonText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"I'm a button"</span><span class="p">;</span>
 
@@ -776,6 +878,7 @@ This is a functional component. It has default props.</p>
 <li>Pass props to our button component and read information from there instead of constants.</li>
 <li>Show what happens if <code>buttonText</code> is omitted.</li>
 </ul>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton에 buttonText, isEnabled props를 넘기고 구조분해와 기본값으로 받기</p>
 <pre class="hl"><code class="language-jsx"><span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">(</span><span class="nx">props</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">&lt;</span><span class="nt">button</span><span class="w"> </span><span class="na">disabled</span><span class="o">=</span><span class="p">{</span><span class="o">!</span><span class="nx">props</span><span class="p">.</span><span class="nx">isEnabled</span><span class="p">}&gt;{</span><span class="nx">props</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&lt;/</span><span class="nt">button</span><span class="p">&gt;;</span>
 <span class="p">}</span>
@@ -839,6 +942,18 @@ This is a functional component. It has default props.</p>
 <p>주의: 숫자나 boolean, 변수는 <code>isEnabled={true}</code> 처럼 <strong>중괄호</strong>로, 문자열은 <code>buttonText=&quot;My Button&quot;</code> 처럼 <strong>따옴표</strong>로 넘겨요. <code>isEnabled=&quot;true&quot;</code> 라고 쓰면 그건 문자열이에요!</p>
 </div><hr />
 <h2 id="6-인클래스-예제-week-12---notes-and-examples">6. 💻 인클래스 예제: Week 1.2 - Notes and Examples <a class="anchor" aria-label="링크" href="#6-인클래스-예제-week-12---notes-and-examples">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ Snack에서 직접 쳐 보기</p>
+<p>1.2 수업 예제예요. 앞부분 PropTypes는 웹 React(CodeSandbox), 뒷부분부터 React Native(Snack)예요. ⌨️ 표시된 코드는 직접 쳐 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>React Playground</strong>: PropTypes 예제용 CodeSandbox 템플릿 안내예요.</li>
+<li>⌨️ <strong><a href="#practice-5">Example: PropTypes and Validation</a></strong>: PropTypes는 개발 모드에서 콘솔 경고만 내요. (⌨️ MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인)</li>
+<li>⏭️ <strong>React Native Playground</strong>: 여기서부터 Expo Snack을 써요. App.js를 고치면 오른쪽에 결과가 나와요.</li>
+<li>⌨️ <strong><a href="#practice-6">Example: Introduce React Native Components (not HTML)</a></strong>: HTML 태그 대신 React Native 컴포넌트를 써요. (⌨️ 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행)</li>
+<li>👀 <strong>HTML to React Native</strong>: HTML 태그와 React Native 컴포넌트 대응표예요. 통째로 외워 두세요.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-01.2-notes.md</p>
 </blockquote>
@@ -854,6 +969,7 @@ This is a functional component. It has default props.</p>
 <li>The checks come from the separate <code>prop-types</code> package, so it must be installed and imported.</li>
 <li>PropTypes is deprecated. React 19 no longer checks it, and TypeScript replaces it. We will revisit this when we learn TypeScript.</li>
 </ul>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 CodeSandbox에서 직접 쳐 보세요</b>: MyButton에 PropTypes(string, bool, isRequired)를 붙이고 잘못된 값을 넘겨 콘솔 경고 확인</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="nx">PropTypes</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"prop-types"</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">Greeting</span><span class="p">({</span><span class="w"> </span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="p">,</span><span class="w"> </span><span class="nx">isStudent</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
@@ -1037,6 +1153,7 @@ This is a functional component. It has default props.</p>
 <ul>
 <li>Notice React Native component names begin with capital letters.</li>
 </ul>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 1.1의 div, h1, button을 View, Text, Button으로 바꿔서 Snack에서 실행</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">Button</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="kd">function</span><span class="w"> </span><span class="nx">MyButton</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1055,11 +1172,12 @@ This is a functional component. It has default props.</p>
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Show that text must live inside <code>Text</code>. React Native does not allow a bare string inside a <code>View</code>.</li>
 <li>This crashes the app. Remove the <code>Text</code> tags below and read the error.</li>
 </ul>
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
 <pre class="hl"><code class="language-jsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
 
 <span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
@@ -1070,7 +1188,7 @@ This is a functional component. It has default props.</p>
 <span class="w">  </span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre>
-<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
+<p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함)</p>
 <ul>
 <li>Error: <code>Text strings must be rendered within a &lt;Text&gt; component.</code></li>
 </ul>
@@ -1163,6 +1281,22 @@ This is a functional component. It has default props.</p>
 </ul>
 </div><hr />
 <h2 id="7-lab-lab-1---components-and-props">7. 🧪 Lab: Lab 1 - Components and Props <a class="anchor" aria-label="링크" href="#7-lab-lab-1---components-and-props">#</a></h2>
+<div class="sum" data-kind="lab">
+<p><strong>🧭 먼저 한국어로</strong> · 🧪 혼자 풀어 보기</p>
+<p>Lab 1 문제예요. 정답 대신 힌트와 참고할 예제 위치만 적어 뒀어요. 위 예제를 다 쳐 본 다음 혼자 풀어 보세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⏭️ <strong>A Note on AI</strong>: AI는 막혔을 때 도움 받는 용도로만 쓰고, 내가 한 줄 한 줄 설명 못 하는 코드는 남기지 말라는 안내예요.</li>
+<li>👀 <strong>Setup</strong>: CodeSandbox 계정 만들고, 교수님 템플릿을 Fork, 이름 바꾸고, <code>package.json</code>에 React 18 + prop-types 가 있는지 확인.</li>
+<li>⏭️ <strong>Submission</strong>: CodeSandbox 링크 하나만 Blackboard에 제출.</li>
+<li>🧪 <strong>Question 1 - Your First Component (1 point)</strong>: 참고 예제: 1.1 Simple Components.</li>
+<li>🧪 <strong>Question 2 - Add a Button (1 point)</strong>: 포인트: HelloMessage가 이제 글자 + 버튼 두 개를 return 하니까 부모 태그로 감싸야 해요(1.1 Multiple Tags).</li>
+<li>🧪 <strong>Question 3 - Create a Reusable Button Component (1 point)</strong>: 참고 예제: 1.1 Passing props의 최종형(구조 분해 + <code>disabled={!isEnabled}</code>) 거의 그대로예요.</li>
+<li>🧪 <strong>Question 4 - Display Dynamic Text (1 point)</strong>: 포인트: <code>Welcome, {name}!</code> 처럼 JSX 글자 중간에 <code>{ }</code>.</li>
+<li>🧪 <strong>Question 5 - Using JavaScript Inside Components (1 point)</strong>: 참고 예제: 1.1 JS-Expressions.</li>
+<li>🧪 <strong>Question 6 - Prop Validation (1 point)</strong>: 참고 예제: 1.2 PropTypes Greeting.</li>
+</ul>
+</div>
 <blockquote>
 <p>원문 출처: github.com/nick-romanidis/web530-2267-nsa  lab-1.md</p>
 </blockquote>
@@ -1386,5 +1520,5 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
 </script>
-<script src="../../assets/timer.js?v=4069d316"></script><script src="../../assets/snack.js?v=4069d316"></script>
+<script src="../../assets/timer.js?v=b58da801"></script><script src="../../assets/snack.js?v=b58da801"></script>
 </body></html>
