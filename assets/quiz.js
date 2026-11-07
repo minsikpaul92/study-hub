@@ -79,7 +79,7 @@
       const items = pool();
       const done = items.filter((q) => saved.practice[q.i] !== undefined);
       const right = done.filter((q) => saved.practice[q.i] === 0).length;
-      bar.innerHTML = `<b>${right}</b> / ${done.length} 정답 · 전체 ${items.length}문항<div class="progress"><i style="width:${items.length ? (done.length / items.length) * 100 : 0}%"></i></div><button class="btn ghost" id="reset-p">다시 풀기</button>`;
+      bar.innerHTML = `푼 문제 <b>${done.length}</b> / ${items.length} · 정답 <b>${right}</b><div class="progress"><i style="width:${items.length ? (done.length / items.length) * 100 : 0}%"></i></div><button class="btn ghost" id="reset-p">다시 풀기</button>`;
       list.innerHTML = items.length ? items.map((q, n) => card(q, n + 1, { order: orderOf(q), picked: saved.practice[q.i], reveal: saved.practice[q.i] !== undefined })).join("") : `<p class="empty">${S.filter === "wrong" ? "오답노트가 비어 있어요." : "주차를 골라 주세요."}</p>`;
       el("reset-p").onclick = () => { items.forEach((q) => delete saved.practice[q.i]); persist(); render(); };
       return;

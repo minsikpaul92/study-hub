@@ -145,7 +145,14 @@ def build_course(cdir):
     if toy.get("guide") and os.path.exists(os.path.join(cdir, toy["guide"])):
         guide = "toy/" + os.path.basename(toy["guide"])
         os.makedirs(os.path.join(out, "toy"), exist_ok=True)
-        shutil.copy(os.path.join(cdir, toy["guide"]), os.path.join(out, guide))
+        g = open(os.path.join(cdir, toy["guide"]), encoding="utf-8").read()
+        # Follow the site's theme choice and give a way back to the course page
+        g = re.sub(r"(<head[^>]*>)", lambda m: m.group(1) + THEME_JS, g, count=1)
+        back = (f'<a href="../index.html" style="position:fixed;left:16px;bottom:16px;z-index:60;padding:8px 14px;border-radius:999px;'
+                f'background:var(--surface);color:var(--ink);border:1px solid var(--line);text-decoration:none;font:600 14px system-ui,sans-serif;'
+                f'box-shadow:0 4px 16px rgba(0,0,0,.2)">← {html.escape(code)}</a>')
+        g = g.replace("</body>", back + "</body>", 1)
+        write(os.path.join(out, guide), g)
 
     def toy_link(w):
         t = w.get("toy")
@@ -226,8 +233,10 @@ b.onclick=function(){{d[b.dataset.key]=!d[b.dataset.key];try{{localStorage.setIt
             mat_groups.append((labels.get(sub, sub), items))
     mat_body = '<main class="wrap"><section class="hero"><h1>수업 원본 자료</h1><p>해설노트가 참고한 영어 원문이에요. 출처는 각 페이지 맨 위에 있어요.</p></section>'
     for g, items in mat_groups:
+        if not items:
+            continue
         mat_body += f'<h2 class="section-title">{html.escape(g)} · {len(items)}</h2>'
-        mat_body += '<div class="grid">' + ("".join(f'<a class="card" href="{n}"><h3>{html.escape(t)}</h3><p>{html.escape(r)}</p></a>' for t, n, r in items) or '<p class="empty">아직 없어요.</p>') + "</div>"
+        mat_body += '<div class="grid">' + "".join(f'<a class="card" href="{n}"><h3>{html.escape(t)}</h3><p>{html.escape(r)}</p></a>' for t, n, r in items) + "</div>"
     mat_body += "</main>"
     write(os.path.join(out, "materials.html"), page(f"자료 · {code}", mat_body, rel, crumbs + [("자료", None)]))
 
