@@ -115,7 +115,7 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){{var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){{navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){{c.textContent='복사됨';setTimeout(function(){{c.textContent='복사';}},1200);}});}};p.appendChild(c);}});
 }})();
 </script>
-<script src="{rel}assets/timer.js?v={V}"></script><script src="{rel}assets/snack.js?v={V}"></script>{sc}
+<script src="{rel}assets/timer.js?v={V}"></script><script src="{rel}assets/snack.js?v={V}"></script><script src="{rel}assets/resume.js?v={V}"></script>{sc}
 </body></html>"""
 
 
@@ -275,6 +275,7 @@ b.onclick=function(){{d[b.dataset.key]=!d[b.dataset.key];try{{localStorage.setIt
 <h1>{html.escape(code)} {html.escape(cfg.get('title_ko') or cfg.get('title', ''))}</h1><p>{html.escape(cfg.get('title', ''))} · {html.escape(cfg.get('language', ''))}</p>
 <div style="margin-top:16px;max-width:420px"><div class="progress"><i id="prog"></i></div><p style="font-size:14px;margin-top:6px" id="prog-t"></p></div>
 <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><a class="pill" href="materials.html">📂 원본 자료</a>{links}</div></section>
+<div class="grid resume-grid" id="resume-box" data-scope="here" hidden></div>
 <h2 class="section-title">1. 강의 해설노트</h2><div class="grid">{wk_cards}</div>
 <h2 class="section-title">2. 토이 프로젝트</h2>{toy_cards or '<p class="empty">아직 없어요.</p>'}
 <h2 class="section-title">3. 퀴즈 · 시험 대비</h2><div class="grid">{exam_cards}</div></main>
@@ -298,6 +299,7 @@ def main():
 <p>{html.escape(c.get('title', ''))}</p><div class="tags"><span class="tag">해설노트 {nw}주</span><span class="tag">퀴즈 {nq}문항</span></div></a>""" for c, cid, nw, nq in courses)
     body = f"""<main class="wrap"><section class="hero"><h1>수업별 공부 노트</h1>
 <p>영어 강의자료 원문 아래에 한글 해설을 붙인 해설노트, 주차마다 기능을 더해 가는 토이 프로젝트, 주차를 골라 푸는 퀴즈와 모의시험. 오른쪽 아래 타이머로 15분 공부, 5분 휴식을 반복해요.</p></section>
+<div class="grid resume-grid" id="resume-box" hidden></div>
 <h2 class="section-title">수업</h2><div class="grid">{cards}</div></main>
 <footer class="site">원본 자료의 저작권은 각 수업의 저작자에게 있어요. 해설과 정리는 개인 학습용이에요. · <a href="{REPO_URL}">GitHub</a></footer>"""
     write(os.path.join(OUT, "index.html"), page(SITE_NAME, body, ""))

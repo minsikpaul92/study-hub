@@ -258,3 +258,24 @@ article.md { overflow-x: hidden; }
 @media (max-width: 700px) { .md .snack-frame { height: 640px; } }
 .md .snack-tip { margin: -10px 0 18px; font-size: 12.5px; color: var(--muted); }
 .md .pt { scroll-margin-top: 80px; }
+.timer-panel .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.timer-panel .top .snd { flex: 0 0 auto; padding: 5px 10px; font-size: 12.5px; border-radius: 999px; }
+.timer-panel .top .snd.off { color: var(--muted); }
+
+/* Resume + bookmarks */
+.md h2 .bm, .md h3 .bm, .md h4 .bm { margin-left: 8px; font-size: 0.6em; vertical-align: middle; padding: 2px 6px; border-radius: 8px; border: 1px solid transparent; background: none; cursor: pointer; opacity: 0.25; filter: grayscale(1); }
+.md h2:hover .bm, .md h3:hover .bm, .md h4:hover .bm { opacity: 0.7; }
+.md .bm.on { opacity: 1 !important; filter: none; border-color: var(--warn); background: var(--warn-soft); }
+@media (hover: none) { .md h2 .bm, .md h3 .bm, .md h4 .bm { opacity: 0.5; } }
+.resume-toast { position: fixed; left: 50%; bottom: 84px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 10px; max-width: calc(100vw - 32px); padding: 10px 12px 10px 16px; border-radius: 14px; background: var(--surface); border: 1px solid var(--accent); box-shadow: var(--shadow); font-size: 14px; transition: opacity .4s; }
+.resume-toast span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.resume-toast button { flex: 0 0 auto; font: 600 13px var(--font); padding: 7px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); cursor: pointer; }
+.resume-toast .go { background: var(--accent); border-color: var(--accent); color: #fff; }
+:root[data-theme="dark"] .resume-toast .go { color: #10201e; }
+.resume-toast.hide { opacity: 0; pointer-events: none; }
+.resume-grid { margin-bottom: 8px; }
+.resume-grid[hidden] { display: none; }
+.card.bms ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.card.bms li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.card.bms li a { flex: 1; min-width: 0; color: var(--text); text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.card.bms li button { flex: 0 0 auto; border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 13px; }

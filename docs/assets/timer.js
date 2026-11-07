@@ -27,13 +27,13 @@
   root.className = "timer";
   root.innerHTML = `
     <div class="timer-panel" role="dialog" aria-label="공부 타이머">
-      <div class="mode"></div>
+      <div class="top"><div class="mode"></div><button class="snd" data-a="sound" title="알람 소리 켜기/끄기"></button></div>
       <div class="big">15:00</div>
       <div class="bar"><i></i></div>
       <div class="btns">
         <button class="main" data-a="toggle">시작</button>
         <button data-a="skip" title="다음 단계로 넘어가기">건너뛰기</button>
-        <button data-a="reset" title="공부 15분으로 처음부터">처음으로</button>
+        <button data-a="reset" title="공부 시간 처음부터 다시">↺ 리셋</button>
       </div>
       <div class="meta"><span class="cycles"></span><span class="next"></span></div>
       <details>
@@ -41,7 +41,6 @@
         <label>공부 시간(분) <input type="number" min="1" max="120" data-c="studyMin"></label>
         <label>휴식 시간(분) <input type="number" min="1" max="60" data-c="breakMin"></label>
         <label>끝나면 다음 단계 자동 시작 <input type="checkbox" data-c="auto"></label>
-        <label>알림 소리 <input type="checkbox" data-c="sound"></label>
         <button data-a="test" class="sound-test">🔔 소리 테스트</button>
         <p class="sound-tip">브라우저는 페이지를 한 번 누르기 전에는 소리를 막아요. 페이지를 옮기면 아무 곳이나 한 번 눌러 두세요.</p>
       </details>
@@ -50,8 +49,8 @@
   const overlay = document.createElement("div");
   overlay.className = "break-overlay";
   overlay.innerHTML = `<div class="box"><h2>쉬는 시간이에요</h2><div class="big">05:00</div>
-    <p>화면에서 눈을 떼고 일어나서 물 한 잔 마셔요. 끝나면 소리로 알려 줄게요.</p>
-    <button data-a="hide">계속 읽기 (타이머는 유지)</button><button data-a="skip">바로 공부 시작</button></div>`;
+    <p>화면에서 눈을 떼고 일어나서 물 한 잔 마셔요. 끝나면 종소리로 알려 줄게요(안 누르면 30초마다 최대 3번).</p>
+    <button data-a="hide">계속 읽기 (타이머는 유지)</button><button data-a="skip">바로 공부 시작</button><button data-a="reset">↺ 타이머 리셋</button></div>`;
   document.body.append(root, overlay);
   const $ = (s) => root.querySelector(s);
 
@@ -97,8 +96,13 @@
     const stop = () => { clearInterval(flashT); document.title = orig; window.removeEventListener("pointerdown", stop); window.removeEventListener("keydown", stop); };
     window.addEventListener("pointerdown", stop); window.addEventListener("keydown", stop);
   }
+  let repeatT = null;
+  function stopRepeat() { clearInterval(repeatT); repeatT = null; }
+  ["pointerdown", "keydown"].forEach((ev) => window.addEventListener(ev, stopRepeat, { capture: true }));
   function chime(text) {
     if (!st.cfg.sound) return;
+    stopRepeat(); let rings = 1;
+    repeatT = setInterval(() => { if (!st.cfg.sound || ++rings > 3) return stopRepeat(); tones(); }, 30000);
     const ok = tones();
     if (!ok) {
       flashTitle(text);
@@ -137,9 +141,10 @@
       st.remain = dur(st.mode);
       if (st.running) st.endAt = Date.now() + st.remain;
     } else if (a === "reset") {
-      st.mode = "study"; st.running = false; st.remain = dur("study");
+      st.mode = "study"; st.running = false; st.remain = dur("study"); stopRepeat();
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
     else if (a === "test") { tones(); return; }
+    else if (a === "sound") { st.cfg.sound = !st.cfg.sound; stopRepeat(); }
     save(); paint();
   }
 
@@ -150,8 +155,10 @@
     $(".mode").textContent = st.mode === "study" ? `📖 공부 ${st.cfg.studyMin}분` : `☕ 휴식 ${st.cfg.breakMin}분`;
     $(".big").textContent = fmt(ms);
     $(".bar i").style.width = (100 - (ms / dur(st.mode)) * 100) + "%";
-    $(".pill-label").textContent = `${label} ${fmt(ms)}${st.running ? "" : " ⏸"}`;
+    $(".pill-label").textContent = `${label} ${fmt(ms)}${st.running ? "" : " ⏸"}${st.cfg.sound ? "" : " 🔕"}`;
     $('[data-a="toggle"]').textContent = st.running ? "일시정지" : (ms < dur(st.mode) ? "계속" : "시작");
+    $(".snd").textContent = st.cfg.sound ? "🔔 알람 켜짐" : "🔕 알람 꺼짐";
+    $(".snd").classList.toggle("off", !st.cfg.sound);
     $(".cycles").textContent = `오늘 ${st.cycles}세트 완료`;
     $(".next").textContent = st.mode === "study" ? `다음: 휴식 ${st.cfg.breakMin}분` : `다음: 공부 ${st.cfg.studyMin}분`;
     overlay.querySelector(".big").textContent = fmt(ms);
