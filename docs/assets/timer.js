@@ -42,6 +42,8 @@
         <label>휴식 시간(분) <input type="number" min="1" max="60" data-c="breakMin"></label>
         <label>끝나면 다음 단계 자동 시작 <input type="checkbox" data-c="auto"></label>
         <label>알림 소리 <input type="checkbox" data-c="sound"></label>
+        <button data-a="test" class="sound-test">🔔 소리 테스트</button>
+        <p class="sound-tip">브라우저는 페이지를 한 번 누르기 전에는 소리를 막아요. 페이지를 옮기면 아무 곳이나 한 번 눌러 두세요.</p>
       </details>
     </div>
     <button class="timer-pill" aria-label="공부 타이머 열기"><span class="dot"></span><span class="pill-label">공부 15:00</span></button>`;
@@ -53,19 +55,45 @@
   document.body.append(root, overlay);
   const $ = (s) => root.querySelector(s);
 
-  function chime() {
+  // Browsers keep audio locked until the user clicks or presses a key on *this* page,
+  // so keep one AudioContext and unlock it on the first gesture.
+  let ctx = null;
+  function audio() {
+    if (!ctx) { try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { return null; } }
+    if (ctx.state === "suspended") ctx.resume().catch(() => {});
+    return ctx;
+  }
+  ["pointerdown", "keydown", "touchstart"].forEach((ev) => window.addEventListener(ev, audio, { capture: true, passive: true }));
+  function tones(mode) {
+    const c = audio(); if (!c) return false;
+    const t0 = c.currentTime + 0.05;
+    [0, 0.3, 0.6, 1.2, 1.5, 1.8].forEach((t, i) => {
+      const o = c.createOscillator(), g = c.createGain();
+      o.frequency.value = mode === "break" ? [523, 659, 784][i % 3] : [784, 659, 523][i % 3];
+      g.gain.setValueAtTime(0.0001, t0 + t);
+      g.gain.exponentialRampToValueAtTime(0.35, t0 + t + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t0 + t + 0.45);
+      o.connect(g).connect(c.destination); o.start(t0 + t); o.stop(t0 + t + 0.5);
+    });
+    return c.state === "running";
+  }
+  let flashT = null;
+  function flashTitle(text) {
+    // Fallback when sound is blocked: blink the tab title until the page is touched.
+    const orig = document.title; let on = false; clearInterval(flashT);
+    flashT = setInterval(() => { document.title = (on = !on) ? "🔔 " + text : orig; }, 900);
+    const stop = () => { clearInterval(flashT); document.title = orig; window.removeEventListener("pointerdown", stop); window.removeEventListener("keydown", stop); };
+    window.addEventListener("pointerdown", stop); window.addEventListener("keydown", stop);
+  }
+  function chime(text) {
     if (!st.cfg.sound) return;
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      [0, 0.25, 0.5].forEach((t, i) => {
-        const o = ctx.createOscillator(), g = ctx.createGain();
-        o.frequency.value = st.mode === "break" ? [523, 659, 784][i] : [784, 659, 523][i];
-        g.gain.setValueAtTime(0.0001, ctx.currentTime + t);
-        g.gain.exponentialRampToValueAtTime(0.25, ctx.currentTime + t + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + t + 0.4);
-        o.connect(g).connect(ctx.destination); o.start(ctx.currentTime + t); o.stop(ctx.currentTime + t + 0.45);
-      });
-    } catch (e) {}
+    const ok = tones(st.mode);
+    if (!ok) {
+      flashTitle(text);
+      // Retry once the user touches the page, so the chime still plays late instead of never.
+      const late = () => { tones(st.mode); window.removeEventListener("pointerdown", late); };
+      window.addEventListener("pointerdown", late);
+    }
   }
   function notify(text) {
     try { if ("Notification" in window && Notification.permission === "granted" && document.hidden) new Notification("study-hub", { body: text }); } catch (e) {}
@@ -81,8 +109,8 @@
     st.remain = dur(st.mode);
     if (st.cfg.auto) { st.running = true; st.endAt = Date.now() + st.remain; }
     else st.running = false;
-    save(); chime();
-    notify(st.mode === "break" ? `${st.cfg.studyMin}분 끝! ${st.cfg.breakMin}분 쉬어요.` : "휴식 끝! 다시 공부 시작해요.");
+    const msg = st.mode === "break" ? `${st.cfg.studyMin}분 끝! ${st.cfg.breakMin}분 쉬어요.` : "휴식 끝! 다시 공부 시작해요.";
+    save(); chime(msg); notify(msg);
   }
 
   function act(a) {
@@ -99,6 +127,7 @@
     } else if (a === "reset") {
       st.mode = "study"; st.running = false; st.remain = dur("study");
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
+    else if (a === "test") { tones(st.mode === "break" ? "study" : "break"); return; }
     save(); paint();
   }
 
@@ -137,6 +166,8 @@
   document.addEventListener("click", (e) => { if (!root.contains(e.target)) root.classList.remove("open"); });
   window.addEventListener("storage", (e) => { if (e.key === KEY) { st = load(); paint(); } });
 
-  setInterval(() => { if (st.running && Date.now() >= st.endAt) finish(); paint(); }, 250);
+  const tick = () => { if (st.running && Date.now() >= st.endAt) finish(); paint(); };
+  setInterval(tick, 250);
+  document.addEventListener("visibilitychange", tick);
   paint();
 })();
