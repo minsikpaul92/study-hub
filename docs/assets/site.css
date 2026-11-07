@@ -225,3 +225,12 @@ footer.site { max-width: 1080px; margin: 0 auto; padding: 0 16px 40px; color: va
 :root[data-theme="dark"] .pill.primary,
 :root[data-theme="dark"] .md a.run { color: #0e1f1d; }
 :root[data-theme="dark"] img { opacity: .9; }
+
+/* Long inline code and URLs wrap instead of widening the page on phones */
+.md p, .md li, .md td, .md blockquote { overflow-wrap: anywhere; }
+.md :not(pre) > code { overflow-wrap: anywhere; word-break: break-word; }
+article.md { overflow-x: hidden; }
+@media (max-width: 600px) {
+  #theme .t { display: none; }
+  .md table { font-size: 13.5px; }
+}

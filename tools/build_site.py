@@ -95,11 +95,11 @@ def page(title, body, rel, crumbs=(), scripts=(), toc_toggle=False, desc=""):
 <header class="topbar"><div class="in">
 <a class="brand" href="{rel}index.html">study<span>-hub</span></a>
 <nav class="crumbs">{cr}</nav><div class="spacer"></div>{tt}
-<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙 다크</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
 </div></header>
 {body}
 <script>
-(function(){{var b=document.getElementById('theme');function lab(){{var d=document.documentElement.dataset.theme==='dark';b.textContent=d?'☀️ 라이트':'🌙 다크';b.title=d?'라이트 모드로':'다크 모드로';}}lab();b.onclick=function(){{var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{{localStorage.setItem('studyhub-theme',n);}}catch(e){{}}lab();}};
+(function(){{var b=document.getElementById('theme');function lab(){{var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}}lab();b.onclick=function(){{var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{{localStorage.setItem('studyhub-theme',n);}}catch(e){{}}lab();}};
 var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){{t.onclick=function(){{toc.classList.toggle('open');}};toc.addEventListener('click',function(e){{if(e.target.closest('a'))toc.classList.remove('open');}});}}
 document.querySelectorAll('.md pre').forEach(function(p){{var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){{navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){{c.textContent='복사됨';setTimeout(function(){{c.textContent='복사';}},1200);}});}};p.appendChild(c);}});
 }})();

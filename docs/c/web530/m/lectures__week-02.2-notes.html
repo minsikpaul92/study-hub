@@ -10,7 +10,7 @@
 <header class="topbar"><div class="in">
 <a class="brand" href="../../index.html">study<span>-hub</span></a>
 <nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><a href="../../c/web530/materials.html">자료</a><span>/</span><span>Week 2.2 - Notes and Examples</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
-<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙 다크</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
 </div></header>
 <div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#react-native-playground">React Native Playground</a></li><li class="l2"><a href="#example-state">Example: State</a></li><li class="l2"><a href="#example-lifting-state-up">Example: Lifting State Up</a></li><li class="l2"><a href="#example-useeffect">Example: useEffect</a></li><li class="l2"><a href="#example-using-context-for-state">Example: Using Context for State</a></li><li class="l2"><a href="#example-using-jotai">Example: Using Jotai</a></li></ol></nav>
 <article class="md"><h1 id="week-22---notes-and-examples">Week 2.2 - Notes and Examples <a class="anchor" aria-label="링크" href="#week-22---notes-and-examples">#</a></h1>
@@ -485,7 +485,7 @@
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
 document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
 <script>
-(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.textContent=d?'☀️ 라이트':'🌙 다크';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
 var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
 document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
 })();
