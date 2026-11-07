@@ -24,7 +24,6 @@
       if (q.get("dependencies")) d.dataset.snackDependencies = q.get("dependencies");
       d.dataset.snackName = q.get("name") || "study-hub";
       d.dataset.snackPlatform = "web";
-      d.dataset.snackSupportedplatforms = "web";
       d.dataset.snackPreview = "true";
       d.dataset.snackSdkversion = q.get("sdkVersion") || "54.0.0";
       d.dataset.snackTheme = document.documentElement.dataset.theme === "light" ? "light" : "dark";
@@ -33,7 +32,10 @@
       b.textContent = "결과 닫기";
       try {
         await loadEmbed();
-        window.ExpoSnack && window.ExpoSnack.append(d);
+        if (window.ExpoSnack) {
+          window.ExpoSnack.append(d);
+          if (!box.querySelector("iframe")) window.ExpoSnack.initialize();
+        }
       } catch (e) {
         box.innerHTML = '<p class="snack-err">Snack을 불러오지 못했어요. 위의 "Snack에서 바로 실행하기"로 열어 보세요.</p>';
       }
