@@ -19,6 +19,17 @@ REPO_URL = f"https://github.com/{REPO}"
 SITE_NAME = "study-hub"
 
 
+def _asset_version():
+    import hashlib
+    h = hashlib.sha1()
+    for f in sorted(glob.glob(os.path.join(ROOT, "assets", "*"))):
+        h.update(open(f, "rb").read())
+    return h.hexdigest()[:8]
+
+
+V = _asset_version()  # cache-busting query so browsers pick up new CSS/JS
+
+
 # ---------- Markdown ----------
 def slug(s):
     s = re.sub(r"<[^>]+>", "", s).strip().lower()
@@ -81,7 +92,7 @@ THEME_JS = """<script>(function(){var t='dark';try{t=localStorage.getItem('study
 
 def page(title, body, rel, crumbs=(), scripts=(), toc_toggle=False, desc=""):
     cr = "".join(f'<span>/</span><a href="{rel}{href}">{html.escape(t)}</a>' if href else f'<span>/</span><span>{html.escape(t)}</span>' for t, href in crumbs)
-    sc = "".join(f'<script src="{rel}assets/{s}"></script>' for s in scripts)
+    sc = "".join(f'<script src="{rel}assets/{s}?v={V}"></script>' for s in scripts)
     tt = '<button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>' if toc_toggle else ""
     return f"""<!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -89,7 +100,7 @@ def page(title, body, rel, crumbs=(), scripts=(), toc_toggle=False, desc=""):
 {THEME_JS}
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="{rel}assets/site.css">
+<link rel="stylesheet" href="{rel}assets/site.css?v={V}">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
 </head><body>
 <header class="topbar"><div class="in">
@@ -104,7 +115,7 @@ var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');i
 document.querySelectorAll('.md pre').forEach(function(p){{var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){{navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){{c.textContent='복사됨';setTimeout(function(){{c.textContent='복사';}},1200);}});}};p.appendChild(c);}});
 }})();
 </script>
-<script src="{rel}assets/timer.js"></script>{sc}
+<script src="{rel}assets/timer.js?v={V}"></script>{sc}
 </body></html>"""
 
 
