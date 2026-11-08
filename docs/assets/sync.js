@@ -88,8 +88,8 @@
   }
   async function importText(text) {
     const inc = await decode(text);
-    if (!confirm(`다른 기기의 기록을 이 기기에 합칠까요?\n(${summary(inc)})\n\n이 기기에 있는 기록은 지워지지 않아요.`)) return false;
-    merge(inc);
+    merge(inc);   // merge only adds; nothing on this device is removed, so no confirmation is needed
+    try { sessionStorage.setItem("studyhub-synced", summary(inc)); } catch (e) {}
     return true;
   }
   window.StudySync = { exportLink, importText };
@@ -101,6 +101,19 @@
     history.replaceState(null, "", location.pathname + location.search);
     importText(text).then((ok) => { if (ok) location.reload(); }).catch(() => alert("링크가 잘못됐어요. 내보내기를 다시 해서 새 링크로 열어 주세요."));
   }
+  // "합쳤어요" notice after the page reloads
+  try {
+    const done = sessionStorage.getItem("studyhub-synced");
+    if (done) {
+      sessionStorage.removeItem("studyhub-synced");
+      document.addEventListener("DOMContentLoaded", () => {
+        const t = document.createElement("div");
+        t.className = "resume-toast"; t.textContent = "✅ 다른 기기의 기록을 합쳤어요 (" + done + ")";
+        document.body.appendChild(t);
+        setTimeout(() => t.classList.add("hide"), 6000);
+      });
+    }
+  } catch (e) {}
   window.addEventListener("hashchange", fromHash);
   fromHash();
 })();
