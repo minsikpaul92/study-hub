@@ -61,7 +61,7 @@
   const overlay = document.createElement("div");
   overlay.className = "break-overlay";
   overlay.innerHTML = `<div class="box"><h2>쉬는 시간이에요</h2><div class="big">05:00</div>
-    <p>화면에서 눈을 떼고 일어나서 물 한 잔 마셔요. 끝나면 종소리로 알려 줄게요(안 누르면 30초마다 최대 3번).</p>
+    <p>화면에서 눈을 떼고 일어나서 물 한 잔 마셔요. 끝나면 종소리로 한 번 알려 줄게요.</p>
     <button data-a="hide">계속 읽기 (타이머는 유지)</button><button data-a="skip">바로 공부 시작</button><button data-a="reset">↺ 타이머 리셋</button></div>`;
   document.body.append(root, overlay);
   const $ = (s) => root.querySelector(s);
@@ -77,7 +77,7 @@
   ["pointerdown", "keydown", "touchstart"].forEach((ev) => window.addEventListener(ev, audio, { capture: true, passive: true }));
   // School chime ("딩동댕동"): the Westminster quarters melody, played with a bell-like tone.
   const C = { do: 523.25, re: 587.33, mi: 659.25, sol: 392.0 };
-  const CHIME = [["mi", "do", "re", "sol"], ["sol", "re", "mi", "do"], ["mi", "re", "do", "sol"], ["sol", "re", "mi", "do"]];
+  const CHIME = [["sol", "mi", "re", "do"]];   // one 딩동댕동 phrase, played once
   function bell(c, out, f, at, len) {
     // A struck bell: a few partials (some slightly off-harmonic) that fade at different speeds.
     [[1, 0.5, 1], [2, 0.25, 0.7], [2.4, 0.12, 0.5], [3, 0.1, 0.45], [4.2, 0.06, 0.3], [0.5, 0.15, 1.2]].forEach(([r, amp, d]) => {
@@ -108,13 +108,9 @@
     const stop = () => { clearInterval(flashT); document.title = orig; window.removeEventListener("pointerdown", stop); window.removeEventListener("keydown", stop); };
     window.addEventListener("pointerdown", stop); window.addEventListener("keydown", stop);
   }
-  let repeatT = null;
-  function stopRepeat() { clearInterval(repeatT); repeatT = null; }
-  ["pointerdown", "keydown"].forEach((ev) => window.addEventListener(ev, stopRepeat, { capture: true }));
+  function stopRepeat() {}   // kept so callers need no change; the chime plays once
   function chime(text) {
     if (!st.cfg.sound) return;
-    stopRepeat(); let rings = 1;
-    repeatT = setInterval(() => { if (!st.cfg.sound || ++rings > 3) return stopRepeat(); tones(); }, 30000);
     const ok = tones();
     if (!ok) {
       flashTitle(text);
