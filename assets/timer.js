@@ -15,6 +15,13 @@
     if (s.remain == null) s.remain = s.cfg.studyMin * 60 * 1000;
     return s;
   }
+  // Study history (kept separately so it survives timer resets and can be synced across devices)
+  const STATS = "studyhub-stats";
+  const dayKey = (t) => { const d = new Date(t); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  function stats() { try { return JSON.parse(localStorage.getItem(STATS)) || { days: {}, total: 0, last: 0 }; } catch (e) { return { days: {}, total: 0, last: 0 }; } }
+  function saveStats(x) { try { localStorage.setItem(STATS, JSON.stringify(x)); } catch (e) {} }
+  function touchLast() { const x = stats(); x.last = Date.now(); saveStats(x); }
+  function addSet() { const x = stats(), k = dayKey(Date.now()); x.days[k] = (x.days[k] || 0) + 1; x.total = Object.values(x.days).reduce((a, n) => a + n, 0); x.last = Date.now(); saveStats(x); }
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
   let st = load();
 
@@ -36,12 +43,17 @@
         <button data-a="reset" title="공부 시간 처음부터 다시">↺ 리셋</button>
       </div>
       <div class="meta"><span class="cycles"></span><span class="next"></span></div>
+      <div class="last"></div>
       <details>
         <summary>설정</summary>
         <label>공부 시간(분) <input type="number" min="1" max="120" data-c="studyMin"></label>
         <label>휴식 시간(분) <input type="number" min="1" max="60" data-c="breakMin"></label>
         <label>끝나면 다음 단계 자동 시작 <input type="checkbox" data-c="auto"></label>
         <button data-a="test" class="sound-test">🔔 소리 테스트</button>
+        <div class="sync"><div class="sync-title">📲 다른 기기로 옮기기</div>
+          <div class="sync-row"><button data-a="export">내보내기(링크 복사)</button><button data-a="import">가져오기</button></div>
+          <p class="sound-tip">내보내기로 복사한 링크를 폰이나 아이패드에서 열면 이어보기 위치, 북마크, 공부 기록이 합쳐져요. 링크나 코드를 "가져오기"에 붙여넣어도 돼요.</p>
+          <p class="sync-msg" aria-live="polite"></p></div>
         <p class="sound-tip">브라우저는 페이지를 한 번 누르기 전에는 소리를 막아요. 페이지를 옮기면 아무 곳이나 한 번 눌러 두세요.</p>
       </details>
     </div>
@@ -120,7 +132,7 @@
     // Another open tab may have already advanced the timer.
     const fresh = load();
     if (fresh.mode !== st.mode || fresh.endAt !== st.endAt || !fresh.running) { st = fresh; return; }
-    if (st.mode === "study") { st.cycles += 1; st.mode = "break"; }
+    if (st.mode === "study") { st.cycles += 1; addSet(); st.mode = "break"; }
     else st.mode = "study";
     st.remain = dur(st.mode);
     if (st.cfg.auto) { st.running = true; st.endAt = Date.now() + st.remain; }
@@ -129,11 +141,29 @@
     save(); chime(msg); notify(msg);
   }
 
+  const msg = (t) => { const m = $(".sync-msg"); m.textContent = t; };
+  async function doExport() {
+    if (!window.StudySync) return msg("내보내기를 쓸 수 없어요. 페이지를 새로고침해 주세요.");
+    try {
+      const { link, code } = await window.StudySync.exportLink();
+      try { await navigator.clipboard.writeText(link); msg("링크를 복사했어요. 다른 기기에서 그 링크를 열어 보세요."); }
+      catch (e) { window.prompt("이 링크를 복사해 주세요", link); msg("링크를 만들었어요."); }
+    } catch (e) { msg("링크를 만들지 못했어요."); }
+  }
+  async function doImport() {
+    const t = window.prompt("복사한 링크나 코드를 붙여넣어 주세요");
+    if (!t) return;
+    try {
+      const ok = await window.StudySync.importText(t);
+      if (ok) { msg("합쳤어요. 새로고침합니다."); setTimeout(() => location.reload(), 600); }
+    } catch (e) { msg("링크나 코드가 잘못됐어요."); }
+  }
   function act(a) {
     if (a === "toggle") {
       if (st.running) { st.remain = left(); st.running = false; }
       else {
         st.running = true; st.endAt = Date.now() + (st.remain || dur(st.mode));
+        if (st.mode === "study") touchLast();
         try { if ("Notification" in window && Notification.permission === "default") Notification.requestPermission(); } catch (e) {}
       }
     } else if (a === "skip") {
@@ -144,6 +174,8 @@
       st.mode = "study"; st.running = false; st.remain = dur("study"); stopRepeat();
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
     else if (a === "test") { tones(); return; }
+    else if (a === "export") { doExport(); return; }
+    else if (a === "import") { doImport(); return; }
     else if (a === "sound") { st.cfg.sound = !st.cfg.sound; stopRepeat(); }
     save(); paint();
   }
@@ -159,7 +191,9 @@
     $('[data-a="toggle"]').textContent = st.running ? "일시정지" : (ms < dur(st.mode) ? "계속" : "시작");
     $(".snd").textContent = st.cfg.sound ? "🔔 알람 켜짐" : "🔕 알람 꺼짐";
     $(".snd").classList.toggle("off", !st.cfg.sound);
-    $(".cycles").textContent = `오늘 ${st.cycles}세트 완료`;
+    const sx = stats(), today = sx.days[dayKey(Date.now())] || 0;
+    $(".cycles").textContent = `오늘 ${today}세트 · 총 ${sx.total || 0}세트`;
+    $(".last").textContent = sx.last ? "마지막 공부: " + new Date(sx.last).toLocaleString("ko-KR", { month: "long", day: "numeric", hour: "numeric", minute: "2-digit" }) : "마지막 공부: 아직 없어요";
     $(".next").textContent = st.mode === "study" ? `다음: 휴식 ${st.cfg.breakMin}분` : `다음: 공부 ${st.cfg.studyMin}분`;
     overlay.querySelector(".big").textContent = fmt(ms);
     overlay.classList.toggle("show", st.mode === "break" && st.running && st.hiddenFor !== st.endAt);
