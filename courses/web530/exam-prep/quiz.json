@@ -1247,5 +1247,431 @@
     "href": "https://seneca-ictoer.github.io/WEB530/G-Geolocation/disp-maps"
    }
   ]
+ },
+ {
+  "week": 8,
+  "topic": "TypeScript basics",
+  "level": 1,
+  "q": "In Snack, a variable is declared as `let count: number = 0;` and later changed to `count = \"zero\";`. What happens?",
+  "opts": [
+   "The editor shows a red squiggle, but the app still runs and prints zero.",
+   "The app refuses to start until the error is fixed.",
+   "TypeScript silently converts the string to the number 0.",
+   "Metro throws a runtime error when the line runs."
+  ],
+  "ex": "타입 검사는 에디터(체커)가 하고, Metro는 타입을 지우고 일반 JS만 실행해요. 그래서 빨간 줄이 있어도 앱은 실행돼요. 체커와 실행은 별개예요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Example: Types",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#example-types"
+   },
+   {
+    "label": "Week 8.1 Notes · Why TypeScript?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#why-typescript"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "TypeScript basics",
+  "level": 1,
+  "q": "What does the `?` mean in `interface StatProps { label: string; value: number; unit?: string }`?",
+  "opts": [
+   "`unit` is an optional prop and may be left out.",
+   "`unit` must be a string or a number.",
+   "`unit` is the only required prop.",
+   "`unit` is read-only."
+  ],
+  "ex": "`unit?`의 물음표는 선택(optional) prop이에요. 안에서 타입은 `string | undefined`가 되어서 `unit = \"\"`처럼 기본값을 주는 게 좋아요. 필수 prop은 `?`가 없고 빼면 에러예요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 2 - Add an Optional Prop",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-2---add-an-optional-prop"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "useState types",
+  "level": 2,
+  "q": "`const [guests, setGuests] = useState([]);` is followed by `setGuests((prev) => [...prev, name]);`, where `name` is a string. The editor shows `Type 'string' is not assignable to type 'never'`. Which fix is correct?",
+  "opts": [
+   "const [guests, setGuests] = useState<string[]>([]);",
+   "const [guests, setGuests] = useState<string>([]);",
+   "const [guests, setGuests] = useState([] as never);",
+   "const [guests, setGuests] = useState(\"\");"
+  ],
+  "ex": "빈 배열 `[]`은 TS에게 아무 정보도 주지 않아서 `never[]`(아무것도 못 넣는 배열)로 추론돼요. `useState<string[]>([])`처럼 꺾쇠 안에 \"문자열의 배열\"이라고 알려 줘야 해요. `string`은 배열이 아니라서 틀려요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 1 - Let Inference Do Its Job, Then Help It",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-1---let-inference-do-its-job-then-help-it"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "useState types",
+  "level": 2,
+  "q": "A screen tracks the tapped guest with `useState(null)`. After `setSelected(\"Ava\")` the editor complains. Which declaration fixes it?",
+  "opts": [
+   "useState<string | null>(null)",
+   "useState<string>(null)",
+   "useState<null>(\"\")",
+   "useState(\"null\")"
+  ],
+  "ex": "처음엔 `null`이고 나중엔 문자열이 되니 \"문자열 또는 null\"인 유니언 타입 `string | null`이 맞아요. `useState<string>(null)`은 null을 허용하지 않아서 에러예요. 규칙: 초기값이 `[]`나 `null`일 때 타입을 적어요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 2 - State That Can Be Null",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-2---state-that-can-be-null"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "useState types",
+  "level": 2,
+  "q": "Which of these `useState` calls does NOT need an explicit type in angle brackets?",
+  "opts": [
+   "const [count, setCount] = useState(0);",
+   "const [items, setItems] = useState([]);",
+   "const [user, setUser] = useState(null);",
+   "const [data, setData] = useState(undefined);"
+  ],
+  "ex": "`useState(0)`은 초기값이 숫자라서 TS가 `number`로 추론해요. `[]`, `null`, `undefined`는 초기값만으로 나중에 들어올 값을 알 수 없어서 타입을 적어야 해요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · TypeScript Checklist",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#typescript-checklist"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Typed handlers",
+  "level": 2,
+  "q": "Which is the correct typed named handler for `<TextInput onChangeText={handleChange} />`?",
+  "code": "function handleChange(____) {\n  setName(text);\n}",
+  "opts": [
+   "text: string",
+   "text: number",
+   "event: ChangeEvent",
+   "text: void"
+  ],
+  "ex": "`TextInput`의 `onChangeText`는 **문자열**을 넘겨줘요. 그래서 이름 붙인 핸들러는 `(text: string)`이어야 해요. `number`로 적으면 에러가 핸들러 안이 아니라 JSX의 `onChangeText`에 떠요. `void`는 반환 타입에 쓰는 거예요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 3 - Type the Handlers",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-3---type-the-handlers"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Typed API data",
+  "level": 2,
+  "q": "A fetched list is stored with `useState<User[]>([])`. In `renderItem`, the editor still says `Binding element 'item' implicitly has an 'any' type`. What fixes it?",
+  "opts": [
+   "renderItem={({ item }: { item: User }) => ( ... )}",
+   "renderItem={(item: User) => ( ... )}",
+   "keyExtractor={(item: User[]) => item.id}",
+   "data={users as any}"
+  ],
+  "ex": "`keyExtractor`의 item은 `data`를 보고 TS가 알아내지만, `renderItem`이 받는 객체는 자동으로 안 알아내서 `({ item }: { item: User })`로 직접 적어요. `(item: User)`는 구조분해 `{ item }`를 빼먹어서 틀려요(Week 5 함정). `as any`는 검사를 끄는 것이라 해결이 아니에요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 1 - Describe the Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-1---describe-the-data"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Typed API data",
+  "level": 3,
+  "q": "`.then((json: User[]) => setUsers(json))` compiles without errors, but the server actually returns `{ \"people\": [...] }`. What does this show?",
+  "opts": [
+   "`json: User[]` is a promise you make, not a check, because TypeScript never sees the server.",
+   "TypeScript will throw an error at runtime and show the error screen.",
+   "TypeScript validates the response when `res.json()` runs.",
+   "The interface must be wrong, and the editor will tell you."
+  ],
+  "ex": "타입은 실행 전에 지워지고 TS는 서버를 보지 못해요. `User[]`는 \"이런 모양일 거예요\"라는 **약속**이라서 서버가 다르면 에디터는 몰라요. 그래서 Week 5의 `res.ok` 체크와 에러 처리가 여전히 필요해요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 1 - Describe the Data",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-1---describe-the-data"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Literal types",
+  "level": 2,
+  "q": "With `type Status = \"loading\" | \"ready\" | \"error\";` and `const [status, setStatus] = useState<Status>(\"loading\");`, what happens when the code calls `setStatus(\"done\")`?",
+  "opts": [
+   "A red squiggle appears because \"done\" is not a Status.",
+   "Nothing, any string is allowed.",
+   "The app crashes at runtime.",
+   "The status becomes \"loading\" again."
+  ],
+  "ex": "문자열 리터럴 유니언은 세 값만 허용해요. `\"done\"`은 `Status`가 아니라서 에디터에 빨간 줄이 떠요. 그래서 오타 때문에 스피너에서 영원히 멈추는 버그를 미리 잡아요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 2 - Literal Types for Status",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-2---literal-types-for-status"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "any vs unknown",
+  "level": 3,
+  "q": "Given `let value: unknown = \"hello\";`, which code compiles and runs safely?",
+  "opts": [
+   "if (typeof value === \"string\") { value.toUpperCase(); }",
+   "value.toUpperCase();",
+   "const n: number = value;",
+   "value = value + 1;"
+  ],
+  "ex": "`unknown`은 뭐든 받지만 무엇인지 **확인하기 전에는 쓸 수 없어요.** `typeof value === \"string\"`로 확인하면 그 블록 안에서 타입이 string으로 좁혀져요(narrowing). `any`였다면 나머지 보기도 빨간 줄 없이 통과하고 실행 중에 터져요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Example: any and unknown",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#example-any-and-unknown"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Typed props",
+  "level": 3,
+  "q": "Given the interface below, which JSX line gives a TypeScript error?",
+  "code": "interface StatProps {\n  label: string;\n  value: number;\n  unit?: string;\n}",
+  "opts": [
+   "<Stat label=\"Steps\" value=\"8412\" />",
+   "<Stat label=\"Steps\" value={8412} />",
+   "<Stat label=\"Distance\" value={6.2} unit=\"km\" />",
+   "<Stat label=\"Calories\" value={320} />"
+  ],
+  "ex": "`value`는 `number`인데 따옴표로 문자열 `\"8412\"`을 넘겼어요. JS였다면 조용히 돌다가 나중에 더하기에서 버그가 났을 거예요. `unit`은 `?`라서 빼도 돼요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Step 3 - Break the Contract",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#step-3---break-the-contract"
+   }
+  ]
+ },
+ {
+  "week": 8,
+  "topic": "Typed props",
+  "level": 2,
+  "q": "Which statement about TypeScript and React Native is true?",
+  "opts": [
+   "Metro removes the types, so a type error does not stop the app from running.",
+   "A type error stops the Expo app from starting.",
+   "Types are sent to the phone and checked on every render.",
+   "PropTypes are required in React 19 for TypeScript props."
+  ],
+  "ex": "Metro가 타입을 지우고 일반 JS만 폰에 보내요. 체커는 개발자를 위한 도구예요. React 19는 PropTypes를 없앴고 TS의 interface가 그 역할을 에디터에서 해요.",
+  "refs": [
+   {
+    "label": "Week 8.1 Notes · Why TypeScript?",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-08.1-notes.md#why-typescript"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "fetch errors",
+  "level": 3,
+  "q": "A fetch to `.../commentsx` (a wrong URL) returns HTTP 404. The code has `.then(res => res.json()).then(setComments).catch(setError)`. What does the user see?",
+  "opts": [
+   "No error screen: the 404 body is parsed as data, so `.catch` never runs and the list is empty or broken.",
+   "The `.catch` runs and the error message is shown.",
+   "The app crashes before anything renders.",
+   "The spinner is replaced by the error message automatically."
+  ],
+  "ex": "`fetch`는 네트워크가 끊길 때만 reject해요. 404, 500도 성공으로 취급해서 `.catch`로 가지 않아요. `if (!res.ok) throw new Error(...)`를 직접 넣어야 해요. Test 3 문제 1의 핵심이에요.",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Step 2 - Handle Errors",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#step-2---handle-errors"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "fetch errors",
+  "level": 3,
+  "q": "Which placement turns the spinner off in both success and error cases?",
+  "code": "fetch(URL)\n  .then((res) => { if (!res.ok) throw new Error('HTTP'); return res.json(); })\n  .then((json) => setComments(json))\n  .catch((err) => setError(err.message))\n  ____",
+  "opts": [
+   ".finally(() => setLoading(false));",
+   ".then(() => setLoading(false));",
+   ".catch(() => setLoading(false));",
+   "setLoading(false) right after fetch(URL), outside the chain"
+  ],
+  "ex": "`.finally`는 성공이든 실패든 마지막에 실행돼요. `.then`만 쓰면 에러 때 스피너가 계속 돌고, `fetch` 바로 뒤에 쓰면 응답이 오기 전에 꺼져요(비동기).",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Step 1 - Show a Spinner While Loading",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#step-1---show-a-spinner-while-loading"
+   }
+  ]
+ },
+ {
+  "week": 5,
+  "topic": "FlatList",
+  "level": 2,
+  "q": "Where should the text \"No comments yet.\" be defined so it is part of the list and the heading stays visible when the array is empty?",
+  "opts": [
+   "ListEmptyComponent on the FlatList",
+   "An if (comments.length === 0) return <Text>...</Text> before the FlatList",
+   "The renderItem function",
+   "keyExtractor"
+  ],
+  "ex": "`ListEmptyComponent`는 FlatList가 비었을 때 목록 안에서 대신 보여 주는 부분이라 헤딩이 그대로 남아요. 별도 `if`로 early return 하면 화면 전체가 바뀌어서 헤딩이 사라져요(Test 3 샘플 Q1 감점 포인트).",
+  "refs": [
+   {
+    "label": "Week 5.1 Notes · Step 3 - Show an Empty State",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-05.1-notes.md#step-3---show-an-empty-state"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "extraData",
+  "level": 3,
+  "q": "A FlatList has `data={ITEMS}` (never changes) and rows that depend on a `packed` state object. Tapping a row updates `packed`, but the highlight does not change. What is missing?",
+  "opts": [
+   "extraData={packed} on the FlatList",
+   "key={packed} on each row",
+   "keyExtractor={(item) => packed[item.id]}",
+   "data={[...ITEMS]} must be inside useEffect"
+  ],
+  "ex": "FlatList는 `data`가 바뀌지 않으면 행을 다시 그리지 않아요. 행이 다른 state에 의존하면 `extraData`로 알려 줘야 해요. 작은 목록은 우연히 다시 그려져서 테스트로는 놓치기 쉬워요(Test 3 샘플 Q2 마지막 체크).",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · extraData",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md#extradata"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "State from objects",
+  "level": 3,
+  "q": "`packed` is `{ i1: true, i3: true, i5: true }`. The user unpacks i3, so the code sets `packed.i3` to false. Which expression shows the correct count (2)?",
+  "opts": [
+   "Object.values(packed).filter(Boolean).length",
+   "Object.keys(packed).length",
+   "packed.length",
+   "Object.entries(packed).length"
+  ],
+  "ex": "해제해도 키 `i3`는 객체에 남고 값만 `false`가 돼요. 그래서 `Object.keys(...).length`는 여전히 3이에요. 값이 true인 것만 센 `Object.values(packed).filter(Boolean).length`가 정답이에요. 객체에는 `.length`가 없어요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · Touch",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md"
+   }
+  ]
+ },
+ {
+  "week": 6,
+  "topic": "Long press",
+  "level": 2,
+  "q": "A destructive \"Unpack all\" button must run only on a long press, and a normal tap should show a hint. Which props achieve that?",
+  "opts": [
+   "onPress={showHint} onLongPress={unpackAll}",
+   "onPress={unpackAll} onLongPress={showHint}",
+   "onLongPress={unpackAll} only, with no onPress",
+   "onPressIn={unpackAll} onPressOut={showHint}"
+  ],
+  "ex": "짧게 누르기(`onPress`)는 힌트만 보여 주고, 길게 누르기(`onLongPress`)에서 실제 동작을 해요. 일부러 오작동을 막는 패턴이에요. `onPress`만 쓴 보기는 일반 탭에서도 지워져요. `onLongPress`만 쓰면 힌트가 없어서 문제 조건을 못 지켜요.",
+  "refs": [
+   {
+    "label": "Week 6.1 Notes · onLongPress",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-06.1-notes.md"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location permission",
+  "level": 2,
+  "q": "Why is this effect wrong, and what is the fix?",
+  "code": "useEffect(async () => {\n  const { status } = await Location.requestForegroundPermissionsAsync();\n  ...\n}, []);",
+  "opts": [
+   "An effect function may only return a clean-up function, so define an async function inside it and call it.",
+   "`await` is not allowed in React Native, so use `.then()` only.",
+   "The dependency array must contain `Location`.",
+   "requestForegroundPermissionsAsync must be called outside any component."
+  ],
+  "ex": "`async` 함수는 항상 promise를 반환하는데, effect 함수는 clean-up 함수만 반환할 수 있어요. 그래서 effect 안에 `async function getLocation() {...}`을 만들고 `getLocation()`을 호출해요. `await`는 쓸 수 있고 `.then()`과 같은 일을 해요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Step 1 - Ask for Permission",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#step-1---ask-for-permission"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Location permission",
+  "level": 2,
+  "q": "The user allowed location permission, but the screen still shows \"Finding you...\" forever. What is most likely missing?",
+  "opts": [
+   "A call to Location.getCurrentPositionAsync that stores the coordinates in state.",
+   "A second permission request for background location.",
+   "A longer timeout on the permission dialog.",
+   "The `latitude` state must be a string."
+  ],
+  "ex": "권한은 문을 열어 줄 뿐이에요. 위치를 실제로 가져오려면 `getCurrentPositionAsync`를 부르고 `setLocation(pos.coords)`로 state에 넣어야 `if (!location)` 스피너가 사라져요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Step 2 - Get the Position",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#step-2---get-the-position"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Coordinates",
+  "level": 3,
+  "q": "At Newnham Campus in Toronto, which coordinates are plausible, and why?",
+  "opts": [
+   "43.79, -79.35: west of Greenwich is a negative longitude.",
+   "43.79, 79.35: longitude is always positive.",
+   "-79.35, 43.79: latitude comes second.",
+   "79.35, -43.79: Toronto is in the southern hemisphere."
+  ],
+  "ex": "위도(latitude)는 남북(-90~90)이고 토론토는 북반구라서 양수 43.79예요. 경도(longitude)는 동서(-180~180)이고 그리니치 서쪽은 음수라서 -79.35예요. 순서는 (latitude, longitude)예요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Step 2 - Get the Position",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#step-2---get-the-position"
+   }
+  ]
+ },
+ {
+  "week": 7,
+  "topic": "Reverse geocoding",
+  "level": 2,
+  "q": "`const places = await Location.reverseGeocodeAsync(pos.coords);` What is the correct way to store the address?",
+  "opts": [
+   "setAddress(places[0]);",
+   "setAddress(places.address);",
+   "setAddress(places.coords);",
+   "setAddress(await places);"
+  ],
+  "ex": "`reverseGeocodeAsync`는 주소 후보의 **배열**을 돌려줘요. 첫 번째 `places[0]`을 쓰는 게 일반적이에요. 배열에는 `.address` 속성이 없어요.",
+  "refs": [
+   {
+    "label": "Week 7.1 Notes · Step 3 - Find the Address",
+    "href": "https://github.com/nick-romanidis/web530-2267-nsa/blob/main/lectures/week-07.1-notes.md#step-3---find-the-address"
+   }
+  ]
  }
 ]

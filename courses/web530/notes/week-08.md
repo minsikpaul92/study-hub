@@ -1,6 +1,6 @@
 # Week 8. Expo 로컬 개발 + TypeScript + Expo Router: Snack을 졸업하고 진짜 프로젝트로
 
-> 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 강의 노트와 랩이 없어서 **코스노트만** 다뤄요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
+> 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 **코스노트**와 교수님이 올려 준 **Week 8.1 TypeScript 강의 노트**를 다뤄요(랩은 없어요). Test 3(5~7주차) 직전 주라서 TypeScript 강의는 fetch + FlatList 코드와 이어서 보면 좋아요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
 
 > 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
 
@@ -25,15 +25,44 @@
 | 헤더 제목 | `options={{ title }}` | `_layout.tsx` 안 `<Stack.Screen name="[id]" options={{ title }} />` |
 | 전체 감싸기 | `<NavigationContainer>` | 필요 없음 (Router가 알아서) |
 
-**TypeScript 최소 문법**: `let n: number`, `string[]`, `interface Props { name: string; excited?: boolean }`, `useState<Product[]>([])`, `(text: string) => void`. `?`는 "있어도 되고 없어도 됨(optional)".
+**TypeScript 최소 문법 (Week 8.1 강의 기준)**: `let n: number`, `string[]`, `interface Props { name: string; excited?: boolean }`, `useState<Product[]>([])`, `useState<string | null>(null)`, `type Status = "loading" | "ready" | "error"`, `(text: string) => void`. `?`는 "있어도 되고 없어도 됨(optional)", `|`는 "또는".
+
+**TypeScript 타입을 꼭 적는 때**: 초기값이 `[]`나 `null`인 state, props(interface), API 데이터, 이름 붙인 핸들러의 매개변수. 나머지는 TS가 추론(inference)해요.
 
 **함정 모음**
+- 빨간 줄(타입 에러)이 있어도 **앱은 실행돼요**. Metro가 타입을 지우기 때문. 체커와 실행은 별개.
+- `useState([])`는 `never[]`가 되어서 `item.id`에 에러. `useState<User[]>([])`로 고쳐요.
+- `any`는 검사를 꺼 버려서 실행할 때 크래시가 나고, `unknown`은 `typeof`로 확인한 뒤에만 쓸 수 있어요.
+- `json: User[]`는 서버를 검사하는 게 아니라 **약속**이에요. 그래서 `res.ok` 체크도 필요해요.
 - 파일 이름을 바꾸면 경로도 바뀌어요. `two.tsx` → `settings.tsx` 로 바꿨으면 `_layout.tsx`의 `<Tabs.Screen name="two">`도 `"settings"`로 같이 바꿔야 해요.
 - 상세 화면을 `(tabs)` **밖**에 두면 탭 바가 사라지고 헤더에 `product/[id]`가 그대로 보여요. 해결은 **탭 안에 Stack 넣기(Tab-to-Stack)**.
 - 탭 안에 Stack을 넣으면 헤더가 두 개 생겨요 → 바깥 탭 쪽에 `headerShown: false`.
 - `@/store/...`의 `@/`는 **프로젝트 루트**를 뜻하는 별칭(alias)이에요. Snack에는 없어요.
 - `npx expo start --tunnel`에서 ngrok 에러가 나면 `npm install -g @expo/ngrok@4.1.0`.
 
+
+**⌨️ 직접 쳐 볼 것 (이 순서대로)**
+
+어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.
+
+| # | 어디 | 무엇을 |
+| --- | --- | --- |
+| 1 | [Example: Types](#practice-1) | App.tsx로 이름 바꾸고 number, string, boolean, number[], 객체 타입 변수 5개 출력 |
+| 2 | [Example: Typed Props › Starter Code](#practice-2) | Stat 컴포넌트 3개짜리 시작 코드 (props 타입 없음) |
+| 3 | [Example: Typed Props › Step 1 - Describe the Props](#practice-3) | interface StatProps { label: string; value: number } + ({ ... }: StatProps) |
+| 4 | [Example: Typed Props › Step 2 - Add an Optional Prop](#practice-4) | unit?: string 추가 + 구조분해에서 unit = "" 기본값 |
+| 5 | [Example: Typed Props › Step 3 - Break the Contract](#practice-5) | value="320" 문자열로 바꾸기, label 지우기 (일부러 에러 내기) |
+| 6 | [Example: Typed State and Events › Starter Code](#practice-6) | 손님 목록 앱 시작 코드 (useState([]), useState(null) 상태) |
+| 7 | [Example: Typed State and Events › Step 1 - Let Inference Do Its Job, Then Help It](#practice-7) | useState<string[]>([]) 로 고치기 |
+| 8 | [Example: Typed State and Events › Step 2 - State That Can Be Null](#practice-8) | useState<string | null>(null) 로 고치기 |
+| 9 | [Example: Typed State and Events › Step 3 - Type the Handlers](#practice-9) | handleChange(text: string) 함수 만들고 onChangeText에 연결, addGuest(): void |
+| 10 | [Example: Typed API Data › Starter Code](#practice-10) | users fetch + FlatList 시작 코드 (타입 없음) |
+| 11 | [Example: Typed API Data › Step 1 - Describe the Data](#practice-11) | interface User + useState<User[]>([]) + renderItem({ item }: { item: User }) |
+| 12 | [Example: Typed API Data › Step 2 - Literal Types for Status](#practice-12) | type Status = "loading" | "ready" | "error" + res.ok 체크 + 상태별 early return |
+| 13 | [Example: Typed API Data › Step 3 - The Payoff](#practice-13) | item.email을 item.emial로 일부러 틀리게 쓰기 |
+| 14 | [Example: any and unknown](#practice-14) | let value: any = "hello"; value = 123; value.toUpperCase(); 를 붙여 보고 any를 unknown으로 바꾸기 |
+
+나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.
 
 
 
@@ -42,7 +71,8 @@
 - 1. 📘 코스노트: Setup Tools & Dev Environment
 - 2. 📘 코스노트: Introduction to Expo
 - 3. 📘 코스노트: TypeScript for React Native
-- 4. 📘 코스노트: Introduction to Expo Router
+- 4. 💻 인클래스 예제: Week 8.1 - Notes and Examples
+- 5. 📘 코스노트: Introduction to Expo Router
 - ✅ Week 8 시험 대비 체크리스트
 - ✍️ 손으로 써 보기: Mini Product Shop (Snack 한 파일 버전)
 
@@ -726,7 +756,981 @@ TS = 안전 + 명확. props는 **interface**, state는 필요할 때 `<타입>`.
 
 ---
 
-## 4. 📘 코스노트: Introduction to Expo Router
+## 4. 💻 인클래스 예제: Week 8.1 - Notes and Examples
+
+<div class="sum" data-kind="type">
+
+**🧭 먼저 한국어로** · ⌨️ Snack에서 직접 쳐 보기
+
+교수님이 Week 8 수업에서 라이브 코딩한 TypeScript 순서예요. Snack에서 App.js를 App.tsx로 바꿔서 하고, 아래 ⌨️ 표시된 곳은 처음부터 직접 쳐 보세요. 타입 에러는 빨간 줄로만 표시되고 앱은 그대로 실행돼요.
+
+**이 챕터 구성**
+
+- ⏭️ **React Native Playground**: Snack 설정 안내예요. 핵심은 한 가지: 파일을 App.js에서 App.tsx로 이름 바꾸기.
+- 👀 **Why TypeScript?**: TypeScript를 쓰는 이유예요. 객관식으로 나오기 좋은 내용이라 읽어 두세요.
+- ⌨️ **[Example: Types](#practice-1)**: 변수 타입 쓰는 법. 일부러 틀리게 고쳐 보면서 빨간 줄이 뜨는 걸 확인해요. (⌨️ App.tsx로 이름 바꾸고 number, string, boolean, number[], 객체 타입 변수 5개 출력)
+- 👀 **Example: Types › How It Works**: 타입 표기의 문법 설명이에요.
+- 👀 **Example: Types › What to Show**: 교수님이 보여 준 실험 6개예요. 읽고 어떤 에러가 나올지 예측해 보세요.
+- ⌨️ **Example: Typed Props**: 컴포넌트 props에 interface를 붙이는 연습이에요. 시험에 제일 많이 나오는 TypeScript 문법이에요.
+- ⌨️ **[Example: Typed Props › Starter Code](#practice-2)**: 타입이 없어서 label, value, unit이 any로 표시되는 상태를 먼저 봐요. (⌨️ Stat 컴포넌트 3개짜리 시작 코드 (props 타입 없음))
+- ⌨️ **[Example: Typed Props › Step 1 - Describe the Props](#practice-3)**: props의 설계도를 만들고 매개변수에 붙여요. (⌨️ interface StatProps { label: string; value: number } + ({ ... }: StatProps))
+- ⌨️ **[Example: Typed Props › Step 2 - Add an Optional Prop](#practice-4)**: 물음표는 선택(optional), 기본값으로 undefined 대비. (⌨️ unit?: string 추가 + 구조분해에서 unit = "" 기본값)
+- ⌨️ **[Example: Typed Props › Step 3 - Break the Contract](#practice-5)**: 계약을 어기면 어떤 에러 메시지가 뜨는지 확인해요. (⌨️ value="320" 문자열로 바꾸기, label 지우기 (일부러 에러 내기))
+- 👀 **Example: Typed Props › Finished Code**: 내가 친 코드와 비교하는 완성본이에요.
+- ⌨️ **Example: Typed State and Events**: useState와 이벤트 핸들러에 타입 붙이기예요. 빈 배열과 null이 핵심이에요.
+- ⌨️ **[Example: Typed State and Events › Starter Code](#practice-6)**: 빨간 줄 'never' 에러를 직접 확인해요. (⌨️ 손님 목록 앱 시작 코드 (useState([]), useState(null) 상태))
+- ⌨️ **[Example: Typed State and Events › Step 1 - Let Inference Do Its Job, Then Help It](#practice-7)**: 빈 배열은 타입을 알려 줘야 해요. (⌨️ useState<string[]>([]) 로 고치기)
+- ⌨️ **[Example: Typed State and Events › Step 2 - State That Can Be Null](#practice-8)**: 유니언 타입 `|`는 "또는". (⌨️ useState<string | null>(null) 로 고치기)
+- ⌨️ **[Example: Typed State and Events › Step 3 - Type the Handlers](#practice-9)**: 이름 붙인 핸들러는 매개변수 타입을 직접 적어요. (⌨️ handleChange(text: string) 함수 만들고 onChangeText에 연결, addGuest(): void)
+- 👀 **Example: Typed State and Events › Finished Code**: 내 코드와 비교하세요.
+- ⌨️ **Example: Typed API Data**: API로 받은 데이터에 interface를 붙이는 예제예요. Test 3의 fetch 문제와 이어지는 내용이라 꼭 쳐 보세요.
+- ⌨️ **[Example: Typed API Data › Starter Code](#practice-10)**: useState([])가 never[]가 돼서 item.id에 빨간 줄이 생겨요. (⌨️ users fetch + FlatList 시작 코드 (타입 없음))
+- ⌨️ **[Example: Typed API Data › Step 1 - Describe the Data](#practice-11)**: 쓰는 필드만 적어요. 서버가 더 보내도 괜찮아요. (⌨️ interface User + useState<User[]>([]) + renderItem({ item }: { item: User }))
+- ⌨️ **[Example: Typed API Data › Step 2 - Literal Types for Status](#practice-12)**: 상태가 세 개일 때 boolean 대신 문자열 리터럴 유니언. res.ok 체크는 Week 5 그대로예요. (⌨️ type Status = "loading" | "ready" | "error" + res.ok 체크 + 상태별 early return)
+- ⌨️ **[Example: Typed API Data › Step 3 - The Payoff](#practice-13)**: 오타가 빨간 줄로 바로 잡혀요. 타입을 쓰는 가장 큰 이유예요. (⌨️ item.email을 item.emial로 일부러 틀리게 쓰기)
+- 👀 **Example: Typed API Data › Finished Code**: 완성본이에요. 시험 직전에 다시 훑어보세요.
+- ⌨️ **[Example: any and unknown](#practice-14)**: any는 검사를 꺼 버려서 실행할 때 터지고, unknown은 확인하기 전에는 못 쓰게 막아 줘요. (⌨️ let value: any = "hello"; value = 123; value.toUpperCase(); 를 붙여 보고 any를 unknown으로 바꾸기)
+- 👀 **Example: any and unknown › What to Show**: any와 unknown 실험 5단계예요.
+- 👀 **TypeScript Checklist**: 교수님이 정리한 요약이에요. 아래 한글 해설과 함께 시험 전에 한 번 더 보세요.
+
+</div>
+
+> 원문 출처: github.com/nick-romanidis/web530-2267-nsa  week-08.1-notes.md
+
+### 💻 React Native Playground
+
+React Native Playground (Snack)
+_Use this for the examples. Modify App.tsx_
+(https://snack.expo.dev)
+
+- Keep Snack on SDK 54 (the default).
+- Every example this week only needs `react-native`. Leave `package.json` alone.
+- This week's examples are TypeScript, so the file is `App.tsx`, not `App.js`. In the file list, hover over `App.js`, open its menu (the three dots on the left) and choose **Rename to App.tsx**. Do this once per Snack. The same menu renames it back.
+- Type errors show as red squiggles in the editor, with a red mark in the scrollbar on the right. Hover over a squiggle to read the message. The "No errors" indicator at the bottom only counts runtime errors, so look for squiggles, not the indicator.
+- Everything this week runs on **Web**.
+
+**🇰🇷 한글 해설**
+
+- Snack은 **SDK 54 기본값** 그대로, `package.json`은 건드리지 마세요. 이번 주 예제는 `react-native`만 써요.
+- 이번 주 예제는 TypeScript라서 파일 이름이 `App.js`가 아니라 **`App.tsx`**예요. 파일 목록에서 `App.js`에 마우스를 올리고 점 세 개 메뉴 → **Rename to App.tsx**. Snack마다 한 번만 하면 돼요.
+- 타입 에러는 에디터에서 **빨간 밑줄(squiggle)** 로 보여요. 마우스를 올리면 설명이 떠요. 아래쪽 "No errors" 표시는 **실행 중 에러**만 세니까 빨간 줄은 직접 찾아야 해요.
+- 전부 **Web**에서 실행돼요.
+
+### 💻 Why TypeScript?
+
+- JavaScript finds out about a wrong type when the code runs: a missing prop renders as nothing, a string where a number was expected does string maths, and `undefined.name` crashes. TypeScript finds out while you type.
+- TypeScript is JavaScript plus type annotations. Every `.js` file you have written this term is valid TypeScript. You add types where they help and let TypeScript work out the rest.
+- Props become a contract. In Week 1 PropTypes warned in the console at runtime. A TypeScript interface does the same job in the editor, before the app runs, and React 19 dropped PropTypes anyway.
+- The types never reach the phone. Metro strips them out and ships plain JavaScript, so a type error does not stop the app from running. That is why Snack runs an `App.tsx` with squiggles in it. The checker is a tool for you, not a gate for the device.
+- Every new Expo project is TypeScript by default. The Expo projects later in the course are `.tsx` files, so this is the week to get comfortable.
+
+**🇰🇷 한글 해설**
+
+**왜 TypeScript인가 (시험 포인트)**
+1. JS는 틀린 타입을 **실행할 때** 알아요(props 빠지면 화면에 안 나오고, `undefined.name`은 앱이 죽음). TS는 **코드를 치는 중에** 알려 줘요.
+2. TS = JS + **타입 표기**. 지금까지 쓴 `.js`는 전부 유효한 TS예요. 필요한 곳에만 타입을 적고 나머지는 TS가 추측(inference)해요.
+3. props가 **계약(contract)** 이 돼요. Week 1의 PropTypes는 실행할 때 콘솔에 경고했는데, interface는 **실행 전에 에디터에서** 알려 줘요. 게다가 React 19에서 PropTypes는 없어졌어요.
+4. **타입은 폰에 가지 않아요.** Metro가 타입을 지우고 일반 JS만 보내요. 그래서 빨간 줄이 있어도 **앱은 실행돼요**. 체커는 나를 위한 도구지, 막는 문이 아니에요.
+5. 새 Expo 프로젝트는 기본이 TypeScript(`.tsx`)예요.
+
+### 💻 Example: Types
+
+- The pieces from the slides, in a screen you can run.
+
+
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: App.tsx로 이름 바꾸고 number, string, boolean, number[], 객체 타입 변수 5개 출력</p>
+
+```tsx
+import { View, Text, StyleSheet } from "react-native";
+
+let count: number = 0;
+let name: string = "Nicholas";
+let isActive: boolean = true;
+let scores: number[] = [10, 20, 30];
+let user: { name: string; age: number } = { name: "Ava", age: 21 };
+
+export default function MyApp() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.line}>count: {count}</Text>
+      <Text style={styles.line}>name: {name}</Text>
+      <Text style={styles.line}>isActive: {String(isActive)}</Text>
+      <Text style={styles.line}>scores: {scores.join(", ")}</Text>
+      <Text style={styles.line}>
+        user: {user.name}, {user.age}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  line: { fontSize: 18, marginBottom: 8 },
+});
+```
+
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20Example%3A%20Types&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Alet%20count%3A%20number%20%3D%200%3B%0Alet%20name%3A%20string%20%3D%20%22Nicholas%22%3B%0Alet%20isActive%3A%20boolean%20%3D%20true%3B%0Alet%20scores%3A%20number%5B%5D%20%3D%20%5B10%2C%2020%2C%2030%5D%3B%0Alet%20user%3A%20%7B%20name%3A%20string%3B%20age%3A%20number%20%7D%20%3D%20%7B%20name%3A%20%22Ava%22%2C%20age%3A%2021%20%7D%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.line%7D%3Ecount%3A%20%7Bcount%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.line%7D%3Ename%3A%20%7Bname%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.line%7D%3EisActive%3A%20%7BString%28isActive%29%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.line%7D%3Escores%3A%20%7Bscores.join%28%22%2C%20%22%29%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.line%7D%3E%0A%20%20%20%20%20%20%20%20user%3A%20%7Buser.name%7D%2C%20%7Buser.age%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20line%3A%20%7B%20fontSize%3A%2018%2C%20marginBottom%3A%208%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
+
+**🇰🇷 한글 해설**
+
+**코드 해설**
+- `let count: number = 0;`: 이름 뒤에 `: 타입`. 앞으로 다시 넣는 값도 이 타입이어야 해요.
+- `number[]`: 숫자만 들어가는 배열. `{ name: string; age: number }`: 객체의 모양(속성 이름과 타입).
+- `String(isActive)`는 TS가 아니라 **React Native 규칙**이에요. `<Text>`는 boolean을 그냥 못 그려서 문자열로 바꿔요.
+
+#### 💻 How It Works
+
+- A type annotation is a colon and a type after the name: `count: number`. It says what the variable may hold, now and after every reassignment.
+- `number[]` is an array of numbers. `{ name: string; age: number }` is the shape of an object: these properties, with these types, nothing missing.
+- `String(isActive)` is a React Native thing, not a TypeScript thing: `Text` will not render a bare boolean.
+
+**🇰🇷 한글 해설**
+
+- 타입 표기 = **콜론 + 타입** (`count: number`).
+- `number[]` 배열, `{ ... }` 객체 모양. 객체 타입은 **빠진 속성이 없는지 검사하는 체크리스트**예요.
+
+#### 💻 What to Show
+
+1. Run it. Five lines of output, nothing special. TypeScript only shows up when something is wrong.
+2. Change `let count: number = 0;` to `let count: number = "zero";`. A squiggle appears under `count`. Hover: `Type 'string' is not assignable to type 'number'`. Now look at the preview: the app still runs and prints `count: zero`. The checker and the runtime are separate.
+3. Under the variables add `scores.push("forty");`. Same message. The array type applies to everything you put in later, not only the initial values.
+4. Delete `age: 21` from `user`. Hover: `Property 'age' is missing`. An object type is a checklist.
+5. Sometimes a property really is optional. Add a question mark to it in the type: `{ name: string; age?: number }`. The squiggle goes away. `age?` means the property may be left out, and inside the code its type is `number | undefined`. Run it: the line shows `user: Ava,` with nothing after the comma, because `user.age` is `undefined` and `Text` renders nothing for it. That is the trade: optional means every use has to cope with it missing.
+6. Remove the annotation from `count` so it reads `let count = 0;`, then hover over `count`. The tooltip says `let count: number`. TypeScript inferred it from the `0`. Change the value to `"zero"` again: still an error. You get checking without writing a type, which is how most lines of TypeScript look.
+
+**🇰🇷 한글 해설**
+
+**실험 6개 (결과를 외우지 말고 이유를 이해하세요)**
+1. 그냥 실행하면 평범해요. TS는 틀렸을 때만 존재감이 있어요.
+2. `count: number = "zero"`로 바꾸면 빨간 줄(`Type 'string' is not assignable to type 'number'`)이 뜨는데 **앱은 `count: zero`를 그대로 출력**해요. 체커와 실행은 별개!
+3. `scores.push("forty")`도 에러. 배열 타입은 나중에 넣는 값에도 적용돼요.
+4. `user`에서 `age`를 지우면 `Property 'age' is missing`.
+5. `age?: number`처럼 `?`를 붙이면 에러가 사라져요. 대신 값의 타입이 `number | undefined`가 되어서 **쓸 때마다 없을 수 있다는 걸 감안**해야 해요. (화면엔 `user: Ava,` 로 나오고 age 자리는 빈칸)
+6. `let count = 0;`처럼 타입을 안 적으면 TS가 `number`로 **추론(inference)** 해요. 대부분의 TS 코드는 이렇게 타입을 안 적고 쓴 줄이에요.
+
+### 💻 Example: Typed Props
+
+- A component with props is the first place types earn their keep. The interface is a contract between the component and everyone who uses it, and TypeScript checks both sides.
+
+**🇰🇷 한글 해설**
+
+**핵심**: interface는 컴포넌트와 사용하는 쪽 사이의 계약서예요. TS가 **양쪽 모두** 검사해요(만든 쪽에서 읽을 때, 쓰는 쪽에서 넘길 때).
+
+#### 💻 Starter Code
+
+- Replace everything in `App.tsx`. Three stat cards, written the way we have written components all term.
+
+
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: Stat 컴포넌트 3개짜리 시작 코드 (props 타입 없음)</p>
+
+```tsx
+import { View, Text, StyleSheet } from "react-native";
+
+function Stat({ label, value, unit }) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.value}>
+        {value} {unit}
+      </Text>
+      <Text style={styles.label}>{label}</Text>
+    </View>
+  );
+}
+
+export default function MyApp() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Today</Text>
+      <Stat label="Steps" value={8412} />
+      <Stat label="Distance" value={6.2} unit="km" />
+      <Stat label="Calories" value={320} unit="kcal" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  title: { fontSize: 28, fontWeight: "700", marginBottom: 16 },
+  card: {
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 8,
+    backgroundColor: "#E3F2FD",
+  },
+  value: { fontSize: 24, fontWeight: "600" },
+  label: { fontSize: 14, color: "#555" },
+});
+```
+
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20Example%3A%20Typed%20Props%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20Stat%28%7B%20label%2C%20value%2C%20unit%20%7D%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.value%7D%3E%0A%20%20%20%20%20%20%20%20%7Bvalue%7D%20%7Bunit%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.label%7D%3E%7Blabel%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EToday%3C%2FText%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Steps%22%20value%3D%7B8412%7D%20%2F%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Distance%22%20value%3D%7B6.2%7D%20unit%3D%22km%22%20%2F%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Calories%22%20value%3D%7B320%7D%20unit%3D%22kcal%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2028%2C%20fontWeight%3A%20%22700%22%2C%20marginBottom%3A%2016%20%7D%2C%0A%20%20card%3A%20%7B%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20marginBottom%3A%2012%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%23E3F2FD%22%2C%0A%20%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20label%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23555%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
+
+- Run it. It works, and the editor already has something to say: squiggles under `label`, `value` and `unit`, and one under the first `<Stat>` in `MyApp`. Hover over `label`: `Binding element 'label' implicitly has an 'any' type`. TypeScript was not told what a `Stat` expects, so each prop is `any`, which means unchecked.
+- Hover over the first `<Stat>`: `Property 'unit' is missing`. With nothing else to go on, TypeScript guessed the props from the destructuring: three props, all required. A guessed contract is wrong in both directions, and that is the gap the next step closes.
+
+**🇰🇷 한글 해설**
+
+**시작 코드 읽기**
+- `function Stat({ label, value, unit })`: 타입이 하나도 없어요. 그래서 세 props가 모두 `any`(검사 안 함)로 빨간 줄이 생겨요.
+- 첫 번째 `<Stat>`에 `Property 'unit' is missing`이 뜨는 건, TS가 구조분해를 보고 "3개 다 필수겠지" 하고 **추측**했기 때문이에요. 추측한 계약은 양쪽으로 틀려요. 다음 단계에서 고쳐요.
+
+#### 💻 Step 1 - Describe the Props
+
+- Above `Stat`, add an interface for its props.
+
+
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: interface StatProps { label: string; value: number } + ({ ... }: StatProps)</p>
+
+```tsx
+interface StatProps {
+  label: string;
+  value: number;
+}
+```
+
+- Annotate the props parameter with it.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+function Stat({ label, value, unit }: StatProps) {
+```
+
+- The three squiggles inside `Stat` are gone, and two new ones appear: `unit` in the parameter and `unit="km"` in `MyApp`. Hover: `Property 'unit' does not exist on type 'StatProps'`. The interface is the whole truth about a `Stat`. Anything not in it is an error on both sides, where it is read and where it is passed.
+- `interface` is the TypeScript keyword for naming an object shape. The naming convention is the component name plus `Props`.
+
+**🇰🇷 한글 해설**
+
+```tsx
+interface StatProps { label: string; value: number; }
+function Stat({ label, value, unit }: StatProps) {
+```
+- `interface` = 객체 모양에 이름 붙이는 키워드. 이름은 **컴포넌트이름 + Props** (`StatProps`).
+- 구조분해한 `{ ... }` 뒤에 `: StatProps`.
+- 이제 `unit`이 interface에 **없어서** 에러가 나요. interface에 없는 건 읽는 곳과 넘기는 곳 모두 에러. (그래서 다음 단계가 필요)
+
+#### 💻 Step 2 - Add an Optional Prop
+
+- Add `unit` to the interface with a question mark.
+
+
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: unit?: string 추가 + 구조분해에서 unit = &quot;&quot; 기본값</p>
+
+```tsx
+interface StatProps {
+  label: string;
+  value: number;
+  unit?: string;
+}
+```
+
+- `?` means the prop may be left out. Inside the component its type is `string | undefined`, so give it a default where it is destructured.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+function Stat({ label, value, unit = "" }: StatProps) {
+```
+
+- Everything is clear. Run it: the same three cards, but now `Stat` has a contract.
+- A required prop has no `?`. Leaving it out is an error. An optional prop has `?`, and the component has to cope with it missing, usually with a default.
+
+**🇰🇷 한글 해설**
+
+- `unit?: string`: **`?` = 선택 prop**. 빼도 에러 아님. 이때 안에서 타입은 `string | undefined`.
+- 그래서 구조분해할 때 **기본값** `unit = ""`을 줘요. 필수 prop은 `?`가 없고 빼면 에러, 선택 prop은 `?`가 있고 컴포넌트가 없을 때를 처리해야 해요.
+
+<div class="pt" id="practice-5"></div>
+
+#### 💻 Step 3 - Break the Contract
+
+- Change `value={320}` to `value="320"`. Hover: `Type 'string' is not assignable to type 'number'`. In JavaScript this would silently work until someone tried to add to it.
+- Delete `label="Steps"` from the first card. Hover over `Stat`: `Property 'label' is missing`. This is the PropTypes `isRequired` warning from Week 1, except it is in the editor and it is red.
+- Put them back. Then, in `MyApp`, start typing a fourth card: `<Stat ` and press Ctrl+Space. The editor lists `label`, `value` and `unit`, with their types, and marks which are optional. The interface is also documentation that cannot go stale.
+- Delete the half-typed card before moving on.
+
+**🇰🇷 한글 해설**
+
+- `value="320"` (문자열) → `Type 'string' is not assignable to type 'number'`. JS였다면 조용히 돌다가 나중에 더하기에서 버그가 났을 거예요.
+- `label`을 빼면 `Property 'label' is missing`. Week 1 PropTypes의 `isRequired` 경고와 같은 역할인데 에디터에서 빨갛게 보이는 거예요.
+- 새 `<Stat ` 을 치고 Ctrl+Space를 누르면 props 목록과 타입, 선택 여부가 떠요. interface는 **낡지 않는 문서**이기도 해요.
+
+#### 💻 Finished Code
+
+- Compare against this if something is not working.
+
+```tsx
+import { View, Text, StyleSheet } from "react-native";
+
+interface StatProps {
+  label: string;
+  value: number;
+  unit?: string;
+}
+
+function Stat({ label, value, unit = "" }: StatProps) {
+  return (
+    <View style={styles.card}>
+      <Text style={styles.value}>
+        {value} {unit}
+      </Text>
+      <Text style={styles.label}>{label}</Text>
+    </View>
+  );
+}
+
+export default function MyApp() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Today</Text>
+      <Stat label="Steps" value={8412} />
+      <Stat label="Distance" value={6.2} unit="km" />
+      <Stat label="Calories" value={320} unit="kcal" />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  title: { fontSize: 28, fontWeight: "700", marginBottom: 16 },
+  card: {
+    padding: 16,
+    marginBottom: 12,
+    borderRadius: 8,
+    backgroundColor: "#E3F2FD",
+  },
+  value: { fontSize: 24, fontWeight: "600" },
+  label: { fontSize: 14, color: "#555" },
+});
+```
+
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20Example%3A%20Typed%20Props%20-%20Finished%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20StyleSheet%20%7D%20from%20%22react-native%22%3B%0A%0Ainterface%20StatProps%20%7B%0A%20%20label%3A%20string%3B%0A%20%20value%3A%20number%3B%0A%20%20unit%3F%3A%20string%3B%0A%7D%0A%0Afunction%20Stat%28%7B%20label%2C%20value%2C%20unit%20%3D%20%22%22%20%7D%3A%20StatProps%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.card%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.value%7D%3E%0A%20%20%20%20%20%20%20%20%7Bvalue%7D%20%7Bunit%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.label%7D%3E%7Blabel%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EToday%3C%2FText%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Steps%22%20value%3D%7B8412%7D%20%2F%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Distance%22%20value%3D%7B6.2%7D%20unit%3D%22km%22%20%2F%3E%0A%20%20%20%20%20%20%3CStat%20label%3D%22Calories%22%20value%3D%7B320%7D%20unit%3D%22kcal%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2028%2C%20fontWeight%3A%20%22700%22%2C%20marginBottom%3A%2016%20%7D%2C%0A%20%20card%3A%20%7B%0A%20%20%20%20padding%3A%2016%2C%0A%20%20%20%20marginBottom%3A%2012%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20backgroundColor%3A%20%22%23E3F2FD%22%2C%0A%20%20%7D%2C%0A%20%20value%3A%20%7B%20fontSize%3A%2024%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20label%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23555%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+
+**🇰🇷 한글 해설**
+
+**완성본 확인 포인트**: ① `interface StatProps`에 `unit?` ② `unit = ""` 기본값 ③ `({ ... }: StatProps)`. 이 세 줄이 보이면 맞아요.
+
+### 💻 Example: Typed State and Events
+
+- `useState` usually needs no type: TypeScript reads it from the initial value. The exceptions are state that starts empty or starts as `null`, because the initial value does not say what comes later.
+
+**🇰🇷 한글 해설**
+
+**핵심**: `useState`는 보통 타입을 안 적어도 돼요(초기값으로 추론). **초기값이 `[]`나 `null`일 때만** 알려 줘야 해요. 초기값만으로는 나중에 뭐가 들어올지 모르니까요.
+
+#### 💻 Starter Code
+
+- Replace everything in `App.tsx`. A guest list: type a name, add it, tap a guest to check them in.
+
+
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: 손님 목록 앱 시작 코드 (useState([]), useState(null) 상태)</p>
+
+```tsx
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Pressable,
+  StyleSheet,
+} from "react-native";
+
+export default function MyApp() {
+  const [name, setName] = useState("");
+  const [guests, setGuests] = useState([]);
+  const [selected, setSelected] = useState(null);
+
+  function addGuest() {
+    if (name.trim() === "") return;
+    setGuests((prev) => [...prev, name.trim()]);
+    setName("");
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Guest List</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={(text) => setName(text)}
+      />
+      <Button title="Add" onPress={addGuest} />
+      {guests.map((guest, index) => (
+        <Pressable key={index} onPress={() => setSelected(guest)}>
+          <Text style={styles.guest}>{guest}</Text>
+        </Pressable>
+      ))}
+      <Text style={styles.message}>
+        {selected ? `Checking in: ${selected}` : "Tap a guest to check them in"}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  title: { fontSize: 28, fontWeight: "700", marginBottom: 16 },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 8,
+    fontSize: 16,
+  },
+  guest: { fontSize: 18, paddingVertical: 8 },
+  message: { marginTop: 16, fontSize: 16, color: "#555" },
+});
+```
+
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20Example%3A%20Typed%20State%20and%20Events%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%0A%20%20View%2C%0A%20%20Text%2C%0A%20%20TextInput%2C%0A%20%20Button%2C%0A%20%20Pressable%2C%0A%20%20StyleSheet%2C%0A%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Bname%2C%20setName%5D%20%3D%20useState%28%22%22%29%3B%0A%20%20const%20%5Bguests%2C%20setGuests%5D%20%3D%20useState%28%5B%5D%29%3B%0A%20%20const%20%5Bselected%2C%20setSelected%5D%20%3D%20useState%28null%29%3B%0A%0A%20%20function%20addGuest%28%29%20%7B%0A%20%20%20%20if%20%28name.trim%28%29%20%3D%3D%3D%20%22%22%29%20return%3B%0A%20%20%20%20setGuests%28%28prev%29%20%3D%3E%20%5B...prev%2C%20name.trim%28%29%5D%29%3B%0A%20%20%20%20setName%28%22%22%29%3B%0A%20%20%7D%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3EGuest%20List%3C%2FText%3E%0A%20%20%20%20%20%20%3CTextInput%0A%20%20%20%20%20%20%20%20style%3D%7Bstyles.input%7D%0A%20%20%20%20%20%20%20%20placeholder%3D%22Name%22%0A%20%20%20%20%20%20%20%20value%3D%7Bname%7D%0A%20%20%20%20%20%20%20%20onChangeText%3D%7B%28text%29%20%3D%3E%20setName%28text%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%20%20%3CButton%20title%3D%22Add%22%20onPress%3D%7BaddGuest%7D%20%2F%3E%0A%20%20%20%20%20%20%7Bguests.map%28%28guest%2C%20index%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%3CPressable%20key%3D%7Bindex%7D%20onPress%3D%7B%28%29%20%3D%3E%20setSelected%28guest%29%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.guest%7D%3E%7Bguest%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%20%20%29%29%7D%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.message%7D%3E%0A%20%20%20%20%20%20%20%20%7Bselected%20%3F%20%60Checking%20in%3A%20%24%7Bselected%7D%60%20%3A%20%22Tap%20a%20guest%20to%20check%20them%20in%22%7D%0A%20%20%20%20%20%20%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%2C%20paddingHorizontal%3A%2020%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2028%2C%20fontWeight%3A%20%22700%22%2C%20marginBottom%3A%2016%20%7D%2C%0A%20%20input%3A%20%7B%0A%20%20%20%20borderWidth%3A%201%2C%0A%20%20%20%20borderColor%3A%20%22%23ccc%22%2C%0A%20%20%20%20borderRadius%3A%208%2C%0A%20%20%20%20padding%3A%2012%2C%0A%20%20%20%20marginBottom%3A%208%2C%0A%20%20%20%20fontSize%3A%2016%2C%0A%20%20%7D%2C%0A%20%20guest%3A%20%7B%20fontSize%3A%2018%2C%20paddingVertical%3A%208%20%7D%2C%0A%20%20message%3A%20%7B%20marginTop%3A%2016%2C%20fontSize%3A%2016%2C%20color%3A%20%22%23555%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
+
+- Run it. Add a couple of names and tap one. It all works, and the editor has one squiggle, under the updater function inside `setGuests`. Hover: `Type 'string' is not assignable to type 'never'`.
+
+**🇰🇷 한글 해설**
+
+**시작 코드 읽기**: 이름을 입력해 추가(`addGuest`)하고, 손님을 누르면 `selected`에 저장하는 앱. 실행은 잘 되는데 `setGuests` 안쪽에 `Type 'string' is not assignable to type 'never'` 빨간 줄이 하나 있어요.
+
+#### 💻 Step 1 - Let Inference Do Its Job, Then Help It
+
+- Hover over `name` in `useState("")`. The tooltip says `const name: string`. The initial value was a string, so the state is a string, and `setName` only accepts strings. No annotation needed. The same goes for a counter that starts at `0` or a flag that starts `false`.
+- Hover over `guests`. The tooltip says `never[]`: an array that can never hold anything. An empty array tells TypeScript nothing about what will go in it, so it assumes nothing may.
+- Tell it. `useState` takes the state type in angle brackets.
+
+
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useState&lt;string[]&gt;([]) 로 고치기</p>
+
+```tsx
+const [guests, setGuests] = useState<string[]>([]);
+```
+
+- The squiggle moves. It is now on `guest` in `setSelected(guest)`. Hover: `Argument of type 'string' is not assignable to parameter of type 'SetStateAction<null>'`. `selected` started as `null`, so TypeScript decided it is always `null`.
+
+**🇰🇷 한글 해설**
+
+- `useState("")`는 `string`으로 추론돼요. 카운터 `0`, 플래그 `false`도 마찬가지.
+- `useState([])`의 `guests`는 `never[]`: "아무것도 못 넣는 배열". 빈 배열은 정보가 없어서 TS가 아무것도 안 들어간다고 가정해요.
+- 해결: `useState<string[]>([])`. 꺾쇠 `<>` 안에 state 타입.
+- 그러면 에러가 `setSelected(guest)`로 옮겨가요. `selected`가 `null`로 시작해서 TS가 "항상 null"이라고 결정했기 때문이에요.
+
+#### 💻 Step 2 - State That Can Be Null
+
+- `selected` is sometimes a string and sometimes `null`. Say both.
+
+
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: useState&lt;string | null&gt;(null) 로 고치기</p>
+
+```tsx
+const [selected, setSelected] = useState<string | null>(null);
+```
+
+- `string | null` is a union type: one of these. The `|` reads as "or".
+- Everything is clear. Run it again. Nothing changed on screen, which is the point: the app was already correct, and the editor can now prove it.
+- Rule of thumb: annotate `useState` when the initial value is `[]` or `null`. Otherwise leave it to inference.
+
+**🇰🇷 한글 해설**
+
+- `useState<string | null>(null)`. **`string | null`은 유니언(union) 타입** = "문자열 또는 null". `|`는 "또는"으로 읽어요.
+- 화면은 안 변해요. 앱은 원래 맞았고, 이제 에디터가 증명할 수 있게 된 거예요.
+- **규칙**: 초기값이 `[]`나 `null`이면 `<타입>`을 적고, 나머지는 추론에 맡겨요. (시험 단골)
+
+#### 💻 Step 3 - Type the Handlers
+
+- Move the two handlers into named functions. Under `addGuest`, add one for the input.
+
+
+<p class="typeit" id="practice-9">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: handleChange(text: string) 함수 만들고 onChangeText에 연결, addGuest(): void</p>
+
+```tsx
+function handleChange(text: string) {
+  setName(text);
+}
+```
+
+- Use it: `onChangeText={handleChange}`.
+- Give `addGuest` a return type. `void` means it returns nothing.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+function addGuest(): void {
+```
+
+- Now change `text: string` to `text: number`. The squiggle is not inside `handleChange`; it is on `onChangeText` in the JSX. `TextInput` declares that it calls `onChangeText` with a string, so a function that wants a number does not fit. The component tells you what it passes.
+- Put `string` back. In practice you rarely write the parameter type for inline arrows like `(text) => setName(text)`, because TypeScript reads it from the prop. Named handlers need it written down.
+
+**🇰🇷 한글 해설**
+
+- `function handleChange(text: string)`: 이름 붙인 핸들러는 **매개변수 타입을 직접** 적어요.
+- `function addGuest(): void`: 반환값 없음은 `void`.
+- 일부러 `text: number`로 바꾸면 에러가 핸들러 안이 아니라 JSX의 `onChangeText`에 떠요. `TextInput`이 "나는 문자열을 넘겨줄게"라고 선언해 놨는데 숫자를 받는 함수는 안 맞기 때문이에요.
+- `onChangeText={(text) => setName(text)}`처럼 JSX 안 인라인 화살표 함수는 TS가 prop에서 읽어 와서 보통 타입을 안 적어요.
+
+#### 💻 Finished Code
+
+- Compare against this if something is not working.
+
+```tsx
+import { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  Pressable,
+  StyleSheet,
+} from "react-native";
+
+export default function MyApp() {
+  const [name, setName] = useState("");
+  const [guests, setGuests] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string | null>(null);
+
+  function addGuest(): void {
+    if (name.trim() === "") return;
+    setGuests((prev) => [...prev, name.trim()]);
+    setName("");
+  }
+
+  function handleChange(text: string) {
+    setName(text);
+  }
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Guest List</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Name"
+        value={name}
+        onChangeText={handleChange}
+      />
+      <Button title="Add" onPress={addGuest} />
+      {guests.map((guest, index) => (
+        <Pressable key={index} onPress={() => setSelected(guest)}>
+          <Text style={styles.guest}>{guest}</Text>
+        </Pressable>
+      ))}
+      <Text style={styles.message}>
+        {selected ? `Checking in: ${selected}` : "Tap a guest to check them in"}
+      </Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60, paddingHorizontal: 20 },
+  title: { fontSize: 28, fontWeight: "700", marginBottom: 16 },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 8,
+    fontSize: 16,
+  },
+  guest: { fontSize: 18, paddingVertical: 8 },
+  message: { marginTop: 16, fontSize: 16, color: "#555" },
+});
+```
+
+▶ 이 코드는 `useState<...>()` 같은 TypeScript 문법이 있어서 Snack의 `App.js`에서는 에러가 나요. [Snack](https://snack.expo.dev)을 새로 열고 왼쪽 파일 목록에서 `App.js` 메뉴(점 세 개) → **Rename to App.tsx** 한 번 한 뒤 붙여 넣으세요. 빨간 줄(squiggle)이 타입 에러 표시이고, 앱은 그래도 실행돼요.
+
+**🇰🇷 한글 해설**
+
+**확인 포인트**: `useState<string[]>([])`, `useState<string | null>(null)`, `handleChange(text: string)`, `addGuest(): void`. 시험에서 이 네 가지가 빈칸으로 나올 수 있어요.
+
+### 💻 Example: Typed API Data
+
+- This is where TypeScript pays for itself. Data from a server is the one thing in the app you did not write, and every `item.name` is a guess about its shape. An interface turns the guess into something the editor can check.
+
+**🇰🇷 한글 해설**
+
+**핵심**: 서버 데이터는 내가 쓰지 않은 유일한 데이터라서 `item.name`은 전부 추측이에요. interface로 추측을 에디터가 검사할 수 있는 약속으로 바꿔요.
+
+#### 💻 Starter Code
+
+- Replace everything in `App.tsx`. The Week 5 fetch pattern: load the users, show a spinner, then a list.
+
+
+<p class="typeit" id="practice-10">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: users fetch + FlatList 시작 코드 (타입 없음)</p>
+
+```tsx
+import { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+
+const URL = "https://jsonplaceholder.typicode.com/users";
+
+export default function MyApp() {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(URL)
+      .then((res) => res.json())
+      .then((json) => setUsers(json))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={users}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.row}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.detail}>{item.email}</Text>
+            <Text style={styles.detail}>{item.company.name}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60 },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  row: { padding: 20, borderBottomWidth: 1, borderColor: "#ddd" },
+  name: { fontSize: 18, fontWeight: "600" },
+  detail: { fontSize: 14, color: "#666" },
+});
+```
+
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20Example%3A%20Typed%20API%20Data%20-%20Starter%20Code&platform=web&sdkVersion=54.0.0&code=import%20%7B%20useState%2C%20useEffect%20%7D%20from%20%22react%22%3B%0Aimport%20%7B%0A%20%20View%2C%0A%20%20Text%2C%0A%20%20FlatList%2C%0A%20%20ActivityIndicator%2C%0A%20%20StyleSheet%2C%0A%7D%20from%20%22react-native%22%3B%0A%0Aconst%20URL%20%3D%20%22https%3A%2F%2Fjsonplaceholder.typicode.com%2Fusers%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20const%20%5Busers%2C%20setUsers%5D%20%3D%20useState%28%5B%5D%29%3B%0A%20%20const%20%5Bloading%2C%20setLoading%5D%20%3D%20useState%28true%29%3B%0A%0A%20%20useEffect%28%28%29%20%3D%3E%20%7B%0A%20%20%20%20fetch%28URL%29%0A%20%20%20%20%20%20.then%28%28res%29%20%3D%3E%20res.json%28%29%29%0A%20%20%20%20%20%20.then%28%28json%29%20%3D%3E%20setUsers%28json%29%29%0A%20%20%20%20%20%20.finally%28%28%29%20%3D%3E%20setLoading%28false%29%29%3B%0A%20%20%7D%2C%20%5B%5D%29%3B%0A%0A%20%20if%20%28loading%29%20%7B%0A%20%20%20%20return%20%28%0A%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.center%7D%3E%0A%20%20%20%20%20%20%20%20%3CActivityIndicator%20size%3D%22large%22%20%2F%3E%0A%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%29%3B%0A%20%20%7D%0A%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20%20%20data%3D%7Busers%7D%0A%20%20%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id.toString%28%29%7D%0A%20%20%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.name%7D%3E%7Bitem.name%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.detail%7D%3E%7Bitem.email%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.detail%7D%3E%7Bitem.company.name%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%29%7D%0A%20%20%20%20%20%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%20flex%3A%201%2C%20paddingTop%3A%2060%20%7D%2C%0A%20%20center%3A%20%7B%20flex%3A%201%2C%20justifyContent%3A%20%22center%22%2C%20alignItems%3A%20%22center%22%20%7D%2C%0A%20%20row%3A%20%7B%20padding%3A%2020%2C%20borderBottomWidth%3A%201%2C%20borderColor%3A%20%22%23ddd%22%20%7D%2C%0A%20%20name%3A%20%7B%20fontSize%3A%2018%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20detail%3A%20%7B%20fontSize%3A%2014%2C%20color%3A%20%22%23666%22%20%7D%2C%0A%7D%29%3B%0A)** (SDK 54, 필요한 패키지 자동 포함)
+
+- Run it. The list loads. The editor has two squiggles, both in the `FlatList`. Hover over `id` in `keyExtractor`: `Property 'id' does not exist on type 'never'`. Same cause as the guest list: `useState([])` is a `never[]`, so each `item` is a `never`, and a `never` has no properties.
+- Hover over `item` in `renderItem`: `Binding element 'item' implicitly has an 'any' type`. The `Stat` starter all over again. TypeScript does not know what a row is, so `item.name`, `item.email` and `item.company.name` are not checked at all. Misspell one and nothing turns red.
+- Notice there is no squiggle on `setUsers(json)` either. `res.json()` returns `any`, and `any` fits anywhere. That is the problem with `any`: it switches the checker off, and the error shows up somewhere else or not at all.
+
+**🇰🇷 한글 해설**
+
+**시작 코드 읽기** (Week 5 fetch 패턴 + 타입 없음)
+- `useState([])` → `never[]`라서 `keyExtractor`의 `item.id`에 빨간 줄(`Property 'id' does not exist on type 'never'`).
+- `renderItem`의 `item`은 암묵적 `any`. 그래서 `item.name`, `item.email`이 **검사 안 돼요**. 오타를 내도 빨갛게 안 돼요.
+- `setUsers(json)`에 빨간 줄이 없는 이유: `res.json()`이 `any`를 돌려주고 `any`는 어디에나 들어가기 때문이에요. **any는 검사를 끄는 스위치**예요.
+
+#### 💻 Step 1 - Describe the Data
+
+- Above `MyApp`, describe one user. Only the fields this screen uses; the API sends more, and extra fields are fine.
+
+
+<p class="typeit" id="practice-11">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: interface User + useState&lt;User[]&gt;([]) + renderItem({ item }: { item: User })</p>
+
+```tsx
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  company: { name: string };
+}
+```
+
+- Type the state and the response.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+const [users, setUsers] = useState<User[]>([]);
+```
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+.then((json: User[]) => setUsers(json))
+```
+
+- The `keyExtractor` squiggle is gone. Hover over its `item`: it is a `User` now, worked out from the `data` prop. The `renderItem` squiggle stays, because the object `renderItem` receives does not pick up the row type on its own. Say what it is in the parameter.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+renderItem={({ item }: { item: User }) => (
+```
+
+- Every squiggle is gone. Type `item.` inside `renderItem` and the editor offers `id`, `name`, `email` and `company`.
+- `json: User[]` is a promise you are making, not a check. TypeScript never sees the server. If the API changes, the interface is wrong and the editor cannot know. The interface documents what you expect; the error handling from Week 5 covers the day the server disagrees.
+
+**🇰🇷 한글 해설**
+
+```tsx
+interface User { id: number; name: string; email: string; company: { name: string }; }
+const [users, setUsers] = useState<User[]>([]);
+.then((json: User[]) => setUsers(json))
+renderItem={({ item }: { item: User }) => (
+```
+- interface에는 **화면에서 쓰는 필드만**. 서버가 더 보내도 괜찮아요.
+- `keyExtractor`의 `item`은 `data`를 보고 TS가 `User`로 알아내요. 하지만 `renderItem`이 받는 객체는 자동으로 안 알아내서 `({ item }: { item: User })`로 **직접** 적어요.
+- ⚠️ `json: User[]`는 **검사가 아니라 약속**이에요. TS는 서버를 못 봐요. 서버가 바뀌는 날을 위해 Week 5의 에러 처리가 필요해요.
+
+#### 💻 Step 2 - Literal Types for Status
+
+- The screen has three states: loading, ready, and the error case this starter skipped. A boolean cannot hold three. Above `MyApp`, under the interface, name them.
+
+
+<p class="typeit" id="practice-12">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: type Status = &quot;loading&quot; | &quot;ready&quot; | &quot;error&quot; + res.ok 체크 + 상태별 early return</p>
+
+```tsx
+type Status = "loading" | "ready" | "error";
+```
+
+- `type` is like `interface`, but it can name any type, not only object shapes. This one is a union of three string literals: the only values a `Status` may be.
+- Replace the `loading` state.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+const [status, setStatus] = useState<Status>("loading");
+```
+
+- Replace the fetch chain so it records the outcome. The `res.ok` check is the one from Week 5: `fetch` only rejects when the network fails, so a 404 has to be turned into an error by hand.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+fetch(URL)
+  .then((res) => {
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return res.json();
+  })
+  .then((json: User[]) => {
+    setUsers(json);
+    setStatus("ready");
+  })
+  .catch(() => setStatus("error"));
+```
+
+- Replace the `if (loading)` block with one return per state.
+
+
+<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>
+
+```tsx
+if (status === "loading") {
+  return (
+    <View style={styles.center}>
+      <ActivityIndicator size="large" />
+    </View>
+  );
+}
+
+if (status === "error") {
+  return (
+    <View style={styles.center}>
+      <Text>Could not load the users. Check your connection.</Text>
+    </View>
+  );
+}
+```
+
+- Run it. Same screen as before. Now change `setStatus("ready")` to `setStatus("done")`. Hover: `Argument of type '"done"' is not assignable to parameter of type 'Status'`. A typo in a status string is a compile error, not a screen that is stuck on the spinner.
+- Change the URL to `https://jsonplaceholder.typicode.com/nothing` and run it. The server answers 404, the `res.ok` check throws, and the error screen shows. Without that check, the 404 body parses as an empty object and the list quietly renders nothing. Put both back.
+
+**🇰🇷 한글 해설**
+
+```tsx
+type Status = "loading" | "ready" | "error";
+const [status, setStatus] = useState<Status>("loading");
+```
+- 화면 상태가 3개(로딩, 완료, 에러)면 boolean으로는 못 담아요. `type`은 `interface`와 비슷한데 **객체가 아닌 것에도** 이름을 붙일 수 있어요. 문자열 리터럴 유니언 = 이 세 값 중 하나만 허용.
+- fetch 체인: `if (!res.ok) throw new Error(...)`. **fetch는 404여도 reject하지 않아요(네트워크가 끊길 때만)**. 그래서 직접 던져야 `.catch`로 가요. Test 3 문제 1의 error 조건이 이 부분이에요.
+- `if (status === "loading") return ...;`, `if (status === "error") return ...;` 상태마다 early return 하나씩.
+- 실험: `setStatus("done")` → 에러(`"done"`은 `Status`가 아님). 오타가 있으면 스피너에서 영원히 멈추는 대신 **컴파일 에러**가 나요. URL을 `/nothing`으로 바꾸면 404 → `res.ok` 체크가 던져서 에러 화면.
+
+<div class="pt" id="practice-13"></div>
+
+#### 💻 Step 3 - The Payoff
+
+- In `renderItem`, change `item.email` to `item.emial`. Squiggle: `Property 'emial' does not exist on type 'User'`. In the JavaScript version that line renders an empty `Text` and nobody notices until a user does.
+- Fix the typo. That one squiggle is the whole argument for typing API data.
+
+**🇰🇷 한글 해설**
+
+`item.emial` 오타 → `Property 'emial' does not exist on type 'User'`. JS였다면 빈 `Text`가 조용히 그려져서 사용자가 알려 줄 때까지 몰랐을 거예요. **API 데이터에 타입을 붙이는 이유가 이 한 줄에 다 들어 있어요.**
+
+#### 💻 Finished Code
+
+- Compare against this if something is not working.
+
+```tsx
+import { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+
+const URL = "https://jsonplaceholder.typicode.com/users";
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  company: { name: string };
+}
+
+type Status = "loading" | "ready" | "error";
+
+export default function MyApp() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [status, setStatus] = useState<Status>("loading");
+
+  useEffect(() => {
+    fetch(URL)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then((json: User[]) => {
+        setUsers(json);
+        setStatus("ready");
+      })
+      .catch(() => setStatus("error"));
+  }, []);
+
+  if (status === "loading") {
+    return (
+      <View style={styles.center}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (status === "error") {
+    return (
+      <View style={styles.center}>
+        <Text>Could not load the users. Check your connection.</Text>
+      </View>
+    );
+  }
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={users}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }: { item: User }) => (
+          <View style={styles.row}>
+            <Text style={styles.name}>{item.name}</Text>
+            <Text style={styles.detail}>{item.email}</Text>
+            <Text style={styles.detail}>{item.company.name}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: { flex: 1, paddingTop: 60 },
+  center: { flex: 1, justifyContent: "center", alignItems: "center" },
+  row: { padding: 20, borderBottomWidth: 1, borderColor: "#ddd" },
+  name: { fontSize: 18, fontWeight: "600" },
+  detail: { fontSize: 14, color: "#666" },
+});
+```
+
+▶ 이 코드는 `useState<...>()` 같은 TypeScript 문법이 있어서 Snack의 `App.js`에서는 에러가 나요. [Snack](https://snack.expo.dev)을 새로 열고 왼쪽 파일 목록에서 `App.js` 메뉴(점 세 개) → **Rename to App.tsx** 한 번 한 뒤 붙여 넣으세요. 빨간 줄(squiggle)이 타입 에러 표시이고, 앱은 그래도 실행돼요.
+
+**🇰🇷 한글 해설**
+
+**확인 포인트**: `interface User`, `type Status`, `useState<User[]>([])`, `useState<Status>("loading")`, `res.ok` 체크, `.catch(() => setStatus("error"))`, `({ item }: { item: User })`. 이 코드가 Test 3 문제 1(fetch + FlatList)의 뼈대와 거의 같아요.
+
+### 💻 Example: any and unknown
+
+- Paste these lines above `MyApp` in any of the examples.
+
+
+<p class="typeit" id="practice-14">⌨️ <b>이 코드는 Snack에서 직접 쳐 보세요</b>: let value: any = &quot;hello&quot;; value = 123; value.toUpperCase(); 를 붙여 보고 any를 unknown으로 바꾸기</p>
+
+```ts
+let value: any = "hello";
+value = 123;
+value.toUpperCase();
+```
+
+**🇰🇷 한글 해설**
+
+`any`와 `unknown`의 차이를 보여 주는 실험이에요.
+- `any`: 검사를 **끔**. 숫자를 넣고 `value.toUpperCase()`를 불러도 빨간 줄이 없지만 **실행하면 `value.toUpperCase is not a function`으로 앱이 죽어요**. TS가 막으려던 바로 그 에러를 `any`가 통과시킨 거예요.
+- `unknown`: 뭐든 받지만 **무엇인지 확인하기 전에는 못 써요**.
+
+#### 💻 What to Show
+
+1. No squiggles anywhere. `any` tells TypeScript to stop checking this variable, so reassigning a number is fine and calling a string method on it is fine.
+2. Run it. The app crashes with `value.toUpperCase is not a function`. That is the runtime error TypeScript exists to prevent, and `any` let it through.
+3. Change `any` to `unknown`. Now `value.toUpperCase()` has a squiggle: `'value' is of type 'unknown'`. `unknown` also accepts anything, but it will not let you use the value until you have checked what it is.
+
+```ts
+if (typeof value === "string") {
+  value.toUpperCase();
+}
+```
+
+4. Inside the `if`, TypeScript knows `value` is a string, so the call is allowed. The check narrows the type.
+5. Delete the lines before moving on. The lesson: when you reach for `any` to make a squiggle go away, you have switched off the thing that found the bug.
+
+**🇰🇷 한글 해설**
+
+1. `any`면 빨간 줄 없음. 2. 실행하면 크래시. 3. `unknown`으로 바꾸면 `'value' is of type 'unknown'` 에러.
+4. `if (typeof value === "string") { value.toUpperCase(); }` 안에서는 TS가 `string`임을 알아서 허용 (**type narrowing**, 확인하면 타입이 좁혀짐).
+5. 교훈: 빨간 줄을 없애려고 `any`를 쓰면 **버그를 찾아 주는 기능을 꺼 버린** 거예요.
+
+### 💻 TypeScript Checklist
+
+- Rename `App.js` to `App.tsx` and let the squiggles guide you. Red means TypeScript found something; the app will still run.
+- Let TypeScript infer when the value is obvious: `useState(0)`, `useState("")`, a mapped array, a string.
+- Annotate state that starts as `[]` or `null`: `useState<string[]>([])`, `useState<User | null>(null)`.
+- Give every component with props an interface named after it, `StatProps`. Mark optional props with `?` and give them a default.
+- Describe API data with an interface before you fetch it, and only the fields you use. Give `FlatList` rows the type too: `({ item }: { item: User })`.
+- Use a union of string literals for a value with a fixed set of options, like a status.
+- Named event handlers need parameter types: `(text: string)`. Inline arrows in JSX usually do not.
+- Avoid `any`. If you really do not know the type yet, `unknown` keeps the checker on.
+- Keep the Week 2 updater rule: `setCount((prev) => prev + 1)`. TypeScript checks the types, not the logic.
+
+**🇰🇷 한글 해설**
+
+**시험 전 TypeScript 요약**
+- `App.js` → `App.tsx`로 바꾸고 빨간 줄을 길잡이로 삼기. 빨간 줄이 있어도 앱은 실행돼요.
+- 값이 뻔하면 추론에 맡기기: `useState(0)`, `useState("")`.
+- **`[]`나 `null`로 시작하는 state는 타입 적기**: `useState<string[]>([])`, `useState<User | null>(null)`.
+- props가 있는 컴포넌트는 `StatProps`처럼 **이름 + Props** interface. 선택 prop은 `?`, 기본값 같이.
+- API 데이터는 fetch 전에 interface로 설명(쓰는 필드만). `FlatList`의 `renderItem`도 `({ item }: { item: User })`.
+- 선택지가 정해진 값(상태 등)은 문자열 리터럴 유니언 `"loading" | "ready" | "error"`.
+- 이름 붙인 핸들러는 매개변수 타입 필수: `(text: string)`. JSX 안 인라인 화살표는 보통 생략.
+- `any`는 피하고, 모르면 `unknown`.
+- Week 2의 업데이터 규칙은 그대로: `setCount((prev) => prev + 1)`. TS는 타입만 검사하고 **로직은 검사 안 해요**.
+
+
+---
+
+## 5. 📘 코스노트: Introduction to Expo Router
 
 <div class="sum" data-kind="type">
 
@@ -1530,14 +2534,21 @@ Here is a summary of the core concepts, tools, and structural patterns you maste
 5. 학교 Wi-Fi에서 연결 안 될 때 옵션? → `--tunnel`
 6. `interface Props { name: string; excited?: boolean }`에서 `?`의 뜻? → 선택(optional) prop
 7. 빈 배열 state에 타입 주기? → `useState<Post[]>([])`
-8. `app/(auth)/login.tsx`의 경로? → `/login`
-9. `app/settings/index.tsx`의 경로? → `/settings`
-10. 동적 경로 파일 이름과 값 꺼내는 hook? → `[id].tsx`, `useLocalSearchParams()`
-11. `_layout.tsx` 안에 그리는 세 가지? → `<Slot />`, `<Stack />`, `<Tabs />`
-12. `<Link href="..." asChild>`의 `asChild`? → 자식 컴포넌트(TouchableOpacity)를 누르는 대상으로 사용
-13. 상세 화면이 탭 밖에 있을 때 생기는 문제 2개와 해결? → 헤더에 파일 경로, 탭 바 사라짐 → 탭 안에 Stack 중첩
-14. 탭 안 Stack에서 헤더가 두 개 보일 때? → 탭 쪽 `Tabs.Screen`에 `headerShown: false`
-15. `useAtomValue`와 `useAtom`의 차이? → 읽기만 vs `[값, set함수]`
+8. `useState(null)`로 시작하는 선택된 항목 state의 타입? → `useState<string | null>(null)` (유니언 `|` = 또는)
+9. `useState([])`만 쓰면 `item.id`가 에러인 이유? → `never[]`로 추론돼서. `<User[]>`로 알려 줘야 함
+10. 상태가 loading, ready, error 세 가지일 때 타입? → `type Status = "loading" | "ready" | "error"` (문자열 리터럴 유니언)
+11. FlatList `renderItem`에서 item 타입 적기? → `({ item }: { item: User })`
+12. 이름 붙인 `onChangeText` 핸들러의 매개변수 타입? → `(text: string)`, 반환 없음은 `: void`
+13. `any`와 `unknown`의 차이? → any는 검사 끔(크래시 가능), unknown은 typeof로 확인해야 사용 가능
+14. 타입 에러(빨간 줄)가 있으면 앱이 안 돌아가나? → 아니요, 돌아가요. 타입은 실행 전에 지워져요
+15. `app/(auth)/login.tsx`의 경로? → `/login`
+16. `app/settings/index.tsx`의 경로? → `/settings`
+17. 동적 경로 파일 이름과 값 꺼내는 hook? → `[id].tsx`, `useLocalSearchParams()`
+18. `_layout.tsx` 안에 그리는 세 가지? → `<Slot />`, `<Stack />`, `<Tabs />`
+19. `<Link href="..." asChild>`의 `asChild`? → 자식 컴포넌트(TouchableOpacity)를 누르는 대상으로 사용
+20. 상세 화면이 탭 밖에 있을 때 생기는 문제 2개와 해결? → 헤더에 파일 경로, 탭 바 사라짐 → 탭 안에 Stack 중첩
+21. 탭 안 Stack에서 헤더가 두 개 보일 때? → 탭 쪽 `Tabs.Screen`에 `headerShown: false`
+22. `useAtomValue`와 `useAtom`의 차이? → 읽기만 vs `[값, set함수]`
 
 ## ✍️ 손으로 써 보기: Mini Product Shop (Snack 한 파일 버전)
 
@@ -1660,7 +2671,7 @@ const styles = StyleSheet.create({
 });
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W8%20practice&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20FlatList%2C%20Pressable%2C%20StyleSheet%2C%20Switch%20%7D%20from%20%22react-native%22%3B%0Aimport%20%7B%20NavigationContainer%20%7D%20from%20%22%40react-navigation%2Fnative%22%3B%0Aimport%20%7B%20createBottomTabNavigator%20%7D%20from%20%22%40react-navigation%2Fbottom-tabs%22%3B%0Aimport%20%7B%20createNativeStackNavigator%20%7D%20from%20%22%40react-navigation%2Fnative-stack%22%3B%0Aimport%20%7B%20atom%2C%20useAtomValue%2C%20useAtom%20%7D%20from%20%22jotai%22%3B%0A%0A%2F%2F%20store%2FproductsAtom.ts%20%EC%97%90%20%ED%95%B4%EB%8B%B9%0Ainterface%20Product%20%7B%0A%20%20id%3A%20string%3B%0A%20%20name%3A%20string%3B%0A%20%20price%3A%20number%3B%0A%20%20description%3A%20string%3B%0A%7D%0A%0A%2F%2F%20%ED%8C%8C%EC%9D%BC%EC%97%90%EC%84%9C%EB%8A%94%20atom%3CProduct%5B%5D%3E%28%5B...%5D%29%20%EC%B2%98%EB%9F%BC%20%EC%8D%A8%EB%8F%84%20%EB%8F%BC%EC%9A%94%0Aconst%20initialProducts%3A%20Product%5B%5D%20%3D%20%5B%0A%20%20%7B%20id%3A%20%221%22%2C%20name%3A%20%22Wireless%20Headphones%22%2C%20price%3A%20299.99%2C%20description%3A%20%22Immersive%20sound.%22%20%7D%2C%0A%20%20%7B%20id%3A%20%222%22%2C%20name%3A%20%22Mechanical%20Keyboard%22%2C%20price%3A%20129.99%2C%20description%3A%20%22Tactile%20blue%20switches.%22%20%7D%2C%0A%20%20%7B%20id%3A%20%223%22%2C%20name%3A%20%22Wireless%20Mouse%22%2C%20price%3A%2079.99%2C%20description%3A%20%22Reduces%20wrist%20strain.%22%20%7D%2C%0A%5D%3B%0Aconst%20productsAtom%20%3D%20atom%28initialProducts%29%3B%0Aconst%20showPriceAtom%20%3D%20atom%28true%29%3B%0A%0A%2F%2F%20app%2F%28tabs%29%2Fproducts%2Findex.tsx%20%EC%97%90%20%ED%95%B4%EB%8B%B9%0Afunction%20ShopScreen%28%7B%20navigation%20%7D%3A%20any%29%20%7B%0A%20%20const%20products%20%3D%20useAtomValue%28productsAtom%29%3B%0A%20%20const%20showPrice%20%3D%20useAtomValue%28showPriceAtom%29%3B%0A%20%20return%20%28%0A%20%20%20%20%3CFlatList%0A%20%20%20%20%20%20data%3D%7Bproducts%7D%0A%20%20%20%20%20%20keyExtractor%3D%7B%28item%29%20%3D%3E%20item.id%7D%0A%20%20%20%20%20%20contentContainerStyle%3D%7B%7B%20padding%3A%2016%20%7D%7D%0A%20%20%20%20%20%20renderItem%3D%7B%28%7B%20item%20%7D%29%20%3D%3E%20%28%0A%20%20%20%20%20%20%20%20%2F%2F%20Expo%20Router%EB%9D%BC%EB%A9%B4%3A%20%3CLink%20href%3D%7B%60%2Fproducts%2F%24%7Bitem.id%7D%60%7D%20asChild%3E%0A%20%20%20%20%20%20%20%20%3CPressable%0A%20%20%20%20%20%20%20%20%20%20style%3D%7B%28%7B%20pressed%20%7D%29%20%3D%3E%20%5Bstyles.card%2C%20pressed%20%26%26%20%7B%20opacity%3A%200.6%20%7D%5D%7D%0A%20%20%20%20%20%20%20%20%20%20onPress%3D%7B%28%29%20%3D%3E%20navigation.navigate%28%22Details%22%2C%20%7B%20id%3A%20item.id%20%7D%29%7D%0A%20%20%20%20%20%20%20%20%3E%0A%20%20%20%20%20%20%20%20%20%20%3CView%20style%3D%7B%7B%20flex%3A%201%20%7D%7D%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.name%7D%3E%7Bitem.name%7D%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%7BshowPrice%20%26%26%20%3CText%20style%3D%7Bstyles.price%7D%3E%24%7Bitem.price.toFixed%282%29%7D%3C%2FText%3E%7D%0A%20%20%20%20%20%20%20%20%20%20%3C%2FView%3E%0A%20%20%20%20%20%20%20%20%20%20%3CText%3EView%20%E2%86%92%3C%2FText%3E%0A%20%20%20%20%20%20%20%20%3C%2FPressable%3E%0A%20%20%20%20%20%20%29%7D%0A%20%20%20%20%2F%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20app%2F%28tabs%29%2Fproducts%2F%5Bid%5D.tsx%20%EC%97%90%20%ED%95%B4%EB%8B%B9%0Afunction%20DetailsScreen%28%7B%20route%20%7D%3A%20any%29%20%7B%0A%20%20%2F%2F%20Expo%20Router%EB%9D%BC%EB%A9%B4%3A%20const%20%7B%20id%20%7D%20%3D%20useLocalSearchParams%3C%7B%20id%3A%20string%20%7D%3E%28%29%3B%0A%20%20const%20%7B%20id%20%7D%20%3D%20route.params%3B%0A%20%20const%20products%20%3D%20useAtomValue%28productsAtom%29%3B%0A%20%20const%20product%20%3D%20products.find%28%28p%29%20%3D%3E%20p.id%20%3D%3D%3D%20id%29%3B%0A%0A%20%20if%20%28%21product%29%20%7B%0A%20%20%20%20return%20%3CText%20style%3D%7B%7B%20padding%3A%2020%20%7D%7D%3EProduct%20Not%20Found%3C%2FText%3E%3B%0A%20%20%7D%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.box%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.sku%7D%3ESKU%3A%20%7Bproduct.id%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.title%7D%3E%7Bproduct.name%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7Bstyles.price%7D%3E%24%7Bproduct.price.toFixed%282%29%7D%3C%2FText%3E%0A%20%20%20%20%20%20%3CText%3E%7Bproduct.description%7D%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20app%2F%28tabs%29%2Fsettings.tsx%20%EC%97%90%20%ED%95%B4%EB%8B%B9%0Afunction%20SettingsScreen%28%29%20%7B%0A%20%20const%20%5BshowPrice%2C%20setShowPrice%5D%20%3D%20useAtom%28showPriceAtom%29%3B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.row%7D%3E%0A%20%20%20%20%20%20%3CText%20style%3D%7B%7B%20fontSize%3A%2016%20%7D%7D%3EShow%20prices%3C%2FText%3E%0A%20%20%20%20%20%20%3CSwitch%20value%3D%7BshowPrice%7D%20onValueChange%3D%7BsetShowPrice%7D%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20app%2F%28tabs%29%2Fproducts%2F_layout.tsx%20%EC%97%90%20%ED%95%B4%EB%8B%B9%20%28%ED%83%AD%20%EC%95%88%EC%9D%98%20Stack%29%0Aconst%20Stack%20%3D%20createNativeStackNavigator%28%29%3B%0Afunction%20ProductsStack%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CStack.Navigator%20screenOptions%3D%7B%7B%20headerTintColor%3A%20%22%23007AFF%22%20%7D%7D%3E%0A%20%20%20%20%20%20%3CStack.Screen%20name%3D%22Index%22%20component%3D%7BShopScreen%7D%20options%3D%7B%7B%20title%3A%20%22Hardware%20Shop%22%20%7D%7D%20%2F%3E%0A%20%20%20%20%20%20%3CStack.Screen%20name%3D%22Details%22%20component%3D%7BDetailsScreen%7D%20options%3D%7B%7B%20title%3A%20%22Product%20Details%22%20%7D%7D%20%2F%3E%0A%20%20%20%20%3C%2FStack.Navigator%3E%0A%20%20%29%3B%0A%7D%0A%0A%2F%2F%20app%2F%28tabs%29%2F_layout.tsx%20%EC%97%90%20%ED%95%B4%EB%8B%B9%0Aconst%20Tab%20%3D%20createBottomTabNavigator%28%29%3B%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CNavigationContainer%3E%0A%20%20%20%20%20%20%3CTab.Navigator%3E%0A%20%20%20%20%20%20%20%20%7B%2F%2A%20headerShown%3A%20false%20%EB%A1%9C%20%ED%97%A4%EB%8D%94%20%EB%91%90%20%EA%B0%9C%20%EB%B0%A9%EC%A7%80%20%2A%2F%7D%0A%20%20%20%20%20%20%20%20%3CTab.Screen%20name%3D%22Products%22%20component%3D%7BProductsStack%7D%20options%3D%7B%7B%20headerShown%3A%20false%20%7D%7D%20%2F%3E%0A%20%20%20%20%20%20%20%20%3CTab.Screen%20name%3D%22Settings%22%20component%3D%7BSettingsScreen%7D%20%2F%3E%0A%20%20%20%20%20%20%3C%2FTab.Navigator%3E%0A%20%20%20%20%3C%2FNavigationContainer%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20card%3A%20%7B%20flexDirection%3A%20%22row%22%2C%20alignItems%3A%20%22center%22%2C%20backgroundColor%3A%20%22%23fff%22%2C%20padding%3A%2016%2C%20borderRadius%3A%2012%2C%20marginBottom%3A%2012%20%7D%2C%0A%20%20name%3A%20%7B%20fontSize%3A%2016%2C%20fontWeight%3A%20%22600%22%20%7D%2C%0A%20%20price%3A%20%7B%20color%3A%20%22%23007AFF%22%2C%20marginTop%3A%204%20%7D%2C%0A%20%20box%3A%20%7B%20margin%3A%2020%2C%20padding%3A%2024%2C%20backgroundColor%3A%20%22%23fff%22%2C%20borderRadius%3A%2016%2C%20gap%3A%206%20%7D%2C%0A%20%20sku%3A%20%7B%20fontSize%3A%2011%2C%20color%3A%20%22%238e8e93%22%2C%20fontWeight%3A%20%22bold%22%20%7D%2C%0A%20%20title%3A%20%7B%20fontSize%3A%2022%2C%20fontWeight%3A%20%22bold%22%20%7D%2C%0A%20%20row%3A%20%7B%20flexDirection%3A%20%22row%22%2C%20justifyContent%3A%20%22space-between%22%2C%20alignItems%3A%20%22center%22%2C%20padding%3A%2020%20%7D%2C%0A%7D%29%3B%0A&dependencies=%40react-navigation%2Fbottom-tabs%40%5E7.0.0%2C%40react-navigation%2Fnative%40%5E7.0.0%2C%40react-navigation%2Fnative-stack%40%5E7.0.0%2C%40types%2Freact%40%2A%2Cjotai%40%2A%2Creact-native-safe-area-context%40~5.6.0%2Creact-native-screens%40~4.16.0)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
+▶ 이 코드는 `useState<...>()` 같은 TypeScript 문법이 있어서 Snack의 `App.js`에서는 에러가 나요. [Snack](https://snack.expo.dev)을 새로 열고 왼쪽 파일 목록에서 `App.js` 메뉴(점 세 개) → **Rename to App.tsx** 한 번 한 뒤 붙여 넣으세요. 빨간 줄(squiggle)이 타입 에러 표시이고, 앱은 그래도 실행돼요.
 
 **해설**
 - **탭 안에 Stack**: `Products` 탭의 component가 화면이 아니라 `ProductsStack`(Stack 전체)이에요. 그래서 상세 화면으로 가도 아래 탭 바가 그대로 있어요. Expo Router에서 `(tabs)/products/_layout.tsx`가 하는 일과 같아요.

@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8.1 - Notes and Examples · WEB530</title><meta name="description" content="Week 8.1 - Notes and Examples · WEB530">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=03e63193">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/web530/index.html">WEB530</a><span>/</span><a href="../../../c/web530/materials.html">자료</a><span>/</span><span>Week 8.1 - Notes and Examples</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#react-native-playground">React Native Playground</a></li><li class="l2"><a href="#why-typescript">Why TypeScript?</a></li><li class="l2"><a href="#example-types">Example: Types</a></li><li class="l3"><a href="#how-it-works">How It Works</a></li><li class="l3"><a href="#what-to-show">What to Show</a></li><li class="l2"><a href="#example-typed-props">Example: Typed Props</a></li><li class="l3"><a href="#starter-code">Starter Code</a></li><li class="l3"><a href="#step-1---describe-the-props">Step 1 - Describe the Props</a></li><li class="l3"><a href="#step-2---add-an-optional-prop">Step 2 - Add an Optional Prop</a></li><li class="l3"><a href="#step-3---break-the-contract">Step 3 - Break the Contract</a></li><li class="l3"><a href="#finished-code">Finished Code</a></li><li class="l2"><a href="#example-typed-state-and-events">Example: Typed State and Events</a></li><li class="l3"><a href="#starter-code-1">Starter Code</a></li><li class="l3"><a href="#step-1---let-inference-do-its-job-then-help-it">Step 1 - Let Inference Do Its Job, Then Help It</a></li><li class="l3"><a href="#step-2---state-that-can-be-null">Step 2 - State That Can Be Null</a></li><li class="l3"><a href="#step-3---type-the-handlers">Step 3 - Type the Handlers</a></li><li class="l3"><a href="#finished-code-1">Finished Code</a></li><li class="l2"><a href="#example-typed-api-data">Example: Typed API Data</a></li><li class="l3"><a href="#starter-code-2">Starter Code</a></li><li class="l3"><a href="#step-1---describe-the-data">Step 1 - Describe the Data</a></li><li class="l3"><a href="#step-2---literal-types-for-status">Step 2 - Literal Types for Status</a></li><li class="l3"><a href="#step-3---the-payoff">Step 3 - The Payoff</a></li><li class="l3"><a href="#finished-code-2">Finished Code</a></li><li class="l2"><a href="#example-any-and-unknown">Example: any and unknown</a></li><li class="l3"><a href="#what-to-show-1">What to Show</a></li><li class="l2"><a href="#typescript-checklist">TypeScript Checklist</a></li></ol></nav>
+<article class="md"><h1 id="week-81---notes-and-examples">Week 8.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#week-81---notes-and-examples">#</a></h1>
+<h2 id="react-native-playground">React Native Playground <a class="anchor" aria-label="링크" href="#react-native-playground">#</a></h2>
+<p>React Native Playground (Snack)
+<em>Use this for the examples. Modify App.tsx</em>
+(https://snack.expo.dev)</p>
+<ul>
+<li>Keep Snack on SDK 54 (the default).</li>
+<li>Every example this week only needs <code>react-native</code>. Leave <code>package.json</code> alone.</li>
+<li>This week's examples are TypeScript, so the file is <code>App.tsx</code>, not <code>App.js</code>. In the file list, hover over <code>App.js</code>, open its menu (the three dots on the left) and choose <strong>Rename to App.tsx</strong>. Do this once per Snack. The same menu renames it back.</li>
+<li>Type errors show as red squiggles in the editor, with a red mark in the scrollbar on the right. Hover over a squiggle to read the message. The &quot;No errors&quot; indicator at the bottom only counts runtime errors, so look for squiggles, not the indicator.</li>
+<li>Everything this week runs on <strong>Web</strong>.</li>
+</ul>
+<h2 id="why-typescript">Why TypeScript? <a class="anchor" aria-label="링크" href="#why-typescript">#</a></h2>
+<ul>
+<li>JavaScript finds out about a wrong type when the code runs: a missing prop renders as nothing, a string where a number was expected does string maths, and <code>undefined.name</code> crashes. TypeScript finds out while you type.</li>
+<li>TypeScript is JavaScript plus type annotations. Every <code>.js</code> file you have written this term is valid TypeScript. You add types where they help and let TypeScript work out the rest.</li>
+<li>Props become a contract. In Week 1 PropTypes warned in the console at runtime. A TypeScript interface does the same job in the editor, before the app runs, and React 19 dropped PropTypes anyway.</li>
+<li>The types never reach the phone. Metro strips them out and ships plain JavaScript, so a type error does not stop the app from running. That is why Snack runs an <code>App.tsx</code> with squiggles in it. The checker is a tool for you, not a gate for the device.</li>
+<li>Every new Expo project is TypeScript by default. The Expo projects later in the course are <code>.tsx</code> files, so this is the week to get comfortable.</li>
+</ul>
+<h2 id="example-types">Example: Types <a class="anchor" aria-label="링크" href="#example-types">#</a></h2>
+<ul>
+<li>The pieces from the slides, in a screen you can run.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"Nicholas"</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">isActive</span><span class="o">:</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">scores</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">10</span><span class="p">,</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="mf">30</span><span class="p">];</span>
+<span class="kd">let</span><span class="w"> </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"Ava"</span><span class="p">,</span><span class="w"> </span><span class="nx">age</span><span class="o">:</span><span class="w"> </span><span class="kt">21</span><span class="w"> </span><span class="p">};</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">line</span><span class="p">}&gt;</span><span class="nx">count</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">count</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">line</span><span class="p">}&gt;</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">line</span><span class="p">}&gt;</span><span class="nx">isActive</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nb">String</span><span class="p">(</span><span class="nx">isActive</span><span class="p">)}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">line</span><span class="p">}&gt;</span><span class="nx">scores</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">scores</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">", "</span><span class="p">)}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">line</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">age</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">line</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">18</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h3 id="how-it-works">How It Works <a class="anchor" aria-label="링크" href="#how-it-works">#</a></h3>
+<ul>
+<li>A type annotation is a colon and a type after the name: <code>count: number</code>. It says what the variable may hold, now and after every reassignment.</li>
+<li><code>number[]</code> is an array of numbers. <code>{ name: string; age: number }</code> is the shape of an object: these properties, with these types, nothing missing.</li>
+<li><code>String(isActive)</code> is a React Native thing, not a TypeScript thing: <code>Text</code> will not render a bare boolean.</li>
+</ul>
+<h3 id="what-to-show">What to Show <a class="anchor" aria-label="링크" href="#what-to-show">#</a></h3>
+<ol>
+<li>Run it. Five lines of output, nothing special. TypeScript only shows up when something is wrong.</li>
+<li>Change <code>let count: number = 0;</code> to <code>let count: number = &quot;zero&quot;;</code>. A squiggle appears under <code>count</code>. Hover: <code>Type 'string' is not assignable to type 'number'</code>. Now look at the preview: the app still runs and prints <code>count: zero</code>. The checker and the runtime are separate.</li>
+<li>Under the variables add <code>scores.push(&quot;forty&quot;);</code>. Same message. The array type applies to everything you put in later, not only the initial values.</li>
+<li>Delete <code>age: 21</code> from <code>user</code>. Hover: <code>Property 'age' is missing</code>. An object type is a checklist.</li>
+<li>Sometimes a property really is optional. Add a question mark to it in the type: <code>{ name: string; age?: number }</code>. The squiggle goes away. <code>age?</code> means the property may be left out, and inside the code its type is <code>number | undefined</code>. Run it: the line shows <code>user: Ava,</code> with nothing after the comma, because <code>user.age</code> is <code>undefined</code> and <code>Text</code> renders nothing for it. That is the trade: optional means every use has to cope with it missing.</li>
+<li>Remove the annotation from <code>count</code> so it reads <code>let count = 0;</code>, then hover over <code>count</code>. The tooltip says <code>let count: number</code>. TypeScript inferred it from the <code>0</code>. Change the value to <code>&quot;zero&quot;</code> again: still an error. You get checking without writing a type, which is how most lines of TypeScript look.</li>
+</ol>
+<h2 id="example-typed-props">Example: Typed Props <a class="anchor" aria-label="링크" href="#example-typed-props">#</a></h2>
+<ul>
+<li>A component with props is the first place types earn their keep. The interface is a contract between the component and everyone who uses it, and TypeScript checks both sides.</li>
+</ul>
+<h3 id="starter-code">Starter Code <a class="anchor" aria-label="링크" href="#starter-code">#</a></h3>
+<ul>
+<li>Replace everything in <code>App.tsx</code>. Three stat cards, written the way we have written components all term.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Stat</span><span class="p">({</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">unit</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">value</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">value</span><span class="p">}</span><span class="w"> </span><span class="p">{</span><span class="nx">unit</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">label</span><span class="p">}&gt;{</span><span class="nx">label</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Today</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Steps"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">8412</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Distance"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">6.2</span><span class="p">}</span><span class="w"> </span><span class="na">unit</span><span class="o">=</span><span class="s">"km"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Calories"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">320</span><span class="p">}</span><span class="w"> </span><span class="na">unit</span><span class="o">=</span><span class="s">"kcal"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">28</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"700"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">card</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#E3F2FD"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">24</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#555"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<ul>
+<li>Run it. It works, and the editor already has something to say: squiggles under <code>label</code>, <code>value</code> and <code>unit</code>, and one under the first <code>&lt;Stat&gt;</code> in <code>MyApp</code>. Hover over <code>label</code>: <code>Binding element 'label' implicitly has an 'any' type</code>. TypeScript was not told what a <code>Stat</code> expects, so each prop is <code>any</code>, which means unchecked.</li>
+<li>Hover over the first <code>&lt;Stat&gt;</code>: <code>Property 'unit' is missing</code>. With nothing else to go on, TypeScript guessed the props from the destructuring: three props, all required. A guessed contract is wrong in both directions, and that is the gap the next step closes.</li>
+</ul>
+<h3 id="step-1---describe-the-props">Step 1 - Describe the Props <a class="anchor" aria-label="링크" href="#step-1---describe-the-props">#</a></h3>
+<ul>
+<li>Above <code>Stat</code>, add an interface for its props.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">interface</span><span class="w"> </span><span class="nx">StatProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Annotate the props parameter with it.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">function</span><span class="w"> </span><span class="nx">Stat</span><span class="p">({</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">unit</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="nx">StatProps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre>
+<ul>
+<li>The three squiggles inside <code>Stat</code> are gone, and two new ones appear: <code>unit</code> in the parameter and <code>unit=&quot;km&quot;</code> in <code>MyApp</code>. Hover: <code>Property 'unit' does not exist on type 'StatProps'</code>. The interface is the whole truth about a <code>Stat</code>. Anything not in it is an error on both sides, where it is read and where it is passed.</li>
+<li><code>interface</code> is the TypeScript keyword for naming an object shape. The naming convention is the component name plus <code>Props</code>.</li>
+</ul>
+<h3 id="step-2---add-an-optional-prop">Step 2 - Add an Optional Prop <a class="anchor" aria-label="링크" href="#step-2---add-an-optional-prop">#</a></h3>
+<ul>
+<li>Add <code>unit</code> to the interface with a question mark.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">interface</span><span class="w"> </span><span class="nx">StatProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">unit?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li><code>?</code> means the prop may be left out. Inside the component its type is <code>string | undefined</code>, so give it a default where it is destructured.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">function</span><span class="w"> </span><span class="nx">Stat</span><span class="p">({</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="nx">StatProps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</code></pre>
+<ul>
+<li>Everything is clear. Run it: the same three cards, but now <code>Stat</code> has a contract.</li>
+<li>A required prop has no <code>?</code>. Leaving it out is an error. An optional prop has <code>?</code>, and the component has to cope with it missing, usually with a default.</li>
+</ul>
+<h3 id="step-3---break-the-contract">Step 3 - Break the Contract <a class="anchor" aria-label="링크" href="#step-3---break-the-contract">#</a></h3>
+<ul>
+<li>Change <code>value={320}</code> to <code>value=&quot;320&quot;</code>. Hover: <code>Type 'string' is not assignable to type 'number'</code>. In JavaScript this would silently work until someone tried to add to it.</li>
+<li>Delete <code>label=&quot;Steps&quot;</code> from the first card. Hover over <code>Stat</code>: <code>Property 'label' is missing</code>. This is the PropTypes <code>isRequired</code> warning from Week 1, except it is in the editor and it is red.</li>
+<li>Put them back. Then, in <code>MyApp</code>, start typing a fourth card: <code>&lt;Stat </code> and press Ctrl+Space. The editor lists <code>label</code>, <code>value</code> and <code>unit</code>, with their types, and marks which are optional. The interface is also documentation that cannot go stale.</li>
+<li>Delete the half-typed card before moving on.</li>
+</ul>
+<h3 id="finished-code">Finished Code <a class="anchor" aria-label="링크" href="#finished-code">#</a></h3>
+<ul>
+<li>Compare against this if something is not working.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">StatProps</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">unit?</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span><span class="w"> </span><span class="nx">Stat</span><span class="p">({</span><span class="w"> </span><span class="nx">label</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="p">,</span><span class="w"> </span><span class="nx">unit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">""</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="nx">StatProps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">card</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">value</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">value</span><span class="p">}</span><span class="w"> </span><span class="p">{</span><span class="nx">unit</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">label</span><span class="p">}&gt;{</span><span class="nx">label</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Today</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Steps"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">8412</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Distance"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">6.2</span><span class="p">}</span><span class="w"> </span><span class="na">unit</span><span class="o">=</span><span class="s">"km"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Stat</span><span class="w"> </span><span class="na">label</span><span class="o">=</span><span class="s">"Calories"</span><span class="w"> </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="mf">320</span><span class="p">}</span><span class="w"> </span><span class="na">unit</span><span class="o">=</span><span class="s">"kcal"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">28</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"700"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">card</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#E3F2FD"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">24</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">label</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#555"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h2 id="example-typed-state-and-events">Example: Typed State and Events <a class="anchor" aria-label="링크" href="#example-typed-state-and-events">#</a></h2>
+<ul>
+<li><code>useState</code> usually needs no type: TypeScript reads it from the initial value. The exceptions are state that starts empty or starts as <code>null</code>, because the initial value does not say what comes later.</li>
+</ul>
+<h3 id="starter-code-1">Starter Code <a class="anchor" aria-label="링크" href="#starter-code-1">#</a></h3>
+<ul>
+<li>Replace everything in <code>App.tsx</code>. A guest list: type a name, add it, tap a guest to check them in.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">View</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Text</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">TextInput</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Button</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Pressable</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">StyleSheet</span><span class="p">,</span>
+<span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">setName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">guests</span><span class="p">,</span><span class="w"> </span><span class="nx">setGuests</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">selected</span><span class="p">,</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">addGuest</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">setGuests</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[...</span><span class="nx">prev</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">.</span><span class="nx">trim</span><span class="p">()]);</span>
+<span class="w">    </span><span class="nx">setName</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Guest</span><span class="w"> </span><span class="nx">List</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">TextInput</span>
+<span class="w">        </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">input</span><span class="p">}</span>
+<span class="w">        </span><span class="na">placeholder</span><span class="o">=</span><span class="s">"Name"</span>
+<span class="w">        </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span>
+<span class="w">        </span><span class="na">onChangeText</span><span class="o">=</span><span class="p">{(</span><span class="nx">text</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setName</span><span class="p">(</span><span class="nx">text</span><span class="p">)}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Add"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">addGuest</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">guests</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">guest</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Pressable</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">(</span><span class="nx">guest</span><span class="p">)}&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">guest</span><span class="p">}&gt;{</span><span class="nx">guest</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Pressable</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">))}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">message</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">selected</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="sb">`Checking in: </span><span class="si">${</span><span class="nx">selected</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Tap a guest to check them in"</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">28</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"700"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">input</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#ccc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">guest</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">18</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingVertical</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#555"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<ul>
+<li>Run it. Add a couple of names and tap one. It all works, and the editor has one squiggle, under the updater function inside <code>setGuests</code>. Hover: <code>Type 'string' is not assignable to type 'never'</code>.</li>
+</ul>
+<h3 id="step-1---let-inference-do-its-job-then-help-it">Step 1 - Let Inference Do Its Job, Then Help It <a class="anchor" aria-label="링크" href="#step-1---let-inference-do-its-job-then-help-it">#</a></h3>
+<ul>
+<li>Hover over <code>name</code> in <code>useState(&quot;&quot;)</code>. The tooltip says <code>const name: string</code>. The initial value was a string, so the state is a string, and <code>setName</code> only accepts strings. No annotation needed. The same goes for a counter that starts at <code>0</code> or a flag that starts <code>false</code>.</li>
+<li>Hover over <code>guests</code>. The tooltip says <code>never[]</code>: an array that can never hold anything. An empty array tells TypeScript nothing about what will go in it, so it assumes nothing may.</li>
+<li>Tell it. <code>useState</code> takes the state type in angle brackets.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">guests</span><span class="p">,</span><span class="w"> </span><span class="nx">setGuests</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">string</span><span class="err">[]</span><span class="p">&gt;([]);</span>
+</code></pre>
+<ul>
+<li>The squiggle moves. It is now on <code>guest</code> in <code>setSelected(guest)</code>. Hover: <code>Argument of type 'string' is not assignable to parameter of type 'SetStateAction&lt;null&gt;'</code>. <code>selected</code> started as <code>null</code>, so TypeScript decided it is always <code>null</code>.</li>
+</ul>
+<h3 id="step-2---state-that-can-be-null">Step 2 - State That Can Be Null <a class="anchor" aria-label="링크" href="#step-2---state-that-can-be-null">#</a></h3>
+<ul>
+<li><code>selected</code> is sometimes a string and sometimes <code>null</code>. Say both.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">selected</span><span class="p">,</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">string</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="na">null</span><span class="p">&gt;(</span><span class="kc">null</span><span class="p">);</span>
+</code></pre>
+<ul>
+<li><code>string | null</code> is a union type: one of these. The <code>|</code> reads as &quot;or&quot;.</li>
+<li>Everything is clear. Run it again. Nothing changed on screen, which is the point: the app was already correct, and the editor can now prove it.</li>
+<li>Rule of thumb: annotate <code>useState</code> when the initial value is <code>[]</code> or <code>null</code>. Otherwise leave it to inference.</li>
+</ul>
+<h3 id="step-3---type-the-handlers">Step 3 - Type the Handlers <a class="anchor" aria-label="링크" href="#step-3---type-the-handlers">#</a></h3>
+<ul>
+<li>Move the two handlers into named functions. Under <code>addGuest</code>, add one for the input.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">function</span><span class="w"> </span><span class="nx">handleChange</span><span class="p">(</span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">setName</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Use it: <code>onChangeText={handleChange}</code>.</li>
+<li>Give <code>addGuest</code> a return type. <code>void</code> means it returns nothing.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">function</span><span class="w"> </span><span class="nx">addGuest</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="w"> </span><span class="p">{</span>
+</code></pre>
+<ul>
+<li>Now change <code>text: string</code> to <code>text: number</code>. The squiggle is not inside <code>handleChange</code>; it is on <code>onChangeText</code> in the JSX. <code>TextInput</code> declares that it calls <code>onChangeText</code> with a string, so a function that wants a number does not fit. The component tells you what it passes.</li>
+<li>Put <code>string</code> back. In practice you rarely write the parameter type for inline arrows like <code>(text) =&gt; setName(text)</code>, because TypeScript reads it from the prop. Named handlers need it written down.</li>
+</ul>
+<h3 id="finished-code-1">Finished Code <a class="anchor" aria-label="링크" href="#finished-code-1">#</a></h3>
+<ul>
+<li>Compare against this if something is not working.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">View</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Text</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">TextInput</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Button</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Pressable</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">StyleSheet</span><span class="p">,</span>
+<span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">setName</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">guests</span><span class="p">,</span><span class="w"> </span><span class="nx">setGuests</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">string</span><span class="err">[]</span><span class="p">&gt;([]);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">selected</span><span class="p">,</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">string</span><span class="w"> </span><span class="err">|</span><span class="w"> </span><span class="na">null</span><span class="p">&gt;(</span><span class="kc">null</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">addGuest</span><span class="p">()</span><span class="o">:</span><span class="w"> </span><span class="ow">void</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="p">.</span><span class="nx">trim</span><span class="p">()</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">""</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">setGuests</span><span class="p">((</span><span class="nx">prev</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">[...</span><span class="nx">prev</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="p">.</span><span class="nx">trim</span><span class="p">()]);</span>
+<span class="w">    </span><span class="nx">setName</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kd">function</span><span class="w"> </span><span class="nx">handleChange</span><span class="p">(</span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">setName</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">title</span><span class="p">}&gt;</span><span class="nx">Guest</span><span class="w"> </span><span class="nx">List</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">TextInput</span>
+<span class="w">        </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">input</span><span class="p">}</span>
+<span class="w">        </span><span class="na">placeholder</span><span class="o">=</span><span class="s">"Name"</span>
+<span class="w">        </span><span class="na">value</span><span class="o">=</span><span class="p">{</span><span class="nx">name</span><span class="p">}</span>
+<span class="w">        </span><span class="na">onChangeText</span><span class="o">=</span><span class="p">{</span><span class="nx">handleChange</span><span class="p">}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Button</span><span class="w"> </span><span class="na">title</span><span class="o">=</span><span class="s">"Add"</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{</span><span class="nx">addGuest</span><span class="p">}</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">{</span><span class="nx">guests</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">guest</span><span class="p">,</span><span class="w"> </span><span class="nx">index</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Pressable</span><span class="w"> </span><span class="na">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="w"> </span><span class="na">onPress</span><span class="o">=</span><span class="p">{()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setSelected</span><span class="p">(</span><span class="nx">guest</span><span class="p">)}&gt;</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">guest</span><span class="p">}&gt;{</span><span class="nx">guest</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">&lt;/</span><span class="nt">Pressable</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">))}</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">message</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">{</span><span class="nx">selected</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="sb">`Checking in: </span><span class="si">${</span><span class="nx">selected</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"Tap a guest to check them in"</span><span class="p">}</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">28</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"700"</span><span class="p">,</span><span class="w"> </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">input</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">borderWidth</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#ccc"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">12</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">marginBottom</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">guest</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">18</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingVertical</span><span class="o">:</span><span class="w"> </span><span class="kt">8</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">message</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">marginTop</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#555"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h2 id="example-typed-api-data">Example: Typed API Data <a class="anchor" aria-label="링크" href="#example-typed-api-data">#</a></h2>
+<ul>
+<li>This is where TypeScript pays for itself. Data from a server is the one thing in the app you did not write, and every <code>item.name</code> is a guess about its shape. An interface turns the guess into something the editor can check.</li>
+</ul>
+<h3 id="starter-code-2">Starter Code <a class="anchor" aria-label="링크" href="#starter-code-2">#</a></h3>
+<ul>
+<li>Replace everything in <code>App.tsx</code>. The Week 5 fetch pattern: load the users, show a spinner, then a list.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">View</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Text</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">FlatList</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">ActivityIndicator</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">StyleSheet</span><span class="p">,</span>
+<span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://jsonplaceholder.typicode.com/users"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="nx">setUsers</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">loading</span><span class="p">,</span><span class="w"> </span><span class="nx">setLoading</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">URL</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setUsers</span><span class="p">(</span><span class="nx">json</span><span class="p">))</span>
+<span class="w">      </span><span class="p">.</span><span class="k">finally</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setLoading</span><span class="p">(</span><span class="kc">false</span><span class="p">));</span>
+<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">[]);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">loading</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">ActivityIndicator</span><span class="w"> </span><span class="na">size</span><span class="o">=</span><span class="s">"large"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">FlatList</span>
+<span class="w">        </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span>
+<span class="w">        </span><span class="na">keyExtractor</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">toString</span><span class="p">()}</span>
+<span class="w">        </span><span class="na">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">name</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">detail</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">email</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">detail</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">company</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">)}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span><span class="w"> </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#ddd"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<ul>
+<li>Run it. The list loads. The editor has two squiggles, both in the <code>FlatList</code>. Hover over <code>id</code> in <code>keyExtractor</code>: <code>Property 'id' does not exist on type 'never'</code>. Same cause as the guest list: <code>useState([])</code> is a <code>never[]</code>, so each <code>item</code> is a <code>never</code>, and a <code>never</code> has no properties.</li>
+<li>Hover over <code>item</code> in <code>renderItem</code>: <code>Binding element 'item' implicitly has an 'any' type</code>. The <code>Stat</code> starter all over again. TypeScript does not know what a row is, so <code>item.name</code>, <code>item.email</code> and <code>item.company.name</code> are not checked at all. Misspell one and nothing turns red.</li>
+<li>Notice there is no squiggle on <code>setUsers(json)</code> either. <code>res.json()</code> returns <code>any</code>, and <code>any</code> fits anywhere. That is the problem with <code>any</code>: it switches the checker off, and the error shows up somewhere else or not at all.</li>
+</ul>
+<h3 id="step-1---describe-the-data">Step 1 - Describe the Data <a class="anchor" aria-label="링크" href="#step-1---describe-the-data">#</a></h3>
+<ul>
+<li>Above <code>MyApp</code>, describe one user. Only the fields this screen uses; the API sends more, and extra fields are fine.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">company</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Type the state and the response.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="nx">setUsers</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">User</span><span class="err">[]</span><span class="p">&gt;([]);</span>
+</code></pre>
+<pre class="hl"><code class="language-tsx"><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="o">:</span><span class="w"> </span><span class="kt">User</span><span class="p">[])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setUsers</span><span class="p">(</span><span class="nx">json</span><span class="p">))</span>
+</code></pre>
+<ul>
+<li>The <code>keyExtractor</code> squiggle is gone. Hover over its <code>item</code>: it is a <code>User</code> now, worked out from the <code>data</code> prop. The <code>renderItem</code> squiggle stays, because the object <code>renderItem</code> receives does not pick up the row type on its own. Say what it is in the parameter.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="nx">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">item</span><span class="o">:</span><span class="w"> </span><span class="kt">User</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+</code></pre>
+<ul>
+<li>Every squiggle is gone. Type <code>item.</code> inside <code>renderItem</code> and the editor offers <code>id</code>, <code>name</code>, <code>email</code> and <code>company</code>.</li>
+<li><code>json: User[]</code> is a promise you are making, not a check. TypeScript never sees the server. If the API changes, the interface is wrong and the editor cannot know. The interface documents what you expect; the error handling from Week 5 covers the day the server disagrees.</li>
+</ul>
+<h3 id="step-2---literal-types-for-status">Step 2 - Literal Types for Status <a class="anchor" aria-label="링크" href="#step-2---literal-types-for-status">#</a></h3>
+<ul>
+<li>The screen has three states: loading, ready, and the error case this starter skipped. A boolean cannot hold three. Above <code>MyApp</code>, under the interface, name them.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kr">type</span><span class="w"> </span><span class="nx">Status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"loading"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"ready"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"error"</span><span class="p">;</span>
+</code></pre>
+<ul>
+<li><code>type</code> is like <code>interface</code>, but it can name any type, not only object shapes. This one is a union of three string literals: the only values a <code>Status</code> may be.</li>
+<li>Replace the <code>loading</code> state.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">status</span><span class="p">,</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">Status</span><span class="p">&gt;(</span><span class="s2">"loading"</span><span class="p">);</span>
+</code></pre>
+<ul>
+<li>Replace the fetch chain so it records the outcome. The <code>res.ok</code> check is the one from Week 5: <code>fetch</code> only rejects when the network fails, so a 404 has to be turned into an error by hand.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="nx">fetch</span><span class="p">(</span><span class="nx">URL</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`HTTP </span><span class="si">${</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="o">:</span><span class="w"> </span><span class="kt">User</span><span class="p">[])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">setUsers</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">setStatus</span><span class="p">(</span><span class="s2">"ready"</span><span class="p">);</span>
+<span class="w">  </span><span class="p">})</span>
+<span class="w">  </span><span class="p">.</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">(</span><span class="s2">"error"</span><span class="p">));</span>
+</code></pre>
+<ul>
+<li>Replace the <code>if (loading)</code> block with one return per state.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"loading"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">ActivityIndicator</span><span class="w"> </span><span class="na">size</span><span class="o">=</span><span class="s">"large"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"error"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Could</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">load</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">users</span><span class="p">.</span><span class="w"> </span><span class="nx">Check</span><span class="w"> </span><span class="nx">your</span><span class="w"> </span><span class="nx">connection</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>Run it. Same screen as before. Now change <code>setStatus(&quot;ready&quot;)</code> to <code>setStatus(&quot;done&quot;)</code>. Hover: <code>Argument of type '&quot;done&quot;' is not assignable to parameter of type 'Status'</code>. A typo in a status string is a compile error, not a screen that is stuck on the spinner.</li>
+<li>Change the URL to <code>https://jsonplaceholder.typicode.com/nothing</code> and run it. The server answers 404, the <code>res.ok</code> check throws, and the error screen shows. Without that check, the 404 body parses as an empty object and the list quietly renders nothing. Put both back.</li>
+</ul>
+<h3 id="step-3---the-payoff">Step 3 - The Payoff <a class="anchor" aria-label="링크" href="#step-3---the-payoff">#</a></h3>
+<ul>
+<li>In <code>renderItem</code>, change <code>item.email</code> to <code>item.emial</code>. Squiggle: <code>Property 'emial' does not exist on type 'User'</code>. In the JavaScript version that line renders an empty <code>Text</code> and nobody notices until a user does.</li>
+<li>Fix the typo. That one squiggle is the whole argument for typing API data.</li>
+</ul>
+<h3 id="finished-code-2">Finished Code <a class="anchor" aria-label="링크" href="#finished-code-2">#</a></h3>
+<ul>
+<li>Compare against this if something is not working.</li>
+</ul>
+<pre class="hl"><code class="language-tsx"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">View</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">Text</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">FlatList</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">ActivityIndicator</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">StyleSheet</span><span class="p">,</span>
+<span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"react-native"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"https://jsonplaceholder.typicode.com/users"</span><span class="p">;</span>
+
+<span class="kd">interface</span><span class="w"> </span><span class="nx">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">number</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">email</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">;</span>
+<span class="w">  </span><span class="nx">company</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="kr">type</span><span class="w"> </span><span class="nx">Status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"loading"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"ready"</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="s2">"error"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">users</span><span class="p">,</span><span class="w"> </span><span class="nx">setUsers</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">User</span><span class="err">[]</span><span class="p">&gt;([]);</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">status</span><span class="p">,</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">&lt;</span><span class="nt">Status</span><span class="p">&gt;(</span><span class="s2">"loading"</span><span class="p">);</span>
+
+<span class="w">  </span><span class="nx">useEffect</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="nx">URL</span><span class="p">)</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">res</span><span class="p">.</span><span class="nx">ok</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="ne">Error</span><span class="p">(</span><span class="sb">`HTTP </span><span class="si">${</span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span><span class="p">.</span><span class="nx">then</span><span class="p">((</span><span class="nx">json</span><span class="o">:</span><span class="w"> </span><span class="kt">User</span><span class="p">[])</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">setUsers</span><span class="p">(</span><span class="nx">json</span><span class="p">);</span>
+<span class="w">        </span><span class="nx">setStatus</span><span class="p">(</span><span class="s2">"ready"</span><span class="p">);</span>
+<span class="w">      </span><span class="p">})</span>
+<span class="w">      </span><span class="p">.</span><span class="k">catch</span><span class="p">(()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">setStatus</span><span class="p">(</span><span class="s2">"error"</span><span class="p">));</span>
+<span class="w">  </span><span class="p">},</span><span class="w"> </span><span class="p">[]);</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"loading"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">ActivityIndicator</span><span class="w"> </span><span class="na">size</span><span class="o">=</span><span class="s">"large"</span><span class="w"> </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">status</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"error"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">center</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="p">&gt;</span><span class="nx">Could</span><span class="w"> </span><span class="nx">not</span><span class="w"> </span><span class="nx">load</span><span class="w"> </span><span class="nx">the</span><span class="w"> </span><span class="nx">users</span><span class="p">.</span><span class="w"> </span><span class="nx">Check</span><span class="w"> </span><span class="nx">your</span><span class="w"> </span><span class="nx">connection</span><span class="p">.&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">FlatList</span>
+<span class="w">        </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">users</span><span class="p">}</span>
+<span class="w">        </span><span class="na">keyExtractor</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">.</span><span class="nx">toString</span><span class="p">()}</span>
+<span class="w">        </span><span class="na">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">item</span><span class="o">:</span><span class="w"> </span><span class="kt">User</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">name</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">detail</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">email</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">detail</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">company</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">)}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="kt">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="p">,</span><span class="w"> </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s2">"center"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="kt">20</span><span class="p">,</span><span class="w"> </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="kt">1</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s2">"#ddd"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">18</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s2">"600"</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">detail</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="kt">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s2">"#666"</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<h2 id="example-any-and-unknown">Example: any and unknown <a class="anchor" aria-label="링크" href="#example-any-and-unknown">#</a></h2>
+<ul>
+<li>Paste these lines above <code>MyApp</code> in any of the examples.</li>
+</ul>
+<pre class="hl"><code class="language-ts"><span class="kd">let</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="kt">any</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"hello"</span><span class="p">;</span>
+<span class="nx">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">123</span><span class="p">;</span>
+<span class="nx">value</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+</code></pre>
+<h3 id="what-to-show-1">What to Show <a class="anchor" aria-label="링크" href="#what-to-show-1">#</a></h3>
+<ol>
+<li>No squiggles anywhere. <code>any</code> tells TypeScript to stop checking this variable, so reassigning a number is fine and calling a string method on it is fine.</li>
+<li>Run it. The app crashes with <code>value.toUpperCase is not a function</code>. That is the runtime error TypeScript exists to prevent, and <code>any</code> let it through.</li>
+<li>Change <code>any</code> to <code>unknown</code>. Now <code>value.toUpperCase()</code> has a squiggle: <code>'value' is of type 'unknown'</code>. <code>unknown</code> also accepts anything, but it will not let you use the value until you have checked what it is.</li>
+</ol>
+<pre class="hl"><code class="language-ts"><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="ow">typeof</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"string"</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">value</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<ol start="4">
+<li>Inside the <code>if</code>, TypeScript knows <code>value</code> is a string, so the call is allowed. The check narrows the type.</li>
+<li>Delete the lines before moving on. The lesson: when you reach for <code>any</code> to make a squiggle go away, you have switched off the thing that found the bug.</li>
+</ol>
+<h2 id="typescript-checklist">TypeScript Checklist <a class="anchor" aria-label="링크" href="#typescript-checklist">#</a></h2>
+<ul>
+<li>Rename <code>App.js</code> to <code>App.tsx</code> and let the squiggles guide you. Red means TypeScript found something; the app will still run.</li>
+<li>Let TypeScript infer when the value is obvious: <code>useState(0)</code>, <code>useState(&quot;&quot;)</code>, a mapped array, a string.</li>
+<li>Annotate state that starts as <code>[]</code> or <code>null</code>: <code>useState&lt;string[]&gt;([])</code>, <code>useState&lt;User | null&gt;(null)</code>.</li>
+<li>Give every component with props an interface named after it, <code>StatProps</code>. Mark optional props with <code>?</code> and give them a default.</li>
+<li>Describe API data with an interface before you fetch it, and only the fields you use. Give <code>FlatList</code> rows the type too: <code>({ item }: { item: User })</code>.</li>
+<li>Use a union of string literals for a value with a fixed set of options, like a status.</li>
+<li>Named event handlers need parameter types: <code>(text: string)</code>. Inline arrows in JSX usually do not.</li>
+<li>Avoid <code>any</code>. If you really do not know the type yet, <code>unknown</code> keeps the checker on.</li>
+<li>Keep the Week 2 updater rule: <code>setCount((prev) =&gt; prev + 1)</code>. TypeScript checks the types, not the logic.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=03e63193"></script><script src="../../../assets/timer.js?v=03e63193"></script><script src="../../../assets/snack.js?v=03e63193"></script><script src="../../../assets/resume.js?v=03e63193"></script>
+</body></html>

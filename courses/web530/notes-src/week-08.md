@@ -1,6 +1,6 @@
 # Week 8. Expo 로컬 개발 + TypeScript + Expo Router: Snack을 졸업하고 진짜 프로젝트로
 
-> 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 강의 노트와 랩이 없어서 **코스노트만** 다뤄요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
+> 이 노트 읽는 법: **📘 원문**(영어 그대로) 바로 밑에 **🇰🇷 한글 해설**이 있어요. 이번 주는 **코스노트**와 교수님이 올려 준 **Week 8.1 TypeScript 강의 노트**를 다뤄요(랩은 없어요). Test 3(5~7주차) 직전 주라서 TypeScript 강의는 fetch + FlatList 코드와 이어서 보면 좋아요. 지금까지는 Snack 한 파일로 했지만, 이번 주부터는 **내 컴퓨터(VS Code)에 Expo 프로젝트를 만들고 폴더/파일을 나눠서** 만들어요. 그래서 Expo Router 코드는 Snack 링크 대신 "로컬 프로젝트에서 실행" 안내가 붙어 있어요. 대신 맨 끝 **손으로 써 보기**에 같은 구조(탭 + 탭 안 스택 + Jotai + id로 상세 화면)를 **Snack 한 파일**로 흉내 낸 연습 앱을 넣어 뒀어요.
 
 > 🧭 **챕터 읽는 순서**: 챕터마다 맨 앞의 **🧭 먼저 한국어로** 상자(구성과 할 일) → 원문 출처 → 영어 원문 → ▶ Snack → 🇰🇷 한글 해설이에요. 코드 위에 **⌨️**가 있으면 직접 쳐 볼 코드이고, 없으면 읽기만 하거나 **👀 여기서 결과 보기**로 결과만 확인하면 돼요.
 
@@ -25,9 +25,15 @@
 | 헤더 제목 | `options={{ title }}` | `_layout.tsx` 안 `<Stack.Screen name="[id]" options={{ title }} />` |
 | 전체 감싸기 | `<NavigationContainer>` | 필요 없음 (Router가 알아서) |
 
-**TypeScript 최소 문법**: `let n: number`, `string[]`, `interface Props { name: string; excited?: boolean }`, `useState<Product[]>([])`, `(text: string) => void`. `?`는 "있어도 되고 없어도 됨(optional)".
+**TypeScript 최소 문법 (Week 8.1 강의 기준)**: `let n: number`, `string[]`, `interface Props { name: string; excited?: boolean }`, `useState<Product[]>([])`, `useState<string | null>(null)`, `type Status = "loading" | "ready" | "error"`, `(text: string) => void`. `?`는 "있어도 되고 없어도 됨(optional)", `|`는 "또는".
+
+**TypeScript 타입을 꼭 적는 때**: 초기값이 `[]`나 `null`인 state, props(interface), API 데이터, 이름 붙인 핸들러의 매개변수. 나머지는 TS가 추론(inference)해요.
 
 **함정 모음**
+- 빨간 줄(타입 에러)이 있어도 **앱은 실행돼요**. Metro가 타입을 지우기 때문. 체커와 실행은 별개.
+- `useState([])`는 `never[]`가 되어서 `item.id`에 에러. `useState<User[]>([])`로 고쳐요.
+- `any`는 검사를 꺼 버려서 실행할 때 크래시가 나고, `unknown`은 `typeof`로 확인한 뒤에만 쓸 수 있어요.
+- `json: User[]`는 서버를 검사하는 게 아니라 **약속**이에요. 그래서 `res.ok` 체크도 필요해요.
 - 파일 이름을 바꾸면 경로도 바뀌어요. `two.tsx` → `settings.tsx` 로 바꿨으면 `_layout.tsx`의 `<Tabs.Screen name="two">`도 `"settings"`로 같이 바꿔야 해요.
 - 상세 화면을 `(tabs)` **밖**에 두면 탭 바가 사라지고 헤더에 `product/[id]`가 그대로 보여요. 해결은 **탭 안에 Stack 넣기(Tab-to-Stack)**.
 - 탭 안에 Stack을 넣으면 헤더가 두 개 생겨요 → 바깥 탭 쪽에 `headerShown: false`.
@@ -153,6 +159,196 @@ fetch로 받는 데이터(Week 5)의 **모양을 interface로** 정하고, `useS
 - 꼭 적기: **props**, **API 데이터**, **복잡한 state**.
 @@K Summary
 TS = 안전 + 명확. props는 **interface**, state는 필요할 때 `<타입>`.
+
+@@LEC week-08.1-notes.md
+@@S _doc | type
+교수님이 Week 8 수업에서 라이브 코딩한 TypeScript 순서예요. Snack에서 App.js를 App.tsx로 바꿔서 하고, 아래 ⌨️ 표시된 곳은 처음부터 직접 쳐 보세요. 타입 에러는 빨간 줄로만 표시되고 앱은 그대로 실행돼요.
+@@S React Native Playground | skim
+Snack 설정 안내예요. 핵심은 한 가지: 파일을 App.js에서 App.tsx로 이름 바꾸기.
+@@S Why TypeScript? | read
+TypeScript를 쓰는 이유예요. 객관식으로 나오기 좋은 내용이라 읽어 두세요.
+@@S Example: Types | type
+할 일: App.tsx로 이름 바꾸고 number, string, boolean, number[], 객체 타입 변수 5개 출력
+변수 타입 쓰는 법. 일부러 틀리게 고쳐 보면서 빨간 줄이 뜨는 걸 확인해요.
+@@S How It Works | read
+타입 표기의 문법 설명이에요.
+@@S What to Show | read
+교수님이 보여 준 실험 6개예요. 읽고 어떤 에러가 나올지 예측해 보세요.
+@@S Example: Typed Props | type
+컴포넌트 props에 interface를 붙이는 연습이에요. 시험에 제일 많이 나오는 TypeScript 문법이에요.
+@@S Starter Code | type
+할 일: Stat 컴포넌트 3개짜리 시작 코드 (props 타입 없음)
+타입이 없어서 label, value, unit이 any로 표시되는 상태를 먼저 봐요.
+@@S Step 1 - Describe the Props | type
+할 일: interface StatProps { label: string; value: number } + ({ ... }: StatProps)
+props의 설계도를 만들고 매개변수에 붙여요.
+@@S Step 2 - Add an Optional Prop | type
+할 일: unit?: string 추가 + 구조분해에서 unit = "" 기본값
+물음표는 선택(optional), 기본값으로 undefined 대비.
+@@S Step 3 - Break the Contract | type
+할 일: value="320" 문자열로 바꾸기, label 지우기 (일부러 에러 내기)
+계약을 어기면 어떤 에러 메시지가 뜨는지 확인해요.
+@@S Finished Code | read
+내가 친 코드와 비교하는 완성본이에요.
+@@S Example: Typed State and Events | type
+useState와 이벤트 핸들러에 타입 붙이기예요. 빈 배열과 null이 핵심이에요.
+@@S Starter Code | type
+할 일: 손님 목록 앱 시작 코드 (useState([]), useState(null) 상태)
+빨간 줄 'never' 에러를 직접 확인해요.
+@@S Step 1 - Let Inference Do Its Job, Then Help It | type
+할 일: useState<string[]>([]) 로 고치기
+빈 배열은 타입을 알려 줘야 해요.
+@@S Step 2 - State That Can Be Null | type
+할 일: useState<string | null>(null) 로 고치기
+유니언 타입 `|`는 "또는".
+@@S Step 3 - Type the Handlers | type
+할 일: handleChange(text: string) 함수 만들고 onChangeText에 연결, addGuest(): void
+이름 붙인 핸들러는 매개변수 타입을 직접 적어요.
+@@S Finished Code | read
+내 코드와 비교하세요.
+@@S Example: Typed API Data | type
+API로 받은 데이터에 interface를 붙이는 예제예요. Test 3의 fetch 문제와 이어지는 내용이라 꼭 쳐 보세요.
+@@S Starter Code | type
+할 일: users fetch + FlatList 시작 코드 (타입 없음)
+useState([])가 never[]가 돼서 item.id에 빨간 줄이 생겨요.
+@@S Step 1 - Describe the Data | type
+할 일: interface User + useState<User[]>([]) + renderItem({ item }: { item: User })
+쓰는 필드만 적어요. 서버가 더 보내도 괜찮아요.
+@@S Step 2 - Literal Types for Status | type
+할 일: type Status = "loading" | "ready" | "error" + res.ok 체크 + 상태별 early return
+상태가 세 개일 때 boolean 대신 문자열 리터럴 유니언. res.ok 체크는 Week 5 그대로예요.
+@@S Step 3 - The Payoff | type
+할 일: item.email을 item.emial로 일부러 틀리게 쓰기
+오타가 빨간 줄로 바로 잡혀요. 타입을 쓰는 가장 큰 이유예요.
+@@S Finished Code | read
+완성본이에요. 시험 직전에 다시 훑어보세요.
+@@S Example: any and unknown | type
+할 일: let value: any = "hello"; value = 123; value.toUpperCase(); 를 붙여 보고 any를 unknown으로 바꾸기
+any는 검사를 꺼 버려서 실행할 때 터지고, unknown은 확인하기 전에는 못 쓰게 막아 줘요.
+@@S What to Show | read
+any와 unknown 실험 5단계예요.
+@@S TypeScript Checklist | read
+교수님이 정리한 요약이에요. 아래 한글 해설과 함께 시험 전에 한 번 더 보세요.
+@@K React Native Playground
+- Snack은 **SDK 54 기본값** 그대로, `package.json`은 건드리지 마세요. 이번 주 예제는 `react-native`만 써요.
+- 이번 주 예제는 TypeScript라서 파일 이름이 `App.js`가 아니라 **`App.tsx`**예요. 파일 목록에서 `App.js`에 마우스를 올리고 점 세 개 메뉴 → **Rename to App.tsx**. Snack마다 한 번만 하면 돼요.
+- 타입 에러는 에디터에서 **빨간 밑줄(squiggle)** 로 보여요. 마우스를 올리면 설명이 떠요. 아래쪽 "No errors" 표시는 **실행 중 에러**만 세니까 빨간 줄은 직접 찾아야 해요.
+- 전부 **Web**에서 실행돼요.
+@@K Why TypeScript?
+**왜 TypeScript인가 (시험 포인트)**
+1. JS는 틀린 타입을 **실행할 때** 알아요(props 빠지면 화면에 안 나오고, `undefined.name`은 앱이 죽음). TS는 **코드를 치는 중에** 알려 줘요.
+2. TS = JS + **타입 표기**. 지금까지 쓴 `.js`는 전부 유효한 TS예요. 필요한 곳에만 타입을 적고 나머지는 TS가 추측(inference)해요.
+3. props가 **계약(contract)** 이 돼요. Week 1의 PropTypes는 실행할 때 콘솔에 경고했는데, interface는 **실행 전에 에디터에서** 알려 줘요. 게다가 React 19에서 PropTypes는 없어졌어요.
+4. **타입은 폰에 가지 않아요.** Metro가 타입을 지우고 일반 JS만 보내요. 그래서 빨간 줄이 있어도 **앱은 실행돼요**. 체커는 나를 위한 도구지, 막는 문이 아니에요.
+5. 새 Expo 프로젝트는 기본이 TypeScript(`.tsx`)예요.
+@@K Example: Types
+**코드 해설**
+- `let count: number = 0;`: 이름 뒤에 `: 타입`. 앞으로 다시 넣는 값도 이 타입이어야 해요.
+- `number[]`: 숫자만 들어가는 배열. `{ name: string; age: number }`: 객체의 모양(속성 이름과 타입).
+- `String(isActive)`는 TS가 아니라 **React Native 규칙**이에요. `<Text>`는 boolean을 그냥 못 그려서 문자열로 바꿔요.
+@@K How It Works
+- 타입 표기 = **콜론 + 타입** (`count: number`).
+- `number[]` 배열, `{ ... }` 객체 모양. 객체 타입은 **빠진 속성이 없는지 검사하는 체크리스트**예요.
+@@K What to Show
+**실험 6개 (결과를 외우지 말고 이유를 이해하세요)**
+1. 그냥 실행하면 평범해요. TS는 틀렸을 때만 존재감이 있어요.
+2. `count: number = "zero"`로 바꾸면 빨간 줄(`Type 'string' is not assignable to type 'number'`)이 뜨는데 **앱은 `count: zero`를 그대로 출력**해요. 체커와 실행은 별개!
+3. `scores.push("forty")`도 에러. 배열 타입은 나중에 넣는 값에도 적용돼요.
+4. `user`에서 `age`를 지우면 `Property 'age' is missing`.
+5. `age?: number`처럼 `?`를 붙이면 에러가 사라져요. 대신 값의 타입이 `number | undefined`가 되어서 **쓸 때마다 없을 수 있다는 걸 감안**해야 해요. (화면엔 `user: Ava,` 로 나오고 age 자리는 빈칸)
+6. `let count = 0;`처럼 타입을 안 적으면 TS가 `number`로 **추론(inference)** 해요. 대부분의 TS 코드는 이렇게 타입을 안 적고 쓴 줄이에요.
+@@K Example: Typed Props
+**핵심**: interface는 컴포넌트와 사용하는 쪽 사이의 계약서예요. TS가 **양쪽 모두** 검사해요(만든 쪽에서 읽을 때, 쓰는 쪽에서 넘길 때).
+@@K Starter Code
+**시작 코드 읽기**
+- `function Stat({ label, value, unit })`: 타입이 하나도 없어요. 그래서 세 props가 모두 `any`(검사 안 함)로 빨간 줄이 생겨요.
+- 첫 번째 `<Stat>`에 `Property 'unit' is missing`이 뜨는 건, TS가 구조분해를 보고 "3개 다 필수겠지" 하고 **추측**했기 때문이에요. 추측한 계약은 양쪽으로 틀려요. 다음 단계에서 고쳐요.
+@@K Step 1 - Describe the Props
+```tsx
+interface StatProps { label: string; value: number; }
+function Stat({ label, value, unit }: StatProps) {
+```
+- `interface` = 객체 모양에 이름 붙이는 키워드. 이름은 **컴포넌트이름 + Props** (`StatProps`).
+- 구조분해한 `{ ... }` 뒤에 `: StatProps`.
+- 이제 `unit`이 interface에 **없어서** 에러가 나요. interface에 없는 건 읽는 곳과 넘기는 곳 모두 에러. (그래서 다음 단계가 필요)
+@@K Step 2 - Add an Optional Prop
+- `unit?: string`: **`?` = 선택 prop**. 빼도 에러 아님. 이때 안에서 타입은 `string | undefined`.
+- 그래서 구조분해할 때 **기본값** `unit = ""`을 줘요. 필수 prop은 `?`가 없고 빼면 에러, 선택 prop은 `?`가 있고 컴포넌트가 없을 때를 처리해야 해요.
+@@K Step 3 - Break the Contract
+- `value="320"` (문자열) → `Type 'string' is not assignable to type 'number'`. JS였다면 조용히 돌다가 나중에 더하기에서 버그가 났을 거예요.
+- `label`을 빼면 `Property 'label' is missing`. Week 1 PropTypes의 `isRequired` 경고와 같은 역할인데 에디터에서 빨갛게 보이는 거예요.
+- 새 `<Stat ` 을 치고 Ctrl+Space를 누르면 props 목록과 타입, 선택 여부가 떠요. interface는 **낡지 않는 문서**이기도 해요.
+@@K Finished Code
+**완성본 확인 포인트**: ① `interface StatProps`에 `unit?` ② `unit = ""` 기본값 ③ `({ ... }: StatProps)`. 이 세 줄이 보이면 맞아요.
+@@K Example: Typed State and Events
+**핵심**: `useState`는 보통 타입을 안 적어도 돼요(초기값으로 추론). **초기값이 `[]`나 `null`일 때만** 알려 줘야 해요. 초기값만으로는 나중에 뭐가 들어올지 모르니까요.
+@@K Starter Code
+**시작 코드 읽기**: 이름을 입력해 추가(`addGuest`)하고, 손님을 누르면 `selected`에 저장하는 앱. 실행은 잘 되는데 `setGuests` 안쪽에 `Type 'string' is not assignable to type 'never'` 빨간 줄이 하나 있어요.
+@@K Step 1 - Let Inference Do Its Job, Then Help It
+- `useState("")`는 `string`으로 추론돼요. 카운터 `0`, 플래그 `false`도 마찬가지.
+- `useState([])`의 `guests`는 `never[]`: "아무것도 못 넣는 배열". 빈 배열은 정보가 없어서 TS가 아무것도 안 들어간다고 가정해요.
+- 해결: `useState<string[]>([])`. 꺾쇠 `<>` 안에 state 타입.
+- 그러면 에러가 `setSelected(guest)`로 옮겨가요. `selected`가 `null`로 시작해서 TS가 "항상 null"이라고 결정했기 때문이에요.
+@@K Step 2 - State That Can Be Null
+- `useState<string | null>(null)`. **`string | null`은 유니언(union) 타입** = "문자열 또는 null". `|`는 "또는"으로 읽어요.
+- 화면은 안 변해요. 앱은 원래 맞았고, 이제 에디터가 증명할 수 있게 된 거예요.
+- **규칙**: 초기값이 `[]`나 `null`이면 `<타입>`을 적고, 나머지는 추론에 맡겨요. (시험 단골)
+@@K Step 3 - Type the Handlers
+- `function handleChange(text: string)`: 이름 붙인 핸들러는 **매개변수 타입을 직접** 적어요.
+- `function addGuest(): void`: 반환값 없음은 `void`.
+- 일부러 `text: number`로 바꾸면 에러가 핸들러 안이 아니라 JSX의 `onChangeText`에 떠요. `TextInput`이 "나는 문자열을 넘겨줄게"라고 선언해 놨는데 숫자를 받는 함수는 안 맞기 때문이에요.
+- `onChangeText={(text) => setName(text)}`처럼 JSX 안 인라인 화살표 함수는 TS가 prop에서 읽어 와서 보통 타입을 안 적어요.
+@@K Finished Code
+**확인 포인트**: `useState<string[]>([])`, `useState<string | null>(null)`, `handleChange(text: string)`, `addGuest(): void`. 시험에서 이 네 가지가 빈칸으로 나올 수 있어요.
+@@K Example: Typed API Data
+**핵심**: 서버 데이터는 내가 쓰지 않은 유일한 데이터라서 `item.name`은 전부 추측이에요. interface로 추측을 에디터가 검사할 수 있는 약속으로 바꿔요.
+@@K Starter Code
+**시작 코드 읽기** (Week 5 fetch 패턴 + 타입 없음)
+- `useState([])` → `never[]`라서 `keyExtractor`의 `item.id`에 빨간 줄(`Property 'id' does not exist on type 'never'`).
+- `renderItem`의 `item`은 암묵적 `any`. 그래서 `item.name`, `item.email`이 **검사 안 돼요**. 오타를 내도 빨갛게 안 돼요.
+- `setUsers(json)`에 빨간 줄이 없는 이유: `res.json()`이 `any`를 돌려주고 `any`는 어디에나 들어가기 때문이에요. **any는 검사를 끄는 스위치**예요.
+@@K Step 1 - Describe the Data
+```tsx
+interface User { id: number; name: string; email: string; company: { name: string }; }
+const [users, setUsers] = useState<User[]>([]);
+.then((json: User[]) => setUsers(json))
+renderItem={({ item }: { item: User }) => (
+```
+- interface에는 **화면에서 쓰는 필드만**. 서버가 더 보내도 괜찮아요.
+- `keyExtractor`의 `item`은 `data`를 보고 TS가 `User`로 알아내요. 하지만 `renderItem`이 받는 객체는 자동으로 안 알아내서 `({ item }: { item: User })`로 **직접** 적어요.
+- ⚠️ `json: User[]`는 **검사가 아니라 약속**이에요. TS는 서버를 못 봐요. 서버가 바뀌는 날을 위해 Week 5의 에러 처리가 필요해요.
+@@K Step 2 - Literal Types for Status
+```tsx
+type Status = "loading" | "ready" | "error";
+const [status, setStatus] = useState<Status>("loading");
+```
+- 화면 상태가 3개(로딩, 완료, 에러)면 boolean으로는 못 담아요. `type`은 `interface`와 비슷한데 **객체가 아닌 것에도** 이름을 붙일 수 있어요. 문자열 리터럴 유니언 = 이 세 값 중 하나만 허용.
+- fetch 체인: `if (!res.ok) throw new Error(...)`. **fetch는 404여도 reject하지 않아요(네트워크가 끊길 때만)**. 그래서 직접 던져야 `.catch`로 가요. Test 3 문제 1의 error 조건이 이 부분이에요.
+- `if (status === "loading") return ...;`, `if (status === "error") return ...;` 상태마다 early return 하나씩.
+- 실험: `setStatus("done")` → 에러(`"done"`은 `Status`가 아님). 오타가 있으면 스피너에서 영원히 멈추는 대신 **컴파일 에러**가 나요. URL을 `/nothing`으로 바꾸면 404 → `res.ok` 체크가 던져서 에러 화면.
+@@K Step 3 - The Payoff
+`item.emial` 오타 → `Property 'emial' does not exist on type 'User'`. JS였다면 빈 `Text`가 조용히 그려져서 사용자가 알려 줄 때까지 몰랐을 거예요. **API 데이터에 타입을 붙이는 이유가 이 한 줄에 다 들어 있어요.**
+@@K Finished Code
+**확인 포인트**: `interface User`, `type Status`, `useState<User[]>([])`, `useState<Status>("loading")`, `res.ok` 체크, `.catch(() => setStatus("error"))`, `({ item }: { item: User })`. 이 코드가 Test 3 문제 1(fetch + FlatList)의 뼈대와 거의 같아요.
+@@K Example: any and unknown
+`any`와 `unknown`의 차이를 보여 주는 실험이에요.
+- `any`: 검사를 **끔**. 숫자를 넣고 `value.toUpperCase()`를 불러도 빨간 줄이 없지만 **실행하면 `value.toUpperCase is not a function`으로 앱이 죽어요**. TS가 막으려던 바로 그 에러를 `any`가 통과시킨 거예요.
+- `unknown`: 뭐든 받지만 **무엇인지 확인하기 전에는 못 써요**.
+@@K What to Show
+1. `any`면 빨간 줄 없음. 2. 실행하면 크래시. 3. `unknown`으로 바꾸면 `'value' is of type 'unknown'` 에러.
+4. `if (typeof value === "string") { value.toUpperCase(); }` 안에서는 TS가 `string`임을 알아서 허용 (**type narrowing**, 확인하면 타입이 좁혀짐).
+5. 교훈: 빨간 줄을 없애려고 `any`를 쓰면 **버그를 찾아 주는 기능을 꺼 버린** 거예요.
+@@K TypeScript Checklist
+**시험 전 TypeScript 요약**
+- `App.js` → `App.tsx`로 바꾸고 빨간 줄을 길잡이로 삼기. 빨간 줄이 있어도 앱은 실행돼요.
+- 값이 뻔하면 추론에 맡기기: `useState(0)`, `useState("")`.
+- **`[]`나 `null`로 시작하는 state는 타입 적기**: `useState<string[]>([])`, `useState<User | null>(null)`.
+- props가 있는 컴포넌트는 `StatProps`처럼 **이름 + Props** interface. 선택 prop은 `?`, 기본값 같이.
+- API 데이터는 fetch 전에 interface로 설명(쓰는 필드만). `FlatList`의 `renderItem`도 `({ item }: { item: User })`.
+- 선택지가 정해진 값(상태 등)은 문자열 리터럴 유니언 `"loading" | "ready" | "error"`.
+- 이름 붙인 핸들러는 매개변수 타입 필수: `(text: string)`. JSX 안 인라인 화살표는 보통 생략.
+- `any`는 피하고, 모르면 `unknown`.
+- Week 2의 업데이터 규칙은 그대로: `setCount((prev) => prev + 1)`. TS는 타입만 검사하고 **로직은 검사 안 해요**.
 
 @@NOTE H-Expo/expo-router.md
 @@S _doc | type
@@ -293,14 +489,21 @@ Week 4의 `<Stack.Navigator>` + `<Stack.Screen>`과 똑같은 모양인데, `com
 5. 학교 Wi-Fi에서 연결 안 될 때 옵션? → `--tunnel`
 6. `interface Props { name: string; excited?: boolean }`에서 `?`의 뜻? → 선택(optional) prop
 7. 빈 배열 state에 타입 주기? → `useState<Post[]>([])`
-8. `app/(auth)/login.tsx`의 경로? → `/login`
-9. `app/settings/index.tsx`의 경로? → `/settings`
-10. 동적 경로 파일 이름과 값 꺼내는 hook? → `[id].tsx`, `useLocalSearchParams()`
-11. `_layout.tsx` 안에 그리는 세 가지? → `<Slot />`, `<Stack />`, `<Tabs />`
-12. `<Link href="..." asChild>`의 `asChild`? → 자식 컴포넌트(TouchableOpacity)를 누르는 대상으로 사용
-13. 상세 화면이 탭 밖에 있을 때 생기는 문제 2개와 해결? → 헤더에 파일 경로, 탭 바 사라짐 → 탭 안에 Stack 중첩
-14. 탭 안 Stack에서 헤더가 두 개 보일 때? → 탭 쪽 `Tabs.Screen`에 `headerShown: false`
-15. `useAtomValue`와 `useAtom`의 차이? → 읽기만 vs `[값, set함수]`
+8. `useState(null)`로 시작하는 선택된 항목 state의 타입? → `useState<string | null>(null)` (유니언 `|` = 또는)
+9. `useState([])`만 쓰면 `item.id`가 에러인 이유? → `never[]`로 추론돼서. `<User[]>`로 알려 줘야 함
+10. 상태가 loading, ready, error 세 가지일 때 타입? → `type Status = "loading" | "ready" | "error"` (문자열 리터럴 유니언)
+11. FlatList `renderItem`에서 item 타입 적기? → `({ item }: { item: User })`
+12. 이름 붙인 `onChangeText` 핸들러의 매개변수 타입? → `(text: string)`, 반환 없음은 `: void`
+13. `any`와 `unknown`의 차이? → any는 검사 끔(크래시 가능), unknown은 typeof로 확인해야 사용 가능
+14. 타입 에러(빨간 줄)가 있으면 앱이 안 돌아가나? → 아니요, 돌아가요. 타입은 실행 전에 지워져요
+15. `app/(auth)/login.tsx`의 경로? → `/login`
+16. `app/settings/index.tsx`의 경로? → `/settings`
+17. 동적 경로 파일 이름과 값 꺼내는 hook? → `[id].tsx`, `useLocalSearchParams()`
+18. `_layout.tsx` 안에 그리는 세 가지? → `<Slot />`, `<Stack />`, `<Tabs />`
+19. `<Link href="..." asChild>`의 `asChild`? → 자식 컴포넌트(TouchableOpacity)를 누르는 대상으로 사용
+20. 상세 화면이 탭 밖에 있을 때 생기는 문제 2개와 해결? → 헤더에 파일 경로, 탭 바 사라짐 → 탭 안에 Stack 중첩
+21. 탭 안 Stack에서 헤더가 두 개 보일 때? → 탭 쪽 `Tabs.Screen`에 `headerShown: false`
+22. `useAtomValue`와 `useAtom`의 차이? → 읽기만 vs `[값, set함수]`
 
 ## ✍️ 손으로 써 보기: Mini Product Shop (Snack 한 파일 버전)
 

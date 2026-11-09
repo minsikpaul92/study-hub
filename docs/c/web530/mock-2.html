@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test 3 교수님 샘플 프로그래밍 문제 (Week 5~7) · WEB530</title><meta name="description" content="Test 3 교수님 샘플 프로그래밍 문제 (Week 5~7) · WEB530">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=03e63193">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/web530/index.html">WEB530</a><span>/</span><span>Test 3 교수님 샘플 프로그래밍 문제 (Week 5~7)</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#before-you-start">Before you start</a></li><li class="l2"><a href="#question-1-post-comments-7-marks-about-13-minutes">Question 1 – Post Comments (7 marks, about 13 minutes)</a></li><li class="l3"><a href="#starter">Starter</a></li><li class="l3"><a href="#checking-your-work">Checking your work</a></li><li class="l2"><a href="#question-2-camping-packing-list-6-marks-about-12-minutes">Question 2 – Camping Packing List (6 marks, about 12 minutes)</a></li><li class="l3"><a href="#starter-1">Starter</a></li><li class="l3"><a href="#checking-your-work-1">Checking your work</a></li></ol></nav>
+<article class="md"><h1 id="web530-test-3-practice-programming-questions">WEB530 Test 3 – Practice Programming Questions <a class="anchor" aria-label="링크" href="#web530-test-3-practice-programming-questions">#</a></h1>
+<p>These are practice questions for Test 3. The test has <strong>two programming questions</strong>, and there is one practice question for each. They practise the <strong>same skills at about the same difficulty</strong>:</p>
+<ul>
+<li><strong>Question 1</strong> loads a list from the internet: <code>fetch</code> in <code>useEffect</code>, a loading spinner, an error message, and a <code>FlatList</code> with keys and an extra part of the list.</li>
+<li><strong>Question 2</strong> makes list rows respond to touch: <code>Pressable</code> with pressed feedback, tapping to select rows, a count worked out from state, <code>extraData</code>, and a long press.</li>
+</ul>
+<p>The test questions ask for different things than these, in different apps, so don't memorise these answers. If you can explain every line of your answers here, you're ready.</p>
+<p><strong>How the test works.</strong> Each test question comes with its own starter Snack, already set up with the right files. The instructions are in a comment at the top of <code>App.js</code>, the same as in the starters below, so you can work without switching tabs. When you finish, you copy <code>App.js</code> into the answer box. The <strong>Web</strong> preview is enough for both questions. You do not need a phone or the iOS or Android emulator.</p>
+<p>Total: 13 marks. Suggested time: about 25 minutes for both.</p>
+<h2 id="before-you-start">Before you start <a class="anchor" aria-label="링크" href="#before-you-start">#</a></h2>
+<ul>
+<li>Do each question in its own Snack. Open the React Native shell Snack at https://snack.expo.dev/@nick-romanidis/react-native-shell, and keep it on SDK 54, the default.</li>
+<li>Replace everything in <code>package.json</code> with the <code>package.json</code> below.</li>
+<li>Add a new file named <code>styles.js</code> next to <code>App.js</code>, and paste in that question's <code>styles.js</code>.</li>
+<li>Replace everything in <code>App.js</code> with that question's <code>App.js</code>.</li>
+<li>Use the <strong>Web</strong> preview.</li>
+<li>Use the course notes at https://seneca-ictoer.github.io/WEB530/. The Lists and Touch sections have everything you need.</li>
+<li>On the test you will not be able to log in to Expo or save the Snack, so practise working in an unsaved Snack and copying <code>App.js</code> somewhere safe every few minutes.</li>
+</ul>
+<p><em>package.json</em> (the same for both questions)</p>
+<pre class="hl"><code class="language-json"><span class="p">{</span>
+<span class="w">  </span><span class="nt">"dependencies"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">"react-native-paper"</span><span class="p">:</span><span class="w"> </span><span class="s2">"4.9.2"</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">"@expo/vector-icons"</span><span class="p">:</span><span class="w"> </span><span class="s2">"^15.0.3"</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<hr />
+<h2 id="question-1-post-comments-7-marks-about-13-minutes">Question 1 – Post Comments (7 marks, about 13 minutes) <a class="anchor" aria-label="링크" href="#question-1-post-comments-7-marks-about-13-minutes">#</a></h2>
+<p>The app shows the comments on one blog post, loaded from the internet. Everything you need to do is in the comment at the top of <code>App.js</code>.</p>
+<h3 id="starter">Starter <a class="anchor" aria-label="링크" href="#starter">#</a></h3>
+<p><em>styles.js</em></p>
+<pre class="hl"><code class="language-js"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">center</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">justifyContent</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">gap</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">heading</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">24</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'600'</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingHorizontal</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">10</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#ddd'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">title</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'600'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">subtitle</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">empty</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">40</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'red'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<p><em>App.js</em></p>
+<pre class="hl"><code class="language-jsx"><span class="cm">/*</span>
+<span class="cm">  WEB530 Test 3 Practice - Question 1: Post Comments (7 marks)</span>
+
+<span class="cm">  The app shows the comments on one blog post, loaded from the</span>
+<span class="cm">  internet. The address is in URL. Only the comments state is</span>
+<span class="cm">  declared: add any other state you need. The Web preview is enough.</span>
+<span class="cm">  No styling is needed: every style you need is in styles.js.</span>
+
+<span class="cm">  Load the comments (2 marks)</span>
+<span class="cm">  - When the app opens, fetch the comments from URL and store them in</span>
+<span class="cm">    comments. It should fetch once, not on every render.</span>
+
+<span class="cm">  Loading and errors (2 marks)</span>
+<span class="cm">  - While the comments load, show a spinner with the text</span>
+<span class="cm">    "Loading comments..." under it, in the middle of the screen</span>
+<span class="cm">    (styles.center), instead of the list.</span>
+<span class="cm">  - If the server answers with an error, show an error message</span>
+<span class="cm">    (styles.error) in the middle of the screen instead of the list.</span>
+<span class="cm">    To test it, change "comments" in the URL to "commentsx". The</span>
+<span class="cm">    server answers 404, and fetch does not treat that as a failure</span>
+<span class="cm">    on its own.</span>
+
+<span class="cm">  Show the comments (3 marks)</span>
+<span class="cm">  - Show the comments in a FlatList under the heading. Each row shows</span>
+<span class="cm">    the comment's name (styles.title) with the email under it</span>
+<span class="cm">    (styles.subtitle), inside a View with styles.row.</span>
+<span class="cm">  - Every row needs a key. Use the comment's id.</span>
+<span class="cm">  - If the post has no comments, the list says "No comments yet."</span>
+<span class="cm">    (styles.empty). It must be part of the list, not a separate</span>
+<span class="cm">    screen. To test it, change postId=1 in the URL to postId=999.</span>
+
+<span class="cm">  Copy this file somewhere safe every few minutes, and again when you</span>
+<span class="cm">  finish. You may leave this comment in.</span>
+<span class="cm">*/</span>
+
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="p">,</span><span class="w"> </span><span class="nx">useEffect</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="p">,</span><span class="w"> </span><span class="nx">ActivityIndicator</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./styles'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'https://jsonplaceholder.typicode.com/comments?postId=1'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">comments</span><span class="p">,</span><span class="w"> </span><span class="nx">setComments</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">([]);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&gt;</span><span class="nx">Comments</span><span class="w"> </span><span class="nx">on</span><span class="w"> </span><span class="nx">Post</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="checking-your-work">Checking your work <a class="anchor" aria-label="링크" href="#checking-your-work">#</a></h3>
+<ul>
+<li>When the app opens, a spinner with <code>Loading comments...</code> shows for a moment, then the list appears under <strong>Comments on Post 1</strong>.</li>
+<li>There are 5 rows. The first is <code>id labore ex et quam laborum</code>, with <code>Eliseo@gardner.biz</code> under it.</li>
+<li>Change <code>comments</code> in the URL to <code>commentsx</code>. Your error message shows in red in the middle of the screen. If you see an empty list or a spinner that never stops instead, look again at what <code>fetch</code> does with a 404. Change it back.</li>
+<li>Change <code>postId=1</code> to <code>postId=999</code>. The heading is still there, and under it the list says <code>No comments yet.</code> Change it back.</li>
+<li>Add a <code>console.log</code> inside your effect. It prints once when the app opens, not every time the screen re-renders. Remove it when you're done.</li>
+<li>Check the browser console. There should be no red errors and no warning about a missing <code>key</code>.</li>
+</ul>
+<hr />
+<h2 id="question-2-camping-packing-list-6-marks-about-12-minutes">Question 2 – Camping Packing List (6 marks, about 12 minutes) <a class="anchor" aria-label="링크" href="#question-2-camping-packing-list-6-marks-about-12-minutes">#</a></h2>
+<p>A checklist for a camping trip. The user taps items as they pack them, and holds a button to start over. Everything you need to do is in the comment at the top of <code>App.js</code>.</p>
+<h3 id="starter-1">Starter <a class="anchor" aria-label="링크" href="#starter-1">#</a></h3>
+<p><em>styles.js</em></p>
+<pre class="hl"><code class="language-js"><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">container</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">flex</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingTop</span><span class="o">:</span><span class="w"> </span><span class="mf">60</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">heading</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span><span class="w"> </span><span class="nx">fontWeight</span><span class="o">:</span><span class="w"> </span><span class="s1">'600'</span><span class="p">,</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">row</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span><span class="w"> </span><span class="nx">borderBottomWidth</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">borderColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#ccc'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">packed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#DCEDC8'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">pressed</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#eee'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">button</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">margin</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">padding</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">borderRadius</span><span class="o">:</span><span class="w"> </span><span class="mf">8</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">alignItems</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">backgroundColor</span><span class="o">:</span><span class="w"> </span><span class="s1">'#E53935'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">buttonText</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'white'</span><span class="p">,</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">16</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="nx">hint</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">fontSize</span><span class="o">:</span><span class="w"> </span><span class="mf">14</span><span class="p">,</span><span class="w"> </span><span class="nx">color</span><span class="o">:</span><span class="w"> </span><span class="s1">'#666'</span><span class="p">,</span><span class="w"> </span><span class="nx">textAlign</span><span class="o">:</span><span class="w"> </span><span class="s1">'center'</span><span class="p">,</span><span class="w"> </span><span class="nx">paddingBottom</span><span class="o">:</span><span class="w"> </span><span class="mf">20</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<p><em>App.js</em></p>
+<pre class="hl"><code class="language-jsx"><span class="cm">/*</span>
+<span class="cm">  WEB530 Test 3 Practice - Question 2: Camping Packing List (6 marks)</span>
+
+<span class="cm">  A checklist for a camping trip. The user taps items as they pack</span>
+<span class="cm">  them, and holds a button to start over. The hint state is declared.</span>
+<span class="cm">  Add the state you need to remember which items are packed. No</span>
+<span class="cm">  styling is needed: every style you need is in styles.js.</span>
+
+<span class="cm">  The Web preview is enough. A mouse click is a tap, and holding the</span>
+<span class="cm">  mouse button down for about half a second is a long press.</span>
+
+<span class="cm">  Packing items (4 marks)</span>
+<span class="cm">  - Each row can be pressed, and uses styles.pressed while it is</span>
+<span class="cm">    held down.</span>
+<span class="cm">  - Tapping an item marks it packed. Tapping it again marks it not</span>
+<span class="cm">    packed. Tip: an object of ids, such as { i2: true }, works well.</span>
+<span class="cm">  - Packed items use styles.packed.</span>
+<span class="cm">  - Make sure the FlatList re-renders its rows when the packed items</span>
+<span class="cm">    change.</span>
+
+<span class="cm">  Progress (1 mark)</span>
+<span class="cm">  - The heading shows progress, for example "3 of 8 packed", instead</span>
+<span class="cm">    of always "0 of 8 packed". It must still be right after an item</span>
+<span class="cm">    is unpacked again.</span>
+
+<span class="cm">  Start over (1 mark)</span>
+<span class="cm">  - Starting over unpacks everything, so it must not happen by</span>
+<span class="cm">    accident. Make the "Unpack all" button work only on a long press.</span>
+<span class="cm">    A normal tap shows the hint "Hold the button to unpack everything."</span>
+<span class="cm">    instead.</span>
+
+<span class="cm">  Copy this file somewhere safe every few minutes, and again when you</span>
+<span class="cm">  finish. You may leave this comment in.</span>
+<span class="cm">*/</span>
+
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">useState</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">View</span><span class="p">,</span><span class="w"> </span><span class="nx">Text</span><span class="p">,</span><span class="w"> </span><span class="nx">FlatList</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'react-native'</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="nx">styles</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s1">'./styles'</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">ITEMS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i1'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Tent'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i2'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Sleeping bag'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i3'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Flashlight'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i4'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Water bottle'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i5'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Bug spray'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i6'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'First aid kit'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i7'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Rain jacket'</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="s1">'i8'</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">'Marshmallows'</span><span class="w"> </span><span class="p">},</span>
+<span class="p">];</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">default</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">MyApp</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">[</span><span class="nx">hint</span><span class="p">,</span><span class="w"> </span><span class="nx">setHint</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">useState</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="p">}&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">heading</span><span class="p">}&gt;</span><span class="mf">0</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="p">{</span><span class="nx">ITEMS</span><span class="p">.</span><span class="nx">length</span><span class="p">}</span><span class="w"> </span><span class="nx">packed</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">FlatList</span>
+<span class="w">        </span><span class="na">data</span><span class="o">=</span><span class="p">{</span><span class="nx">ITEMS</span><span class="p">}</span>
+<span class="w">        </span><span class="na">keyExtractor</span><span class="o">=</span><span class="p">{(</span><span class="nx">item</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">item</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span>
+<span class="w">        </span><span class="na">renderItem</span><span class="o">=</span><span class="p">{({</span><span class="w"> </span><span class="nx">item</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span>
+<span class="w">          </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">row</span><span class="p">}&gt;</span>
+<span class="w">            </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">name</span><span class="p">}&gt;{</span><span class="nx">item</span><span class="p">.</span><span class="nx">name</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">          </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="p">)}</span>
+<span class="w">      </span><span class="p">/&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">View</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">button</span><span class="p">}&gt;</span>
+<span class="w">        </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">buttonText</span><span class="p">}&gt;</span><span class="nx">Unpack</span><span class="w"> </span><span class="nx">all</span><span class="p">&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">      </span><span class="p">&lt;</span><span class="nt">Text</span><span class="w"> </span><span class="na">style</span><span class="o">=</span><span class="p">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">hint</span><span class="p">}&gt;{</span><span class="nx">hint</span><span class="p">}&lt;/</span><span class="nt">Text</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">View</span><span class="p">&gt;</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="checking-your-work-1">Checking your work <a class="anchor" aria-label="링크" href="#checking-your-work-1">#</a></h3>
+<ul>
+<li>The heading says <code>0 of 8 packed</code>.</li>
+<li>Press and hold the mouse button on a row. It turns grey while held.</li>
+<li>Click <strong>Tent</strong>, <strong>Flashlight</strong> and <strong>Rain jacket</strong>. All three turn green, and the heading says <code>3 of 8 packed</code>.</li>
+<li>Click <strong>Flashlight</strong> again. It goes back to white, and the heading says <code>2 of 8 packed</code>.</li>
+<li>Click <strong>Unpack all</strong> once. The hint <code>Hold the button to unpack everything.</code> appears, and nothing is unpacked.</li>
+<li>Hold the mouse button down on <strong>Unpack all</strong> for about half a second. Every item goes back to white, and the heading says <code>0 of 8 packed</code>.</li>
+<li>Check that your <code>FlatList</code> has the prop that tells it the rows depend on your packed state. The app works without it, so you can't see that it's missing by testing.</li>
+<li>Check the browser console. There should be no red errors.</li>
+</ul>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=03e63193"></script><script src="../../assets/timer.js?v=03e63193"></script><script src="../../assets/snack.js?v=03e63193"></script><script src="../../assets/resume.js?v=03e63193"></script>
+</body></html>

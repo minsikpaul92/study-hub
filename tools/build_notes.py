@@ -71,6 +71,8 @@ def fix_body(text,name,kind,mark=None):
             if RUNNER!='snack': pass
             elif 'export default' in code and 'react-native' in code and re.search(r'''from\s+['"](@/|\.\.?/|expo-router)''',code):
                 out.append(''); out.append('▶ 이 코드는 다른 파일(또는 Expo Router의 app 폴더 구조)이 필요해서 Snack 한 파일로는 실행되지 않아요. VS Code 로컬 Expo 프로젝트에서 해당 파일에 붙여 넣어 실행하세요.')
+            elif 'export default' in code and 'react-native' in code and lang=='tsx' and re.search(r'\w<[^>\n]*>\(|\bas\s+(const|[A-Z]\w*|string|number)\b',code):
+                out.append(''); out.append('▶ 이 코드는 `useState<...>()` 같은 TypeScript 문법이 있어서 Snack의 `App.js`에서는 에러가 나요. [Snack](https://snack.expo.dev)을 새로 열고 왼쪽 파일 목록에서 `App.js` 메뉴(점 세 개) → **Rename to App.tsx** 한 번 한 뒤 붙여 넣으세요. 빨간 줄(squiggle)이 타입 에러 표시이고, 앱은 그래도 실행돼요.')
             elif 'export default' in code and 'react-native' in code:
                 emb='' if marked or snack_platform(code)!='web' else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
                 out.append(''); out.append(f'▶ **[Snack에서 바로 실행하기]({snack(code.strip()+chr(10),name)})** (SDK 54, 필요한 패키지 자동 포함){emb}')
