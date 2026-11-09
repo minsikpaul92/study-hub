@@ -5,6 +5,21 @@
 > 교수님 말씀: **답을 외우지 말고, 모든 줄을 설명할 수 있으면 준비 끝.** 시험에서는 앱 종류와 요구사항이 바뀌어요. 그래서 아래에 "시험에서 바뀔 수 있는 부분"도 같이 정리했어요.
 > 이 두 모범답안은 react-native-web 환경에서 가짜 fetch를 붙여 직접 실행해 확인했어요(정상 응답, 404, 빈 배열, 탭, 누르고 있기, 길게 누르기).
 
+
+## 어느 강의노트에서 나왔나 (코스노트 기준, 인클래스 제외)
+
+코드 안의 `📖` 주석에도 같은 출처를 적어 뒀어요. 시험에서 열어 볼 수 있는 코스노트(https://seneca-ictoer.github.io/WEB530/) 기준이에요.
+
+| 쓰는 것 | 코스노트 페이지와 위치 |
+| --- | --- |
+| `useEffect`로 fetch, loading, error state, `if (loading)`, `if (error)` | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) (예제 코드와 앞부분 설명) |
+| `res.ok` 확인 (fetch는 네트워크 실패일 때만 reject) | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) 설명, [Data Lists and Detail Views](https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views) > Full Example (Fetching Remote Data) |
+| `FlatList`, `keyExtractor`, `renderItem`, `ListEmptyComponent` | [Working with Item Lists](https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists) > FlatList |
+| 화면에 쓰는 값을 state에서 계산 | [Sorting and filtering lists](https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists) |
+| `Pressable`, `onPress`, `style={({ pressed }) => ...}` | [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > Pressable |
+| `onLongPress` | [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > Long Press, Press In, and Press Out |
+| 선택을 id 객체로 저장, 토글, `extraData` | [Scrolling](https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling) > Scrolling and Touch Together |
+
 ---
 
 ## Question 1. Post Comments (7점)
@@ -21,13 +36,19 @@
 
 ```jsx
 export default function MyApp() {
+  // 📖 강의노트 Fetching List Data: loading, error state (data, loading, error 세 개)
+  // https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // 📖 Fetching List Data: useEffect로 마운트 때 fetch, 끝의 [] = 한 번만
   useEffect(() => {
     fetch(URL)
       .then((res) => {
+        // 📖 Fetching List Data: "fetch()는 네트워크 실패일 때만 reject, response.ok 확인"
+        //    같은 패턴 코드: Data Lists and Detail Views > Full Example (Fetching Remote Data)
+        //    https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
       })
@@ -36,6 +57,7 @@ export default function MyApp() {
       .finally(() => setLoading(false));
   }, []);
 
+  // 📖 Fetching List Data: if (loading) { <ActivityIndicator size="large" /> } 로 early return
   if (loading) {
     return (
       <View style={styles.center}>
@@ -45,6 +67,7 @@ export default function MyApp() {
     );
   }
 
+  // 📖 Fetching List Data: if (error) 화면도 같은 방식
   if (error) {
     return (
       <View style={styles.center}>
@@ -56,6 +79,8 @@ export default function MyApp() {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Comments on Post 1</Text>
+      {/* 📖 Working with Item Lists > FlatList: data, renderItem, keyExtractor
+          https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists */}
       <FlatList
         data={comments}
         keyExtractor={(item) => item.id.toString()}
@@ -65,6 +90,7 @@ export default function MyApp() {
             <Text style={styles.subtitle}>{item.email}</Text>
           </View>
         )}
+        // 📖 Working with Item Lists > FlatList: ListEmptyComponent (목록이 비었을 때)
         ListEmptyComponent={<Text style={styles.empty}>No comments yet.</Text>}
       />
     </View>
@@ -124,10 +150,15 @@ import styles from './styles';
 
 export default function MyApp() {
   const [hint, setHint] = useState('');
+  // 📖 Scrolling > "Scrolling and Touch Together": 선택을 id 객체 state로 (selected[id])
+  //    https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling
   const [packed, setPacked] = useState({});
 
+  // 📖 Sorting and filtering lists: 화면에 쓰는 값은 state에서 계산 (별도 state로 두지 않기)
+  //    https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists
   const packedCount = Object.values(packed).filter(Boolean).length;
 
+  // 📖 Scrolling > "Scrolling and Touch Together": setSelected((prev) => ({ ...prev, [id]: !prev[id] }))
   function toggle(id) {
     setPacked((prev) => ({ ...prev, [id]: !prev[id] }));
   }
@@ -139,9 +170,13 @@ export default function MyApp() {
       </Text>
       <FlatList
         data={ITEMS}
+        // 📖 Scrolling > "Scrolling and Touch Together": extraData={selected}
+        //    "없으면 최적화된 목록이 다시 안 그려서, 눌러도 선택 표시가 안 바뀔 수 있음"
         extraData={packed}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
+          // 📖 Handling Touch > Pressable: onPress, style={({ pressed }) => ...} (누르는 동안만 pressed = true)
+          //    https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch
           <Pressable
             onPress={() => toggle(item.id)}
             style={({ pressed }) => [
@@ -154,6 +189,8 @@ export default function MyApp() {
           </Pressable>
         )}
       />
+      {/* 📖 Handling Touch > "Long Press, Press In, and Press Out": 길게 누르면 onPress 대신 onLongPress 실행
+          https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch */}
       <Pressable
         style={styles.button}
         onPress={() => setHint('Hold the button to unpack everything.')}
