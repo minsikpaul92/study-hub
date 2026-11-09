@@ -78,7 +78,9 @@
   // School chime ("딩동댕동"): the Westminster quarters melody, played with a bell-like tone.
   const C = { do: 523.25, re: 587.33, mi: 659.25, sol: 392.0 };
   const CHIME = [["sol", "mi", "re", "do"]];   // one 딩동댕동 phrase, played once
-  function bell(c, out, f, at, len) {
+  // Every sound node of the ring in progress, so one tap can silence it at once.
+  let ring = null;
+  function bell(c, out, f, at, len, nodes) {
     // A struck bell: a few partials (some slightly off-harmonic) that fade at different speeds.
     [[1, 0.5, 1], [2, 0.25, 0.7], [2.4, 0.12, 0.5], [3, 0.1, 0.45], [4.2, 0.06, 0.3], [0.5, 0.15, 1.2]].forEach(([r, amp, d]) => {
       const o = c.createOscillator(), g = c.createGain();
@@ -87,19 +89,43 @@
       g.gain.exponentialRampToValueAtTime(amp, at + 0.008);
       g.gain.exponentialRampToValueAtTime(0.0001, at + len * d);
       o.connect(g).connect(out); o.start(at); o.stop(at + len * d + 0.05);
+      nodes.push(o);
     });
   }
   function tones() {
+    stopRing();
     const c = audio(); if (!c) return false;
     const out = c.createGain(); out.gain.value = 0.55;
     const comp = c.createDynamicsCompressor(); out.connect(comp).connect(c.destination);
-    let t = c.currentTime + 0.05;
+    const nodes = []; let t = c.currentTime + 0.05;
     CHIME.forEach((phrase) => {
-      phrase.forEach((n, i) => { const last = i === 3; bell(c, out, C[n], t, last ? 2.6 : 1.8); t += last ? 1.1 : 0.55; });
-      t += 0.2;
+      phrase.forEach((n, i) => { const last = i === phrase.length - 1; bell(c, out, C[n], t, last ? 2.6 : 1.8, nodes); t += last ? 1.1 : 0.55; });
     });
+    ring = { out, nodes, comp };
     return c.state === "running";
   }
+  function stopRing() {
+    if (!ring) return;
+    try { ring.out.gain.cancelScheduledValues(0); ring.out.gain.value = 0; ring.nodes.forEach((o) => { try { o.stop(); } catch (e) {} }); ring.out.disconnect(); } catch (e) {}
+    ring = null;
+  }
+
+  // Toast shown while the bell rings; tapping it silences the bell right away.
+  let toastEl = null, toastT = null;
+  function hideToast() { clearTimeout(toastT); if (toastEl) { toastEl.remove(); toastEl = null; } }
+  function showToast(text, silent) {
+    hideToast();
+    toastEl = document.createElement("button");
+    toastEl.type = "button"; toastEl.className = "chime-toast";
+    toastEl.innerHTML = `<span class="msg"></span><span class="hint"></span>`;
+    toastEl.querySelector(".msg").textContent = "🔔 " + text;
+    toastEl.querySelector(".hint").textContent = silent ? "눌러서 닫기" : "눌러서 종 끄기";
+    toastEl.addEventListener("click", () => { stopRing(); hideToast(); });
+    document.body.appendChild(toastEl);
+    toastT = setTimeout(hideToast, silent ? 8000 : 6500);
+  }
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") { stopRing(); hideToast(); } });
+
   let flashT = null;
   function flashTitle(text) {
     // Fallback when sound is blocked: blink the tab title until the page is touched.
@@ -108,16 +134,18 @@
     const stop = () => { clearInterval(flashT); document.title = orig; window.removeEventListener("pointerdown", stop); window.removeEventListener("keydown", stop); };
     window.addEventListener("pointerdown", stop); window.addEventListener("keydown", stop);
   }
-  function stopRepeat() {}   // kept so callers need no change; the chime plays once
-  function chime(text) {
-    if (!st.cfg.sound) return;
-    const ok = tones();
-    if (!ok) {
-      flashTitle(text);
-      // Retry once the user touches the page, so the chime still plays late instead of never.
-      const late = () => { tones(); window.removeEventListener("pointerdown", late); };
-      window.addEventListener("pointerdown", late);
-    }
+  function stopRepeat() {}   // old name kept; nothing repeats any more
+
+  // One ring per phase change, even with several tabs open: the phase end time is the dedupe key.
+  const RINGED = "studyhub-ringed";
+  function chime(text, key) {
+    try {
+      if (key && localStorage.getItem(RINGED) === String(key)) return;
+      if (key) localStorage.setItem(RINGED, String(key));
+    } catch (e) {}
+    const ok = st.cfg.sound ? tones() : false;
+    showToast(text, !st.cfg.sound || !ok);
+    if (st.cfg.sound && !ok) flashTitle(text);
   }
   function notify(text) {
     try { if ("Notification" in window && Notification.permission === "granted" && document.hidden) new Notification("study-hub", { body: text }); } catch (e) {}
@@ -126,7 +154,7 @@
 
   function finish() {
     // Another open tab may have already advanced the timer.
-    const fresh = load();
+    const fresh = load(), endedKey = st.endAt;
     if (fresh.mode !== st.mode || fresh.endAt !== st.endAt || !fresh.running) { st = fresh; return; }
     if (st.mode === "study") { st.cycles += 1; addSet(); st.mode = "break"; }
     else st.mode = "study";
@@ -134,7 +162,7 @@
     if (st.cfg.auto) { st.running = true; st.endAt = Date.now() + st.remain; }
     else st.running = false;
     const msg = st.mode === "break" ? `${st.cfg.studyMin}분 끝! ${st.cfg.breakMin}분 쉬어요.` : "휴식 끝! 다시 공부 시작해요.";
-    save(); chime(msg); notify(msg);
+    save(); chime(msg, endedKey); notify(msg);
   }
 
   const msg = (t) => { const m = $(".sync-msg"); m.textContent = t; };
@@ -167,12 +195,12 @@
       st.remain = dur(st.mode);
       if (st.running) st.endAt = Date.now() + st.remain;
     } else if (a === "reset") {
-      st.mode = "study"; st.running = false; st.remain = dur("study"); stopRepeat();
+      st.mode = "study"; st.running = false; st.remain = dur("study"); stopRing(); hideToast();
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
-    else if (a === "test") { tones(); return; }
+    else if (a === "test") { tones(); showToast("소리 테스트", false); return; }
     else if (a === "export") { doExport(); return; }
     else if (a === "import") { doImport(); return; }
-    else if (a === "sound") { st.cfg.sound = !st.cfg.sound; stopRepeat(); }
+    else if (a === "sound") { st.cfg.sound = !st.cfg.sound; stopRing(); }
     save(); paint();
   }
 

@@ -3,7 +3,7 @@
    link that ends in #sync=CODE. Opening that link (or pasting the link or the CODE into
    "가져오기") merges the records into this browser. Nothing leaves the page. */
 (function () {
-  const SKIP = ["studyhub-timer-v1"];
+  const SKIP = ["studyhub-timer-v1", "studyhub-ringed"];
   const get = (k, d) => { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return d; } };
   const put = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
 
