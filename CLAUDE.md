@@ -103,3 +103,6 @@ GitHub Pages는 **main 브랜치의 `docs/` 폴더**를 그대로 배포한다. 
 ## 올리면 안 되는 것
 
 레포는 **Public**이다. 채점된 시험지, 점수, 학번, 개인 진단 자료, API 키는 커밋하지 않는다. 그런 자료는 프로젝트 공유 폴더(`/mnt/project-files/<CODE>/`)에만 둔다.
+
+## 배포가 멈췄을 때
+Pages 배포(`pages build and deployment`)가 실패하거나 Queued에서 오래 멈추면 같은 실행을 다시 돌려도 소용없을 수 있다. 내용이 담긴 새 커밋을 main에 올려 새 배포를 만든다.
