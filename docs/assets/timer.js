@@ -42,13 +42,13 @@
         <button data-a="skip" title="다음 단계로 넘어가기">건너뛰기</button>
         <button data-a="reset" title="공부 시간 처음부터 다시">↺ 리셋</button>
       </div>
-      <div class="meta"><span class="cycles"></span><button class="setreset" data-a="setreset" title="오늘 세트 수를 0으로">세트 리셋</button><span class="next"></span></div>
+      <div class="meta"><span class="cycles"></span><button class="setreset" data-a="setreset" title="세트 기록을 모두 0으로">세트 리셋</button><span class="next"></span></div>
       <div class="last"></div>
       <details>
         <summary>설정</summary>
         <label>공부 시간(분) <input type="number" min="1" max="120" data-c="studyMin"></label>
         <label>휴식 시간(분) <input type="number" min="1" max="60" data-c="breakMin"></label>
-        <label>끝나면 다음 단계 자동 시작 <input type="checkbox" data-c="auto"></label>
+        <label>휴식이 끝나면 다음 공부 자동 시작 <input type="checkbox" data-c="auto"></label>
         <button data-a="test" class="sound-test">🔔 소리 테스트</button>
         <div class="sync"><div class="sync-title">📲 다른 기기로 옮기기</div>
           <div class="sync-row"><button data-a="export">내보내기(링크 복사)</button><button data-a="import">가져오기</button></div>
@@ -156,10 +156,12 @@
     // Another open tab may have already advanced the timer.
     const fresh = load(), endedKey = st.endAt;
     if (fresh.mode !== st.mode || fresh.endAt !== st.endAt || !fresh.running) { st = fresh; return; }
-    if (st.mode === "study") { st.cycles += 1; addSet(); st.mode = "break"; }
-    else st.mode = "study";
+    // One set = study + break. Study always rolls into the break by itself; only the next study needs 자동 시작.
+    let go;
+    if (st.mode === "study") { st.mode = "break"; go = true; }
+    else { st.cycles += 1; addSet(); st.mode = "study"; go = !!st.cfg.auto; }
     st.remain = dur(st.mode);
-    if (st.cfg.auto) { st.running = true; st.endAt = Date.now() + st.remain; }
+    if (go) { st.running = true; st.endAt = Date.now() + st.remain; }
     else st.running = false;
     const msg = st.mode === "break" ? `${st.cfg.studyMin}분 끝! ${st.cfg.breakMin}분 쉬어요.` : "휴식 끝! 다시 공부 시작해요.";
     save(); chime(msg, endedKey); notify(msg);
@@ -198,10 +200,10 @@
       st.mode = "study"; st.running = false; st.remain = dur("study"); stopRing(); hideToast();
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
     else if (a === "setreset") {
-      const x = stats(), k = dayKey(Date.now()), n = x.days[k] || 0;
-      if (!n) { paint(); return; }
-      if (!window.confirm("오늘 " + n + "세트 기록을 0으로 되돌릴까요? (지난 날짜 기록은 그대로예요)")) return;
-      delete x.days[k]; x.total = Object.values(x.days).reduce((a, v) => a + v, 0); saveStats(x); st.cycles = 0;
+      const x = stats();
+      if (!x.total) { paint(); return; }
+      if (!window.confirm("세트 기록 " + x.total + "세트를 모두 0으로 되돌릴까요? (마지막 공부 시각은 그대로예요)")) return;
+      saveStats({ days: {}, total: 0, last: x.last || 0 }); st.cycles = 0;
     }
     else if (a === "test") { tones(); showToast("소리 테스트", false); return; }
     else if (a === "export") { doExport(); return; }
