@@ -42,7 +42,7 @@
         <button data-a="skip" title="다음 단계로 넘어가기">건너뛰기</button>
         <button data-a="reset" title="공부 시간 처음부터 다시">↺ 리셋</button>
       </div>
-      <div class="meta"><span class="cycles"></span><span class="next"></span></div>
+      <div class="meta"><span class="cycles"></span><button class="setreset" data-a="setreset" title="오늘 세트 수를 0으로">세트 리셋</button><span class="next"></span></div>
       <div class="last"></div>
       <details>
         <summary>설정</summary>
@@ -197,6 +197,12 @@
     } else if (a === "reset") {
       st.mode = "study"; st.running = false; st.remain = dur("study"); stopRing(); hideToast();
     } else if (a === "hide") { st.hiddenFor = st.endAt; }
+    else if (a === "setreset") {
+      const x = stats(), k = dayKey(Date.now()), n = x.days[k] || 0;
+      if (!n) { paint(); return; }
+      if (!window.confirm("오늘 " + n + "세트 기록을 0으로 되돌릴까요? (지난 날짜 기록은 그대로예요)")) return;
+      delete x.days[k]; x.total = Object.values(x.days).reduce((a, v) => a + v, 0); saveStats(x); st.cycles = 0;
+    }
     else if (a === "test") { tones(); showToast("소리 테스트", false); return; }
     else if (a === "export") { doExport(); return; }
     else if (a === "import") { doImport(); return; }
