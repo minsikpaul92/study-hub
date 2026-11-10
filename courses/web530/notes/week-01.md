@@ -1318,7 +1318,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%2C%20Button%20%7D%20from%20%22react-native%22%3B%0A%0Afunction%20MyButton%28%29%20%7B%0A%20%20const%20buttonText%20%3D%20%22I%27m%20a%20button%22%3B%0A%20%20const%20enable%20%3D%20false%3B%0A%0A%20%20return%20%3CButton%20disabled%3D%7B%21enable%7D%20title%3D%7BbuttonText%7D%20%2F%3E%3B%0A%7D%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%20%20%3CMyButton%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
 
 - Show that text must live inside `Text`. React Native does not allow a bare string inside a `View`.
 - This crashes the app. Remove the `Text` tags below and read the error.
@@ -1338,7 +1338,7 @@ export default function MyApp() {
 }
 ```
 
-▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함)
+▶ **[Snack에서 바로 실행하기](https://snack.expo.dev/?name=WEB530%20W1%20Example%3A%20Introduce%20React%20Native%20Components%20%28not%20HT&platform=web&sdkVersion=54.0.0&code=import%20%7B%20View%2C%20Text%20%7D%20from%20%22react-native%22%3B%0A%0Aexport%20default%20function%20MyApp%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%3E%0A%20%20%20%20%20%20%3CText%3EWelcome%20to%20my%20app%3C%2FText%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A)** (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button>
 
 - Error: `Text strings must be rendered within a <Text> component.`
 

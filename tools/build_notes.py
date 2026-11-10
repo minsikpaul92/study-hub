@@ -74,7 +74,8 @@ def fix_body(text,name,kind,mark=None):
             elif 'export default' in code and 'react-native' in code and lang=='tsx' and re.search(r'\w<[^>\n]*>\(|\bas\s+(const|[A-Z]\w*|string|number)\b',code):
                 out.append(''); out.append('▶ 이 코드는 `useState<...>()` 같은 TypeScript 문법이 있어서 Snack의 `App.js`에서는 에러가 나요. [Snack](https://snack.expo.dev)을 새로 열고 왼쪽 파일 목록에서 `App.js` 메뉴(점 세 개) → **Rename to App.tsx** 한 번 한 뒤 붙여 넣으세요. 빨간 줄(squiggle)이 타입 에러 표시이고, 앱은 그래도 실행돼요.')
             elif 'export default' in code and 'react-native' in code:
-                emb='' if marked or snack_platform(code)!='web' else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
+                emb='' if re.search(r'react-native-maps|react-native-gesture-handler',code) else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
+                if emb and 'Alert.alert' in code: emb+=' <span class="snack-tip-inline">(웹 미리보기에서는 Alert 팝업이 안 떠요. 팝업까지 보려면 위 Snack 링크의 iOS로 열어 보세요)</span>'
                 out.append(''); out.append(f'▶ **[Snack에서 바로 실행하기]({snack(code.strip()+chr(10),name)})** (SDK 54, 필요한 패키지 자동 포함){emb}')
             elif re.search(r'createRoot|function MyApp|<div|<button',code) and 'react-native' not in code and lang in('jsx','js'):
                 out.append(''); out.append(f'▶ 웹 React 코드예요. [교수님 CodeSandbox 템플릿]({CSB})에 붙여넣어 실행하세요.')
