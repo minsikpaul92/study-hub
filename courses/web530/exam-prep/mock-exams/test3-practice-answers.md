@@ -6,19 +6,27 @@
 > 이 두 모범답안은 react-native-web 환경에서 가짜 fetch를 붙여 직접 실행해 확인했어요(정상 응답, 404, 빈 배열, 탭, 누르고 있기, 길게 누르기).
 
 
-## 어느 강의노트에서 나왔나 (코스노트 기준, 인클래스 제외)
+## 교수님 주석의 질문 항목별로 어느 강의노트를 볼까 (코스노트 기준, 인클래스 제외)
 
-코드 안의 `📖` 주석에도 같은 출처를 적어 뒀어요. 시험에서 열어 볼 수 있는 코스노트(https://seneca-ictoer.github.io/WEB530/) 기준이에요.
+코드 안의 `📖` 주석에도 같은 출처를 적어 뒀어요. 코스노트: https://seneca-ictoer.github.io/WEB530/
 
-| 쓰는 것 | 코스노트 페이지와 위치 |
-| --- | --- |
-| `useEffect`로 fetch, loading, error state, `if (loading)`, `if (error)` | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) (예제 코드와 앞부분 설명) |
-| `res.ok` 확인 (fetch는 네트워크 실패일 때만 reject) | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) 설명, [Data Lists and Detail Views](https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views) > Full Example (Fetching Remote Data) |
-| `FlatList`, `keyExtractor`, `renderItem`, `ListEmptyComponent` | [Working with Item Lists](https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists) > FlatList |
-| 화면에 쓰는 값을 state에서 계산 | [Sorting and filtering lists](https://seneca-ictoer.github.io/WEB530/E-Lists/sorting-lists) |
-| `Pressable`, `onPress`, `style={({ pressed }) => ...}` | [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > Pressable |
-| `onLongPress` | [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > Long Press, Press In, and Press Out |
-| 선택을 id 객체로 저장, 토글, `extraData` | [Scrolling](https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling) > Scrolling and Touch Together |
+### Question 1. Post Comments (주석에 3개 항목)
+
+| 주석 항목 | 요구사항 한 줄 | 볼 곳 |
+| --- | --- | --- |
+| **Load the comments (2점)** | `useEffect`로 한 번 fetch, `comments`에 저장 | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) 예제의 `useEffect(..., [])`와 `setData` 부분 |
+| **Loading and errors (2점)** | 스피너 + 문구, `res.ok`로 에러 처리 | [Fetching List Data](https://seneca-ictoer.github.io/WEB530/E-Lists/fetching-list-data) 예제의 `if (loading)`, `if (error)`와 설명의 "`fetch()`는 네트워크 실패일 때만 reject, `response.ok` 확인", 같은 패턴 코드는 [Data Lists and Detail Views](https://seneca-ictoer.github.io/WEB530/E-Lists/lists-and-detail-views) > Full Example (Fetching Remote Data)의 `if (!res.ok) throw ...` |
+| **Show the comments (3점)** | `FlatList`, key는 id, 빈 목록 문구 | [Working with Item Lists](https://seneca-ictoer.github.io/WEB530/E-Lists/working-with-lists) > FlatList (`keyExtractor`, `renderItem`, `ListEmptyComponent`) |
+
+### Question 2. Camping Packing List (주석에 3개 항목)
+
+| 주석 항목 | 요구사항 한 줄 | 볼 곳 (정확한 위치) |
+| --- | --- | --- |
+| **Packing items (4점)** | `Pressable` 행, 누르는 동안 `styles.pressed`, 탭 토글, `styles.packed`, `extraData` | [Scrolling](https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling) > **Scrolling and Touch Together**. 예제 하나에 다 있어요: `useState({})`(id 객체), `toggle`의 `setSelected((prev) => ({ ...prev, [id]: !prev[id] }))`, `style={({ pressed }) => [styles.row, selected[item.id] && styles.selected, pressed && styles.pressed]}`, `extraData={selected}`. 아래 불릿 3개가 각각 id 객체, pressed가 맨 뒤인 이유, extraData 이유를 설명해요. `pressed` 스타일 함수의 기본 설명은 [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > Pressable |
+| **Progress (1점)** | 헤딩 `N of 8 packed`, 해제해도 정확 | 같은 [Scrolling](https://seneca-ictoer.github.io/WEB530/F-Touch/scrolling) > Scrolling and Touch Together 예제의 `const count = Object.values(selected).filter(Boolean).length;`와 `<Text>{count} selected</Text>`. 값이 `false`로 바뀌어도 키는 남아서 `filter(Boolean)`이 필요한 이유가 문제의 함정이에요 |
+| **Start over (1점)** | "Unpack all"은 `onLongPress`일 때만, 일반 탭은 힌트 | [Handling Touch](https://seneca-ictoer.github.io/WEB530/F-Touch/handling-touch) > **Long Press, Press In, and Press Out**. "길게 누르면 `onPress`가 아니라 `onLongPress`가 실행된다"는 설명과 예제의 `onLongPress={() => ...}`. 힌트용 `hint` state는 시작 코드에 이미 있어서 일반 `onPress`에서 `setHint(...)`만 하면 돼요 |
+
+정리: Q2는 **Scrolling > Scrolling and Touch Together** 한 군데로 4+1점(6점 중 5점)을 거의 그대로 풀 수 있고, 나머지 1점은 **Handling Touch > Long Press**예요. 교수님이 "코드를 그대로 베끼지 말고 이해해서 쓰라"고 한 대로, 변수 이름(`selected` 대신 `packed`, `rows` 대신 `ITEMS`)과 요구 문구를 바꿔 쓰는 연습을 하세요.
 
 ---
 
