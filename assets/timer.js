@@ -126,14 +126,17 @@
   }
   window.addEventListener("keydown", (e) => { if (e.key === "Escape") { stopRing(); hideToast(); } });
 
-  let flashT = null;
+  // Fallback when sound is blocked: blink the tab title (only while the tab is in the background),
+  // for at most ~10 seconds. paint() owns document.title so the two never fight each other.
+  let flashT = null, flashText = "", flashOn = false;
+  function stopFlash() { clearInterval(flashT); flashT = null; flashText = ""; flashOn = false; paint(); }
   function flashTitle(text) {
-    // Fallback when sound is blocked: blink the tab title until the page is touched.
-    const orig = document.title; let on = false; clearInterval(flashT);
-    flashT = setInterval(() => { document.title = (on = !on) ? "🔔 " + text : orig; }, 900);
-    const stop = () => { clearInterval(flashT); document.title = orig; window.removeEventListener("pointerdown", stop); window.removeEventListener("keydown", stop); };
-    window.addEventListener("pointerdown", stop); window.addEventListener("keydown", stop);
+    if (!document.hidden) return;
+    stopFlash(); flashText = text; let n = 0;
+    flashT = setInterval(() => { flashOn = !flashOn; if (++n > 12) return stopFlash(); paint(); }, 900);
   }
+  ["pointerdown", "keydown"].forEach((ev) => window.addEventListener(ev, () => { if (flashT) stopFlash(); }, true));
+  document.addEventListener("visibilitychange", () => { if (!document.hidden && flashT) stopFlash(); });
   function stopRepeat() {}   // old name kept; nothing repeats any more
 
   // One ring per phase change, even with several tabs open: the phase end time is the dedupe key.
@@ -230,7 +233,8 @@
     overlay.querySelector(".big").textContent = fmt(ms);
     overlay.classList.toggle("show", st.mode === "break" && st.running && st.hiddenFor !== st.endAt);
     const base = document.title.replace(/^\[[^\]]*\] /, "");
-    document.title = st.running ? `[${label} ${fmt(ms)}] ${base}` : base;
+    const t = flashOn && flashText ? "🔔 " + flashText : (st.running ? `[${label} ${fmt(ms)}] ${base}` : base);
+    if (document.title !== t) document.title = t;
   }
 
   root.addEventListener("click", (e) => {
