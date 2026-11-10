@@ -213,7 +213,7 @@ b.onclick=function(){{d[b.dataset.key]=!d[b.dataset.key];try{{localStorage.setIt
                 text = open(os.path.join(cdir, src), encoding="utf-8").read()
                 name = f"mock-{i}{'-answers' if kind == 'answers' else ''}.html"
                 label = m["title"] + (" 정답과 해설" if kind == "answers" else "")
-                write(os.path.join(out, name), doc_page(f"{label} · {code}", render_md(text), rel, crumbs + [(label, None)]))
+                write(os.path.join(out, name), doc_page(f"{label} · {code}", render_md(add_snack_links(text, m["title"])), rel, crumbs + [(label, None)]))
         mocks.append((m, f"mock-{i}.html", f"mock-{i}-answers.html" if m.get("answers") else None))
 
     # Quiz
@@ -283,6 +283,30 @@ b.onclick=function(){{d[b.dataset.key]=!d[b.dataset.key];try{{localStorage.setIt
 document.getElementById('prog').style.width=(cs.length?n/cs.length*100:0)+'%';document.getElementById('prog-t').textContent='공부 완료 '+n+' / '+cs.length+'주';}})();</script>"""
     write(os.path.join(out, "index.html"), page(f"{code} · {SITE_NAME}", body, rel, crumbs[:0] + [(code, None)]))
     return cfg, cid, len(built), len(quiz)
+
+
+def add_snack_links(text, title):
+    """Mock exam pages: put a Snack link and an inline result button under every runnable React Native block."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import build_notes as bn
+    lines = text.split("\n"); out = []; i = 0; n = 0
+    while i < len(lines):
+        m = re.match(r"^(\s*)```(jsx|js|tsx)\s*$", lines[i])
+        if not m:
+            out.append(lines[i]); i += 1; continue
+        j = i + 1
+        while j < len(lines) and not re.match(r"^\s*```\s*$", lines[j]): j += 1
+        code = "\n".join(lines[i + 1:j])
+        out += lines[i:j + 1]
+        tail = "\n".join(lines[j + 1:j + 5])
+        generic = m.group(2) == "tsx" and re.search(r"\w<[^>\n]*>\(|\bas\s+(const|[A-Z]\w*|string|number)\b", code)
+        if "export default" in code and "react-native" in code and "snack.expo.dev/?" not in tail and not generic \
+                and not re.search(r"""from\s+['"](@/|\.\.?/|expo-router)""", code):
+            n += 1
+            emb = "" if re.search(r"react-native-maps|react-native-gesture-handler", code) else ' <button class="snack-embed" type="button">👀 여기서 결과 보기</button>'
+            out += ["", f"▶ **[Snack에서 바로 실행하기]({bn.snack(code.strip() + chr(10), f'{title} {n}')})** (SDK 54){emb}", ""]
+        i = j + 1
+    return "\n".join(out)
 
 
 def main():
