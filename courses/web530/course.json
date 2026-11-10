@@ -79,6 +79,16 @@
         6,
         7
       ]
+    },
+    {
+      "title": "샘플시험 Part별 강의자료 매칭 (Test 1, 2)",
+      "file": "exam-prep/mock-exams/sample-test1-2-lecture-map.md",
+      "weeks": [
+        1,
+        2,
+        3,
+        4
+      ]
     }
   ],
   "weeks": [
