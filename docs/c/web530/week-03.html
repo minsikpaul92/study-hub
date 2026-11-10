@@ -129,7 +129,7 @@
 </ul>
 </div>
 <blockquote>
-<p>원문 출처: https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets</p>
+<p>원문 출처: <a href="https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/C-Styling/stylesheets</a></p>
 </blockquote>
 <p>When building web pages, we use CSS StyleSheets to describe the presentation of elements. We will continue this trend as we work with React Native applications. By moving styles out of the JSX, you will keep the code concise and easier to understand.</p>
 <p>Check out the following example. We are building a new StyleSheet by passing a JavaScript object to the <code>StyleSheet.create()</code> function. The stylesheet contains two styles: <code>container</code> and <code>title</code>. To assign a style to the appropriate component, we set the <code>style</code> property, for example <code>&lt;View style={styles.container}&gt;</code>.</p>
@@ -282,7 +282,7 @@
 </ul>
 </div>
 <blockquote>
-<p>원문 출처: https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp</p>
+<p>원문 출처: <a href="https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp" target="_blank" rel="noopener">https://seneca-ictoer.github.io/WEB530/C-Styling/common-comp</a></p>
 </blockquote>
 <h3 id="view">📘 View <a class="anchor" aria-label="링크" href="#view">#</a></h3>
 <p>This is the most fundamental component for building a UI. A <code>View</code> is a container that maps directly to the native view equivalent: <code>UIView</code> on iOS, <code>android.View</code> on Android, or <code>&lt;div&gt;</code> in a browser. Views can be styled and can hold other views and components.</p>
@@ -391,7 +391,7 @@
 </code></pre>
 <p>▶ <strong><a class="run" href="https://snack.expo.dev/?name=WEB530%20W3%20Icons&amp;platform=web&amp;sdkVersion=54.0.0&amp;code=import%20%7B%20View%2C%20StyleSheet%20%7D%20from%20%27react-native%27%3B%0Aimport%20%7B%20FontAwesome%20%7D%20from%20%27%40expo%2Fvector-icons%27%3B%0A%0Aexport%20default%20function%20App%28%29%20%7B%0A%20%20return%20%28%0A%20%20%20%20%3CView%20style%3D%7Bstyles.container%7D%3E%0A%20%20%20%20%20%20%3CFontAwesome%20name%3D%22home%22%20size%3D%7B32%7D%20color%3D%22%2320232a%22%20%2F%3E%0A%20%20%20%20%20%20%3CFontAwesome%20name%3D%22heart%22%20size%3D%7B32%7D%20color%3D%22%23e53935%22%20%2F%3E%0A%20%20%20%20%20%20%3CFontAwesome%20name%3D%22star%22%20size%3D%7B32%7D%20color%3D%22%23fbc02d%22%20%2F%3E%0A%20%20%20%20%3C%2FView%3E%0A%20%20%29%3B%0A%7D%0A%0Aconst%20styles%20%3D%20StyleSheet.create%28%7B%0A%20%20container%3A%20%7B%0A%20%20%20%20flexDirection%3A%20%27row%27%2C%0A%20%20%20%20gap%3A%2024%2C%0A%20%20%20%20paddingTop%3A%2050%2C%0A%20%20%20%20paddingLeft%3A%2024%2C%0A%20%20%7D%2C%0A%7D%29%3B%0A&amp;dependencies=%40expo%2Fvector-icons%40%5E15.0.3" target="_blank" rel="noopener">Snack에서 바로 실행하기</a></strong> (SDK 54, 필요한 패키지 자동 포함) <button class="snack-embed" type="button">👀 여기서 결과 보기</button></p>
 <div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
-<p><strong>아이콘</strong>: Expo(그리고 Snack)에는 <code>@expo/vector-icons</code>가 기본으로 들어 있어요. <code>import { FontAwesome } from '@expo/vector-icons';</code> 하고 <code>&lt;FontAwesome name=&quot;home&quot; size={32} color=&quot;#20232a&quot; /&gt;</code> 처럼 이름, 크기, 색만 주면 돼요. 아이콘 이름은 https://icons.expo.fyi 에서 검색. 4주차 탭 아이콘에서 다시 써요.</p>
+<p><strong>아이콘</strong>: Expo(그리고 Snack)에는 <code>@expo/vector-icons</code>가 기본으로 들어 있어요. <code>import { FontAwesome } from '@expo/vector-icons';</code> 하고 <code>&lt;FontAwesome name=&quot;home&quot; size={32} color=&quot;#20232a&quot; /&gt;</code> 처럼 이름, 크기, 색만 주면 돼요. 아이콘 이름은 <a href="https://icons.expo.fyi" target="_blank" rel="noopener">https://icons.expo.fyi</a> 에서 검색. 4주차 탭 아이콘에서 다시 써요.</p>
 <p>예제의 <code>gap: 24</code>는 자식들 사이 간격이에요.</p>
 </div><hr />
 <h2 id="3-인클래스-예제-week-31---notes-and-examples">3. 💻 인클래스 예제: Week 3.1 - Notes and Examples <a class="anchor" aria-label="링크" href="#3-인클래스-예제-week-31---notes-and-examples">#</a></h2>
@@ -1219,7 +1219,7 @@
 <p>4파트(A~D), 각 1점. 아래에서 파트별로 어떤 개념을 쓰는지 정리할게요.</p>
 </div><h4 id="setup">🧪 Setup <a class="anchor" aria-label="링크" href="#setup">#</a></h4>
 <ol>
-<li>Open the React Native Playground (Snack) at https://snack.expo.dev and sign in.</li>
+<li>Open the React Native Playground (Snack) at <a class="run" href="https://snack.expo.dev" target="_blank" rel="noopener">https://snack.expo.dev</a> and sign in.</li>
 <li>Rename the Snack to <code>WEB530 Lab 3 - Your Name</code> (click the name at the top left).</li>
 <li>In the file list on the left, add a new file named <code>styles.js</code> in the same folder as <code>App.js</code>.</li>
 <li>Paste in the two starter files below.</li>

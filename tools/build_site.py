@@ -53,8 +53,27 @@ MD = (MarkdownIt("commonmark", {"html": True, "highlight": hl})
       .use(anchors_plugin, min_level=1, max_level=4, slug_func=slug, permalink=True, permalinkSymbol="#", permalinkBefore=False))
 
 
+def autolink(text):
+    """Turn bare http(s) URLs into <url> autolinks, leaving code fences, inline code, markdown links and raw HTML alone."""
+    out = []; fence = False
+    url = re.compile(r"(?<![(<\[\"'=/])(https?://[^\s<>\"')\]`]+)")
+    def fix(seg):
+        def r(m):
+            u = m.group(1); tail = ""
+            if re.search(r"[{}\\]", u): return m.group(0)   # URL templates are not real links
+            while u and u[-1] in ".,;:!?": tail = u[-1] + tail; u = u[:-1]
+            return f"<{u}>{tail}"
+        return url.sub(r, seg)
+    for line in text.split("\n"):
+        if re.match(r"^\s*(```|~~~)", line): fence = not fence; out.append(line); continue
+        if fence or line.lstrip().startswith("<"): out.append(line); continue
+        parts = re.split(r"(`[^`]*`)", line)
+        out.append("".join(x if x.startswith("`") else fix(x) for x in parts))
+    return "\n".join(out)
+
+
 def render_md(text):
-    out = MD.render(text)
+    out = MD.render(autolink(text))
     # Korean explanation blocks: from "🇰🇷 ..." paragraph up to the next heading
     out = re.sub(r'(<p><strong>🇰🇷[^<]*</strong></p>)(.*?)(?=<h[1-4][ >]|<hr ?/?>|\Z)',
                  r'<div class="ko">\1\2</div>', out, flags=re.S)
