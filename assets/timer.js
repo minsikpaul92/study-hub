@@ -46,8 +46,8 @@
       <div class="last"></div>
       <details>
         <summary>설정</summary>
-        <label>공부 시간(분) <input type="number" min="1" max="120" data-c="studyMin"></label>
-        <label>휴식 시간(분) <input type="number" min="1" max="60" data-c="breakMin"></label>
+        <label>공부 시간(분) <span class="stepper"><button type="button" data-step="-1" aria-label="1분 줄이기">-</button><input type="number" min="1" max="120" data-c="studyMin"><button type="button" data-step="1" aria-label="1분 늘리기">+</button></span></label>
+        <label>휴식 시간(분) <span class="stepper"><button type="button" data-step="-1" aria-label="1분 줄이기">-</button><input type="number" min="1" max="60" data-c="breakMin"><button type="button" data-step="1" aria-label="1분 늘리기">+</button></span></label>
         <label>휴식이 끝나면 다음 공부 자동 시작 <input type="checkbox" data-c="auto"></label>
         <button data-a="test" class="sound-test">🔔 소리 테스트</button>
         <div class="sync"><div class="sync-title">📲 다른 기기로 옮기기</div>
@@ -242,8 +242,17 @@
   root.querySelectorAll("[data-c]").forEach((inp) => {
     const k = inp.dataset.c;
     if (inp.type === "checkbox") inp.checked = !!st.cfg[k]; else inp.value = st.cfg[k];
+    if (inp.type === "number") {
+      const lo = Number(inp.min) || 1, hi = Number(inp.max) || 120;
+      inp.parentNode.querySelectorAll("[data-step]").forEach((b) => b.addEventListener("click", (e) => {
+        e.preventDefault();
+        inp.value = Math.min(hi, Math.max(lo, (Number(inp.value) || DEFAULT[k]) + Number(b.dataset.step)));
+        inp.dispatchEvent(new Event("change"));
+      }));
+      inp.addEventListener("input", () => { if (Number(inp.value) >= lo) inp.dispatchEvent(new Event("change")); });
+    }
     inp.addEventListener("change", () => {
-      st.cfg[k] = inp.type === "checkbox" ? inp.checked : Math.max(1, Number(inp.value) || DEFAULT[k]);
+      st.cfg[k] = inp.type === "checkbox" ? inp.checked : Math.min(Number(inp.max) || 999, Math.max(1, Number(inp.value) || DEFAULT[k]));
       if (!st.running) st.remain = dur(st.mode);
       save(); paint();
     });
