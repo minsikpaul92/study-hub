@@ -9,6 +9,7 @@
   const LV = { 1: "기본", 2: "응용", 3: "시험 심화" };
   const el = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const rich = (s) => esc(s).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
   const shuffle = (a) => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
   let saved = {};
@@ -53,17 +54,17 @@
     // state: { order, picked, reveal }
     let h = `<article class="q" id="q${q.i}"><div class="qhead"><b>Q${n}</b><span>Week ${q.week}</span><span>· ${esc(q.topic || "")}</span><span class="lvl">${LV[q.level || 1]}</span></div>`;
     if (q.code) h += `<pre>${esc(q.code)}</pre>`;
-    h += `<p class="stem">${esc(q.q)}</p><div class="opts">`;
+    h += `<p class="stem">${rich(q.q)}</p><div class="opts">`;
     state.order.forEach((oi, pos) => {
       let cls = "opt";
       if (state.reveal) { if (oi === 0) cls += " right"; else if (oi === state.picked) cls += " wrong"; }
       else if (oi === state.picked) cls += " picked";
-      h += `<button class="${cls}" data-q="${q.i}" data-o="${oi}" ${state.reveal ? "disabled" : ""}><span class="let">${LET[pos]}</span><span>${esc(q.opts[oi])}</span></button>`;
+      h += `<button class="${cls}" data-q="${q.i}" data-o="${oi}" ${state.reveal ? "disabled" : ""}><span class="let">${LET[pos]}</span><span>${rich(q.opts[oi])}</span></button>`;
     });
     h += `</div>`;
     if (state.reveal) {
       const ok = state.picked === 0;
-      h += `<div class="explain"><p class="verdict ${ok ? "ok" : "no"}">${state.picked === undefined ? "안 풀었어요. 정답은 " + LET[state.order.indexOf(0)] + "예요." : ok ? "정답이에요." : "아쉬워요. 정답은 " + LET[state.order.indexOf(0)] + "예요."}</p><p>${esc(q.ex || "")}</p>`;
+      h += `<div class="explain"><p class="verdict ${ok ? "ok" : "no"}">${state.picked === undefined ? "안 풀었어요. 정답은 " + LET[state.order.indexOf(0)] + "예요." : ok ? "정답이에요." : "아쉬워요. 정답은 " + LET[state.order.indexOf(0)] + "예요."}</p><p>${rich(q.ex || "")}</p>`;
       if (q.refs && q.refs.length) h += `<div class="src">${q.refs.map((r) => `<span>📎 <a href="${esc(r.href)}" target="_blank" rel="noopener">${esc(r.label)}</a></span>`).join("")}</div>`;
       h += `</div>`;
     }

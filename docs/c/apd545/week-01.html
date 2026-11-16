@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1. Java 입문과 MVC · APD545</title><meta name="description" content="Week 1. Java 입문과 MVC · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 1</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-1-segment-1-introduction-to-java">1. 📑 강의 슬라이드: Week 1 · Segment 1. Introduction to Java</a></li><li class="l3"><a href="#outcomes">📑 Outcomes</a></li><li class="l3"><a href="#what-is-java">📑 What is Java?</a></li><li class="l3"><a href="#why-is-java-such-a-popular-language">📑 Why is Java such a Popular Language?</a></li><li class="l3"><a href="#how-does-java-work-the-platform">📑 How does Java Work? The Platform</a></li><li class="l3"><a href="#compilers-vs-interpreters">📑 Compilers vs Interpreters</a></li><li class="l3"><a href="#java-runtime-environment">📑 Java Runtime Environment</a></li><li class="l3"><a href="#java-editions">📑 Java Editions</a></li><li class="l3"><a href="#steps-to-use-java-se">📑 Steps to Use Java SE</a></li><li class="l2"><a href="#2-강의-슬라이드-week-1-segment-2-similarities-of-java-and-c">2. 📑 강의 슬라이드: Week 1 · Segment 2. Similarities of Java and C++</a></li><li class="l3"><a href="#syntax-and-comments">📑 Syntax and Comments</a></li><li class="l3"><a href="#loops-conditionals-and-operators">📑 Loops, Conditionals and Operators</a></li><li class="l3"><a href="#basic-data-types">📑 Basic Data Types</a></li><li class="l3"><a href="#keywords-and-multithreading">📑 Keywords and Multithreading</a></li><li class="l3"><a href="#object-oriented-programming">📑 Object Oriented Programming</a></li><li class="l3"><a href="#static-keyword">📑 Static Keyword</a></li><li class="l3"><a href="#foreach">📑 ForEach</a></li><li class="l3"><a href="#templates-vs-generics">📑 Templates vs Generics</a></li><li class="l2"><a href="#3-강의-슬라이드-week-1-segment-3-differences-between-java-and-c">3. 📑 강의 슬라이드: Week 1 · Segment 3. Differences between Java and C++</a></li><li class="l3"><a href="#class-definitions">📑 Class Definitions</a></li><li class="l3"><a href="#main-is-inside-the-class">📑 main is inside the class</a></li><li class="l3"><a href="#inheritance-and-polymorphism">📑 Inheritance and Polymorphism</a></li><li class="l3"><a href="#question-time-how-does-java-delete-the-dma">📑 Question Time: How does Java delete the DMA?</a></li><li class="l3"><a href="#pure-virtual-vs-abstract-classes">📑 Pure Virtual vs Abstract classes</a></li><li class="l3"><a href="#static-block-and-static-local-variable">📑 Static Block and Static Local Variable</a></li><li class="l3"><a href="#exception-handling">📑 Exception Handling</a></li><li class="l2"><a href="#4-강의-슬라이드-week-1-segment-4-mvc-pattern">4. 📑 강의 슬라이드: Week 1 · Segment 4. MVC Pattern</a></li><li class="l3"><a href="#what-is-design-pattern">📑 What is Design Pattern?</a></li><li class="l3"><a href="#what-is-mvc">📑 What is MVC?</a></li><li class="l3"><a href="#what-is-model-in-mvc">📑 What is Model in MVC?</a></li><li class="l3"><a href="#why-use-mvc-design-pattern">📑 Why use MVC Design Pattern?</a></li><li class="l3"><a href="#what-is-view-in-mvc">📑 What is View in MVC?</a></li><li class="l3"><a href="#what-is-controller-in-mvc">📑 What is Controller in MVC?</a></li><li class="l3"><a href="#mainjava">📑 Main.java</a></li><li class="l3"><a href="#mvc-in-java-in-one-sentence-each">📑 MVC in Java, in one sentence each</a></li><li class="l2"><a href="#5-강의-슬라이드-week-1-java-code-conventions">5. 📑 강의 슬라이드: Week 1 · Java Code Conventions</a></li><li class="l3"><a href="#why-have-code-conventions">📑 Why Have Code Conventions</a></li><li class="l3"><a href="#file-names-and-organization">📑 File Names and Organization</a></li><li class="l3"><a href="#order-inside-a-class">📑 Order inside a Class</a></li><li class="l3"><a href="#indentation-and-line-length">📑 Indentation and Line Length</a></li><li class="l3"><a href="#naming-conventions">📑 Naming Conventions</a></li><li class="l2"><a href="#6-교수님-샘플-코드-week-1-샘플-코드-wk_1_le_ex-school-mvc">6. 💻 교수님 샘플 코드: Week 1 샘플 코드: WK_1_LE_Ex (School MVC)</a></li><li class="l3"><a href="#project-structure">💻 Project Structure</a></li><li class="l3"><a href="#example-packages-and-import-testclass-myclass">💻 Example: Packages and import (TestClass, MyClass)</a></li><li class="l3"><a href="#example-abstract-base-class-person">💻 Example: Abstract base class Person</a></li><li class="l3"><a href="#example-staff-student-teacher-models">💻 Example: Staff, Student, Teacher (models)</a></li><li class="l3"><a href="#example-functional-interface-ipersonaction">💻 Example: Functional interface IPersonAction</a></li><li class="l3"><a href="#example-view-and-controller">💻 Example: View and Controller</a></li><li class="l3"><a href="#example-testmain-wiring-m-v-c">💻 Example: TestMain (wiring M, V, C)</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-1">🧩 이번 주 토이 프로젝트: CafeOrder Week 1</a></li><li class="l2"><a href="#시험-대비-체크리스트">✅ 시험 대비 체크리스트</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-1-java-입문-java와-c-mvc-패턴">Week 1. Java 입문, Java와 C++, MVC 패턴 <a class="anchor" aria-label="링크" href="#week-1-java-입문-java와-c-mvc-패턴">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. 슬라이드 전체는 Blackboard PDF에 있어요. 💻 표시는 교수님 샘플 코드(<code>WK_1_LE_Ex</code>)예요. Java 코드는 브라우저에서 못 돌리니까 ⌨️ 표시가 있는 코드는 <strong>IntelliJ에서 직접</strong> 쳐 보세요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JVM</td>
+<td><code>.java</code> → <code>javac</code> → <code>.class</code>(bytecode) → JVM이 실행</td>
+<td>&quot;Java bytecode can only run in the JVM&quot;</td>
+</tr>
+<tr>
+<td>WORA</td>
+<td>Write Once Run Anywhere. JVM만 있으면 OS 상관없이 실행</td>
+<td>Platform Independent의 뜻</td>
+</tr>
+<tr>
+<td>Garbage Collector</td>
+<td>Java에는 <code>delete</code>, 소멸자가 없음. 안 쓰는 객체는 GC가 치움</td>
+<td>&quot;How does Java delete the DMA?&quot; → Garbage Collected</td>
+</tr>
+<tr>
+<td>Java vs C++</td>
+<td>모든 코드는 클래스 안, 클래스 끝에 <code>;</code> 없음, <code>extends</code>, <code>super(...)</code></td>
+<td>문법 차이 고르기</td>
+</tr>
+<tr>
+<td>static</td>
+<td>클래스 하나에 하나만 있는 멤버. 객체 없이 <code>클래스명.멤버</code>로 접근</td>
+<td>static 메서드는 <code>this</code> 못 씀</td>
+</tr>
+<tr>
+<td>MVC</td>
+<td>Model = 데이터와 규칙, View = 보여주기, Controller = 입력 처리와 연결</td>
+<td>&quot;view never has to know how data is stored&quot;</td>
+</tr>
+<tr>
+<td>Code Conventions</td>
+<td>클래스 <code>PascalCase</code>, 메서드/변수 <code>camelCase</code>, 상수 <code>UPPER_CASE</code>, 패키지 소문자</td>
+<td>이름 고르기</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li>Java의 <code>boolean</code>은 슬라이드 표에 <strong>1 bit</strong>, <code>char</code>는 <strong>2 bytes</strong>(유니코드). C++의 <code>char</code> 1 byte와 다르다.</li>
+<li>Java 클래스 정의 끝에는 <code>;</code>가 <strong>없다</strong>. C++은 <code>};</code>.</li>
+<li><code>Polygon p = new Polygon(4,5);</code>는 <code>Polygon</code>이 <strong>abstract</strong>면 컴파일 에러.</li>
+<li>static 메서드 안에서 <code>this</code>, <code>super</code>, 인스턴스 필드는 못 쓴다.</li>
+<li>MVC에서 <strong>계산은 Controller</strong>(슬라이드 기준). View에 계산을 넣으면 틀린 답.</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Syntax and Comments</a></td>
+<td>Hello.java를 만들어 main 실행해 보기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Object Oriented Programming › Inheritance</a></td>
+<td>Vehicle/Car 상속 예제 실행해 보기</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Object Oriented Programming › Polymorphism</a></td>
+<td>Animal 타입 변수에 Cat, Dog 넣고 animalSound() 호출해 보기</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">main is inside the class</a></td>
+<td>CRectangle 클래스와 main을 한 파일에 쳐서 넓이 출력하기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Inheritance and Polymorphism</a></td>
+<td>Polygon, Rectangle, Triangle, PolyTest 네 파일 만들어 실행하기</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Main.java</a></td>
+<td>Employee, EmployeeView, EmployeeController, MVCMain 네 클래스를 만들어 실행하기</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Example: Abstract base class Person</a></td>
+<td>Person, Staff, Student, Teacher를 패키지 나눠서 만들기</td>
+</tr>
+<tr>
+<td>8</td>
+<td><a href="#practice-8">Example: TestMain (wiring M, V, C)</a></td>
+<td>SchoolView, SchoolController, TestMain까지 만들어 실행 결과 확인하기</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-1-segment-1-introduction-to-java">1. 📑 강의 슬라이드: Week 1 · Segment 1. Introduction to Java <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-1-segment-1-introduction-to-java">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Java가 어떤 언어인지, 그리고 <code>.java</code> 파일이 어떻게 실행되는지(컴파일 → bytecode → JVM) 큰 그림을 잡는 챕터예요. 시험에는 JVM, bytecode, WORA, Java 에디션 이름이 주로 나와요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 이번 세그먼트의 목표는 세 가지예요. (1) Java가 어떤 언어인지, (2) JVM이 무엇을 하는지, (3) Garbage Collector가 무엇인지.</li>
+<li>👀 <strong>What is Java?</strong>: Java를 네 단어로 정리한 슬라이드예요. 시험에 그대로 나올 수 있으니 영어 단어 그대로 외워 두세요.</li>
+<li>👀 <strong>Why is Java such a Popular Language?</strong>: 인기 있는 이유 목록이에요. 외울 필요는 크지 않지만 Platform Independent(Windows, Linux, Android에서 다시 안 고치고 실행)와 Security(네트워크로 받은 코드를 안전한 환경에서 실행) 두 가지는 다른 문제...</li>
+<li>👀 <strong>How does Java Work? The Platform</strong>: Java를 쓰려면 두 가지를 알아야 한다는 말이에요.</li>
+<li>👀 <strong>How does Java Work? The Platform › Java API</strong>: API는 &quot;미리 만들어 둔 Java 프로그램 부품&quot;이에요.</li>
+<li>👀 <strong>How does Java Work? The Platform › JVM (Java Virtual Machine)</strong>: JVM은 Java 플랫폼과 하드웨어 사이의 추가 추상화 계층이에요.</li>
+<li>👀 <strong>Compilers vs Interpreters</strong>: 컴파일러: 프로그램 전체를 먼저 기계어로 바꾼 다음 실행.</li>
+<li>👀 <strong>Java Runtime Environment</strong>: Java는 위 두 방식을 둘 다 써요. 시험 단골 흐름이니 순서대로 외우세요.</li>
+<li>👀 <strong>Java Editions</strong>: 에디션 세 개의 이름과 용도를 짝지어 외우세요.</li>
+<li>👀 <strong>Steps to Use Java SE</strong>: 실행 단계예요. 명령어 두 개가 핵심이에요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 1 · Segment 1 &quot;Java for C++ Programmers&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h3>
+<blockquote>
+<ul>
+<li>Understanding of Java as Language.</li>
+<li>Understanding the Java Virtual Machine.</li>
+<li>Understanding the Java Garbage Collector.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이번 세그먼트의 목표는 세 가지예요. (1) Java가 어떤 언어인지, (2) <strong>JVM</strong>이 무엇을 하는지, (3) <strong>Garbage Collector</strong>가 무엇인지. C++에서 <code>new</code> 하고 <code>delete</code> 했던 것을 기억하죠? Java에서는 <code>delete</code>가 없고 GC가 대신 치워 줘요. 이게 이번 주 가장 큰 차이점이에요.</p>
+</div><h3 id="what-is-java">📑 What is Java? <a class="anchor" aria-label="링크" href="#what-is-java">#</a></h3>
+<blockquote>
+<p>Java can be broadly defined as</p>
+<ul>
+<li><strong>A General Purpose</strong>: Its not constraint to one particular domain</li>
+<li><strong>Object Oriented</strong>: Helps model real world scenarios in more natural way</li>
+<li><strong>Platform Independent</strong>: Write Once Run Anywhere (WORA)</li>
+<li><strong>Concurrent</strong>: Multithreaded</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java를 네 단어로 정리한 슬라이드예요. 시험에 그대로 나올 수 있으니 영어 단어 그대로 외워 두세요.</p>
+<ul>
+<li><strong>General Purpose</strong>: 게임, 서버, 데스크톱 앱 등 한 분야에 묶이지 않는 범용 언어.</li>
+<li><strong>Object Oriented</strong>: 클래스와 객체로 현실 세계를 표현.</li>
+<li><strong>Platform Independent (WORA)</strong>: 한 번 쓰면(Write Once) 어디서나 실행(Run Anywhere). 비결은 아래에 나오는 JVM.</li>
+<li><strong>Concurrent</strong>: 여러 스레드를 동시에 돌릴 수 있음 (Week 11 Threads에서 자세히).</li>
+</ul>
+</div><h3 id="why-is-java-such-a-popular-language">📑 Why is Java such a Popular Language? <a class="anchor" aria-label="링크" href="#why-is-java-such-a-popular-language">#</a></h3>
+<blockquote>
+<p>High quality learning resources · Inbuilt functions and libraries · Active community support · High-quality development tools · Platform Independent · Security</p>
+<p>&quot;Java code can run on any underlying platform like Windows, Linux, iOS, or Android without rewriting.&quot;</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>인기 있는 이유 목록이에요. 외울 필요는 크지 않지만 <strong>Platform Independent</strong>(Windows, Linux, Android에서 다시 안 고치고 실행)와 <strong>Security</strong>(네트워크로 받은 코드를 안전한 환경에서 실행) 두 가지는 다른 문제의 근거로도 쓰여요.</p>
+</div><h3 id="how-does-java-work-the-platform">📑 How does Java Work? The Platform <a class="anchor" aria-label="링크" href="#how-does-java-work-the-platform">#</a></h3>
+<blockquote>
+<p>To use Java, a developer needs to understand two things:</p>
+<ul>
+<li><strong>Java language and APIs</strong>: This is the front-end communication between the developer and the Java platform.</li>
+<li><strong>Java Virtual Machine</strong>: This is the back-end communication between the Java platform and the underlying hardware.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java를 쓰려면 두 가지를 알아야 한다는 말이에요.</p>
+<ul>
+<li><strong>Java language와 API</strong>: 내가 코드를 쓰는 쪽(front-end). 문법 + 미리 만들어진 라이브러리.</li>
+<li><strong>JVM</strong>: 내 코드와 실제 하드웨어 사이(back-end).</li>
+</ul>
+<p>비유하면, 나는 한국어(Java)로 편지를 쓰고, 통역사(JVM)가 각 나라 말(Windows, Mac, Linux 기계어)로 바꿔 주는 구조예요.</p>
+</div><h4 id="java-api">📑 Java API <a class="anchor" aria-label="링크" href="#java-api">#</a></h4>
+<blockquote>
+<p>APIs are important software components bundled with the Java Platform. These are pre-written Java programs that can plug and play existing functionality into your own code.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>API는 &quot;미리 만들어 둔 Java 프로그램 부품&quot;이에요. 날짜 구하기, 수학 계산, 문자열 처리 같은 걸 매번 직접 만들지 않고 가져다 써요. 예: <code>Math.max(3, 7)</code>, <code>String.format(...)</code>, <code>java.util.Scanner</code>. 우리가 쓰는 코드는 대부분 <strong>내가 새로 쓴 코드 + API 코드</strong>의 조합이에요.</p>
+</div><h4 id="jvm-java-virtual-machine">📑 JVM (Java Virtual Machine) <a class="anchor" aria-label="링크" href="#jvm-java-virtual-machine">#</a></h4>
+<blockquote>
+<p>The Java Virtual Machine acts as an additional abstraction layer between the Java platform and the underlying machine hardware.
+Java source code can run only on those machines that have JVM installed on them.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JVM은 Java 플랫폼과 하드웨어 사이의 <strong>추가 추상화 계층</strong>이에요. 그래서 &quot;JVM이 설치된 기계에서만 Java가 실행된다&quot;는 말이 나와요. 거꾸로 말하면 JVM만 깔려 있으면 Windows든 Mac이든 같은 <code>.class</code> 파일이 그대로 돌아요. 이게 WORA의 비밀이에요.</p>
+</div><h3 id="compilers-vs-interpreters">📑 Compilers vs Interpreters <a class="anchor" aria-label="링크" href="#compilers-vs-interpreters">#</a></h3>
+<blockquote>
+<p><strong>Compilers</strong>: the language then compiles (or translates) the entire code into machine code. The compiled code is then run on the hardware.</p>
+<p><strong>Interpreters</strong>: every high-level code statement is interpreted into machine code on the fly.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>두 방식 비교예요.</p>
+<ul>
+<li><strong>컴파일러</strong>: 프로그램 전체를 먼저 기계어로 바꾼 다음 실행. (C, C++)</li>
+<li><strong>인터프리터</strong>: 한 줄씩 그때그때 기계어로 바꿔 실행. (Python 같은 방식)</li>
+</ul>
+<p>슬라이드의 Question Time &quot;Is C++ an Interpreted Language?&quot;의 답은 <strong>No</strong>예요. C++은 컴파일 언어예요.</p>
+</div><h3 id="java-runtime-environment">📑 Java Runtime Environment <a class="anchor" aria-label="링크" href="#java-runtime-environment">#</a></h3>
+<blockquote>
+<ul>
+<li>The Java program was the first language to combine both methods (compiler &amp; Interpreted) using a Java Virtual Machine (JVM).</li>
+<li>Any Java file is first compiled into bytecode.</li>
+<li>Java bytecode can only run in the JVM.</li>
+<li>The JVM then interprets the bytecode to run it on the underlying hardware platform.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java는 위 두 방식을 <strong>둘 다</strong> 써요. 시험 단골 흐름이니 순서대로 외우세요.</p>
+<ol>
+<li><code>Hello.java</code>를 <strong>컴파일</strong>해서 <code>Hello.class</code>(<strong>bytecode</strong>)를 만든다.</li>
+<li>bytecode는 <strong>JVM 안에서만</strong> 실행된다.</li>
+<li>JVM이 bytecode를 <strong>인터프리트</strong>해서 그 OS에 맞게 실행한다.</li>
+</ol>
+<p>참고로 슬라이드에 &quot;The Java code compiler is called the Java Virtual Machine&quot;이라는 문장이 있는데, 정확히는 컴파일러는 <code>javac</code>이고 JVM은 실행기예요. 시험에 슬라이드 문장 그대로 나오면 슬라이드 표현을 따르되, 개념은 &quot;javac가 컴파일, JVM이 실행&quot;으로 이해해 두세요.</p>
+</div><h3 id="java-editions">📑 Java Editions <a class="anchor" aria-label="링크" href="#java-editions">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Java Standard Edition (JSE)</strong>: To develop client-side applications. (For Desktop Application Development)</li>
+<li><strong>Java Enterprise Edition (JEE)</strong>: To develop server-side applications</li>
+<li><strong>Java Micro Edition (JME)</strong>: To develop mobile based applications.</li>
+</ul>
+<p>Note: We are going to use JSE for the course.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>에디션 세 개의 이름과 용도를 짝지어 외우세요.</p>
+<table>
+<thead>
+<tr>
+<th>에디션</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>JSE</strong> (Standard)</td>
+<td>데스크톱(client-side) 앱. <strong>이 수업에서 쓰는 것</strong></td>
+</tr>
+<tr>
+<td><strong>JEE</strong> (Enterprise)</td>
+<td>서버(server-side) 앱. Servlet, JSP, JSF</td>
+</tr>
+<tr>
+<td><strong>JME</strong> (Micro)</td>
+<td>모바일, 작은 기기</td>
+</tr>
+</tbody>
+</table>
+</div><h3 id="steps-to-use-java-se">📑 Steps to Use Java SE <a class="anchor" aria-label="링크" href="#steps-to-use-java-se">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Coding</strong>: produced by the programmer.</li>
+<li><strong>Compiling</strong>: build the program into bytecode. Result is a &quot;.class&quot; file. Compiler command: <code>javac</code></li>
+<li><strong>Running</strong>: class file (bytecode) is loaded by the JVM. JVM command: <code>java</code></li>
+<li><strong>Bytecode Verification</strong>, <strong>Internal Integrity Check</strong></li>
+<li><strong>Execution</strong>: Program execution begins from the main entry point.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>실행 단계예요. 명령어 두 개가 핵심이에요.</p>
+<pre class="hl"><code class="language-bash">javac<span class="w"> </span>HelloWorld.java<span class="w">   </span><span class="c1"># 컴파일 → HelloWorld.class 생성</span>
+java<span class="w"> </span>HelloWorld<span class="w">         </span><span class="c1"># JVM이 실행 (.class는 안 붙임)</span>
+</code></pre>
+<p>JVM은 실행 전에 bytecode가 올바른지 <strong>검증</strong>(Bytecode Verification, Integrity Check)하고, 마지막에 <strong>main</strong>부터 실행을 시작해요. IntelliJ의 초록 ▶ 버튼이 이 두 명령을 대신 눌러 주는 거예요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-1-segment-2-similarities-of-java-and-c">2. 📑 강의 슬라이드: Week 1 · Segment 2. Similarities of Java and C++ <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-1-segment-2-similarities-of-java-and-c">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>C++을 배운 사람 입장에서 &quot;Java도 똑같은 것&quot;을 빠르게 훑는 챕터예요. 문법, 반복문, 연산자, OOP 네 기둥, static, for-each, 제네릭. 다른 점만 조심하면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⌨️ <strong><a href="#practice-1">Syntax and Comments</a></strong>: C++의 <code>int main()</code>이 Java에서는 클래스 안의 <code>public static void main(String[] args)</code>로 바뀌어요. (⌨️ Hello.java를 만들어 main 실행해 보기)</li>
+<li>👀 <strong>Loops, Conditionals and Operators</strong>: <code>for</code>, <code>while</code>, <code>do while</code>, <code>if/else</code>, <code>switch</code>, 산술 연산자, 비교 연산자 모두 C++과 똑같아요.</li>
+<li>👀 <strong>Basic Data Types</strong>: Java 기본 타입 8개와 크기예요. 시험에 크기를 묻는 문제가 나올 수 있어요.</li>
+<li>👀 <strong>Keywords and Multithreading</strong>: <code>break, continue, new, public, private, return, static</code> 같은 키워드는 같은 뜻이에요.</li>
+<li>👀 <strong>Object Oriented Programming</strong>: OOP 네 기둥은 무조건 외우기: Inheritance(상속), Polymorphism(다형성), Abstraction(추상화), Encapsulation(캡슐화).</li>
+<li>⌨️ <strong><a href="#practice-2">Object Oriented Programming › Inheritance</a></strong>: <code>extends</code>로 부모의 <code>brand</code>와 <code>honk()</code>를 물려받아요. (⌨️ Vehicle/Car 상속 예제 실행해 보기)</li>
+<li>⌨️ <strong><a href="#practice-3">Object Oriented Programming › Polymorphism</a></strong>: 같은 메서드 호출이 실제 객체에 따라 다르게 동작해요. (⌨️ Animal 타입 변수에 Cat, Dog 넣고 animalSound() 호출해 보기)</li>
+<li>👀 <strong>Object Oriented Programming › Abstraction</strong>: <code>abstract</code> 메서드는 몸통(body)이 없는 메서드예요.</li>
+<li>👀 <strong>Object Oriented Programming › Encapsulation</strong>: 필드는 <code>private</code>로 숨기고, 밖에서는 getter/setter로만 접근하게 하는 것이에요.</li>
+<li>👀 <strong>Static Keyword</strong>: <code>static</code>은 &quot;객체마다 하나&quot;가 아니라 &quot;클래스에 하나&quot;라는 뜻이에요.</li>
+<li>👀 <strong>ForEach</strong>: <code>for (var x : arr)</code>는 &quot;arr의 원소를 하나씩 x에 넣으면서 반복&quot;이에요.</li>
+<li>👀 <strong>Templates vs Generics</strong>: C++의 template에 해당하는 게 Java의 generics예요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 1 · Segment 2 &quot;Similarities of Java and C++&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 Java 쪽만 정리</p>
+</blockquote>
+<h3 id="syntax-and-comments">📑 Syntax and Comments <a class="anchor" aria-label="링크" href="#syntax-and-comments">#</a></h3>
+<blockquote>
+<p>Every Java Program starts with a class, nothing stays outside the class.</p>
+</blockquote>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Hello.java를 만들어 main 실행해 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Hello</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Every Java Program starts with a class</span>
+<span class="cm">       nothing stays outside the class */</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="c1">// Execution begins from main</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">"Hello Java"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++과 거의 같아요. 다른 점은 딱 하나, <strong>모든 코드가 클래스 안에 있어야 한다</strong>는 것. C++처럼 클래스 밖에 함수를 둘 수 없어요.</p>
+<ul>
+<li><code>public static void main(String[] args)</code>: 프로그램 시작점. <code>static</code>이라서 객체를 만들지 않고도 JVM이 바로 부를 수 있어요.</li>
+<li><code>System.out.print</code>: 줄바꿈 없음, <code>System.out.println</code>: 줄바꿈 있음. C++의 <code>cout &lt;&lt;</code>에 해당.</li>
+<li>주석 <code>//</code>, <code>/* */</code>은 C++과 같아요.</li>
+</ul>
+</div><h3 id="loops-conditionals-and-operators">📑 Loops, Conditionals and Operators <a class="anchor" aria-label="링크" href="#loops-conditionals-and-operators">#</a></h3>
+<blockquote>
+<ul>
+<li>All loops such as while, do while, for and so on are all same.</li>
+<li>All conditional statements such as if, else if, else and switch are all same as well.</li>
+<li>The arithmetic operators are same in both languages. <code>+, -, /, *</code></li>
+<li>The relational operators are also same in both languages. <code>&lt;, &gt;, &lt;=, &gt;=, !=</code></li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>for</code>, <code>while</code>, <code>do while</code>, <code>if/else</code>, <code>switch</code>, 산술 연산자, 비교 연산자 모두 C++과 똑같아요. 하나만 주의: Java의 <code>if</code> 조건은 <strong>boolean만</strong> 돼요. C++처럼 <code>if (x)</code>에 int를 넣으면 컴파일 에러예요. <code>if (x != 0)</code>처럼 써야 해요.</p>
+</div><h3 id="basic-data-types">📑 Basic Data Types <a class="anchor" aria-label="링크" href="#basic-data-types">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Java</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2 bytes</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8 bytes</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8 bytes</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>1 bit</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2 bytes</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java 기본 타입 8개와 크기예요. 시험에 크기를 묻는 문제가 나올 수 있어요.</p>
+<ul>
+<li><code>byte</code> 1, <code>short</code> 2, <code>int</code> 4, <code>long</code> 8, <code>float</code> 4, <code>double</code> 8 (바이트)</li>
+<li><code>char</code>는 <strong>2 bytes</strong> (유니코드라서 한글도 한 글자). C++은 1 byte.</li>
+<li><code>boolean</code>은 슬라이드 기준 <strong>1 bit</strong>. 값은 <code>true</code>/<code>false</code>만, 0/1로 못 바꿔요.</li>
+</ul>
+<p>Java는 OS와 상관없이 <code>int</code>가 항상 4 bytes예요. C++은 기계마다 2 또는 4 bytes일 수 있었죠. 이것도 플랫폼 독립성의 한 부분이에요.</p>
+</div><h3 id="keywords-and-multithreading">📑 Keywords and Multithreading <a class="anchor" aria-label="링크" href="#keywords-and-multithreading">#</a></h3>
+<blockquote>
+<p>Many of the keywords are same: <code>break, continue, char, int, double, new, public, private, return, static</code> etc.
+Both have multiple-threading support.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>break, continue, new, public, private, return, static</code> 같은 키워드는 같은 뜻이에요. 두 언어 모두 멀티스레드를 지원한다는 것도 기억하세요 (Week 11).</p>
+</div><h3 id="object-oriented-programming">📑 Object Oriented Programming <a class="anchor" aria-label="링크" href="#object-oriented-programming">#</a></h3>
+<blockquote>
+<p>Both Java and C++ support Object Oriented programming. OOPs characteristics include: <strong>Inheritance, Polymorphism, Abstraction, Encapsulation</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>OOP 네 기둥은 무조건 외우기: <strong>Inheritance(상속), Polymorphism(다형성), Abstraction(추상화), Encapsulation(캡슐화)</strong>.</p>
+<p>슬라이드 Question Time &quot;Choose the OOP characteristics&quot; 보기 중 Operator Overloading, Function Overriding, Modularity는 정답이 <strong>아니에요</strong>. 정답은 위 네 개뿐이에요. (참고로 Java는 연산자 오버로딩을 아예 지원하지 않아요.)</p>
+</div><h4 id="inheritance">📑 Inheritance <a class="anchor" aria-label="링크" href="#inheritance">#</a></h4>
+<blockquote>
+<p>Process by which objects of one class can link and share some common properties of objects from another class.</p>
+</blockquote>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Vehicle/Car 상속 예제 실행해 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Vehicle</span><span class="w"> </span><span class="p">{</span><span class="w">                       </span><span class="c1">// Base class</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">brand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Ford"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">honk</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Tuut, tuut!"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Car</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Vehicle</span><span class="w"> </span><span class="p">{</span><span class="w">           </span><span class="c1">// Derived class</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">modelName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Mustang"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Car</span><span class="w"> </span><span class="n">myCar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myCar</span><span class="p">.</span><span class="na">honk</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">myCar</span><span class="p">.</span><span class="na">brand</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myCar</span><span class="p">.</span><span class="na">modelName</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>class Car extends Vehicle</code>: Car가 Vehicle의 필드와 메서드를 물려받아요. C++의 <code>class Car : public Vehicle</code>과 같은 뜻.</p>
+<ul>
+<li><code>protected String brand</code>: 자식 클래스에서 접근 가능.</li>
+<li><code>myCar.honk()</code>: Car에 <code>honk()</code>를 안 썼는데도 부르는 게 돼요. 부모 것이니까요.</li>
+<li>Java는 클래스 상속이 <strong>하나만</strong> 돼요(단일 상속). 여러 개를 받고 싶으면 Week 2의 interface를 써요.</li>
+</ul>
+</div><h4 id="polymorphism">📑 Polymorphism <a class="anchor" aria-label="링크" href="#polymorphism">#</a></h4>
+<blockquote>
+<p>Allows us to perform a single action in different ways.</p>
+</blockquote>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Animal 타입 변수에 Cat, Dog 넣고 animalSound() 호출해 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The animal makes a sound"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Cat</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The cat says: Meo Meo"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Dog</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The dog says: bow wow"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myAnimal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Animal</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myCat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Cat</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myDog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Dog</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myAnimal</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myCat</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myDog</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Animal myCat = new Cat();</code> 이 한 줄이 다형성의 핵심이에요. 변수 타입은 <code>Animal</code>인데 실제 객체는 <code>Cat</code>이에요. <code>myCat.animalSound()</code>를 부르면 <strong>실제 객체(Cat)의 메서드</strong>가 실행돼서 &quot;The cat says: Meo Meo&quot;가 나와요.</p>
+<p>C++에서는 부모 메서드에 <code>virtual</code>을 붙여야 이렇게 동작했죠. <strong>Java는 기본이 virtual</strong>이라서 아무것도 안 붙여도 돼요. 출력 순서: <code>The animal makes a sound</code> → <code>The cat says: Meo Meo</code> → <code>The dog says: bow wow</code>.</p>
+</div><h4 id="abstraction">📑 Abstraction <a class="anchor" aria-label="링크" href="#abstraction">#</a></h4>
+<blockquote>
+<p>Includes representing essential features without including the background details.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">();</span><span class="w">          </span><span class="c1">// Abstract method (does not have a body)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sleep</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Zzz"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// Regular method</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Cat</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The cat says: Meo Meo"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>abstract</code> 메서드는 <strong>몸통(body)이 없는</strong> 메서드예요. &quot;동물은 소리를 낸다, 근데 무슨 소리인지는 자식이 정해&quot;라는 뜻이에요.</p>
+<ul>
+<li>abstract 메서드가 하나라도 있으면 클래스도 <code>abstract class</code>여야 해요.</li>
+<li>abstract 클래스는 <code>new Animal()</code>로 직접 객체를 만들 수 <strong>없어요</strong>.</li>
+<li>일반 메서드(<code>sleep()</code>)는 같이 가질 수 있어요. 이게 Week 2의 interface와 다른 점이에요.</li>
+</ul>
+</div><h4 id="encapsulation">📑 Encapsulation <a class="anchor" aria-label="링크" href="#encapsulation">#</a></h4>
+<blockquote>
+<p>Process of combining data and functions into a single unit.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">              </span><span class="c1">// Getter</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">newName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newName</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// Setter</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>필드는 <code>private</code>로 숨기고, 밖에서는 <strong>getter/setter</strong>로만 접근하게 하는 것이에요. 왜? setter 안에서 &quot;이름은 빈 문자열 안 됨&quot; 같은 규칙을 지킬 수 있으니까요. 토이 프로젝트 <code>MenuItem.setPrice()</code>에서 음수 가격을 막는 게 바로 이거예요.</p>
+</div><h3 id="static-keyword">📑 Static Keyword <a class="anchor" aria-label="링크" href="#static-keyword">#</a></h3>
+<blockquote>
+<ul>
+<li>Like C++, static data members in Java are class members and shared among all objects.</li>
+<li>Static member methods: They can only call other static methods. They must only access static data. They can't access <code>this</code> or <code>super</code>.</li>
+<li>Static data members and static methods can be accessed without creating an object. They can be accessed using the class names.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>static</code>은 &quot;객체마다 하나&quot;가 아니라 &quot;<strong>클래스에 하나</strong>&quot;라는 뜻이에요.</p>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">      </span><span class="c1">// 모든 객체가 공유</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">                    </span><span class="c1">// 객체마다 따로</span>
+<span class="w">    </span><span class="n">Counter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">show</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">count</span><span class="p">);</span><span class="w">   </span><span class="c1">// OK: static 데이터</span>
+<span class="w">        </span><span class="c1">// System.out.println(id);   // 에러: static 메서드는 인스턴스 필드 못 씀</span>
+<span class="w">        </span><span class="c1">// this.id                   // 에러: static 메서드에는 this가 없음</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="c1">// Counter.show();  ← 객체 없이 클래스 이름으로 호출</span>
+</code></pre>
+<p>규칙 세 개(static 메서드는 static만 부르고, static 데이터만 쓰고, <code>this</code>/<code>super</code>를 못 씀)가 시험에 그대로 나와요.</p>
+</div><h3 id="foreach">📑 ForEach <a class="anchor" aria-label="링크" href="#foreach">#</a></h3>
+<blockquote>
+<p>Both use the foreach loop to quickly iterate over the elements of a container (array, vectors, etc.) without performing initialization, testing, or increment/decrement.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="o">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="p">};</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>for (var x : arr)</code>는 &quot;arr의 원소를 하나씩 x에 넣으면서 반복&quot;이에요. 인덱스가 필요 없을 때 써요. <code>var</code>는 타입을 컴파일러가 알아서 추론하는 키워드(여기서는 <code>int</code>). 출력: <code>10 20 30 40 </code>. Week 3에서 ArrayList를 돌 때도 똑같이 써요.</p>
+</div><h3 id="templates-vs-generics">📑 Templates vs Generics <a class="anchor" aria-label="링크" href="#templates-vs-generics">#</a></h3>
+<blockquote>
+<p>Generics in Java and the similar in C++ named Template come in handy, when we want to write a code ... where our program works regardless of the type of data is being passed.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenericClass</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GenericClass</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">showType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Type:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Value: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">GenericClass</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericClass</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Generics vs Templates"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">GenericClass</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericClass</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+<span class="w">        </span><span class="n">str</span><span class="p">.</span><span class="na">showType</span><span class="p">();</span>
+<span class="w">        </span><span class="n">integer</span><span class="p">.</span><span class="na">showType</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++의 template에 해당하는 게 Java의 <strong>generics</strong>예요. <code>GenericClass&lt;T&gt;</code>의 <code>T</code> 자리에 <code>String</code>, <code>Integer</code> 같은 타입을 넣어요. 주의: Java 제네릭에는 <code>int</code> 같은 <strong>기본 타입을 못 넣어요</strong>. 그래서 <code>Integer</code>(wrapper 클래스)를 써요. 출력은 <code>Type:String</code>, <code>Value: Generics vs Templates</code>, <code>Type:Integer</code>, <code>Value: 9</code>. Week 3 Segment 3에서 자세히 배워요.</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-1-segment-3-differences-between-java-and-c">3. 📑 강의 슬라이드: Week 1 · Segment 3. Differences between Java and C++ <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-1-segment-3-differences-between-java-and-c">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>이번엔 &quot;C++과 다른 점&quot;이에요. 클래스 정의 모양, main 위치, <code>super</code>, 소멸자 없음(GC), abstract, static block. 시험에서 &quot;Java에 맞는 것을 고르라&quot;는 문제의 근거가 되는 챕터예요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Class Definitions</strong>: C++과 다른 점 세 가지만 기억하세요.</li>
+<li>⌨️ <strong><a href="#practice-4">main is inside the class</a></strong>:  (⌨️ CRectangle 클래스와 main을 한 파일에 쳐서 넓이 출력하기)</li>
+<li>⌨️ <strong><a href="#practice-5">Inheritance and Polymorphism</a></strong>:  (⌨️ Polygon, Rectangle, Triangle, PolyTest 네 파일 만들어 실행하기)</li>
+<li>👀 <strong>Question Time: How does Java delete the DMA?</strong>: DMA는 Dynamic Memory Allocation(동적 할당한 메모리)이에요.</li>
+<li>👀 <strong>Pure Virtual vs Abstract classes</strong>: C++의 순수 가상 함수 <code>virtual int area() = 0;</code> ↔ Java의 <code>public abstract int area();</code>.</li>
+<li>👀 <strong>Static Block and Static Local Variable</strong>: static block: Java에만 있음. 클래스가 처음 로드될 때 딱 한 번 실행돼요.</li>
+<li>👀 <strong>Exception Handling</strong>: 슬라이드에는 제목만 있어서 기본을 정리했어요. Java 예외 처리는 C++과 모양이 비슷하지만 더 엄격해요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 1 · Segment 3 &quot;Major Differences of Java and C++&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 Java 쪽만 정리</p>
+</blockquote>
+<h3 id="class-definitions">📑 Class Definitions <a class="anchor" aria-label="링크" href="#class-definitions">#</a></h3>
+<blockquote>
+<ul>
+<li>Java: <code>public class CRectangle { ... }</code> Note: no &quot;;&quot; required here (C++ needs <code>};</code>).</li>
+<li>Java declares the access modifier on every member (<code>private int width, height;</code>, <code>public int area()</code>).</li>
+<li>Java does not have destructors.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CRectangle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CRectangle</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">        </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w">   </span><span class="c1">// no ";" here</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++과 다른 점 세 가지만 기억하세요.</p>
+<ol>
+<li>클래스 끝에 <strong><code>;</code> 없음</strong>.</li>
+<li><code>public:</code> 같은 구역 표시 대신 <strong>멤버마다</strong> <code>private</code>, <code>public</code>을 붙여요.</li>
+<li><strong>소멸자(destructor)가 없어요.</strong> <code>~CRectangle()</code> 같은 건 Java에 없어요. 메모리는 GC가 정리해요.</li>
+</ol>
+<p>또 C++처럼 클래스 안에 선언만 하고 밖에서 <code>CRectangle::CRectangle(...)</code>으로 정의하는 방식도 없어요. Java는 메서드 몸통을 항상 클래스 안에 바로 써요.</p>
+</div><h3 id="main-is-inside-the-class">📑 main is inside the class <a class="anchor" aria-label="링크" href="#main-is-inside-the-class">#</a></h3>
+<blockquote>
+<p>main is inside the class, main's type is different: <code>public static void main(String[] args)</code>. Objects are created with <code>new</code>.</p>
+</blockquote>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: CRectangle 클래스와 main을 한 파일에 쳐서 넓이 출력하기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CRectangle</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ... fields, constructor, area() ...</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">CRectangle</span><span class="w"> </span><span class="n">rectA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CRectangle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="w">        </span><span class="n">CRectangle</span><span class="w"> </span><span class="n">rectB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CRectangle</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"rectA area: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rectA</span><span class="p">.</span><span class="na">area</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"rectB area: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rectB</span><span class="p">.</span><span class="na">area</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++에서는 <code>main</code>이 클래스 밖에 있었지만 Java는 <strong>클래스 안</strong>에 있어요. 그리고 객체는 항상 <code>new</code>로 만들어요.</p>
+<ul>
+<li>C++: <code>CRectangle rectA(3,4);</code> (스택에 객체)</li>
+<li>Java: <code>CRectangle rectA = new CRectangle(3, 4);</code> (힙에 객체, <code>rectA</code>는 그 객체를 가리키는 참조)</li>
+</ul>
+<p>Java에는 포인터 문법(<code>*</code>, <code>-&gt;</code>)이 없어요. 대신 모든 객체 변수가 참조라서 <code>.</code>으로 접근해요. 출력: <code>rectA area: 12</code>, <code>rectB area: 30</code>.</p>
+</div><h3 id="inheritance-and-polymorphism">📑 Inheritance and Polymorphism <a class="anchor" aria-label="링크" href="#inheritance-and-polymorphism">#</a></h3>
+<blockquote>
+<p>In C++ you write <code>class CRectangle: public CPolygon</code> and call the parent constructor in the initializer list; Java uses <code>extends</code> and <code>super(a,b)</code>. In C++ the method must be <code>virtual</code>; in Java methods are overridable by default.</p>
+</blockquote>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Polygon, Rectangle, Triangle, PolyTest 네 파일 만들어 실행하기</p>
+<pre class="hl"><code class="language-java"><span class="c1">// Polygon.java</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Polygon</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Polygon</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Rectangle.java</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Rectangle</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Polygon</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Rectangle</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Triangle.java</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Triangle</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Polygon</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Triangle</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// PolyTest.java</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PolyTest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Polygon</span><span class="w"> </span><span class="n">rect</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Polygon</span><span class="w"> </span><span class="n">trgl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Triangle</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rect</span><span class="p">.</span><span class="na">area</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">trgl</span><span class="p">.</span><span class="na">area</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++ ↔ Java 대응표예요.</p>
+<table>
+<thead>
+<tr>
+<th>C++</th>
+<th>Java</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class CRectangle: public CPolygon</code></td>
+<td><code>class Rectangle extends Polygon</code></td>
+</tr>
+<tr>
+<td><code>CRectangle(int a,int b): CPolygon(a,b) {}</code></td>
+<td><code>public Rectangle(int a,int b) { super(a,b); }</code></td>
+</tr>
+<tr>
+<td><code>virtual int area()</code></td>
+<td>그냥 <code>public int area()</code> (기본이 virtual)</td>
+</tr>
+<tr>
+<td><code>CPolygon* rect = new CRectangle(4,5);</code></td>
+<td><code>Polygon rect = new Rectangle(4,5);</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>super(a, b)</code>는 <strong>생성자 첫 줄</strong>에 있어야 해요. 출력은 <code>20</code>, <code>10</code>. Java는 보통 <strong>public 클래스 하나당 파일 하나</strong>라서 슬라이드도 Polygon.java, Rectangle.java 식으로 나눠요.</p>
+</div><h3 id="question-time-how-does-java-delete-the-dma">📑 Question Time: How does Java delete the DMA? <a class="anchor" aria-label="링크" href="#question-time-how-does-java-delete-the-dma">#</a></h3>
+<blockquote>
+<ul>
+<li>Destructor</li>
+<li>Delete Keyword</li>
+<li>Remove Keyword</li>
+<li><strong>Garbage Collected</strong></li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>DMA는 Dynamic Memory Allocation(동적 할당한 메모리)이에요. 정답은 <strong>Garbage Collected</strong>. Java에는 <code>delete</code> 키워드도, 소멸자도 없어요. 어떤 객체를 가리키는 변수가 하나도 없어지면 GC가 알아서 그 메모리를 회수해요.</p>
+<pre class="hl"><code class="language-java"><span class="n">CRectangle</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CRectangle</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span><span class="w">   </span><span class="c1">// 이제 아무도 이 객체를 안 가리킴 → GC 대상</span>
+</code></pre>
+</div><h3 id="pure-virtual-vs-abstract-classes">📑 Pure Virtual vs Abstract classes <a class="anchor" aria-label="링크" href="#pure-virtual-vs-abstract-classes">#</a></h3>
+<blockquote>
+<p>C++: <code>virtual int area() = 0;</code> Java: <code>public abstract int area();</code> in a <code>public abstract class Polygon</code>. In both, creating the base object is illegal: <code>// Polygon poly = new Polygon(4,5);</code></p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Polygon</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">width</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Polygon</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">width</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">area</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++의 순수 가상 함수 <code>virtual int area() = 0;</code> ↔ Java의 <code>public abstract int area();</code>. 둘 다 &quot;몸통 없는 메서드&quot;, 그리고 그걸 가진 클래스는 <strong>객체를 직접 만들 수 없어요</strong>. 그래서 슬라이드에 <code>// illegal: Polygon poly = new Polygon(4,5);</code>라고 주석 처리돼 있어요. 하지만 <code>Polygon rect = new Rectangle(4,5);</code>처럼 <strong>변수 타입</strong>으로는 쓸 수 있어요.</p>
+</div><h3 id="static-block-and-static-local-variable">📑 Static Block and Static Local Variable <a class="anchor" aria-label="링크" href="#static-block-and-static-local-variable">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Static Block</strong>: Unlike C++, Java supports a special block, called static block (also called static clause) which can be used for static initialization of a class. This code inside the static block is executed only once.</li>
+<li><strong>Static Local Variable</strong>: Unlike Java, C++ supports static local variables.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>static block</strong>: Java에만 있음. 클래스가 처음 로드될 때 <strong>딱 한 번</strong> 실행돼요.</li>
+</ul>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Config</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">max</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="p">{</span><span class="w">                 </span><span class="c1">// static block</span>
+<span class="w">        </span><span class="n">max</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"loaded once"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li><strong>static 지역 변수</strong>: C++에만 있음. Java에서는 메서드 안에 <code>static int x;</code>를 쓰면 <strong>컴파일 에러</strong>예요. 함수 호출 사이에 값을 유지하고 싶으면 static 필드를 써야 해요.</li>
+</ul>
+</div><h3 id="exception-handling">📑 Exception Handling <a class="anchor" aria-label="링크" href="#exception-handling">#</a></h3>
+<blockquote>
+<p>(슬라이드 제목만 있고 내용은 그림으로 되어 있어요. 아래 한글 해설에 Java 예외 처리 기본을 정리했어요.)</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>슬라이드에는 제목만 있어서 기본을 정리했어요. Java 예외 처리는 C++과 모양이 비슷하지만 더 엄격해요.</p>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="s">"abc"</span><span class="p">);</span><span class="w">      </span><span class="c1">// NumberFormatException 발생</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">NumberFormatException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"숫자가 아니에요: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"항상 실행"</span><span class="p">);</span><span class="w">        </span><span class="c1">// 예외가 나든 안 나든</span>
+<span class="p">}</span>
+</code></pre>
+<ul>
+<li>C++은 아무 값(int 등)이나 throw할 수 있지만, Java는 <code>Throwable</code>을 상속한 <strong>객체만</strong> throw해요.</li>
+<li>Java에는 **<code>finally</code>**가 있어요 (C++에는 없음).</li>
+<li><strong>checked exception</strong>(예: <code>IOException</code>)은 반드시 <code>try/catch</code> 하거나 메서드에 <code>throws</code>를 써야 컴파일돼요. Week 8 JDBC(<code>SQLException</code>), Week 9 파일 IO에서 계속 나와요.</li>
+<li>토이 프로젝트 <code>CafeView.readInt()</code>가 <code>NumberFormatException</code>을 잡아서 &quot;Please type a number.&quot;를 보여 주는 게 실제 예시예요.</li>
+</ul>
+</div><hr />
+<h2 id="4-강의-슬라이드-week-1-segment-4-mvc-pattern">4. 📑 강의 슬라이드: Week 1 · Segment 4. MVC Pattern <a class="anchor" aria-label="링크" href="#4-강의-슬라이드-week-1-segment-4-mvc-pattern">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>이 수업 전체를 관통하는 <strong>MVC 패턴</strong>의 시작이에요. Week 4~7의 JavaFX 앱, Workshop, 프로젝트 모두 이 구조로 만들어요. Model, View, Controller 각각의 역할 문장을 정확히 외우는 게 목표예요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is Design Pattern?</strong>: 디자인 패턴은 &quot;자주 나오는 설계 문제에 대한 검증된 해결 방법&quot;이에요.</li>
+<li>👀 <strong>What is MVC?</strong>: MVC = 앱을 세 덩어리로 나누는 디자인 패턴.</li>
+<li>👀 <strong>What is Model in MVC?</strong>: Model은 앱의 데이터를 관리해요. 가장 중요한 단어는 agnostic: Model은 데이터가 화면에 어떻게 보이는지 전혀 몰라요.</li>
+<li>👀 <strong>Why use MVC Design Pattern?</strong>: 장점: 각 부분을 따로 고칠 수 있고(앱 전체를 망가뜨리지 않음), 새 기능 추가가 쉽고, 테스트가 쉬워지고, 더 좋은 UI를 만들 수 있어요.</li>
+<li>👀 <strong>What is View in MVC?</strong>: View는 데이터와 입력 요소(버튼, 체크박스, 메뉴 등)를 사용자에게 보여주는 부분이에요.</li>
+<li>👀 <strong>What is Controller in MVC?</strong>: Controller 문장 네 개가 시험 단골이에요.</li>
+<li>⌨️ <strong><a href="#practice-6">Main.java</a></strong>:  (⌨️ Employee, EmployeeView, EmployeeController, MVCMain 네 클래스를 만들어 실행하기)</li>
+<li>👀 <strong>MVC in Java, in one sentence each</strong>: 마지막 정리 슬라이드예요. 한 줄씩 외워 두세요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 1 · Segment 4 &quot;MVC Pattern&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. Employee 예제 코드는 슬라이드 그대로 정리</p>
+</blockquote>
+<h3 id="what-is-design-pattern">📑 What is Design Pattern? <a class="anchor" aria-label="링크" href="#what-is-design-pattern">#</a></h3>
+<blockquote>
+<ul>
+<li>Designing object-oriented software is hard and designing reusable object-oriented software is even harder.</li>
+<li>Design patterns make it easier to reuse successful designs and architectures.</li>
+<li>The design patterns are descriptions of communicating objects and classes that are customized to solve a general design problem in a particular context.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>디자인 패턴은 &quot;자주 나오는 설계 문제에 대한 검증된 해결 방법&quot;이에요. 연결 리스트 같은 <strong>자료구조 코드도 아니고</strong>, 앱 전체 설계도도 아니에요. &quot;어떤 클래스들이 어떤 역할로 서로 대화하는지&quot;를 설명한 것이에요.</p>
+<p>슬라이드 Question Time &quot;Why we need Design Pattern?&quot;의 정답은 <strong>Can accelerate development process</strong>(개발을 빠르게 해 줌)예요. &quot;GC를 관리한다&quot;, &quot;그냥 재미로&quot;는 오답.</p>
+</div><h3 id="what-is-mvc">📑 What is MVC? <a class="anchor" aria-label="링크" href="#what-is-mvc">#</a></h3>
+<blockquote>
+<p>MVC is a software design pattern. It describes the separation of software into three elements: <strong>Model, View, Controller</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>MVC = 앱을 <strong>세 덩어리</strong>로 나누는 디자인 패턴. 카페로 비유하면:</p>
+<ul>
+<li><strong>Model</strong> = 창고와 가격표 (데이터와 규칙)</li>
+<li><strong>View</strong> = 메뉴판과 카운터 화면 (보여주기)</li>
+<li><strong>Controller</strong> = 직원 (주문 받고, 창고 확인하고, 화면에 알려줌)</li>
+</ul>
+</div><h3 id="what-is-model-in-mvc">📑 What is Model in MVC? <a class="anchor" aria-label="링크" href="#what-is-model-in-mvc">#</a></h3>
+<blockquote>
+<ul>
+<li>Manages the data of an application.</li>
+<li>The model is agnostic to the way the data is represented to the user or any application workflow, so it can be said that the model is the central part of a MVC application.</li>
+<li>Developing a model is among the first steps of any MVC software project.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class that represents model</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Employee</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">EmployeeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">EmployeeName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Model은 <strong>앱의 데이터</strong>를 관리해요. 가장 중요한 단어는 <strong>agnostic</strong>: Model은 데이터가 화면에 어떻게 보이는지 전혀 몰라요. 그래서 Model 안에 <code>System.out.println</code>이나 버튼 코드가 있으면 안 돼요.</p>
+<p>Employee 클래스는 private 필드 + getter/setter만 있는 전형적인 Model이에요. 그리고 &quot;Model 만들기가 MVC 프로젝트의 <strong>첫 단계</strong>&quot;라는 문장도 기억하세요. Week 5에서도 Model을 먼저 만들고 테스트한 다음 View를 만들어요.</p>
+</div><h3 id="why-use-mvc-design-pattern">📑 Why use MVC Design Pattern? <a class="anchor" aria-label="링크" href="#why-use-mvc-design-pattern">#</a></h3>
+<blockquote>
+<p>This makes it easier to work on each part separately, so you can update or fix things without messing up the whole app. It helps developers add new features smoothly, makes testing simpler, and allows for better user interfaces.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>장점: 각 부분을 <strong>따로</strong> 고칠 수 있고(앱 전체를 망가뜨리지 않음), 새 기능 추가가 쉽고, <strong>테스트가 쉬워지고</strong>, 더 좋은 UI를 만들 수 있어요. 예를 들어 Week 4에서 콘솔 View를 JavaFX 화면으로 바꿔도 Model은 그대로예요.</p>
+</div><h3 id="what-is-view-in-mvc">📑 What is View in MVC? <a class="anchor" aria-label="링크" href="#what-is-view-in-mvc">#</a></h3>
+<blockquote>
+<ul>
+<li>Describes the presentation of the data and control elements (inputs, buttons, check boxes, menus, and so on) to the user.</li>
+<li>A view also may use different technologies, like a GUI component installed on the user's PC, an app on a mobile phone, or a web page to be viewed in a browser.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class which represents the view</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EmployeeView</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printEmployeeDetails</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Employee Details: "</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Name: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Employee ID: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>View는 데이터와 <strong>입력 요소</strong>(버튼, 체크박스, 메뉴 등)를 사용자에게 보여주는 부분이에요. 같은 Model을 여러 View로 보여줄 수 있어요: PC 프로그램, 모바일 앱, 웹페이지. <code>EmployeeView</code>는 값을 <strong>받아서 출력만</strong> 해요. 계산도 없고 Employee 객체를 직접 바꾸지도 않아요.</p>
+</div><h3 id="what-is-controller-in-mvc">📑 What is Controller in MVC? <a class="anchor" aria-label="링크" href="#what-is-controller-in-mvc">#</a></h3>
+<blockquote>
+<ul>
+<li>Handles user input and prepares the data set necessary for the view part to do its work.</li>
+<li>While a view shows model items, the view never has to know how data is stored and retrieved from some persistent storage (database).</li>
+<li>Because the user input determines what an application has to do next, the controller also contains the application logic.</li>
+<li>Any calculation and data transformation happens in the control part of MVC.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class which represent the controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EmployeeController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">EmployeeController</span><span class="p">(</span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEmployeeName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEmployeeId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getEmployeeId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// method to update view</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">updateView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">printEmployeeDetails</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Controller 문장 네 개가 시험 단골이에요.</p>
+<ol>
+<li>사용자 입력을 처리하고 View에 필요한 데이터를 준비한다.</li>
+<li><strong>View는 데이터가 어떻게 저장되고 가져와지는지(DB 등) 절대 알 필요가 없다.</strong></li>
+<li>사용자 입력이 다음에 할 일을 정하니까, Controller가 <strong>application logic</strong>을 가진다.</li>
+<li><strong>모든 계산과 데이터 변환은 Controller에서</strong> 한다.</li>
+</ol>
+<p><code>EmployeeController</code>는 생성자로 model과 view를 <strong>둘 다 받아서</strong> 들고 있어요. M과 V를 둘 다 아는 건 Controller뿐이에요. <code>updateView()</code>는 Model에서 값을 꺼내 View에 넘겨줘요.</p>
+<p>(Week 3에서 &quot;계산은 Service Layer로 옮긴다&quot;는 내용이 나오는데, Week 1 슬라이드 기준 답은 Controller예요.)</p>
+</div><h3 id="mainjava">📑 Main.java <a class="anchor" aria-label="링크" href="#mainjava">#</a></h3>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Employee, EmployeeView, EmployeeController, MVCMain 네 클래스를 만들어 실행하기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MVCMain</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// fetching the employee record based on the employee_id from the database</span>
+<span class="w">        </span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retriveEmployeeFromDatabase</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// creating a view to write Employee details on console</span>
+<span class="w">        </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmployeeView</span><span class="p">();</span>
+<span class="w">        </span><span class="n">EmployeeController</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmployeeController</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">view</span><span class="p">);</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">updateView</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// updating the model data</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">setEmployeeName</span><span class="p">(</span><span class="s">"Frank"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"\n Employee Details after updating: "</span><span class="p">);</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">updateView</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// (슬라이드에는 없는 부분: 실행되도록 추가한 가짜 DB 조회)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="nf">retriveEmployeeFromDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Employee</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Employee</span><span class="p">();</span>
+<span class="w">        </span><span class="n">employee</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">employee</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="s">"11"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">employee</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>main</code>은 M, V, C를 <strong>만들고 연결만</strong> 해요.</p>
+<ol>
+<li>Model 준비 (DB에서 가져왔다고 가정)</li>
+<li>View 생성</li>
+<li>Controller에 둘 다 넘김 → <code>updateView()</code>로 출력</li>
+<li><code>controller.setEmployeeName(&quot;Frank&quot;)</code>로 <strong>Controller를 통해</strong> Model을 바꾸고 다시 <code>updateView()</code></li>
+</ol>
+<p>출력:</p>
+<pre class="hl"><code class="language-text">Employee Details: 
+Name: Joe
+Employee ID: 11
+
+ Employee Details after updating: 
+Employee Details: 
+Name: Frank
+Employee ID: 11
+</code></pre>
+<p><code>main</code>이 직접 <code>model.setName()</code>을 부르지 않고 Controller를 거친다는 점이 포인트예요. 이 &quot;누가 객체를 만들어서 넘겨주나&quot;가 Week 6~7의 <strong>Dependency Injection, IoC</strong>로 발전해요.</p>
+</div><h3 id="mvc-in-java-in-one-sentence-each">📑 MVC in Java, in one sentence each <a class="anchor" aria-label="링크" href="#mvc-in-java-in-one-sentence-each">#</a></h3>
+<blockquote>
+<ul>
+<li>a model (stored in memory) defines the application's state;</li>
+<li>a view shows model values and sends user interactions to a controller;</li>
+<li>the controller prepares model data, handles user input and accordingly changes model values, and then decides which view page to show next.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>마지막 정리 슬라이드예요. 한 줄씩 외워 두세요.</p>
+<ul>
+<li><strong>model</strong>: 메모리에 있는 앱의 <strong>상태(state)</strong>.</li>
+<li><strong>view</strong>: model 값을 보여주고, 사용자 동작을 <strong>controller에게 전달</strong>.</li>
+<li><strong>controller</strong>: model 데이터를 준비하고, 입력을 처리해 model 값을 바꾸고, <strong>다음에 보여줄 view를 결정</strong>.</li>
+</ul>
+</div><hr />
+<h2 id="5-강의-슬라이드-week-1-java-code-conventions">5. 📑 강의 슬라이드: Week 1 · Java Code Conventions <a class="anchor" aria-label="링크" href="#5-강의-슬라이드-week-1-java-code-conventions">#</a></h2>
+<div class="sum" data-kind="skim">
+<p><strong>🧭 먼저 한국어로</strong> · ⏭️ 가볍게 훑기</p>
+<p>Java 코드 작성 규칙 문서예요. 전부 외울 필요는 없고 <strong>이름 규칙 표</strong>만 확실히 알면 돼요. 과제 채점에서도 이름 규칙을 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Why Have Code Conventions</strong>: 소프트웨어 비용의 80%가 유지보수이고, 대부분 원래 작성자가 아닌 사람이 유지보수해요.</li>
+<li>👀 <strong>File Names and Organization</strong>: 파일 하나에 public 클래스(또는 인터페이스) 하나, 그리고 파일 이름 = public 클래스 이름 (<code>Employee.java</code> 안에 <code>public class Employee</code>).</li>
+<li>👀 <strong>Order inside a Class</strong>: 클래스 안 순서: static 변수 → 인스턴스 변수 → 생성자 → 메서드.</li>
+<li>👀 <strong>Indentation and Line Length</strong>: 들여쓰기 4칸, 한 줄 80자 이내, 줄을 나눌 때는 쉼표 뒤, 연산자 앞에서 끊어요.</li>
+<li>👀 <strong>Naming Conventions</strong>: 변수 이름을 <code>_</code>나 <code>$</code>로 시작하지 않기. <code>i, j, k</code> 같은 한 글자는 반복문 임시 변수에만.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: Java Code Conventions (Sun Microsystems), Week 1 수업 자료 핵심 발췌</p>
+</blockquote>
+<h3 id="why-have-code-conventions">📑 Why Have Code Conventions <a class="anchor" aria-label="링크" href="#why-have-code-conventions">#</a></h3>
+<blockquote>
+<ul>
+<li>80% of the lifetime cost of a piece of software goes to maintenance.</li>
+<li>Hardly any software is maintained for its whole life by the original author.</li>
+<li>Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>소프트웨어 비용의 <strong>80%가 유지보수</strong>이고, 대부분 원래 작성자가 아닌 사람이 유지보수해요. 그래서 모두 같은 규칙으로 써야 남이 빨리 읽을 수 있어요.</p>
+</div><h3 id="file-names-and-organization">📑 File Names and Organization <a class="anchor" aria-label="링크" href="#file-names-and-organization">#</a></h3>
+<blockquote>
+<ul>
+<li>Java source <code>.java</code>, Java bytecode <code>.class</code></li>
+<li>Files longer than 2000 lines are cumbersome and should be avoided.</li>
+<li>Each Java source file contains a single public class or interface.</li>
+<li>Order: Beginning comments, Package and Import statements, Class and interface declarations.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>파일 하나에 <strong>public 클래스(또는 인터페이스) 하나</strong>, 그리고 파일 이름 = public 클래스 이름 (<code>Employee.java</code> 안에 <code>public class Employee</code>). 이건 규칙이 아니라 <strong>컴파일러가 강제</strong>해요.</li>
+<li>파일 순서: 맨 위 주석 → <code>package</code> → <code>import</code> → 클래스.</li>
+<li>2000줄 넘는 파일은 피하기.</li>
+</ul>
+</div><h3 id="order-inside-a-class">📑 Order inside a Class <a class="anchor" aria-label="링크" href="#order-inside-a-class">#</a></h3>
+<blockquote>
+<ol>
+<li>Class (static) variables: public, then protected, then package level, then private</li>
+<li>Instance variables: same order</li>
+<li>Constructors</li>
+<li>Methods: grouped by functionality rather than by scope or accessibility</li>
+</ol>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>클래스 안 순서: <strong>static 변수 → 인스턴스 변수 → 생성자 → 메서드</strong>. 변수는 public → protected → (package) → private 순서. 메서드는 접근 제어자가 아니라 <strong>기능별로</strong> 묶어요. Workshop 코드도 이 순서로 쓰면 깔끔해 보여요.</p>
+</div><h3 id="indentation-and-line-length">📑 Indentation and Line Length <a class="anchor" aria-label="링크" href="#indentation-and-line-length">#</a></h3>
+<blockquote>
+<ul>
+<li>Four spaces should be used as the unit of indentation.</li>
+<li>Avoid lines longer than 80 characters.</li>
+<li>Break after a comma. Break before an operator.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>들여쓰기 <strong>4칸</strong>, 한 줄 <strong>80자</strong> 이내, 줄을 나눌 때는 <strong>쉼표 뒤</strong>, <strong>연산자 앞</strong>에서 끊어요. IntelliJ에서 <code>Cmd + Option + L</code>(Mac) 하면 자동 정렬돼요.</p>
+</div><h3 id="naming-conventions">📑 Naming Conventions <a class="anchor" aria-label="링크" href="#naming-conventions">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Identifier Type</th>
+<th>Rule</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packages</td>
+<td>all-lowercase</td>
+<td><code>com.sun.eng</code></td>
+</tr>
+<tr>
+<td>Classes</td>
+<td>nouns, mixed case, first letter of each word capitalized</td>
+<td><code>class Raster;</code> <code>class ImageSprite;</code></td>
+</tr>
+<tr>
+<td>Interfaces</td>
+<td>capitalized like class names</td>
+<td><code>interface RasterDelegate;</code></td>
+</tr>
+<tr>
+<td>Methods</td>
+<td>verbs, mixed case with the first letter lowercase</td>
+<td><code>run();</code> <code>getBackground();</code></td>
+</tr>
+<tr>
+<td>Variables</td>
+<td>mixed case with a lowercase first letter, short yet meaningful</td>
+<td><code>int i;</code> <code>float myWidth;</code></td>
+</tr>
+<tr>
+<td>Constants</td>
+<td>all uppercase with words separated by underscores</td>
+<td><code>static final int MIN_WIDTH = 4;</code></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이 표가 이번 문서의 핵심이에요.</p>
+<table>
+<thead>
+<tr>
+<th>종류</th>
+<th>규칙</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>패키지</td>
+<td>전부 소문자</td>
+<td><code>ca.senecacollege.models</code></td>
+</tr>
+<tr>
+<td>클래스, 인터페이스</td>
+<td><strong>명사</strong>, PascalCase</td>
+<td><code>MenuItem</code>, <code>IPersonAction</code></td>
+</tr>
+<tr>
+<td>메서드</td>
+<td><strong>동사</strong>, camelCase</td>
+<td><code>getName()</code>, <code>calculateSubtotal()</code></td>
+</tr>
+<tr>
+<td>변수</td>
+<td>camelCase, 짧고 뜻이 보이게</td>
+<td><code>myWidth</code>, <code>quantity</code></td>
+</tr>
+<tr>
+<td>상수</td>
+<td>전부 대문자 + <code>_</code></td>
+<td><code>static final double TAX_RATE = 0.13;</code></td>
+</tr>
+</tbody>
+</table>
+<p>변수 이름을 <code>_</code>나 <code>$</code>로 시작하지 않기. <code>i, j, k</code> 같은 한 글자는 반복문 임시 변수에만.</p>
+</div><hr />
+<h2 id="6-교수님-샘플-코드-week-1-샘플-코드-wk_1_le_ex-school-mvc">6. 💻 교수님 샘플 코드: Week 1 샘플 코드: WK_1_LE_Ex (School MVC) <a class="anchor" aria-label="링크" href="#6-교수님-샘플-코드-week-1-샘플-코드-wk_1_le_ex-school-mvc">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ IntelliJ에서 직접 쳐 보기</p>
+<p>교수님이 수업 시간에 보여 준 샘플 프로젝트예요. 슬라이드의 상속, abstract, interface, MVC가 <strong>한 프로젝트에 다 들어 있어요</strong>. 패키지 나누는 방식(<code>models / views / controllers</code>)도 이 샘플을 따라 하면 돼요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Project Structure</strong>: 패키지(폴더) 이름만 봐도 역할이 보이게 나눴어요.</li>
+<li>⌨️ <strong>Example: Packages and import (TestClass, MyClass)</strong>: 다른 패키지의 클래스를 쓰려면 <code>import 패키지.클래스;</code>가 필요해요.</li>
+<li>⌨️ <strong><a href="#practice-7">Example: Abstract base class Person</a></strong>:  (⌨️ Person, Staff, Student, Teacher를 패키지 나눠서 만들기)</li>
+<li>⌨️ <strong>Example: Staff, Student, Teacher (models)</strong>: 상속이 두 단계예요: <code>Person</code> ← <code>Staff</code> ← <code>Teacher</code>, 그리고 <code>Person</code> ← <code>Student</code>.</li>
+<li>⌨️ <strong>Example: Functional interface IPersonAction</strong>: 추상 메서드가 딱 하나인 인터페이스를 functional interface라고 해요.</li>
+<li>⌨️ <strong>Example: View and Controller</strong>: <code>SchoolView</code>는 받은 문자열과 숫자를 출력만 해요.</li>
+<li>⌨️ <strong><a href="#practice-8">Example: TestMain (wiring M, V, C)</a></strong>:  (⌨️ SchoolView, SchoolController, TestMain까지 만들어 실행 결과 확인하기)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 1 교수님 샘플 코드 WK_1_LE_Ex (Blackboard), 주요 파일 발췌</p>
+</blockquote>
+<h3 id="project-structure">💻 Project Structure <a class="anchor" aria-label="링크" href="#project-structure">#</a></h3>
+<pre class="hl"><code class="language-text">src/
+  TestClass.java                    (default package)
+  testpackage/MyClass.java
+  ca/senecacollege/
+    abstracts/   Person.java, Staff.java
+    models/      Student.java, Teacher.java
+    interfaces/  IPersonAction.java
+    views/       SchoolView.java
+    controllers/ SchoolController.java
+    tester/      TestMain.java
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>패키지(폴더) 이름만 봐도 역할이 보이게 나눴어요. <code>abstracts</code>(추상 클래스), <code>models</code>(실제 데이터 클래스), <code>interfaces</code>, <code>views</code>, <code>controllers</code>, <code>tester</code>(main). 패키지 이름은 <strong>회사 도메인을 거꾸로</strong>(<code>ca.senecacollege</code>) 시작하는 게 관례예요. IntelliJ에서 <code>src</code> 우클릭 → New → Package.</p>
+</div><h3 id="example-packages-and-import-testclass-myclass">💻 Example: Packages and import (TestClass, MyClass) <a class="anchor" aria-label="링크" href="#example-packages-and-import-testclass-myclass">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="c1">// testpackage/MyClass.java</span>
+<span class="kn">package</span><span class="w"> </span><span class="nn">testpackage</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World from MyClass"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<pre class="hl"><code class="language-java"><span class="c1">// TestClass.java (default package)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">testpackage.MyClass</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestClass</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">TestClass</span><span class="w"> </span><span class="n">test</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TestClass</span><span class="p">();</span>
+<span class="w">        </span><span class="n">test</span><span class="p">.</span><span class="na">print</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">MyClass</span><span class="w"> </span><span class="n">myClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyClass</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myClass</span><span class="p">.</span><span class="na">print</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>다른 패키지의 클래스를 쓰려면 <code>import 패키지.클래스;</code>가 필요해요. 그리고 그 클래스와 메서드가 <strong>public</strong>이어야 밖에서 보여요.</p>
+<p>눈여겨볼 점: <code>static void main()</code>에 <code>public</code>도 없고 <code>String[] args</code>도 없어요. 이건 <strong>Java 25부터 새로 된 문법</strong>(instance main methods)이라서 교수님 IntelliJ의 최신 JDK에서는 실행돼요. 시험이나 옛날 JDK에서는 전통적인 <code>public static void main(String[] args)</code>를 쓰는 게 안전해요.</p>
+</div><h3 id="example-abstract-base-class-person">💻 Example: Abstract base class Person <a class="anchor" aria-label="링크" href="#example-abstract-base-class-person">#</a></h3>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Person, Staff, Student, Teacher를 패키지 나눠서 만들기</p>
+<pre class="hl"><code class="language-java"><span class="kn">package</span><span class="w"> </span><span class="nn">ca.senecacollege.abstracts</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Person</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getAge</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setAge</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">greet</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello, my name is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDetails</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Person</code>은 abstract 클래스예요. 공통 필드(name, age), getter/setter, 공통 메서드 <code>greet()</code>는 여기 두고, 사람마다 다른 <code>getDetails()</code>는 <strong>abstract</strong>로 남겨서 자식이 꼭 만들게 해요. <code>new Person(...)</code>은 안 되지만 <code>Person p = new Student(...)</code>는 돼요.</p>
+</div><h3 id="example-staff-student-teacher-models">💻 Example: Staff, Student, Teacher (models) <a class="anchor" aria-label="링크" href="#example-staff-student-teacher-models">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Staff</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">department</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Staff</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">department</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">department</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">department</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDepartment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">department</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDetails</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Department Name: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">getDepartment</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">studentID</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Student</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">studentID</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">studentID</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentID</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDetails</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"Student ID: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">studentID</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Teacher</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Staff</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">subject</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Teacher</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">department</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">subject</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">super</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">department</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">subject</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subject</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDetails</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">getDetails</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">",  Subject: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">subject</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getSubject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">subject</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>상속이 두 단계예요: <code>Person</code> ← <code>Staff</code> ← <code>Teacher</code>, 그리고 <code>Person</code> ← <code>Student</code>.</p>
+<ul>
+<li>모든 자식 생성자의 첫 줄이 <code>super(...)</code>예요. 부모 필드는 private이라 자식이 직접 못 넣고 부모 생성자에게 맡겨요.</li>
+<li><code>Staff</code>도 <strong>abstract</strong>예요. 그래서 <code>getDetails()</code>를 구현했지만 <code>new Staff(...)</code>는 못 해요.</li>
+<li><code>Teacher.getDetails()</code>의 <code>super.getDetails() + &quot;, Subject: &quot; + subject</code>: 부모 결과(&quot;Department Name: Mathematics&quot;)에 <strong>덧붙이는</strong> 오버라이드 패턴이에요.</li>
+<li><code>@Override</code>는 &quot;부모 메서드를 덮어쓴다&quot;는 표시. 철자를 틀리면 컴파일러가 잡아 줘요. 꼭 붙이는 습관을 들이세요.</li>
+</ul>
+</div><h3 id="example-functional-interface-ipersonaction">💻 Example: Functional interface IPersonAction <a class="anchor" aria-label="링크" href="#example-functional-interface-ipersonaction">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kn">package</span><span class="w"> </span><span class="nn">ca.senecacollege.interfaces</span><span class="p">;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">ca.senecacollege.abstracts.Person</span><span class="p">;</span>
+
+<span class="nd">@FunctionalInterface</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">IPersonAction</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">performRole</span><span class="p">(</span><span class="n">Person</span><span class="w"> </span><span class="n">person</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>추상 메서드가 딱 하나</strong>인 인터페이스를 functional interface라고 해요. <code>@FunctionalInterface</code>를 붙이면 컴파일러가 &quot;하나만 있는지&quot; 검사해 줘요. 이런 인터페이스는 <strong>람다</strong>로 구현할 수 있어요 (아래 TestMain). 람다는 Week 10에서 본격적으로 배우지만, 교수님이 Week 1부터 맛보기로 보여 줬어요.</p>
+</div><h3 id="example-view-and-controller">💻 Example: View and Controller <a class="anchor" aria-label="링크" href="#example-view-and-controller">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SchoolView</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">displayPersonDetails</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">personType</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">details</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Details of the "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">personType</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">":"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Name: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Age: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">details</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">displayRole</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SchoolController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">SchoolView</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">SchoolController</span><span class="p">(</span><span class="n">SchoolView</span><span class="w"> </span><span class="n">view</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">displayPersonDetails</span><span class="p">(</span><span class="n">Person</span><span class="w"> </span><span class="n">person</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">displayPersonDetails</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">(),</span>
+<span class="w">                                  </span><span class="n">person</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span>
+<span class="w">                                  </span><span class="n">person</span><span class="p">.</span><span class="na">getAge</span><span class="p">(),</span>
+<span class="w">                                  </span><span class="n">person</span><span class="p">.</span><span class="na">getDetails</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">performPersonRole</span><span class="p">(</span><span class="n">Person</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">IPersonAction</span><span class="w"> </span><span class="n">action</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">action</span><span class="p">.</span><span class="na">performRole</span><span class="p">(</span><span class="n">p</span><span class="p">);</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">displayRole</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>SchoolView</code>는 받은 문자열과 숫자를 <strong>출력만</strong> 해요. <code>SchoolController</code>는 Model(Person)에서 값을 꺼내 View에 넘겨줘요. 슬라이드의 EmployeeView/EmployeeController와 똑같은 구조예요.</p>
+<ul>
+<li><code>person.getClass().getSimpleName()</code>: 실제 객체의 클래스 이름(&quot;Student&quot;, &quot;Teacher&quot;)을 문자열로 줘요. 변수 타입이 <code>Person</code>이어도 실제 객체 이름이 나와요 (다형성).</li>
+<li><code>person.getDetails()</code>: 실제 객체의 오버라이드된 메서드가 불려요.</li>
+<li><code>performPersonRole(Person p, IPersonAction action)</code>: &quot;무엇을 할지&quot;를 <strong>매개변수로</strong> 받아요. 행동을 값처럼 넘기는 거예요.</li>
+</ul>
+</div><h3 id="example-testmain-wiring-m-v-c">💻 Example: TestMain (wiring M, V, C) <a class="anchor" aria-label="링크" href="#example-testmain-wiring-m-v-c">#</a></h3>
+<p class="typeit" id="practice-8">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: SchoolView, SchoolController, TestMain까지 만들어 실행 결과 확인하기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestMain</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SchoolView</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SchoolView</span><span class="p">();</span>
+<span class="w">        </span><span class="n">SchoolController</span><span class="w"> </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SchoolController</span><span class="p">(</span><span class="n">view</span><span class="p">);</span><span class="w">   </span><span class="c1">// controller</span>
+
+<span class="w">        </span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Student</span><span class="p">(</span><span class="s">"Alice"</span><span class="p">,</span><span class="w"> </span><span class="mi">21</span><span class="p">,</span><span class="w"> </span><span class="s">"S1234"</span><span class="p">);</span><span class="w">          </span><span class="c1">// model</span>
+<span class="w">        </span><span class="n">Teacher</span><span class="w"> </span><span class="n">teacher</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Teacher</span><span class="p">(</span><span class="s">"Bob"</span><span class="p">,</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="s">"Mathematics"</span><span class="p">,</span><span class="w"> </span><span class="s">"Calculus - 1"</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">sc</span><span class="p">.</span><span class="na">displayPersonDetails</span><span class="p">(</span><span class="n">student</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sc</span><span class="p">.</span><span class="na">displayPersonDetails</span><span class="p">(</span><span class="n">teacher</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Lambda for roles</span>
+<span class="w">        </span><span class="n">IPersonAction</span><span class="w"> </span><span class="n">studentRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">person</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" is studying"</span><span class="p">;</span>
+<span class="w">        </span><span class="n">IPersonAction</span><span class="w"> </span><span class="n">teacherRole</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">person</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Teacher</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Teacher</span><span class="p">)</span><span class="w"> </span><span class="n">person</span><span class="p">;</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">getName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" is teaching"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">getSubject</span><span class="p">();</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="n">sc</span><span class="p">.</span><span class="na">performPersonRole</span><span class="p">(</span><span class="n">student</span><span class="p">,</span><span class="w"> </span><span class="n">studentRole</span><span class="p">);</span>
+<span class="w">        </span><span class="n">sc</span><span class="p">.</span><span class="na">performPersonRole</span><span class="p">(</span><span class="n">teacher</span><span class="p">,</span><span class="w"> </span><span class="n">teacherRole</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>순서: View 만들기 → Controller에 View 넘기기 → Model 만들기 → Controller에게 일 시키기. 출력:</p>
+<pre class="hl"><code class="language-text">Details of the Student:
+Name: Alice
+Age: 21
+Student ID: S1234
+
+Details of the Teacher:
+Name: Bob
+Age: 32
+Department Name: Mathematics,  Subject: Calculus - 1
+
+Alice is studying
+Bob is teachingCalculus - 1
+</code></pre>
+<ul>
+<li>람다 <code>(person) -&gt; person.getName() + &quot; is studying&quot;</code>는 <code>IPersonAction</code>의 <code>performRole</code>을 한 줄로 구현한 거예요.</li>
+<li><code>(Teacher) person</code>: <code>Person</code> 타입을 <code>Teacher</code>로 <strong>다운캐스팅</strong>. 실제 객체가 Teacher가 아니면 실행 중 <code>ClassCastException</code>이 나요.</li>
+<li>마지막 줄 &quot;teachingCalculus&quot;처럼 띄어쓰기가 붙어 나오는 건 원본 코드에 공백이 빠져서예요. 시험에서 출력 예측 문제로 나오면 이런 것까지 봐야 해요.</li>
+</ul>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-1">🧩 이번 주 토이 프로젝트: CafeOrder Week 1 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-1">#</a></h2>
+<p>콘솔에서 메뉴를 고르고 영수증(세금 13%)을 출력하는 카페 주문 프로그램을 <strong>MVC로 나눠서</strong> 만들어요. <code>MenuItem</code>(Model), <code>CafeView</code>(View), <code>CafeController</code>(Controller), <code>CafeApp</code>(main). 가이드와 정답 코드는 사이트의 토이 프로젝트 메뉴에 있어요.</p>
+<h2 id="시험-대비-체크리스트">✅ 시험 대비 체크리스트 <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트">#</a></h2>
+<ul>
+<li>[ ] <code>javac</code> → <code>.class</code>(bytecode) → <code>java</code>(JVM) 흐름을 설명할 수 있다.</li>
+<li>[ ] WORA, JSE/JEE/JME를 설명할 수 있다.</li>
+<li>[ ] Java 기본 타입 8개와 크기(<code>char</code> 2 bytes, <code>boolean</code> 1 bit)를 안다.</li>
+<li>[ ] Java는 소멸자가 없고 GC가 메모리를 회수한다는 것을 안다.</li>
+<li>[ ] <code>extends</code>, <code>super(...)</code>, <code>@Override</code>, <code>abstract</code>를 C++과 비교해 설명할 수 있다.</li>
+<li>[ ] static 메서드가 할 수 없는 것 세 가지를 안다.</li>
+<li>[ ] MVC 각 역할 문장을 영어로 말할 수 있다. 특히 &quot;view never has to know how data is stored&quot;, &quot;calculation happens in the controller&quot;.</li>
+<li>[ ] 이름 규칙(패키지, 클래스, 메서드, 변수, 상수)을 고를 수 있다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<p>종이에 먼저 쓰고 IntelliJ로 확인하세요.</p>
+<ol>
+<li>아래 출력이 나오는 <code>Book</code>(Model), <code>BookView</code>(View), <code>BookController</code>(Controller), <code>BookApp</code>(main)을 써 보세요. 가격 setter는 음수를 막아야 해요.</li>
+</ol>
+<pre class="hl"><code class="language-text">Book: Clean Code ($45.00)
+Book: Clean Code ($39.99)
+</code></pre>
+<ol start="2">
+<li>다음 코드의 출력은?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">area</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Square</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">s</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Square</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Q2</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Shape</span><span class="w"> </span><span class="n">sh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Square</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">sh</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p><code>Square 9.0</code>. <code>println(sh)</code>는 <code>sh.toString()</code>을 부르고, <code>getClass()</code>는 실제 객체(Square)를, <code>area()</code>는 Square의 오버라이드를 불러요. <code>double</code>이라 <code>9</code>가 아니라 <code>9.0</code>.</p>
+</details>
+<ol start="3">
+<li>아래 코드에서 컴파일 에러가 나는 줄을 모두 찾으세요.</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">mine</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">report</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span><span class="w">   </span><span class="c1">// (a)</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">mine</span><span class="p">);</span><span class="w">    </span><span class="c1">// (b)</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="k">this</span><span class="p">);</span><span class="w">    </span><span class="c1">// (c)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<details><summary>3번 정답</summary>
+<p>(b), (c). static 메서드는 인스턴스 필드(<code>mine</code>)와 <code>this</code>를 쓸 수 없어요. (a)는 static 필드라 OK.</p>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="https://github.com/minsikpaul92/study-hub/tree/main/courses/apd545/toy-project/week01" target="_blank" rel="noopener">🧩 토이 코드</a><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w1" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><span></span><a class="next" href="week-07.html"><small>다음 →</small>Week 7. 여러 화면과 IoC</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

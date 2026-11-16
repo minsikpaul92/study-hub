@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz 5 모의퀴즈 (Week 7~8) 정답과 해설 · APD545</title><meta name="description" content="Quiz 5 모의퀴즈 (Week 7~8) 정답과 해설 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Quiz 5 모의퀴즈 (Week 7~8) 정답과 해설</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-객관식">A. 객관식</a></li><li class="l2"><a href="#b-짧은-서술-모범-답안">B. 짧은 서술 (모범 답안)</a></li><li class="l2"><a href="#c-코드">C. 코드</a></li></ol></nav>
+<article class="md"><h1 id="quiz-5-모의퀴즈-정답과-해설-week-78">Quiz 5 모의퀴즈 정답과 해설 (Week 7~8) <a class="anchor" aria-label="링크" href="#quiz-5-모의퀴즈-정답과-해설-week-78">#</a></h1>
+<blockquote>
+<p>먼저 문제 페이지에서 직접 풀고 오세요. 각 해설 끝의 📍는 노트에서 다시 볼 곳이에요.</p>
+</blockquote>
+<h2 id="a-객관식">A. 객관식 <a class="anchor" aria-label="링크" href="#a-객관식">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>번호</th>
+<th>정답</th>
+<th>한 줄 해설</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td><strong>(b)</strong></td>
+<td>제어(객체 생성, 흐름)를 프레임워크/컨테이너로 넘김. &quot;Don't call us, we'll call you.&quot; 📍 Week 7 · Inversion of Control (IoC)</td>
+</tr>
+<tr>
+<td>A2</td>
+<td><strong>(c)</strong></td>
+<td>IoC ≠ DI. DI는 IoC의 가장 흔한 기법. Service Locator도 IoC. 📍 Week 7 · What IoC is not?</td>
+</tr>
+<tr>
+<td>A3</td>
+<td><strong>(b)</strong></td>
+<td>프레임워크가 적절한 때 내 코드를 부름 = program flow의 역전 (event/callback). 📍 Week 7 · IoC Techniques</td>
+</tr>
+<tr>
+<td>A4</td>
+<td><strong>(b)</strong></td>
+<td>방향은 인터페이스 → 구현, <code>in(Scopes.SINGLETON)</code>. (a)는 방향이 반대. 📍 Week 7 · AppModule</td>
+</tr>
+<tr>
+<td>A5</td>
+<td><strong>(c)</strong></td>
+<td><code>showAndWait()</code>는 닫힐 때까지 기다림. <code>show()</code>는 바로 다음 줄. 📍 Week 7 · HelloApplication</td>
+</tr>
+<tr>
+<td>A6</td>
+<td><strong>(b)</strong></td>
+<td>Domain logic: calculations, <strong>validation</strong>, 어떤 데이터 작업을 할지 결정. 📍 Week 8 · 3-Tier</td>
+</tr>
+<tr>
+<td>A7</td>
+<td><strong>(c)</strong></td>
+<td>다대다만 join table 필요 (`dog_fk</td>
+</tr>
+<tr>
+<td>A8</td>
+<td><strong>(d)</strong></td>
+<td>Type 4 = All Java, 직접 통신, 네이티브 코드 없음. 📍 Week 8 · JDBC Driver Types</td>
+</tr>
+<tr>
+<td>A9</td>
+<td><strong>(b)</strong></td>
+<td><code>execute()</code>는 결과가 ResultSet일 때만 true. CREATE는 false (실패 아님). 📍 Week 8 · Create Statement Object and execute</td>
+</tr>
+<tr>
+<td>A10</td>
+<td><strong>(c)</strong></td>
+<td>드라이버는 여전히 필요. 나머지 셋은 슬라이드의 장점. 📍 Week 8 · Benefits of using PreparedStatement</td>
+</tr>
+</tbody>
+</table>
+<h2 id="b-짧은-서술-모범-답안">B. 짧은 서술 (모범 답안) <a class="anchor" aria-label="링크" href="#b-짧은-서술-모범-답안">#</a></h2>
+<p><strong>B1.</strong> FXMLLoader는 기본적으로 컨트롤러를 <strong>인자 없는(no-arg) 생성자</strong>로 만들어요. 이 컨트롤러는 <code>IPlayerRepository</code>를 받는 생성자만 있으니 만들 수 없어요(예외). Guice에게 컨트롤러 생성을 맡기면 <code>@Inject</code> 생성자에 의존성을 넣어서 만들어 줘요.</p>
+<pre class="hl"><code class="language-java"><span class="n">loader</span><span class="p">.</span><span class="na">setControllerFactory</span><span class="p">(</span><span class="n">injector</span><span class="p">::</span><span class="n">getInstance</span><span class="p">);</span>
+</code></pre>
+<p>채점 포인트: no-arg 생성자(1), Guice/injector가 생성하도록 위임(1), 정확한 코드 한 줄(1). 📍 Week 7 · Example from the class</p>
+<p><strong>B2.</strong> <strong>Decoupling</strong>(구체 구현에 의존하지 않음), <strong>Flexibility</strong>(구현 교체 쉬움), <strong>Testability</strong>(주입으로 테스트 쉬움), <strong>Maintainability</strong>(설정이 한곳, <code>new</code>가 흩어지지 않음). Flexibility 예: <code>AppModule</code>에서 <code>bind(IPlayerRepository.class).to(InMemoryPlayerRepository.class)</code>를 <code>.to(JdbcPlayerRepository.class)</code>로 한 줄만 바꾸면 컨트롤러 코드는 그대로 두고 메모리 저장에서 DB 저장으로 바뀐다. 📍 Week 7 · Why it matters?</p>
+<p><strong>B3.</strong> <strong>Entity</strong>: 고유한 정체성(identity)이 있어서 값이 같아도 서로 구분되는 객체. 예: 학번이 있는 <code>Student</code>, VIN이 있는 <code>Car</code>. <strong>Value object</strong>: 정체성 없이 값만으로 의미가 있고 혼자 존재하지 않으며 Entity를 설명, 보통 immutable. 예: <code>Address</code>, 색, <code>Money(10, &quot;CAD&quot;)</code>. 📍 Week 8 · Entities, Value Objects</p>
+<p><strong>B4.</strong></p>
+<table>
+<thead>
+<tr>
+<th>메서드</th>
+<th>언제</th>
+<th>반환</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>executeQuery</code></td>
+<td>SELECT</td>
+<td><code>ResultSet</code></td>
+</tr>
+<tr>
+<td><code>executeUpdate</code></td>
+<td>INSERT, UPDATE, DELETE, CREATE/DROP</td>
+<td><code>int</code> (영향받은 행 수)</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td>아무 SQL, 결과가 여러 개이거나 종류를 모를 때</td>
+<td><code>boolean</code> (ResultSet이면 true)</td>
+</tr>
+</tbody>
+</table>
+<p>📍 Week 8 · execute, executeQuery, executeUpdate</p>
+<p><strong>B5.</strong> PreparedStatement는 SQL 구조를 미리 컴파일하고, <code>?</code> 자리에 들어가는 값은 드라이버가 자동으로 <strong>escape</strong>해서 <strong>데이터로만</strong> 취급해요. 그래서 값이 SQL 명령으로 해석되지 않아요. 예: 비밀번호 칸에 <code>' OR '1'='1</code>을 넣으면 문자열 이어 붙이기 쿼리는 <code>WHERE password = '' OR '1'='1'</code>이 되어 항상 참이라 로그인되지만, PreparedStatement는 이 문자열 전체를 비밀번호 값으로 비교해서 실패해요. 📍 Week 8 · Benefits of using PreparedStatement</p>
+<h2 id="c-코드">C. 코드 <a class="anchor" aria-label="링크" href="#c-코드">#</a></h2>
+<p><strong>C1.</strong> <code>Password</code> → <code>equals</code>는 대소문자를 구분하므로 <code>&quot;Password&quot;.equals(&quot;password&quot;)</code>는 false → <code>Unknown password!</code>가 표시되고 <code>return</code>으로 끝나서 화면이 안 바뀌어요. <code>password</code> → <code>trim()</code>이 앞뒤 공백을 지워서 <code>&quot;password&quot;</code>와 같음 → <code>welcomeScene</code>으로 전환. 📍 Week 7 · One layout for each view</p>
+<p><strong>C2.</strong></p>
+<ol>
+<li>이름이 비었을 때 Alert만 띄우고 <strong><code>return;</code>이 없어서</strong> 그대로 <code>insertRecord</code>가 실행돼 빈 이름이 저장돼요.</li>
+<li><code>insertRecord(fullName, email, password)</code>인데 <strong>이메일과 이름 순서가 바뀌어</strong> 전달돼요. 둘 다 String이라 컴파일 에러가 안 나고 DB에 거꾸로 저장돼요. 고친 줄: <code>dao.insertRecord(nameField.getText(), emailField.getText(), passwordField.getText());</code></li>
+</ol>
+<p>📍 Week 7 · Example: RegistrationController, Week 8 · Step 7: Registration Controller</p>
+<p><strong>C3.</strong> <code>getConnection</code>, <code>prepareStatement</code>, <code>setString</code>, <code>setString</code>, <code>executeQuery</code>, <code>next</code>. 📍 Week 8 · JdbcDao.validate</p>
+<p><strong>C4.</strong></p>
+<pre class="hl"><code class="language-text">2
+2 Mike 6
+1 Jack 5
+3 Kyle 3
+</code></pre>
+<p>해설: 넣은 직후 Jack 3, Mike 6, Kyle 1. <code>goals &lt; 4</code>인 행은 Jack(3), Kyle(1) 두 개 → <code>executeUpdate()</code>는 영향받은 행 수 <strong>2</strong>. 각각 +2 → Jack 5, Kyle 3. goals 내림차순으로 Mike 6, Jack 5, Kyle 3. 열 번호(<code>getInt(1)</code>)와 열 이름(<code>getString(&quot;name&quot;)</code>)을 섞어 써도 돼요. 📍 Week 8 · Execute statement with Insert, Execute statement with ResultSet</p>
+<p><strong>C5.</strong> 모범 답안:</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppModule</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">AbstractModule</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configure</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">IMenuRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">to</span><span class="p">(</span><span class="n">InMemoryMenuRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">Scopes</span><span class="p">.</span><span class="na">SINGLETON</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MenuController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">IMenuRepository</span><span class="w"> </span><span class="n">repo</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nd">@Inject</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">MenuController</span><span class="p">(</span><span class="n">IMenuRepository</span><span class="w"> </span><span class="n">repo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repo</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// in start(Stage stage)</span>
+<span class="n">Injector</span><span class="w"> </span><span class="n">injector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">AppModule</span><span class="p">());</span>
+<span class="n">FXMLLoader</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">"menu-view.fxml"</span><span class="p">));</span>
+<span class="n">loader</span><span class="p">.</span><span class="na">setControllerFactory</span><span class="p">(</span><span class="n">injector</span><span class="p">::</span><span class="n">getInstance</span><span class="p">);</span>
+</code></pre>
+<p>채점 포인트(5): <code>extends AbstractModule</code> + <code>configure()</code>(1), bind 방향과 singleton(1), <code>@Inject</code> 생성자(1), 생성자 타입이 <strong>인터페이스</strong>(1, 구체 클래스면 singleton 공유가 안 됨), <code>createInjector</code> + <code>setControllerFactory</code>(1). 📍 Week 7 · AppModule, PlayerOverviewController의 ⚠️ 설명</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

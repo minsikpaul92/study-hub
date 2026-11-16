@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 7 · Segment 1. Working with Multiple Views · APD545</title><meta name="description" content="Week 7 · Segment 1. Working with Multiple Views · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 7 · Segment 1. Working with Multiple Views</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#introduction">Introduction</a></li><li class="l2"><a href="#example-two-scenes-one-stage">Example: two Scenes, one Stage</a></li><li class="l2"><a href="#one-layout-for-each-view">One layout for each view</a></li><li class="l2"><a href="#view-with-same-layout">View with same layout</a></li><li class="l3"><a href="#controlcirclewithmouseandkey">ControlCircleWithMouseAndKey</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 7 · Segment 1 &quot;Working with Multiple Views&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 정리&gt;</p>
+<h1 id="week-7-segment-1-working-with-multiple-views">Week 7 · Segment 1. Working with Multiple Views <a class="anchor" aria-label="링크" href="#week-7-segment-1-working-with-multiple-views">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>Creating multiple views in JavaFX</li>
+<li>How to work with Multiple views</li>
+<li>Communicating with multiple views</li>
+</ul>
+</blockquote>
+<h2 id="introduction">Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h2>
+<blockquote>
+<ul>
+<li>Generally, the views are created as Scene-objects and the transitioning between them happens with events bound to the application.</li>
+<li>The example below has two Scene objects which both have their own content and an event related to the content.</li>
+<li>Instead of having an object for laying out components (such as BorderPane) in the example Scene objects, both objects have just one user interface component.</li>
+</ul>
+</blockquote>
+<h2 id="example-two-scenes-one-stage">Example: two Scenes, one Stage <a class="anchor" aria-label="링크" href="#example-two-scenes-one-stage">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kn">import</span><span class="w"> </span><span class="nn">javafx.application.Application</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">javafx.scene.Scene</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">javafx.scene.control.Button</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">javafx.stage.Stage</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MultiScene</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">ps</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">sc1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Scene 1 .."</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">sc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Scene 2."</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">sc1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">sc2</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">sc1</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ps</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">second</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">sc2</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">ps</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">first</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">first</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">launch</span><span class="p">(</span><span class="n">args</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="one-layout-for-each-view">One layout for each view <a class="anchor" aria-label="링크" href="#one-layout-for-each-view">#</a></h2>
+<blockquote>
+<ul>
+<li>In the first view user is asked to input a password.</li>
+<li>If the user types a wrong password, the application informs the user about the mistake.</li>
+<li>If the user types the correct password, the application switches to the next view.</li>
+<li>The concrete switching event has been bound to the login button.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TwoLayoutsOneStage</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">window</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// 1. Creating the view for asking a password</span>
+<span class="w">        </span><span class="n">Label</span><span class="w"> </span><span class="n">instructionText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">(</span><span class="s">"Write the password and press Log in"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">PasswordField</span><span class="w"> </span><span class="n">passwordField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PasswordField</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">startButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Log in"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Label</span><span class="w"> </span><span class="n">errorMessage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Layout 1</span>
+<span class="w">        </span><span class="n">GridPane</span><span class="w"> </span><span class="n">layout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GridPane</span><span class="p">();</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">instructionText</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">passwordField</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">startButton</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">errorMessage</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">setVgap</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">setHgap</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">layout</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">passwordView</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">layout</span><span class="p">);</span>
+
+<span class="w">        </span><span class="c1">// Layout 2</span>
+<span class="w">        </span><span class="n">Label</span><span class="w"> </span><span class="n">welcomeText</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">(</span><span class="s">"Welcome, this is the beginning!"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">StackPane</span><span class="w"> </span><span class="n">welcomeLayout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">StackPane</span><span class="p">();</span>
+<span class="w">        </span><span class="n">welcomeLayout</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">180</span><span class="p">);</span>
+<span class="w">        </span><span class="n">welcomeLayout</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">welcomeText</span><span class="p">);</span>
+<span class="w">        </span><span class="n">welcomeLayout</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">welcomeView</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">welcomeLayout</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">startButton</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">trim</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="s">"password"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">errorMessage</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Unknown password!"</span><span class="p">);</span>
+<span class="w">                </span><span class="k">return</span><span class="p">;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">            </span><span class="n">window</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">welcomeView</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">window</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">passwordView</span><span class="p">);</span>
+<span class="w">        </span><span class="n">window</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">launch</span><span class="p">(</span><span class="n">args</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="view-with-same-layout">View with same layout <a class="anchor" aria-label="링크" href="#view-with-same-layout">#</a></h2>
+<blockquote>
+<ul>
+<li>Sometimes one wants an application to have a permanent view whose parts are swapped when needed.</li>
+<li>Typically applications that have some kind of menus function in this manner.</li>
+<li>When pressing the buttons on the main menu the content of the content area changes.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">CirclePane</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">StackPane</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Circle</span><span class="w"> </span><span class="n">circle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CirclePane</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">circle</span><span class="p">);</span>
+<span class="w">        </span><span class="n">circle</span><span class="p">.</span><span class="na">setStroke</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">);</span>
+<span class="w">        </span><span class="n">circle</span><span class="p">.</span><span class="na">setFill</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">WHITE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">enlarge</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">circle</span><span class="p">.</span><span class="na">setRadius</span><span class="p">(</span><span class="n">circle</span><span class="p">.</span><span class="na">getRadius</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">shrink</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">circle</span><span class="p">.</span><span class="na">setRadius</span><span class="p">(</span><span class="n">circle</span><span class="p">.</span><span class="na">getRadius</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">circle</span><span class="p">.</span><span class="na">getRadius</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">circle</span><span class="p">.</span><span class="na">getRadius</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="controlcirclewithmouseandkey">ControlCircleWithMouseAndKey <a class="anchor" aria-label="링크" href="#controlcirclewithmouseandkey">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ControlCircleWithMouseAndKey</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">CirclePane</span><span class="w"> </span><span class="n">circlePane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CirclePane</span><span class="p">();</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">primaryStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">HBox</span><span class="w"> </span><span class="n">hBox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HBox</span><span class="p">();</span>
+<span class="w">        </span><span class="n">hBox</span><span class="p">.</span><span class="na">setSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">hBox</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">btEnlarge</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Enlarge"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">btShrink</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Shrink"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">hBox</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">btEnlarge</span><span class="p">);</span>
+<span class="w">        </span><span class="n">hBox</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">btShrink</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">btEnlarge</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">circlePane</span><span class="p">.</span><span class="na">enlarge</span><span class="p">());</span>
+<span class="w">        </span><span class="n">btShrink</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">circlePane</span><span class="p">.</span><span class="na">shrink</span><span class="p">());</span>
+
+<span class="w">        </span><span class="n">BorderPane</span><span class="w"> </span><span class="n">borderPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BorderPane</span><span class="p">();</span>
+<span class="w">        </span><span class="n">borderPane</span><span class="p">.</span><span class="na">setCenter</span><span class="p">(</span><span class="n">circlePane</span><span class="p">);</span>
+<span class="w">        </span><span class="n">borderPane</span><span class="p">.</span><span class="na">setBottom</span><span class="p">(</span><span class="n">hBox</span><span class="p">);</span>
+<span class="w">        </span><span class="n">BorderPane</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">hBox</span><span class="p">,</span><span class="w"> </span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">borderPane</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"ControlCircle"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">circlePane</span><span class="p">.</span><span class="na">setOnMouseClicked</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getButton</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MouseButton</span><span class="p">.</span><span class="na">PRIMARY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">circlePane</span><span class="p">.</span><span class="na">enlarge</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getButton</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MouseButton</span><span class="p">.</span><span class="na">SECONDARY</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">circlePane</span><span class="p">.</span><span class="na">shrink</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">        </span><span class="n">scene</span><span class="p">.</span><span class="na">setOnKeyPressed</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">KeyCode</span><span class="p">.</span><span class="na">UP</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">circlePane</span><span class="p">.</span><span class="na">enlarge</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">            </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getCode</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">KeyCode</span><span class="p">.</span><span class="na">DOWN</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">circlePane</span><span class="p">.</span><span class="na">shrink</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">launch</span><span class="p">(</span><span class="n">args</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

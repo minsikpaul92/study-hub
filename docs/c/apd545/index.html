@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APD545 · study-hub</title><meta name="description" content="APD545 · study-hub">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><span>APD545</span></nav><div class="spacer"></div>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<main class="wrap"><section class="hero"><p class="kicker" style="color:var(--accent);font-weight:700">Seneca Polytechnic · Fall 2026</p>
+<h1>APD545 Java 애플리케이션 프로그램 개발 (JavaFX)</h1><p>Application Program Development (Java, JavaFX) · 슬라이드 핵심 발췌 + 한글 해설</p>
+<div style="margin-top:16px;max-width:420px"><div class="progress"><i id="prog"></i></div><p style="font-size:14px;margin-top:6px" id="prog-t"></p></div>
+<div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><a class="pill" href="materials.html">📂 원본 자료</a><a class="pill" href="https://www.jetbrains.com/idea/download" target="_blank" rel="noopener">IntelliJ IDEA 다운로드</a><a class="pill" href="https://openjfx.io/" target="_blank" rel="noopener">JavaFX 문서</a></div></section>
+<div class="grid resume-grid" id="resume-box" data-scope="here" hidden></div>
+<h2 class="section-title">1. 강의 해설노트</h2><div class="grid"><div class="card wk" data-key="apd545-w1"><span class="done-badge">완료</span><span class="kicker">WEEK 1</span><h3>Java 입문과 MVC</h3><div class="tags"><span class="tag">JVM</span><span class="tag">Java vs C</span><span class="tag">MVC</span><span class="tag">Code Conventions</span></div>
+<div class="row"><a class="pill primary" href="week-01.html">📘 해설노트</a><a class="pill" href="https://github.com/minsikpaul92/study-hub/tree/main/courses/apd545/toy-project/week01" target="_blank" rel="noopener">🧩 토이 코드</a></div></div><div class="card wk" data-key="apd545-w7"><span class="done-badge">완료</span><span class="kicker">WEEK 7</span><h3>여러 화면과 IoC</h3><div class="tags"><span class="tag">Multiple Views</span><span class="tag">IoC</span><span class="tag">Guice</span></div>
+<div class="row"><a class="pill primary" href="week-07.html">📘 해설노트</a></div></div><div class="card wk" data-key="apd545-w8"><span class="done-badge">완료</span><span class="kicker">WEEK 8</span><h3>ORM과 JDBC</h3><div class="tags"><span class="tag">ORM</span><span class="tag">DAO/Repository</span><span class="tag">JDBC</span><span class="tag">JavaFX + JDBC</span></div>
+<div class="row"><a class="pill primary" href="week-08.html">📘 해설노트</a></div></div></div>
+<h2 class="section-title">2. 토이 프로젝트</h2><div class="grid"><a class="card" href="https://github.com/minsikpaul92/study-hub/tree/main/courses/apd545/toy-project" target="_blank" rel="noopener"><span class="kicker">CODE</span><h3>토이 프로젝트 코드</h3><p>주차별 폴더 (GitHub)</p></a></div>
+<h2 class="section-title">3. 퀴즈 · 시험 대비</h2><div class="grid"><a class="card" href="quiz.html"><span class="kicker">QUIZ</span><h3>주차별 퀴즈 · 모의시험</h3><p>74문항 · 연습 모드와 시험 모드, 오답노트</p></a><div class="card"><span class="kicker">MOCK EXAM</span><h3>Quiz 5 모의퀴즈 (Week 7~8)</h3><p>실제 시험 형식(객관식, 서술, 코딩)</p><div class="row"><a class="pill primary" href="mock-1.html">문제</a><a class="pill" href="mock-1-answers.html">정답과 해설</a></div></div></div></main>
+<script>(function(){var d={};try{d=JSON.parse(localStorage.getItem('studyhub-done')||'{}');}catch(e){}var cs=document.querySelectorAll('.wk'),n=0;cs.forEach(function(c){if(d[c.dataset.key]){c.classList.add('is-done');n++;}});
+document.getElementById('prog').style.width=(cs.length?n/cs.length*100:0)+'%';document.getElementById('prog-t').textContent='공부 완료 '+n+' / '+cs.length+'주';})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

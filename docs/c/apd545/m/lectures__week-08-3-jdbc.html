@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8 · Segment 3. Introduction to JDBC · APD545</title><meta name="description" content="Week 8 · Segment 3. Introduction to JDBC · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 8 · Segment 3. Introduction to JDBC</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#why-java-for-database-programming">Why Java for Database Programming?</a></li><li class="l2"><a href="#what-is-jdbc">What is JDBC?</a></li><li class="l2"><a href="#the-architecture-of-jdbc">The Architecture of JDBC</a></li><li class="l2"><a href="#jdbc-api">JDBC API</a></li><li class="l2"><a href="#core-jdbc-interfaces">Core JDBC Interfaces</a></li><li class="l2"><a href="#jdbc-driver-types">JDBC Driver Types</a></li><li class="l2"><a href="#jdbc-technology-four-steps">JDBC Technology: four steps</a></li><li class="l2"><a href="#basic-jdbc-connection">Basic JDBC Connection</a></li><li class="l2"><a href="#create-statement-object-and-execute">Create Statement Object and execute</a></li><li class="l2"><a href="#execute-statement-with-insert">Execute statement with Insert</a></li><li class="l2"><a href="#execute-statement-with-resultset">Execute statement with ResultSet</a></li><li class="l2"><a href="#prepared-statement">Prepared Statement</a></li><li class="l2"><a href="#execute-executequery-executeupdate">execute, executeQuery, executeUpdate</a></li><li class="l2"><a href="#benefits-of-using-preparedstatement">Benefits of using PreparedStatement</a></li><li class="l2"><a href="#insert-and-select-using-preparedstatement">Insert and Select using PreparedStatement</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 8 · Segment 3 &quot;JDBC&quot; 강의 슬라이드 (Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 정리 (DB 파일 경로만 짧게 바꿈)&gt;</p>
+<h1 id="week-8-segment-3-introduction-to-jdbc">Week 8 · Segment 3. Introduction to JDBC <a class="anchor" aria-label="링크" href="#week-8-segment-3-introduction-to-jdbc">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>Understanding of why Database Programming?</li>
+<li>Understanding architecture of JDBC. Understanding of JDBC Interface.</li>
+<li>Understanding the Technology of JDBC: Connectivity, Read operations, Write operations</li>
+</ul>
+</blockquote>
+<h2 id="why-java-for-database-programming">Why Java for Database Programming? <a class="anchor" aria-label="링크" href="#why-java-for-database-programming">#</a></h2>
+<blockquote>
+<ul>
+<li>First, Java is platform independent. You can develop platform-independent database applications using SQL and Java for any relational database systems.</li>
+<li>Second, the support for accessing database systems from Java is built into Java API, so you can create database applications using all Java code with a common interface.</li>
+</ul>
+</blockquote>
+<h2 id="what-is-jdbc">What is JDBC? <a class="anchor" aria-label="링크" href="#what-is-jdbc">#</a></h2>
+<blockquote>
+<p>Java Database Connectivity or JDBC API provides industry-standard and database-independent connectivity between the Java applications and relational database servers (relational databases, spreadsheets, and flat files).</p>
+</blockquote>
+<h2 id="the-architecture-of-jdbc">The Architecture of JDBC <a class="anchor" aria-label="링크" href="#the-architecture-of-jdbc">#</a></h2>
+<blockquote>
+<p>JDBC helps you to write Java applications that manage these three programming activities:</p>
+<ul>
+<li>Connect to a data source, like a database</li>
+<li>Send queries and update statements to the database</li>
+<li>Retrieve and process the results received from the database in answer to your query</li>
+</ul>
+</blockquote>
+<h2 id="jdbc-api">JDBC API <a class="anchor" aria-label="링크" href="#jdbc-api">#</a></h2>
+<blockquote>
+<p>JDBC API consists of two packages: <strong><code>java.sql</code></strong> and <strong><code>javax.sql</code></strong>.
+A JDBC driver is a set of Java classes that implement the JDBC interfaces, targeting a specific database. The JDBC interfaces come with standard Java, but the implementation of these interfaces is specific to the database you need to connect to. Such an implementation is called a JDBC driver.</p>
+</blockquote>
+<h2 id="core-jdbc-interfaces">Core JDBC Interfaces <a class="anchor" aria-label="링크" href="#core-jdbc-interfaces">#</a></h2>
+<blockquote>
+<p>Loading drivers → Establishing connections → Creating and executing statements → Processing ResultSet</p>
+<ul>
+<li><strong>DriverManager</strong> is used to load a JDBC Driver.</li>
+<li><strong>Connection</strong> is being returned by the DriverManager's <code>getConnection</code> function.</li>
+<li>A Connection is used to create a <strong>Statement</strong>, or to create and prepare a <strong>PreparedStatement</strong> or <strong>CallableStatement</strong>.</li>
+<li>Statement and PreparedStatement objects are used to execute SQL statements. CallableStatement objects are used to execute stored procedures.</li>
+<li>A Connection can also be used to get a <strong>DatabaseMetaData</strong> object.</li>
+</ul>
+</blockquote>
+<h2 id="jdbc-driver-types">JDBC Driver Types <a class="anchor" aria-label="링크" href="#jdbc-driver-types">#</a></h2>
+<blockquote>
+<ol>
+<li><strong>Type 1: JDBC-ODBC bridge driver</strong>: dependent on a native library, transitional solution, not supported by Oracle.</li>
+<li><strong>Type 2: Java + Native code driver</strong>: wraps a native API with Java classes (Oracle OCI driver). Expected to have better performance than a pure Java driver.</li>
+<li><strong>Type 3: All Java + Middleware translation driver</strong>: communicates using a network protocol to a middle-tier server.</li>
+<li><strong>Type 4: All Java driver</strong>: written entirely in Java, communicates directly with the database. No local native code is required. (Oracle's Thin driver)</li>
+</ol>
+</blockquote>
+<h2 id="jdbc-technology-four-steps">JDBC Technology: four steps <a class="anchor" aria-label="링크" href="#jdbc-technology-four-steps">#</a></h2>
+<blockquote>
+<ul>
+<li>Connect to the database</li>
+<li>Create a statement</li>
+<li>Execute the query</li>
+<li>Look at the result set</li>
+<li>Close connection // not needed if you are using try-with-resources</li>
+</ul>
+</blockquote>
+<h2 id="basic-jdbc-connection">Basic JDBC Connection <a class="anchor" aria-label="링크" href="#basic-jdbc-connection">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.Connection</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.DriverManager</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.SQLException</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StatementExample</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="s">"jdbc:sqlite:testDB.db"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">connection</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printSQLException</span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Throwable</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">);</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"SQLState: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">).</span><span class="na">getSQLState</span><span class="p">());</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error Code: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">).</span><span class="na">getErrorCode</span><span class="p">());</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Message: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">                </span><span class="n">Throwable</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getCause</span><span class="p">();</span>
+<span class="w">                </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Cause: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">getCause</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="create-statement-object-and-execute">Create Statement Object and execute <a class="anchor" aria-label="링크" href="#create-statement-object-and-execute">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Statement</span><span class="w"> </span><span class="n">statement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">createStatement</span><span class="p">();</span>
+<span class="n">statement</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="s">"Drop Table If Exists users"</span><span class="p">);</span>
+<span class="n">String</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Create Table IF NOT EXISTS Users (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "</span>
+<span class="w">             </span><span class="o">+</span><span class="w"> </span><span class="s">"username varchar(20) not null, email varchar(20) not null, "</span>
+<span class="w">             </span><span class="o">+</span><span class="w"> </span><span class="s">"country varchar(15), password varchar(20))"</span><span class="p">;</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Table is not created as the resultSet is being returned"</span><span class="p">);</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Table is created"</span><span class="p">);</span>
+</code></pre>
+<h2 id="execute-statement-with-insert">Execute statement with Insert <a class="anchor" aria-label="링크" href="#execute-statement-with-insert">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Insert into users (username, email, country, password) "</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="s">"Values ('mali','m@ali.com','Canada','1234')"</span><span class="p">;</span>
+<span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"1 row updated in the table"</span><span class="p">);</span>
+</code></pre>
+<h2 id="execute-statement-with-resultset">Execute statement with ResultSet <a class="anchor" aria-label="링크" href="#execute-statement-with-resultset">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Select * from users"</span><span class="p">;</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                       </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="prepared-statement">Prepared Statement <a class="anchor" aria-label="링크" href="#prepared-statement">#</a></h2>
+<blockquote>
+<ul>
+<li>Prepared statements are precompiled statements that can be reused to execute identical SQL statements with different values more efficiently.</li>
+<li>They make only one trip to the database for metadata, whereas statements make a round trip with each execution.</li>
+<li>You use a question mark as a placeholder within the text of a SQL statement ... You can then replace that question mark with an appropriate value using one of the many available <code>setXXX()</code> accessor methods.</li>
+</ul>
+</blockquote>
+<h2 id="execute-executequery-executeupdate">execute, executeQuery, executeUpdate <a class="anchor" aria-label="링크" href="#execute-executequery-executeupdate">#</a></h2>
+<blockquote>
+<ul>
+<li>The methods for executing SQL statements are <code>execute</code>, <code>executeQuery</code>, and <code>executeUpdate</code>, each of which accepts a string containing a SQL statement as an argument.</li>
+<li>The <code>execute</code> method should be used if the execution produces multiple result sets, multiple update counts, or a combination of result sets and update counts.</li>
+</ul>
+</blockquote>
+<h2 id="benefits-of-using-preparedstatement">Benefits of using PreparedStatement <a class="anchor" aria-label="링크" href="#benefits-of-using-preparedstatement">#</a></h2>
+<blockquote>
+<ul>
+<li>PreparedStatement allows you to write a dynamic and parametric query.</li>
+<li>PreparedStatement is faster than Statement in Java. PreparedStatement gets pre-compiled in database and their access plan is also cached.</li>
+<li><strong>PreparedStatement prevents SQL Injection attacks in Java</strong>: all the parameters passed as part of the place-holder will be escaped automatically by JDBC Driver.</li>
+<li>PreparedStatement queries are more readable and secure than cluttered string concatenated queries.</li>
+</ul>
+</blockquote>
+<h2 id="insert-and-select-using-preparedstatement">Insert and Select using PreparedStatement <a class="anchor" aria-label="링크" href="#insert-and-select-using-preparedstatement">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Insert into books (bname, bcategory, bprice, bisbn) Values (?,?,?,?)"</span><span class="p">;</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Harry Potter"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Fantacy"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setDouble</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">65.3</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">"123456789"</span><span class="p">);</span>
+<span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"1 row updated in the table"</span><span class="p">);</span>
+
+<span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Select * from books where bname = ?"</span><span class="p">;</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Harry Potter"</span><span class="p">);</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                       </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

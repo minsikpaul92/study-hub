@@ -1,0 +1,212 @@
+{
+  "code": "APD545",
+  "title": "Application Program Development (Java, JavaFX)",
+  "title_ko": "Java 애플리케이션 프로그램 개발 (JavaFX)",
+  "term": "Fall 2026",
+  "school": "Seneca Polytechnic",
+  "language": "슬라이드 핵심 발췌 + 한글 해설",
+  "runner": "intellij",
+  "source_attribution": "Seneca APD545 강의 슬라이드 (Mahboob Ali)",
+  "note_sources": {
+    "SLIDE": "materials/lectures",
+    "IN": "materials/in-class",
+    "LAB": "materials/labs",
+    "TEST": "materials/sample-tests"
+  },
+  "links": [
+    {
+      "label": "IntelliJ IDEA 다운로드",
+      "href": "https://www.jetbrains.com/idea/download"
+    },
+    {
+      "label": "JavaFX 문서",
+      "href": "https://openjfx.io/"
+    }
+  ],
+  "toy_project": {
+    "title": "CafeOrder",
+    "guide": null,
+    "snack_links": null
+  },
+  "exams": [
+    {
+      "id": "quiz4",
+      "title": "Quiz 4 (11월 6일)",
+      "weeks": [
+        5,
+        6
+      ]
+    },
+    {
+      "id": "quiz5",
+      "title": "Quiz 5 (11월 20일)",
+      "weeks": [
+        7,
+        8
+      ]
+    }
+  ],
+  "mock_exams": [
+    {
+      "title": "Quiz 5 모의퀴즈 (Week 7~8)",
+      "file": "exam-prep/mock-exams/quiz5-mock-week7-8.md",
+      "answers": "exam-prep/mock-exams/quiz5-mock-week7-8-answers.md",
+      "weeks": [
+        7,
+        8
+      ]
+    }
+  ],
+  "weeks": [
+    {
+      "n": 1,
+      "title": "Java 입문과 MVC",
+      "topics": [
+        "JVM",
+        "Java vs C",
+        "MVC",
+        "Code Conventions"
+      ],
+      "notes": "notes/week-01.md",
+      "toy": "week01"
+    },
+    {
+      "n": 2,
+      "title": "상속과 인터페이스",
+      "topics": [
+        "Inheritance",
+        "Abstract Class",
+        "Interface"
+      ],
+      "notes": "notes/week-02.md",
+      "toy": null
+    },
+    {
+      "n": 3,
+      "title": "컬렉션, 제네릭, 서비스 계층",
+      "topics": [
+        "Collections",
+        "Iterator",
+        "Generics",
+        "Service Layer"
+      ],
+      "notes": "notes/week-03.md",
+      "toy": null
+    },
+    {
+      "n": 4,
+      "title": "JavaFX 기초",
+      "topics": [
+        "Stage/Scene",
+        "Components",
+        "Layout Panes",
+        "Event Handling"
+      ],
+      "notes": "notes/week-04.md",
+      "toy": null
+    },
+    {
+      "n": 5,
+      "title": "MVC 분리",
+      "topics": [
+        "Model",
+        "View",
+        "Controller"
+      ],
+      "notes": "notes/week-05.md",
+      "toy": null
+    },
+    {
+      "n": 6,
+      "title": "메뉴, 대화상자, DI",
+      "topics": [
+        "Resizing",
+        "Menus",
+        "Dialogs",
+        "Custom Dialog",
+        "DI & Repository"
+      ],
+      "notes": "notes/week-06.md",
+      "toy": null
+    },
+    {
+      "n": 7,
+      "title": "여러 화면과 IoC",
+      "topics": [
+        "Multiple Views",
+        "IoC",
+        "Guice"
+      ],
+      "notes": "notes/week-07.md",
+      "toy": null
+    },
+    {
+      "n": 8,
+      "title": "ORM과 JDBC",
+      "topics": [
+        "ORM",
+        "DAO/Repository",
+        "JDBC",
+        "JavaFX + JDBC"
+      ],
+      "notes": "notes/week-08.md",
+      "toy": null
+    },
+    {
+      "n": 9,
+      "title": "파일 입출력",
+      "topics": [
+        "IO Streams",
+        "Object Serialization"
+      ],
+      "notes": "notes/week-09.md",
+      "toy": null
+    },
+    {
+      "n": 10,
+      "title": "람다, 스트림, 바인딩",
+      "topics": [
+        "Lambda",
+        "Stream",
+        "Properties & Binding",
+        "Scene Builder"
+      ],
+      "notes": "notes/week-10.md",
+      "toy": null
+    },
+    {
+      "n": 11,
+      "title": "스레드",
+      "topics": [
+        "Thread",
+        "Synchronization",
+        "wait/notify"
+      ],
+      "notes": "notes/week-11.md",
+      "toy": null
+    },
+    {
+      "n": 12,
+      "title": "디자인 패턴",
+      "topics": [
+        "Singleton",
+        "Factory",
+        "Observer",
+        "Strategy",
+        "Decorator"
+      ],
+      "notes": "notes/week-12.md",
+      "toy": null
+    },
+    {
+      "n": 13,
+      "title": "네트워킹과 커넥션 풀",
+      "topics": [
+        "Socket",
+        "JDBC Pooling"
+      ],
+      "notes": "notes/week-13.md",
+      "toy": null
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8 · Segment 2. ORM and Design Patterns · APD545</title><meta name="description" content="Week 8 · Segment 2. ORM and Design Patterns · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 8 · Segment 2. ORM and Design Patterns</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#domain-driven-design-ddd">Domain-Driven Design (DDD)</a></li><li class="l2"><a href="#uml">UML</a></li><li class="l2"><a href="#domain-model-structure">Domain Model Structure</a></li><li class="l3"><a href="#entities">Entities</a></li><li class="l3"><a href="#value-objects">Value Objects</a></li><li class="l3"><a href="#aggregate">Aggregate</a></li><li class="l2"><a href="#object-relational-patterns">Object-Relational Patterns</a></li><li class="l2"><a href="#inheritance-mapping">Inheritance Mapping</a></li><li class="l2"><a href="#relationships">Relationships</a></li><li class="l2"><a href="#lazy-loading">Lazy Loading</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 8 · Segment 2 &quot;ORM's and Design Patterns&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-8-segment-2-orm-and-design-patterns">Week 8 · Segment 2. ORM and Design Patterns <a class="anchor" aria-label="링크" href="#week-8-segment-2-orm-and-design-patterns">#</a></h1>
+<h2 id="domain-driven-design-ddd">Domain-Driven Design (DDD) <a class="anchor" aria-label="링크" href="#domain-driven-design-ddd">#</a></h2>
+<blockquote>
+<ul>
+<li>DDD is one of the focused software development philosophies that overcome the complexities of the problem.</li>
+<li><strong>Domain</strong>: is the knowledge, influence or activity around which we work to solve the problem on hand.</li>
+<li><strong>Domain Model</strong>: an object model of the domain that incorporates both behavior and data.</li>
+</ul>
+</blockquote>
+<h2 id="uml">UML <a class="anchor" aria-label="링크" href="#uml">#</a></h2>
+<blockquote>
+<ul>
+<li>The most common language used for modeling. There is total 13 diagrams in UML.</li>
+<li><strong>Class Diagram</strong>: Displays static model with all the attributes and relationships between classes and interfaces. Can also include Inheritance, Composition, Associations, Aggregations.</li>
+<li><strong>Object Diagram</strong>: Is a simplified version of a class diagram. Depicts the role of an object plays when instantiated and its multiplicity.</li>
+<li><strong>Sequence Diagram</strong>: Represent stereotyped elements, such as screens, controllers, entities, and database items.</li>
+</ul>
+</blockquote>
+<h2 id="domain-model-structure">Domain Model Structure <a class="anchor" aria-label="링크" href="#domain-model-structure">#</a></h2>
+<blockquote>
+<p>A domain model can be broken into these pieces: <strong>Entities, Value Objects, Services, Aggregates, Factories, Repositories</strong></p>
+</blockquote>
+<h3 id="entities">Entities <a class="anchor" aria-label="링크" href="#entities">#</a></h3>
+<blockquote>
+<ul>
+<li>Tech definition: In Database entity is a table.</li>
+<li>Identity: which defines uniqueness not only in real world but also in software world.</li>
+<li>Example: Car has a VIN. Your car object which has its identity becomes an entity.</li>
+</ul>
+</blockquote>
+<h3 id="value-objects">Value Objects <a class="anchor" aria-label="링크" href="#value-objects">#</a></h3>
+<blockquote>
+<ul>
+<li>They can't exist by themselves. Example: model, engine, color etc. can't exist on their own.</li>
+<li>A value object is typically an immutable object with no identity, containing values used to describe entities.</li>
+</ul>
+</blockquote>
+<h3 id="aggregate">Aggregate <a class="anchor" aria-label="링크" href="#aggregate">#</a></h3>
+<blockquote>
+<p>A logical grouping of entities and value objects into a collection, so that complex relationships that can lead to data inconsistencies in your application and database can be reduced.</p>
+</blockquote>
+<h2 id="object-relational-patterns">Object-Relational Patterns <a class="anchor" aria-label="링크" href="#object-relational-patterns">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Domain Model</strong>: creates a web of interconnected objects, where each object represents some meaningful individual, whether as large as a corporation or as small as a single line on an order form.</li>
+<li><strong>Table Module</strong>: create a class per table.</li>
+<li><strong>Active Record</strong>: similar to the table module except that the table module is an architectural design principle, whereas an active record falls under the data access pattern category. The active record pattern also encapsulates database access functionality.</li>
+<li><strong>Database Mapper</strong>: map objects to a relational database, accomplished by using metadata (for the most part XML) to describe the attributes and relationships between the object model and the data model.</li>
+</ul>
+</blockquote>
+<h2 id="inheritance-mapping">Inheritance Mapping <a class="anchor" aria-label="링크" href="#inheritance-mapping">#</a></h2>
+<blockquote>
+<p>There are three key inheritance-mapping approaches:</p>
+<ul>
+<li><strong>A single table per class hierarchy</strong>: Mapping your entire class structure to a single table. Quick and easy approach.</li>
+<li><strong>A table per concrete class</strong>: The most common approach. Maps each non-abstract class to its own table.</li>
+<li><strong>A table per class</strong>: each class to its own table.</li>
+</ul>
+</blockquote>
+<h2 id="relationships">Relationships <a class="anchor" aria-label="링크" href="#relationships">#</a></h2>
+<blockquote>
+<p>One-to-One · One-to-Many · Many-to-Many</p>
+</blockquote>
+<h2 id="lazy-loading">Lazy Loading <a class="anchor" aria-label="링크" href="#lazy-loading">#</a></h2>
+<blockquote>
+<p>A way to optimize memory utilization of database servers by prioritizing components that need to be loaded into memory when a program is started.
+Example: take out only the ingredients you need as you need them (small kitchen, many dishes).</p>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

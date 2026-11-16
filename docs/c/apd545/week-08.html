@@ -1,0 +1,1404 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8. ORM과 JDBC · APD545</title><meta name="description" content="Week 8. ORM과 JDBC · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 8</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-8-segment-1-introduction-to-orm">1. 📑 강의 슬라이드: Week 8 · Segment 1. Introduction to ORM</a></li><li class="l3"><a href="#outcomes">📑 Outcomes</a></li><li class="l3"><a href="#why-the-need">📑 Why the need?</a></li><li class="l3"><a href="#different-types-of-systems">📑 Different types of systems</a></li><li class="l3"><a href="#what-are-patterns">📑 What are patterns?</a></li><li class="l3"><a href="#the-three-principal-layers-3-tier-architecture">📑 The Three Principal Layers (3-Tier Architecture)</a></li><li class="l3"><a href="#trouble-with-objects">📑 Trouble with Objects</a></li><li class="l3"><a href="#example-dog-and-owner">📑 Example: Dog and Owner</a></li><li class="l3"><a href="#what-is-orm-then">📑 What is ORM then?</a></li><li class="l3"><a href="#relational-models-vs-oo-models">📑 Relational Models vs OO Models</a></li><li class="l3"><a href="#benefits-of-orm">📑 Benefits of ORM</a></li><li class="l3"><a href="#selecting-a-suitable-orm">📑 Selecting a suitable ORM</a></li><li class="l2"><a href="#2-강의-슬라이드-week-8-segment-2-orm-and-design-patterns">2. 📑 강의 슬라이드: Week 8 · Segment 2. ORM and Design Patterns</a></li><li class="l3"><a href="#domain-driven-design-ddd">📑 Domain-Driven Design (DDD)</a></li><li class="l3"><a href="#uml">📑 UML</a></li><li class="l3"><a href="#domain-model-structure">📑 Domain Model Structure</a></li><li class="l3"><a href="#object-relational-patterns">📑 Object-Relational Patterns</a></li><li class="l3"><a href="#inheritance-mapping">📑 Inheritance Mapping</a></li><li class="l3"><a href="#relationships">📑 Relationships</a></li><li class="l3"><a href="#lazy-loading">📑 Lazy Loading</a></li><li class="l2"><a href="#3-강의-슬라이드-week-8-segment-3-introduction-to-jdbc">3. 📑 강의 슬라이드: Week 8 · Segment 3. Introduction to JDBC</a></li><li class="l3"><a href="#outcomes-1">📑 Outcomes</a></li><li class="l3"><a href="#why-java-for-database-programming">📑 Why Java for Database Programming?</a></li><li class="l3"><a href="#what-is-jdbc">📑 What is JDBC?</a></li><li class="l3"><a href="#the-architecture-of-jdbc">📑 The Architecture of JDBC</a></li><li class="l3"><a href="#jdbc-api">📑 JDBC API</a></li><li class="l3"><a href="#core-jdbc-interfaces">📑 Core JDBC Interfaces</a></li><li class="l3"><a href="#jdbc-driver-types">📑 JDBC Driver Types</a></li><li class="l3"><a href="#jdbc-technology-four-steps">📑 JDBC Technology: four steps</a></li><li class="l3"><a href="#basic-jdbc-connection">📑 Basic JDBC Connection</a></li><li class="l3"><a href="#create-statement-object-and-execute">📑 Create Statement Object and execute</a></li><li class="l3"><a href="#execute-statement-with-insert">📑 Execute statement with Insert</a></li><li class="l3"><a href="#execute-statement-with-resultset">📑 Execute statement with ResultSet</a></li><li class="l3"><a href="#prepared-statement">📑 Prepared Statement</a></li><li class="l3"><a href="#execute-executequery-executeupdate">📑 execute, executeQuery, executeUpdate</a></li><li class="l3"><a href="#benefits-of-using-preparedstatement">📑 Benefits of using PreparedStatement</a></li><li class="l3"><a href="#insert-and-select-using-preparedstatement">📑 Insert and Select using PreparedStatement</a></li><li class="l2"><a href="#4-강의-슬라이드-week-8-segment-4-javafx-and-jdbc">4. 📑 강의 슬라이드: Week 8 · Segment 4. JavaFX and JDBC</a></li><li class="l3"><a href="#outcomes-2">📑 Outcomes</a></li><li class="l3"><a href="#steps-1-to-3-project-libraries-database">📑 Steps 1 to 3: Project, Libraries, Database</a></li><li class="l3"><a href="#step-5-mainjava">📑 Step 5: Main.java</a></li><li class="l3"><a href="#step-7-registration-controller">📑 Step 7: Registration Controller</a></li><li class="l3"><a href="#step-8-jdbcdao-for-database-operations">📑 Step 8: JdbcDao for database operations</a></li><li class="l3"><a href="#login-view-and-logincontroller">📑 Login view and LoginController</a></li><li class="l3"><a href="#jdbcdaovalidate">📑 JdbcDao.validate</a></li><li class="l2"><a href="#직접-해-보기-sqlite로-jdbc-한-파일-연습">⌨️ 직접 해 보기: SQLite로 JDBC 한 파일 연습</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-8">🧩 이번 주 토이 프로젝트: CafeOrder Week 8</a></li><li class="l2"><a href="#quiz-5-대비-체크리스트-week-8">✅ Quiz 5 대비 체크리스트 (Week 8)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-8-orm과-jdbc-javafx-jdbc">Week 8. ORM과 JDBC, JavaFX + JDBC <a class="anchor" aria-label="링크" href="#week-8-orm과-jdbc-javafx-jdbc">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요. JDBC 연습은 설치가 필요 없는 <strong>SQLite</strong>로 하는 게 편해요 (맨 아래 &quot;직접 해 보기&quot; 참고).</p>
+<p><strong>Quiz 5 (11월 20일) 범위: Week 7 + Week 8.</strong> Segment 1~2(ORM 이론)는 정의와 용어 객관식, Segment 3~4(JDBC)는 코드 읽기와 빈칸 채우기로 나오기 좋아요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>퀴즈에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Persistent data</td>
+<td>프로그램을 껐다 켜도 남아 있어야 하는 데이터</td>
+<td>&quot;why the need&quot;</td>
+</tr>
+<tr>
+<td>3-Tier</td>
+<td>Presentation, Domain(Business) Logic, Data Source</td>
+<td>각 층의 역할 고르기</td>
+</tr>
+<tr>
+<td>Object-relational mismatch</td>
+<td>객체(클래스, 상속, 참조) ↔ 테이블(행, 열, 외래키)이 잘 안 맞음</td>
+<td>차이 5가지</td>
+</tr>
+<tr>
+<td>ORM</td>
+<td>객체와 관계형 DB 사이를 <strong>자동으로 변환</strong>하는 기법</td>
+<td>정의, 장점(CRUD 자동, 비즈니스 로직 집중)</td>
+</tr>
+<tr>
+<td>Join table</td>
+<td>다대다 관계를 표현하는 세 번째 테이블 `dog_fk</td>
+<td>owner_fk`</td>
+</tr>
+<tr>
+<td>ORM 패턴</td>
+<td>Domain Model, Table Module, Active Record, Data Mapper</td>
+<td>이름과 설명 짝짓기</td>
+</tr>
+<tr>
+<td>상속 매핑</td>
+<td>계층당 테이블 1개 / 구체 클래스당 1개(가장 흔함) / 클래스당 1개</td>
+<td>가장 흔한 것</td>
+</tr>
+<tr>
+<td>Lazy loading</td>
+<td>필요할 때만 불러오기</td>
+<td>비유(작은 부엌)</td>
+</tr>
+<tr>
+<td>JDBC</td>
+<td>Java ↔ 관계형 DB 표준 API. <code>java.sql</code>, <code>javax.sql</code></td>
+<td>정의, 패키지 이름</td>
+</tr>
+<tr>
+<td>JDBC 순서</td>
+<td>Driver → Connection → Statement → ResultSet (→ close)</td>
+<td>순서 맞추기</td>
+</tr>
+<tr>
+<td>Driver Type</td>
+<td>1 JDBC-ODBC bridge, 2 Java + Native, 3 Middleware, <strong>4 All Java</strong></td>
+<td>번호와 설명</td>
+</tr>
+<tr>
+<td>execute 3형제</td>
+<td><code>executeQuery</code> → ResultSet, <code>executeUpdate</code> → int, <code>execute</code> → boolean</td>
+<td>반환 타입</td>
+</tr>
+<tr>
+<td>PreparedStatement</td>
+<td><code>?</code> 자리표시자 + <code>setXXX(번호, 값)</code>, 미리 컴파일, <strong>SQL Injection 방지</strong></td>
+<td>장점 고르기</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li><code>PreparedStatement</code>의 <code>?</code> 번호와 <code>ResultSet.getXXX</code> 열 번호는 <strong>1부터</strong> 시작한다 (0 아님).</li>
+<li><code>executeQuery</code>는 SELECT, <code>executeUpdate</code>는 INSERT/UPDATE/DELETE/CREATE. 반대로 쓰면 SQLException.</li>
+<li><code>execute()</code>가 <code>false</code>를 반환하면 &quot;결과가 ResultSet이 아니다(업데이트 수다)&quot;라는 뜻이지 <strong>실패가 아니다</strong>. 그래서 CREATE TABLE이 성공해도 <code>false</code>.</li>
+<li><code>rs.next()</code>를 부르기 <strong>전에는</strong> 첫 행을 읽을 수 없다. 커서는 첫 행 <strong>앞</strong>에서 시작한다.</li>
+<li>JDBC 4.0부터 <code>Class.forName(...)</code>으로 드라이버를 직접 로드할 필요가 없다.</li>
+<li>try-with-resources를 쓰면 <code>close()</code>를 따로 안 써도 된다.</li>
+<li>가장 흔한 상속 매핑은 <strong>table per concrete class</strong>.</li>
+<li>Type 4 드라이버는 <strong>순수 Java</strong>, 네이티브 코드 불필요. Type 2는 네이티브라서 빠를 수 있음.</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Basic JDBC Connection</a></td>
+<td>SQLite 드라이버를 pom.xml에 넣고 StatementExample로 연결 객체 출력하기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Create Statement Object and execute</a></td>
+<td>Statement로 users 테이블을 만들고 &quot;Table is created&quot;가 나오는지 확인</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Execute statement with ResultSet</a></td>
+<td>두 명 INSERT 후 SELECT로 출력하기</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Insert and Select using PreparedStatement</a></td>
+<td>books 테이블에 PreparedStatement로 두 권 넣고 이름으로 검색하기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Step 8: JdbcDao for database operations</a></td>
+<td>JdbcDao.insertRecord를 SQLite URL로 바꿔서 쳐 보기</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">JdbcDao.validate</a></td>
+<td>validate를 쳐서 맞는/틀린 비밀번호로 true/false 확인</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-8-segment-1-introduction-to-orm">1. 📑 강의 슬라이드: Week 8 · Segment 1. Introduction to ORM <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-8-segment-1-introduction-to-orm">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>&quot;왜 DB가 어렵고, ORM이 무엇을 해결하나&quot;를 다루는 이론 챕터예요. 코드는 없고 <strong>용어와 정의</strong>가 퀴즈에 나와요. 객체 세계(클래스, 상속, 참조)와 테이블 세계(행, 열, 외래키)가 서로 안 맞는 문제가 핵심이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: ORM이 무엇인지, 장점과 단점, ORM 패턴, persistence layer(데이터 저장 계층)를 잘 만드는 방법.</li>
+<li>👀 <strong>Why the need?</strong>: 소프트웨어 개발에서 가장 큰 도전 중 하나가 데이터베이스라는 말로 시작해요.</li>
+<li>👀 <strong>Different types of systems</strong>: B2C 온라인 쇼핑몰: 사용자 수가 엄청 많음 → 대량 접속 처리가 어려움.</li>
+<li>👀 <strong>What are patterns?</strong>: 패턴 = &quot;계속 반복되는 문제 + 그 해결의 핵심&quot;.</li>
+<li>👀 <strong>The Three Principal Layers (3-Tier Architecture)</strong>: Week 6의 Controller → Service → Repository 흐름과 정확히 겹쳐요.</li>
+<li>👀 <strong>Trouble with Objects</strong>: Object-relational impedance mismatch(객체와 관계형의 불일치)라고 불러요.</li>
+<li>👀 <strong>Example: Dog and Owner</strong>: UML의 <code>Dog</code>(name, spayed)와 <code>Owner</code>(name)를 테이블로 바꿔 봐요.</li>
+<li>👀 <strong>Example: Dog and Owner › Relationship between Dog and Owner</strong>: 한 주인은 개 한 마리(has_one), 한 개는 주인이 여러 명일 수 있음(has_many).</li>
+<li>👀 <strong>Example: Dog and Owner › Join table</strong>: 세 번째 테이블(join table)이 다대다 관계를 저장해요.</li>
+<li>👀 <strong>What is ORM then?</strong>: ORM(Object-Relational Mapping) 정의: 서로 호환되지 않는 타입 시스템(객체 ↔ 관계형 테이블) 사이에서 데이터를 변환하는 프로그래밍 기법.</li>
+<li>👀 <strong>Relational Models vs OO Models</strong>: 차이 5가지. 객관식 보기로 그대로 나와요.</li>
+<li>👀 <strong>Benefits of ORM</strong>: 밑의 데이터 구조 걱정 없이 객체 모델로 작업.</li>
+<li>👀 <strong>Selecting a suitable ORM</strong>: Object-to-database mapping: 가장 중요한 기준.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 8 · Segment 1 &quot;ORM's&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h3>
+<blockquote>
+<ul>
+<li>What are ORM's? · Benefits of ORM's. · Disadvantages of ORM's. · ORM Patterns · Best practices for building persistence layers</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ORM이 <strong>무엇인지</strong>, <strong>장점</strong>과 <strong>단점</strong>, ORM <strong>패턴</strong>, persistence layer(데이터 저장 계층)를 잘 만드는 방법. 단점은 슬라이드에 따로 길게 없지만 일반적으로 &quot;자동 생성 SQL이 느릴 수 있다, 배우는 데 시간이 든다, 복잡한 쿼리는 결국 SQL을 써야 한다&quot;를 기억해 두면 서술형에 쓸 수 있어요.</p>
+</div><h3 id="why-the-need">📑 Why the need? <a class="anchor" aria-label="링크" href="#why-the-need">#</a></h3>
+<blockquote>
+<ul>
+<li>One of the Biggest challenge comes from Database.</li>
+<li>Enterprise level of application usually involve persistent data.</li>
+<li>The data is persistent because it needs to be around between multiple runs of the program.</li>
+<li>Usually, many people access data concurrently.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>소프트웨어 개발에서 <strong>가장 큰 도전 중 하나가 데이터베이스</strong>라는 말로 시작해요.</p>
+<ul>
+<li><strong>Persistent data</strong>: 프로그램을 여러 번 실행해도 <strong>계속 남아 있어야</strong> 하는 데이터. 지금까지 우리 앱(ObservableList)은 끄면 데이터가 다 사라졌죠? 그걸 해결하려고 DB를 써요.</li>
+<li>데이터가 많고(수천만 행), 여러 사람이 <strong>동시에</strong> 접근하고, 그걸 다루는 화면도 많아요.</li>
+</ul>
+</div><h3 id="different-types-of-systems">📑 Different types of systems <a class="anchor" aria-label="링크" href="#different-types-of-systems">#</a></h3>
+<blockquote>
+<ul>
+<li>A B2C (business to customer) online retailer: we need to be able to handle a very high volume of users.</li>
+<li>A system that automates the processing of leasing agreements: many fewer users, more complicated business logic.</li>
+<li>A simple expense-tracking system for a small company: you have to build it very quickly and bear in mind that it may grow.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>시스템마다 어려운 부분이 달라요.</p>
+<ul>
+<li><strong>B2C 온라인 쇼핑몰</strong>: 사용자 수가 엄청 많음 → <strong>대량 접속</strong> 처리가 어려움.</li>
+<li><strong>리스 계약 처리 시스템</strong>: 사용자는 적지만 <strong>비즈니스 로직</strong>(월 청구, 조기 반납, 연체)이 복잡.</li>
+<li><strong>소규모 회사 경비 관리</strong>: 단순하지만 <strong>빨리</strong> 만들어야 하고 나중에 커질 수 있음.</li>
+</ul>
+<p>결론: 그래서 상황에 맞는 <strong>패턴</strong>이 필요하다.</p>
+</div><h3 id="what-are-patterns">📑 What are patterns? <a class="anchor" aria-label="링크" href="#what-are-patterns">#</a></h3>
+<blockquote>
+<p>Each pattern describes a problem which occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>패턴 = &quot;계속 반복되는 문제 + 그 해결의 핵심&quot;. 같은 해결책을 백만 번 써도 <strong>매번 똑같이 쓰지는 않는다</strong>는 게 포인트예요(틀이지 복붙 코드가 아님). 패턴은 실제로 잘 돌아가는 것을 <strong>관찰해서</strong> 찾아낸 것이에요. Week 1 MVC 슬라이드의 디자인 패턴 정의와 같은 이야기예요.</p>
+</div><h3 id="the-three-principal-layers-3-tier-architecture">📑 The Three Principal Layers (3-Tier Architecture) <a class="anchor" aria-label="링크" href="#the-three-principal-layers-3-tier-architecture">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Presentation</strong>: Presentation logic is about how to handle the interaction between the user and the software.</li>
+<li><strong>Data Source</strong>: Data source logic is about communicating with other systems that carry out tasks on behalf of the application.</li>
+<li><strong>Domain Logic</strong>: also referred to as business logic. It involves calculations based on inputs and stored data, validation of any data that comes in from the presentation and figuring out exactly what data source logic to dispatch.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 층을 짝지어 외우세요.</p>
+<table>
+<thead>
+<tr>
+<th>층</th>
+<th>하는 일</th>
+<th>우리 앱에서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Presentation</strong></td>
+<td>사용자와 소프트웨어 사이 상호작용 (콘솔, GUI, 웹)</td>
+<td>FXML, Controller</td>
+</tr>
+<tr>
+<td><strong>Domain Logic</strong> (= Business Logic)</td>
+<td>계산, <strong>검증</strong>, 어떤 데이터 작업을 할지 결정</td>
+<td>Service</td>
+</tr>
+<tr>
+<td><strong>Data Source</strong></td>
+<td>DB나 다른 시스템과 통신</td>
+<td>Repository, JdbcDao</td>
+</tr>
+</tbody>
+</table>
+<p>Week 6의 Controller → Service → Repository 흐름과 정확히 겹쳐요. 퀴즈에 &quot;입력값 검증은 어느 층?&quot;이 나오면 <strong>Domain Logic</strong>.</p>
+</div><h3 id="trouble-with-objects">📑 Trouble with Objects <a class="anchor" aria-label="링크" href="#trouble-with-objects">#</a></h3>
+<blockquote>
+<ul>
+<li>From an OO standpoint, the problem with these persistence mechanisms is that their core abstractions are not objects.</li>
+<li>They are tables with rows and columns (RDBMS) or (some variation on) key-value pairs (NoSQL).</li>
+<li>The OO world has classes, sub-classes, inheritance, associations, objects, attributes, methods, polymorphism. These concepts do not easily map into the abstractions of persistence mechanisms.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Object-relational impedance mismatch</strong>(객체와 관계형의 불일치)라고 불러요.</p>
+<ul>
+<li>DB 쪽: <strong>테이블(행과 열)</strong> 또는 NoSQL의 <strong>key-value</strong>. 객체가 아님.</li>
+<li>객체 쪽: 클래스, 하위 클래스, <strong>상속</strong>, 연관, 메서드, <strong>다형성</strong>.</li>
+</ul>
+<p>이 개념들이 테이블로 <strong>쉽게 옮겨지지 않아요</strong>. 예를 들어 테이블에는 &quot;상속&quot;이라는 개념이 없어요. 객체를 직렬화(Week 9)해서 저장하는 것도 객체끼리 얽힌 그래프를 풀어서 다시 조립해야 해서 쉽지 않다고 해요.</p>
+</div><h3 id="example-dog-and-owner">📑 Example: Dog and Owner <a class="anchor" aria-label="링크" href="#example-dog-and-owner">#</a></h3>
+<blockquote>
+<ul>
+<li>You will at least have a table called <code>dogs</code> to store Dog instances and a table called <code>owners</code> to store Owner instances.</li>
+<li>Convention of many object-relational mapping systems: class names are singular; table names are the associated plural form: Person ⇒ People; Cat ⇒ Cats.</li>
+<li>For each table you would have columns that correspond to each attribute (plus an implicit id column); each row would correspond to an instance of the class: <code>1 | Fido | true</code></li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>UML의 <code>Dog</code>(name, spayed)와 <code>Owner</code>(name)를 테이블로 바꿔 봐요.</p>
+<ul>
+<li>클래스 하나당 테이블 하나: <code>dogs</code>, <code>owners</code>.</li>
+<li><strong>관례</strong>: 클래스 이름은 <strong>단수</strong>(Dog), 테이블 이름은 <strong>복수</strong>(dogs). Person ⇒ People.</li>
+<li>속성 하나당 <strong>열(column)</strong> 하나, 그리고 숨은 <strong>id 열</strong>.</li>
+<li>객체 하나 = <strong>행(row)</strong> 하나. 중성화된 Fido: <code>1 | Fido | true</code>.</li>
+</ul>
+</div><h4 id="relationship-between-dog-and-owner">📑 Relationship between Dog and Owner <a class="anchor" aria-label="링크" href="#relationship-between-dog-and-owner">#</a></h4>
+<blockquote>
+<ul>
+<li>Owner participates in a &quot;has_one&quot; relationship with Dog. Dog participates in a &quot;has_many&quot; relationship with Owner.</li>
+<li>The short answer is <strong>foreign key relationships and join tables</strong>.</li>
+<li>You might see code like: <code>List&lt;Owner&gt; owners = dog.getOwners();</code> Behind the scenes, the method will hide the database calls required.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>관계는 이렇게 표현해요.</p>
+<ul>
+<li>한 주인은 개 한 마리(has_one), 한 개는 주인이 여러 명일 수 있음(has_many). 두 주인이 같은 개를 키울 수 있어요.</li>
+<li>DB에서는 **외래키(foreign key)**와 <strong>join table</strong>로 표현.</li>
+<li>ORM을 쓰면 <code>List&lt;Owner&gt; owners = dog.getOwners();</code> 한 줄로 끝나요. 뒤에서 SQL을 대신 실행해 주니까요. 이게 ORM의 매력이에요.</li>
+</ul>
+</div><h4 id="join-table">📑 Join table <a class="anchor" aria-label="링크" href="#join-table">#</a></h4>
+<blockquote>
+<ul>
+<li>dogs: <code>1 | Fido | true</code>, <code>2 | Spot | false</code>; owners: <code>1 | Ken</code>, <code>2 | Max</code></li>
+<li>A third table is then used to maintain mappings between them: <code>1 | 1 ; 1 | 2 ; 2 | 2</code></li>
+<li>This says that Fido is owned by Ken and Max and Spot is owned by Max.</li>
+<li>That third table is known as a join table and has the structure <code>dog_fk | owner_fk</code>.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 번째 테이블(<strong>join table</strong>)이 다대다 관계를 저장해요.</p>
+<p>| dogs | | owners | | join (<code>dog_fk | owner_fk</code>) |
+| --- | --- | --- | --- | --- |
+| 1 Fido | | 1 Ken | | 1 | 1 → Fido의 주인 Ken |
+| 2 Spot | | 2 Max | | 1 | 2 → Fido의 주인 Max |
+| | | | | 2 | 2 → Spot의 주인 Max |</p>
+<p><code>dog.getOwners()</code>의 실제 동작: (1) 이 개의 id를 구하고, (2) join table에서 <code>dog_fk == id</code>인 행을 모두 찾고, (3) 각 행의 <code>owner_fk</code>로 owners 테이블에서 이름을 찾아요. SQL로 쓰면 <code>SELECT o.name FROM owners o JOIN dog_owner j ON o.id = j.owner_fk WHERE j.dog_fk = 1</code>.</p>
+<p>슬라이드의 &quot;Complication&quot;(Canine, Person 상위 클래스 추가)은 <strong>상속이 끼면 테이블로 옮기기가 더 어려워진다</strong>는 이야기예요. 해결 방법은 Segment 2의 상속 매핑 세 가지.</p>
+</div><h3 id="what-is-orm-then">📑 What is ORM then? <a class="anchor" aria-label="링크" href="#what-is-orm-then">#</a></h3>
+<blockquote>
+<ul>
+<li>Object-relational mapping is a programming technique for converting data between incompatible type systems by creating objects using OO programming languages, essentially wrapping tables or stored procedures in classes.</li>
+<li>ORM is an automated way of connecting an object model, sometimes referred to as a domain model, to a relational database by using metadata as the descriptor of the object and data. This creates, in effect, a &quot;virtual object database&quot;.</li>
+<li>This act of mapping is an efficient way to overcome the mismatch that exists between object-oriented development languages and relational databases.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>ORM(Object-Relational Mapping) 정의</strong>: 서로 호환되지 않는 타입 시스템(객체 ↔ 관계형 테이블) 사이에서 데이터를 <strong>변환하는</strong> 프로그래밍 기법. 테이블을 클래스로 감싸서 메서드와 속성으로 DB를 다뤄요.</p>
+<ul>
+<li><strong>metadata</strong>(설정 정보)로 객체와 테이블의 대응을 설명.</li>
+<li>결과적으로 &quot;<strong>virtual object database</strong>(가상 객체 데이터베이스)&quot;가 생긴 효과.</li>
+<li>목적: 객체지향 언어와 관계형 DB 사이의 <strong>mismatch를 극복</strong>.</li>
+</ul>
+<p>대표 도구: Java의 Hibernate/JPA, .NET의 Entity Framework(EF), LINQ to SQL. 우리 수업은 ORM 도구 대신 <strong>JDBC로 직접</strong> 해 보면서 ORM이 뒤에서 무엇을 대신해 주는지 이해하는 흐름이에요.</p>
+</div><h3 id="relational-models-vs-oo-models">📑 Relational Models vs OO Models <a class="anchor" aria-label="링크" href="#relational-models-vs-oo-models">#</a></h3>
+<blockquote>
+<ul>
+<li>Types (ex. <code>char(n)</code> versus string)</li>
+<li>Identity (keys versus address or equality)</li>
+<li>Relations (foreign keys versus references)</li>
+<li>Many to many relations require linking table in SQL</li>
+<li>Inheritance and polymorphism</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>차이 5가지. 객관식 보기로 그대로 나와요.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>관계형 (DB)</th>
+<th>객체지향 (Java)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Types</strong></td>
+<td><code>char(n)</code>, <code>varchar</code></td>
+<td><code>String</code></td>
+</tr>
+<tr>
+<td><strong>Identity</strong></td>
+<td>기본키(key)</td>
+<td>메모리 주소 또는 <code>equals()</code></td>
+</tr>
+<tr>
+<td><strong>Relations</strong></td>
+<td>외래키(foreign key)</td>
+<td>참조(reference)</td>
+</tr>
+<tr>
+<td><strong>Many-to-many</strong></td>
+<td><strong>linking(join) table</strong> 필요</td>
+<td><code>List&lt;Owner&gt;</code> 필드면 끝</td>
+</tr>
+<tr>
+<td><strong>Inheritance, polymorphism</strong></td>
+<td>없음</td>
+<td>있음</td>
+</tr>
+</tbody>
+</table>
+</div><h3 id="benefits-of-orm">📑 Benefits of ORM <a class="anchor" aria-label="링크" href="#benefits-of-orm">#</a></h3>
+<blockquote>
+<ul>
+<li>Automates the Object-to-table and Table-to-object conversions.</li>
+<li>Work in the OO model without having to worry about the underlying data structure.</li>
+<li>Typically provide support for the full set of CRUD (create, read, update, delete) operations.</li>
+<li>Save time and money (time to market). Focus on the business logic rather than database/persistence logic.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>장점:</p>
+<ul>
+<li>객체 ↔ 테이블 변환을 <strong>자동화</strong>.</li>
+<li>밑의 데이터 구조 걱정 없이 <strong>객체 모델로</strong> 작업.</li>
+<li>객체를 쉽게 저장하고 불러옴. <strong>CRUD</strong>(Create, Read, Update, Delete) 전체 지원.</li>
+<li>시간과 돈 절약(time to market).</li>
+<li>DB 코드가 아니라 <strong>비즈니스 로직에 집중</strong>.</li>
+</ul>
+<p>CRUD 약자는 꼭 외우세요. JDBC로는 INSERT, SELECT, UPDATE, DELETE에 해당해요.</p>
+</div><h3 id="selecting-a-suitable-orm">📑 Selecting a suitable ORM <a class="anchor" aria-label="링크" href="#selecting-a-suitable-orm">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Object-to-database mapping</strong>: The single most important aspect of an ORM tool.</li>
+<li><strong>Object caching</strong>: to improve performance.</li>
+<li><strong>GUI mapping</strong>: Can survive without it but it will be bonus.</li>
+<li><strong>Dynamic Querying</strong></li>
+<li><strong>Lazy loading</strong>: Improves the performance by optimizing the memory utilization of database server.</li>
+<li><strong>Nonintrusive persistence</strong>: no more class, interface or inheritance based specific relations.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ORM 도구를 고르는 기준이에요.</p>
+<ul>
+<li><strong>Object-to-database mapping</strong>: <strong>가장 중요한</strong> 기준. 퀴즈에 &quot;single most important aspect&quot;로 나올 수 있어요.</li>
+<li><strong>Object caching</strong>: 성능 향상.</li>
+<li><strong>GUI mapping</strong>: 있으면 보너스, 없어도 됨.</li>
+<li><strong>Dynamic querying</strong>: 사용자 입력에 따른 쿼리.</li>
+<li><strong>Lazy loading</strong>: 필요할 때 불러와 메모리 절약.</li>
+<li><strong>Nonintrusive persistence</strong>: 내 클래스가 ORM 전용 부모 클래스나 인터페이스를 상속하지 않아도 됨. (POJO 그대로 저장 가능)</li>
+</ul>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-8-segment-2-orm-and-design-patterns">2. 📑 강의 슬라이드: Week 8 · Segment 2. ORM and Design Patterns <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-8-segment-2-orm-and-design-patterns">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>ORM을 설계할 때 쓰는 <strong>용어 사전</strong> 같은 챕터예요. DDD, UML 다이어그램 종류, Entity와 Value Object, ORM 패턴 네 가지, 상속 매핑 세 가지, Lazy loading. 짝짓기 객관식 대비용으로 표로 정리했어요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Domain-Driven Design (DDD)</strong>: DDD: 문제의 복잡함을 다루기 위한 개발 철학.</li>
+<li>👀 <strong>UML</strong>: UML 다이어그램은 총 13개. 슬라이드에 나온 세 개:</li>
+<li>👀 <strong>Domain Model Structure</strong>: 도메인 모델의 6가지 구성 요소: Entities, Value Objects, Services, Aggregates, Factories, Repositories.</li>
+<li>👀 <strong>Domain Model Structure › Entities</strong>: Entity = 고유한 정체성(identity)이 있는 객체.</li>
+<li>👀 <strong>Domain Model Structure › Value Objects</strong>: Value Object = 정체성 없이 값만으로 의미가 있는 객체.</li>
+<li>👀 <strong>Domain Model Structure › Aggregate</strong>: Entity와 Value Object를 논리적으로 묶은 덩어리.</li>
+<li>👀 <strong>Object-Relational Patterns</strong>: Active Record와 Data Mapper의 차이: Active Record는 <code>player.save()</code>처럼 객체가 스스로 저장, Data Mapper는 <code>mapper.save(player)</code>처럼 별도 객체가 저장.</li>
+<li>👀 <strong>Inheritance Mapping</strong>: 상속을 테이블로 바꾸는 세 가지 방법. 예: <code>Canine</code> ← <code>Dog</code>, <code>Wolf</code>.</li>
+<li>👀 <strong>Relationships</strong>: 관계 세 종류: One-to-One(사람-여권), One-to-Many(팀-선수), Many-to-Many(개-주인, 학생-수업).</li>
+<li>👀 <strong>Lazy Loading</strong>: 필요한 것만 필요할 때 불러와서 메모리를 아끼는 방법이에요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 8 · Segment 2 &quot;ORM's and Design Patterns&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="domain-driven-design-ddd">📑 Domain-Driven Design (DDD) <a class="anchor" aria-label="링크" href="#domain-driven-design-ddd">#</a></h3>
+<blockquote>
+<ul>
+<li>DDD is one of the focused software development philosophies that overcome the complexities of the problem.</li>
+<li><strong>Domain</strong>: is the knowledge, influence or activity around which we work to solve the problem on hand.</li>
+<li><strong>Domain Model</strong>: an object model of the domain that incorporates both behavior and data.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>DDD</strong>: 문제의 복잡함을 다루기 위한 개발 철학. &quot;도메인을 모델로 만들어서 문제를 푼다&quot;.</li>
+<li><strong>Domain</strong>: 우리가 문제를 푸는 <strong>지식과 활동 영역</strong>. 예: 대출 신청 시스템이면 은행 대출 업무 전체.</li>
+<li><strong>Domain Model</strong>: 그 도메인의 객체 모델. <strong>행동(behavior)과 데이터(data)를 둘 다</strong> 가진다. (데이터만 있는 게 아님)</li>
+</ul>
+</div><h3 id="uml">📑 UML <a class="anchor" aria-label="링크" href="#uml">#</a></h3>
+<blockquote>
+<ul>
+<li>The most common language used for modeling. There is total 13 diagrams in UML.</li>
+<li><strong>Class Diagram</strong>: Displays static model with all the attributes and relationships between classes and interfaces. Can also include Inheritance, Composition, Associations, Aggregations.</li>
+<li><strong>Object Diagram</strong>: Is a simplified version of a class diagram. Depicts the role of an object plays when instantiated and its multiplicity.</li>
+<li><strong>Sequence Diagram</strong>: Represent stereotyped elements, such as screens, controllers, entities, and database items.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>UML 다이어그램은 총 <strong>13개</strong>. 슬라이드에 나온 세 개:</p>
+<ul>
+<li><strong>Class Diagram</strong>: 클래스의 속성과 <strong>관계</strong>(상속, 합성 composition, 연관 association, 집합 aggregation)를 보여주는 <strong>정적</strong> 구조.</li>
+<li><strong>Object Diagram</strong>: Class Diagram의 <strong>단순화 버전</strong>. 실제로 만들어진 객체의 역할과 개수(multiplicity).</li>
+<li><strong>Sequence Diagram</strong>: 화면, 컨트롤러, 엔티티, DB가 <strong>시간 순서대로</strong> 주고받는 메시지.</li>
+</ul>
+</div><h3 id="domain-model-structure">📑 Domain Model Structure <a class="anchor" aria-label="링크" href="#domain-model-structure">#</a></h3>
+<blockquote>
+<p>A domain model can be broken into these pieces: <strong>Entities, Value Objects, Services, Aggregates, Factories, Repositories</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>도메인 모델의 6가지 구성 요소: <strong>Entities, Value Objects, Services, Aggregates, Factories, Repositories</strong>. Service와 Repository는 Week 6에서 이미 만들었고, Factory는 Week 12 디자인 패턴에서 다시 나와요.</p>
+</div><h4 id="entities">📑 Entities <a class="anchor" aria-label="링크" href="#entities">#</a></h4>
+<blockquote>
+<ul>
+<li>Tech definition: In Database entity is a table.</li>
+<li>Identity: which defines uniqueness not only in real world but also in software world.</li>
+<li>Example: Car has a VIN. Your car object which has its identity becomes an entity.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Entity = 고유한 정체성(identity)이 있는 객체</strong>. DB 용어로는 테이블 하나.</p>
+<p>예: 자동차는 VIN(차대번호)이 있어서 색과 모델이 같은 차가 두 대 있어도 <strong>서로 다른 차</strong>예요. 정체성이 있으니 Entity. 우리 코드에서는 <code>id</code> 필드를 가진 <code>Player</code>, <code>Student</code>가 Entity예요.</p>
+</div><h4 id="value-objects">📑 Value Objects <a class="anchor" aria-label="링크" href="#value-objects">#</a></h4>
+<blockquote>
+<ul>
+<li>They can't exist by themselves. Example: model, engine, color etc. can't exist on their own.</li>
+<li>A value object is typically an immutable object with no identity, containing values used to describe entities.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Value Object = 정체성 없이 값만으로 의미가 있는 객체</strong>. 혼자서는 존재하지 않고 Entity를 <strong>설명</strong>해요. 보통 <strong>immutable</strong>(불변).</p>
+<p>예: 차의 색, 엔진, 모델. 주소(<code>street, city, postalCode</code>)나 금액(<code>Money(10, &quot;CAD&quot;)</code>)도 대표적이에요. 값이 같으면 같은 것으로 봐요.</p>
+<p>구분 질문: &quot;값이 똑같은 두 개를 구분해야 하나?&quot; 예 → Entity, 아니오 → Value Object.</p>
+</div><h4 id="aggregate">📑 Aggregate <a class="anchor" aria-label="링크" href="#aggregate">#</a></h4>
+<blockquote>
+<p>A logical grouping of entities and value objects into a collection, so that complex relationships that can lead to data inconsistencies in your application and database can be reduced.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Entity와 Value Object를 <strong>논리적으로 묶은 덩어리</strong>. 묶어서 다루면 복잡한 관계 때문에 생기는 <strong>데이터 불일치</strong>를 줄일 수 있어요. 예: <code>Order</code>(주문)와 그 안의 <code>OrderLine</code>(주문 줄)들. 주문 줄만 따로 지우거나 바꾸지 않고 항상 Order를 통해서 바꿔요.</p>
+</div><h3 id="object-relational-patterns">📑 Object-Relational Patterns <a class="anchor" aria-label="링크" href="#object-relational-patterns">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Domain Model</strong>: creates a web of interconnected objects, where each object represents some meaningful individual, whether as large as a corporation or as small as a single line on an order form.</li>
+<li><strong>Table Module</strong>: create a class per table.</li>
+<li><strong>Active Record</strong>: similar to the table module except that the table module is an architectural design principle, whereas an active record falls under the data access pattern category. The active record pattern also encapsulates database access functionality.</li>
+<li><strong>Database Mapper</strong>: map objects to a relational database, accomplished by using metadata (for the most part XML) to describe the attributes and relationships between the object model and the data model.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ORM 패턴 네 가지 짝짓기:</p>
+<table>
+<thead>
+<tr>
+<th>패턴</th>
+<th>한 줄</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Domain Model</strong></td>
+<td>서로 연결된 객체들의 그물. 각 객체는 회사만큼 크거나 주문서 한 줄만큼 작은 의미 있는 대상</td>
+</tr>
+<tr>
+<td><strong>Table Module</strong></td>
+<td><strong>테이블 하나당 클래스 하나</strong>. (설계 원칙)</td>
+</tr>
+<tr>
+<td><strong>Active Record</strong></td>
+<td>Table Module과 비슷하지만 <strong>데이터 접근 패턴</strong>. 객체 자신이 DB 접근 기능(<code>save()</code>, <code>delete()</code>)을 가짐</td>
+</tr>
+<tr>
+<td><strong>Database (Data) Mapper</strong></td>
+<td>객체와 DB 사이를 **metadata(주로 XML)**로 매핑. 객체는 DB를 모름. 매핑 엔진이 필요. EF, LINQ to SQL이 예</td>
+</tr>
+</tbody>
+</table>
+<p>Active Record와 Data Mapper의 차이: Active Record는 <code>player.save()</code>처럼 <strong>객체가 스스로 저장</strong>, Data Mapper는 <code>mapper.save(player)</code>처럼 <strong>별도 객체가 저장</strong>. 우리의 Repository/JdbcDao 방식은 Data Mapper 쪽에 가까워요.</p>
+</div><h3 id="inheritance-mapping">📑 Inheritance Mapping <a class="anchor" aria-label="링크" href="#inheritance-mapping">#</a></h3>
+<blockquote>
+<p>There are three key inheritance-mapping approaches:</p>
+<ul>
+<li><strong>A single table per class hierarchy</strong>: Mapping your entire class structure to a single table. Quick and easy approach.</li>
+<li><strong>A table per concrete class</strong>: The most common approach. Maps each non-abstract class to its own table.</li>
+<li><strong>A table per class</strong>: each class to its own table.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>상속을 테이블로 바꾸는 세 가지 방법. 예: <code>Canine</code> ← <code>Dog</code>, <code>Wolf</code>.</p>
+<table>
+<thead>
+<tr>
+<th>방법</th>
+<th>테이블</th>
+<th>장단점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Single table per class hierarchy</strong></td>
+<td><code>canines</code> 하나에 모든 열 + 종류 열</td>
+<td>빠르고 쉬움. 타입이 많아지면 빈 칸(null)이 많고 복잡</td>
+</tr>
+<tr>
+<td><strong>Table per concrete class</strong></td>
+<td><code>dogs</code>, <code>wolves</code> (abstract 제외)</td>
+<td><strong>가장 흔한 방법</strong></td>
+</tr>
+<tr>
+<td><strong>Table per class</strong></td>
+<td><code>canines</code>, <code>dogs</code>, <code>wolves</code> 모두</td>
+<td>정규화 잘 됨, 조회할 때 JOIN 많음</td>
+</tr>
+</tbody>
+</table>
+</div><h3 id="relationships">📑 Relationships <a class="anchor" aria-label="링크" href="#relationships">#</a></h3>
+<blockquote>
+<p>One-to-One · One-to-Many · Many-to-Many</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>관계 세 종류: <strong>One-to-One</strong>(사람-여권), <strong>One-to-Many</strong>(팀-선수), <strong>Many-to-Many</strong>(개-주인, 학생-수업). 다대다만 <strong>join table</strong>이 필요해요. 일대다는 &quot;다&quot; 쪽 테이블에 외래키 열 하나면 돼요 (<code>players.team_id</code>).</p>
+</div><h3 id="lazy-loading">📑 Lazy Loading <a class="anchor" aria-label="링크" href="#lazy-loading">#</a></h3>
+<blockquote>
+<p>A way to optimize memory utilization of database servers by prioritizing components that need to be loaded into memory when a program is started.
+Example: take out only the ingredients you need as you need them (small kitchen, many dishes).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>필요한 것만 <strong>필요할 때</strong> 불러와서 메모리를 아끼는 방법이에요.</p>
+<p>비유: 부엌이 좁은데 요리를 여러 개 해야 할 때, 모든 재료를 한꺼번에 꺼내 놓는(eager loading) 대신 <strong>지금 만드는 요리의 재료만</strong> 꺼내기.</p>
+<p>예: 팀 목록 화면에서는 팀 이름만 불러오고, 팀을 클릭했을 때 비로소 선수 목록을 DB에서 가져와요.</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-8-segment-3-introduction-to-jdbc">3. 📑 강의 슬라이드: Week 8 · Segment 3. Introduction to JDBC <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-8-segment-3-introduction-to-jdbc">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ IntelliJ에서 직접 쳐 보기</p>
+<p>이제 진짜 코드예요. <strong>JDBC로 DB에 연결해서 테이블 만들고, 넣고, 읽기</strong>. Quiz 5 코드 문제는 여기서 나올 확률이 높아요. 순서(Connection → Statement → execute → ResultSet)와 메서드 이름, 반환 타입을 손으로 쓸 수 있을 때까지 연습하세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 목표: 왜 DB 프로그래밍인지, JDBC 구조, JDBC 인터페이스, 그리고 실제 기술 세 가지(연결, 읽기, 쓰기).</li>
+<li>👀 <strong>Why Java for Database Programming?</strong>: 이유 세 개 중 앞의 두 개가 중요해요.</li>
+<li>👀 <strong>What is JDBC?</strong>: JDBC = Java Database Connectivity.</li>
+<li>👀 <strong>The Architecture of JDBC</strong>: 이 세 단계가 그대로 코드의 <code>getConnection</code> → <code>execute...</code> → <code>ResultSet</code> 순서예요.</li>
+<li>👀 <strong>JDBC API</strong>: 패키지 두 개: <code>java.sql</code>(기본, Connection, Statement, ResultSet 등)과 <code>javax.sql</code>(확장, DataSource, 커넥션 풀 등.</li>
+<li>👀 <strong>Core JDBC Interfaces</strong>: 흐름 4단계: 드라이버 로드 → 연결 → Statement 만들고 실행 → ResultSet 처리.</li>
+<li>👀 <strong>JDBC Driver Types</strong>: MySQL Connector/J와 sqlite-jdbc 모두 Type 4로 쓰여요.</li>
+<li>👀 <strong>JDBC Technology: four steps</strong>: Connect to the database</li>
+<li>⌨️ <strong><a href="#practice-1">Basic JDBC Connection</a></strong>:  (⌨️ SQLite 드라이버를 pom.xml에 넣고 StatementExample로 연결 객체 출력하기)</li>
+<li>⌨️ <strong><a href="#practice-2">Create Statement Object and execute</a></strong>:  (⌨️ Statement로 users 테이블을 만들고 &quot;Table is created&quot;가 나오는지 확인)</li>
+<li>👀 <strong>Execute statement with Insert</strong>: <code>executeUpdate(sql)</code>: INSERT, UPDATE, DELETE에 써요.</li>
+<li>⌨️ <strong><a href="#practice-3">Execute statement with ResultSet</a></strong>:  (⌨️ 두 명 INSERT 후 SELECT로 출력하기)</li>
+<li>👀 <strong>Prepared Statement</strong>: 미리 컴파일된(precompiled) SQL. 같은 SQL을 값만 바꿔 여러 번 실행할 때 효율적.</li>
+<li>👀 <strong>execute, executeQuery, executeUpdate</strong>: <code>execute</code>가 true면 <code>getResultSet()</code>, false면 <code>getUpdateCount()</code>로 결과를 꺼내요.</li>
+<li>👀 <strong>Benefits of using PreparedStatement</strong>: 동적, 매개변수 쿼리: 같은 SQL에 값만 바꿔 실행.</li>
+<li>⌨️ <strong><a href="#practice-4">Insert and Select using PreparedStatement</a></strong>:  (⌨️ books 테이블에 PreparedStatement로 두 권 넣고 이름으로 검색하기)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 8 · Segment 3 &quot;JDBC&quot; 강의 슬라이드 (Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 정리 (DB 파일 경로만 짧게 바꿈)</p>
+</blockquote>
+<h3 id="outcomes-1">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes-1">#</a></h3>
+<blockquote>
+<ul>
+<li>Understanding of why Database Programming?</li>
+<li>Understanding architecture of JDBC. Understanding of JDBC Interface.</li>
+<li>Understanding the Technology of JDBC: Connectivity, Read operations, Write operations</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>목표: 왜 DB 프로그래밍인지, JDBC <strong>구조</strong>, JDBC <strong>인터페이스</strong>, 그리고 실제 기술 세 가지(<strong>연결, 읽기, 쓰기</strong>).</p>
+</div><h3 id="why-java-for-database-programming">📑 Why Java for Database Programming? <a class="anchor" aria-label="링크" href="#why-java-for-database-programming">#</a></h3>
+<blockquote>
+<ul>
+<li>First, Java is platform independent. You can develop platform-independent database applications using SQL and Java for any relational database systems.</li>
+<li>Second, the support for accessing database systems from Java is built into Java API, so you can create database applications using all Java code with a common interface.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이유 세 개 중 앞의 두 개가 중요해요.</p>
+<ol>
+<li>Java는 <strong>플랫폼 독립적</strong>이라 어떤 관계형 DB와도 플랫폼 독립적인 DB 앱을 만들 수 있다.</li>
+<li>DB 접근 기능이 <strong>Java API에 내장</strong>돼 있어서, 공통 인터페이스로 순수 Java 코드만으로 만들 수 있다.</li>
+</ol>
+<p>(3번 &quot;대학에서 많이 가르친다&quot;는 가볍게.)</p>
+</div><h3 id="what-is-jdbc">📑 What is JDBC? <a class="anchor" aria-label="링크" href="#what-is-jdbc">#</a></h3>
+<blockquote>
+<p>Java Database Connectivity or JDBC API provides industry-standard and database-independent connectivity between the Java applications and relational database servers (relational databases, spreadsheets, and flat files).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>JDBC = Java Database Connectivity</strong>. Java 앱과 관계형 DB 사이의 <strong>표준</strong>이고 <strong>DB에 독립적인</strong> 연결 API예요. Oracle, SQL Server, DB2, MySQL, SQLite 등 주요 DB를 다 지원해요. 핵심은 &quot;DB가 바뀌어도 JDBC 코드는 거의 그대로, <strong>드라이버만</strong> 바꾸면 된다&quot;는 것.</p>
+</div><h3 id="the-architecture-of-jdbc">📑 The Architecture of JDBC <a class="anchor" aria-label="링크" href="#the-architecture-of-jdbc">#</a></h3>
+<blockquote>
+<p>JDBC helps you to write Java applications that manage these three programming activities:</p>
+<ul>
+<li>Connect to a data source, like a database</li>
+<li>Send queries and update statements to the database</li>
+<li>Retrieve and process the results received from the database in answer to your query</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JDBC로 하는 일 세 가지:</p>
+<ol>
+<li>데이터 소스(DB)에 <strong>연결</strong></li>
+<li>쿼리와 업데이트 문을 DB에 <strong>보내기</strong></li>
+<li>DB가 보낸 결과를 <strong>받아서 처리</strong></li>
+</ol>
+<p>이 세 단계가 그대로 코드의 <code>getConnection</code> → <code>execute...</code> → <code>ResultSet</code> 순서예요.</p>
+</div><h3 id="jdbc-api">📑 JDBC API <a class="anchor" aria-label="링크" href="#jdbc-api">#</a></h3>
+<blockquote>
+<p>JDBC API consists of two packages: <strong><code>java.sql</code></strong> and <strong><code>javax.sql</code></strong>.
+A JDBC driver is a set of Java classes that implement the JDBC interfaces, targeting a specific database. The JDBC interfaces come with standard Java, but the implementation of these interfaces is specific to the database you need to connect to. Such an implementation is called a JDBC driver.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>패키지 두 개: <strong><code>java.sql</code></strong>(기본, Connection, Statement, ResultSet 등)과 <strong><code>javax.sql</code></strong>(확장, DataSource, 커넥션 풀 등. Week 13에서 다시).</li>
+<li><strong>JDBC driver</strong>: JDBC <strong>인터페이스를 구현한</strong> Java 클래스 묶음. 특정 DB 전용.</li>
+<li>인터페이스는 Java에 기본으로 들어 있고, <strong>구현(드라이버)은 DB 회사가</strong> 만들어요. MySQL은 <code>mysql-connector-j</code>, SQLite는 <code>sqlite-jdbc</code>.</li>
+</ul>
+<p>Week 2에서 배운 &quot;인터페이스와 구현&quot;의 실제 사례예요. 우리 코드는 <code>Connection</code>(인터페이스)만 알고, 실제 객체는 드라이버가 만든 클래스예요.</p>
+</div><h3 id="core-jdbc-interfaces">📑 Core JDBC Interfaces <a class="anchor" aria-label="링크" href="#core-jdbc-interfaces">#</a></h3>
+<blockquote>
+<p>Loading drivers → Establishing connections → Creating and executing statements → Processing ResultSet</p>
+<ul>
+<li><strong>DriverManager</strong> is used to load a JDBC Driver.</li>
+<li><strong>Connection</strong> is being returned by the DriverManager's <code>getConnection</code> function.</li>
+<li>A Connection is used to create a <strong>Statement</strong>, or to create and prepare a <strong>PreparedStatement</strong> or <strong>CallableStatement</strong>.</li>
+<li>Statement and PreparedStatement objects are used to execute SQL statements. CallableStatement objects are used to execute stored procedures.</li>
+<li>A Connection can also be used to get a <strong>DatabaseMetaData</strong> object.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>흐름 4단계: <strong>드라이버 로드 → 연결 → Statement 만들고 실행 → ResultSet 처리</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스/클래스</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DriverManager</code></td>
+<td>드라이버를 로드하고 <code>getConnection()</code>으로 <strong>Connection을 돌려줌</strong></td>
+</tr>
+<tr>
+<td><code>Connection</code></td>
+<td>DB와의 연결. 여기서 Statement를 만듦</td>
+</tr>
+<tr>
+<td><code>Statement</code></td>
+<td>고정된 SQL 실행</td>
+</tr>
+<tr>
+<td><code>PreparedStatement</code></td>
+<td><code>?</code>가 있는 미리 컴파일된 SQL 실행</td>
+</tr>
+<tr>
+<td><code>CallableStatement</code></td>
+<td><strong>stored procedure</strong>(DB에 저장된 함수) 실행</td>
+</tr>
+<tr>
+<td><code>ResultSet</code></td>
+<td>SELECT 결과 표</td>
+</tr>
+<tr>
+<td><code>DatabaseMetaData</code></td>
+<td>DB 기능 정보 (<code>connection.getMetaData()</code>)</td>
+</tr>
+</tbody>
+</table>
+<p>모든 드라이버가 같은 인터페이스를 구현하니까 <strong>데이터 소스를 바꾸기 쉬워요</strong>.</p>
+</div><h3 id="jdbc-driver-types">📑 JDBC Driver Types <a class="anchor" aria-label="링크" href="#jdbc-driver-types">#</a></h3>
+<blockquote>
+<ol>
+<li><strong>Type 1: JDBC-ODBC bridge driver</strong>: dependent on a native library, transitional solution, not supported by Oracle.</li>
+<li><strong>Type 2: Java + Native code driver</strong>: wraps a native API with Java classes (Oracle OCI driver). Expected to have better performance than a pure Java driver.</li>
+<li><strong>Type 3: All Java + Middleware translation driver</strong>: communicates using a network protocol to a middle-tier server.</li>
+<li><strong>Type 4: All Java driver</strong>: written entirely in Java, communicates directly with the database. No local native code is required. (Oracle's Thin driver)</li>
+</ol>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>네 종류. 번호와 특징을 짝지으세요.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>이름</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>JDBC-ODBC bridge</td>
+<td>네이티브 라이브러리 의존, 이식성 낮음, <strong>임시 방편</strong>, Oracle 미지원</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Java + Native code</td>
+<td>네이티브 API를 Java로 감쌈 (Oracle OCI). 네이티브라 <strong>더 빠를 수 있음</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>All Java + Middleware</td>
+<td>네트워크로 <strong>중간 서버</strong>와 통신, 중간 서버가 DB와 통신</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>All Java</strong></td>
+<td>순수 Java, DB와 <strong>직접</strong> 통신, 네이티브 코드 불필요 (Oracle Thin). 요즘 대부분 이것</td>
+</tr>
+</tbody>
+</table>
+<p>MySQL Connector/J와 sqlite-jdbc 모두 Type 4로 쓰여요. 설치는 jar를 클래스패스에 추가(Maven이면 pom.xml에 의존성 한 줄).</p>
+</div><h3 id="jdbc-technology-four-steps">📑 JDBC Technology: four steps <a class="anchor" aria-label="링크" href="#jdbc-technology-four-steps">#</a></h3>
+<blockquote>
+<ul>
+<li>Connect to the database</li>
+<li>Create a statement</li>
+<li>Execute the query</li>
+<li>Look at the result set</li>
+<li>Close connection // not needed if you are using try-with-resources</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>네 단계 + 1:</p>
+<ol>
+<li><strong>Connect</strong> to the database</li>
+<li><strong>Create</strong> a statement</li>
+<li><strong>Execute</strong> the query</li>
+<li><strong>Look at</strong> the result set</li>
+<li><strong>Close</strong> connection (try-with-resources면 <strong>필요 없음</strong>)</li>
+</ol>
+<p>이 순서를 그대로 빈칸 채우기로 낼 수 있어요.</p>
+</div><h3 id="basic-jdbc-connection">📑 Basic JDBC Connection <a class="anchor" aria-label="링크" href="#basic-jdbc-connection">#</a></h3>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: SQLite 드라이버를 pom.xml에 넣고 StatementExample로 연결 객체 출력하기</p>
+<pre class="hl"><code class="language-java"><span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.Connection</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.DriverManager</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.SQLException</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StatementExample</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="s">"jdbc:sqlite:testDB.db"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">connection</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printSQLException</span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Throwable</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ex</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">);</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"SQLState: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">).</span><span class="na">getSQLState</span><span class="p">());</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error Code: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">((</span><span class="n">SQLException</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">).</span><span class="na">getErrorCode</span><span class="p">());</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Message: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">                </span><span class="n">Throwable</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ex</span><span class="p">.</span><span class="na">getCause</span><span class="p">();</span>
+<span class="w">                </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Cause: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">t</span><span class="p">);</span>
+<span class="w">                    </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">t</span><span class="p">.</span><span class="na">getCause</span><span class="p">();</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>URL 형식: <code>jdbc:&lt;DB종류&gt;:&lt;위치&gt;</code>. SQLite는 <code>jdbc:sqlite:testDB.db</code>(파일 없으면 <strong>새로 만듦</strong>), MySQL은 <code>jdbc:mysql://localhost:3306/DB이름</code>.</li>
+<li><strong>try-with-resources</strong>: <code>try (Connection connection = ...) { }</code> 괄호 안에서 만든 자원은 블록이 끝나면 <strong>자동으로 close</strong>. <code>AutoCloseable</code>을 구현한 것만 넣을 수 있어요.</li>
+<li><code>System.out.println(connection)</code>: 연결 객체 정보가 찍히면 연결 성공.</li>
+<li><code>SQLException</code>은 <strong>checked exception</strong>이라 반드시 catch(또는 throws).</li>
+<li><code>printSQLException</code>: <code>SQLException</code>은 여러 예외가 <strong>체인</strong>으로 연결돼 있어서 for-each로 돌면서 <code>getSQLState()</code>(표준 오류 코드), <code>getErrorCode()</code>(DB별 코드), <code>getMessage()</code>, 원인(<code>getCause()</code>)을 다 찍어 줘요. <code>for (Throwable e : ex)</code>가 되는 이유는 <code>SQLException</code>이 <code>Iterable&lt;Throwable&gt;</code>을 구현하기 때문이에요.</li>
+</ul>
+</div><h3 id="create-statement-object-and-execute">📑 Create Statement Object and execute <a class="anchor" aria-label="링크" href="#create-statement-object-and-execute">#</a></h3>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Statement로 users 테이블을 만들고 &quot;Table is created&quot;가 나오는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">Statement</span><span class="w"> </span><span class="n">statement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">createStatement</span><span class="p">();</span>
+<span class="n">statement</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="s">"Drop Table If Exists users"</span><span class="p">);</span>
+<span class="n">String</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Create Table IF NOT EXISTS Users (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "</span>
+<span class="w">             </span><span class="o">+</span><span class="w"> </span><span class="s">"username varchar(20) not null, email varchar(20) not null, "</span>
+<span class="w">             </span><span class="o">+</span><span class="w"> </span><span class="s">"country varchar(15), password varchar(20))"</span><span class="p">;</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">success</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Table is not created as the resultSet is being returned"</span><span class="p">);</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Table is created"</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>connection.createStatement()</code> → <code>Statement</code>.</li>
+<li><code>statement.execute(sql)</code>: 아무 SQL이나 실행. 반환값 <strong>boolean</strong>: 결과가 <strong>ResultSet이면 true</strong>, 업데이트 수거나 결과 없으면 <strong>false</strong>.</li>
+<li>CREATE TABLE은 ResultSet을 안 돌려주니 <strong>false</strong> → 그래서 코드가 <code>else</code>에서 &quot;Table is created&quot;를 찍어요. <code>true</code>/<code>false</code>를 성공/실패로 오해하면 안 돼요. 퀴즈 함정으로 아주 좋아요.</li>
+<li><code>Drop Table If Exists users</code>: 다시 실행해도 에러 안 나게 먼저 지우기.</li>
+<li>SQLite의 <code>INTEGER PRIMARY KEY AUTOINCREMENT</code>: id 자동 증가.</li>
+</ul>
+</div><h3 id="execute-statement-with-insert">📑 Execute statement with Insert <a class="anchor" aria-label="링크" href="#execute-statement-with-insert">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Insert into users (username, email, country, password) "</span>
+<span class="w">      </span><span class="o">+</span><span class="w"> </span><span class="s">"Values ('mali','m@ali.com','Canada','1234')"</span><span class="p">;</span>
+<span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"1 row updated in the table"</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>executeUpdate(sql)</code>: INSERT, UPDATE, DELETE에 써요. 반환값은 <strong>영향받은 행 수(int)</strong>. 한 명 넣으면 <code>1</code>. 그래서 <code>if (value != 0)</code>이면 성공.</p>
+<p>슬라이드의 두 번째 INSERT는 <code>statement.execute(query)</code>로 실행하고 <code>value</code>를 다시 검사해요. <code>value</code>는 첫 번째 결과(1)가 그대로 남아 있어서 메시지가 찍히지만, 두 번째 INSERT의 결과를 확인한 게 아니에요. 이런 &quot;변수 재사용 실수&quot;도 코드 읽기 문제로 나올 수 있어요.</p>
+<p>⚠️ 여기서는 값을 SQL 문자열에 <strong>직접</strong> 넣었어요. 사용자 입력을 이렇게 이어 붙이면 SQL Injection 위험이 있어요. 그래서 아래 PreparedStatement가 나와요.</p>
+</div><h3 id="execute-statement-with-resultset">📑 Execute statement with ResultSet <a class="anchor" aria-label="링크" href="#execute-statement-with-resultset">#</a></h3>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: 두 명 INSERT 후 SELECT로 출력하기</p>
+<pre class="hl"><code class="language-java"><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Select * from users"</span><span class="p">;</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">statement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                       </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>executeQuery(sql)</code>: <strong>SELECT 전용</strong>. 반환값 <strong>ResultSet</strong>.</li>
+<li><code>ResultSet</code>은 커서가 <strong>첫 행 앞</strong>에 있어요. <code>rs.next()</code>를 부를 때마다 한 행 내려가고, 행이 있으면 <code>true</code>, 끝이면 <code>false</code>. 그래서 <code>while (rs.next())</code>.</li>
+<li><code>rs.getInt(1)</code>, <code>rs.getString(2)</code>: 열 번호는 <strong>1부터</strong>. 열 이름으로도 가능: <code>rs.getString(&quot;username&quot;)</code> (이 방식이 더 읽기 쉬워요).</li>
+</ul>
+<p>출력 예: <code>1 mali m@ali.com Canada 1234</code>, <code>2 frank frank@f.com Canada 5678</code>.</p>
+</div><h3 id="prepared-statement">📑 Prepared Statement <a class="anchor" aria-label="링크" href="#prepared-statement">#</a></h3>
+<blockquote>
+<ul>
+<li>Prepared statements are precompiled statements that can be reused to execute identical SQL statements with different values more efficiently.</li>
+<li>They make only one trip to the database for metadata, whereas statements make a round trip with each execution.</li>
+<li>You use a question mark as a placeholder within the text of a SQL statement ... You can then replace that question mark with an appropriate value using one of the many available <code>setXXX()</code> accessor methods.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>PreparedStatement 핵심:</p>
+<ul>
+<li><strong>미리 컴파일된(precompiled)</strong> SQL. 같은 SQL을 값만 바꿔 여러 번 실행할 때 효율적.</li>
+<li>메타데이터를 위해 DB에 <strong>한 번만</strong> 감. Statement는 실행할 때마다 왕복.</li>
+<li><code>?</code>가 <strong>자리표시자(placeholder)</strong>, <code>setString(1, ...)</code>, <code>setDouble(3, ...)</code>처럼 **setXXX(번호, 값)**으로 채움. 번호는 <strong>1부터</strong>.</li>
+<li>BLOB 같은 SQL 텍스트로 못 쓰는 값도 넣을 수 있음.</li>
+</ul>
+<pre class="hl"><code class="language-java"><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span>
+<span class="w">    </span><span class="s">"SELECT * FROM users WHERE username = ? AND password = ?"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"mali"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"1234"</span><span class="p">);</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">();</span><span class="w">      </span><span class="c1">// 괄호 안에 SQL을 다시 넣지 않음!</span>
+</code></pre>
+<p>주의: PreparedStatement에서는 <code>ps.executeQuery()</code>처럼 <strong>인자 없이</strong> 불러요. SQL은 이미 <code>prepareStatement</code>에서 넘겼으니까요.</p>
+</div><h3 id="execute-executequery-executeupdate">📑 execute, executeQuery, executeUpdate <a class="anchor" aria-label="링크" href="#execute-executequery-executeupdate">#</a></h3>
+<blockquote>
+<ul>
+<li>The methods for executing SQL statements are <code>execute</code>, <code>executeQuery</code>, and <code>executeUpdate</code>, each of which accepts a string containing a SQL statement as an argument.</li>
+<li>The <code>execute</code> method should be used if the execution produces multiple result sets, multiple update counts, or a combination of result sets and update counts.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 메서드 비교표. 퀴즈 1순위예요.</p>
+<table>
+<thead>
+<tr>
+<th>메서드</th>
+<th>언제</th>
+<th>반환</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>executeQuery</code></td>
+<td>SELECT</td>
+<td><code>ResultSet</code></td>
+</tr>
+<tr>
+<td><code>executeUpdate</code></td>
+<td>INSERT, UPDATE, DELETE, CREATE, DROP</td>
+<td><code>int</code> (영향받은 행 수, DDL은 0)</td>
+</tr>
+<tr>
+<td><code>execute</code></td>
+<td>아무거나, 특히 결과가 <strong>여러 개</strong>거나 종류를 모를 때</td>
+<td><code>boolean</code> (ResultSet이면 true)</td>
+</tr>
+</tbody>
+</table>
+<p><code>execute</code>가 true면 <code>getResultSet()</code>, false면 <code>getUpdateCount()</code>로 결과를 꺼내요.</p>
+</div><h3 id="benefits-of-using-preparedstatement">📑 Benefits of using PreparedStatement <a class="anchor" aria-label="링크" href="#benefits-of-using-preparedstatement">#</a></h3>
+<blockquote>
+<ul>
+<li>PreparedStatement allows you to write a dynamic and parametric query.</li>
+<li>PreparedStatement is faster than Statement in Java. PreparedStatement gets pre-compiled in database and their access plan is also cached.</li>
+<li><strong>PreparedStatement prevents SQL Injection attacks in Java</strong>: all the parameters passed as part of the place-holder will be escaped automatically by JDBC Driver.</li>
+<li>PreparedStatement queries are more readable and secure than cluttered string concatenated queries.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>장점 4개:</p>
+<ol>
+<li><strong>동적, 매개변수 쿼리</strong>: 같은 SQL에 값만 바꿔 실행.</li>
+<li><strong>더 빠름</strong>: 미리 컴파일되고 실행 계획이 DB에 캐시됨.</li>
+<li><strong>SQL Injection 방지</strong>: <code>?</code>에 들어가는 값은 드라이버가 자동으로 <strong>escape</strong>(특수문자 처리)해서 SQL 명령으로 해석되지 않음.</li>
+<li><strong>읽기 쉽고 안전</strong>: 문자열 이어 붙이기보다 깔끔.</li>
+</ol>
+<p>SQL Injection 예: 로그인 비밀번호 칸에 <code>' OR '1'='1</code>을 넣으면, 문자열을 이어 붙인 쿼리는 <code>... WHERE password = '' OR '1'='1'</code>이 되어 <strong>항상 참</strong> → 아무나 로그인. PreparedStatement는 이 입력을 그냥 &quot;이상한 비밀번호 문자열&quot;로 취급해서 막아요.</p>
+</div><h3 id="insert-and-select-using-preparedstatement">📑 Insert and Select using PreparedStatement <a class="anchor" aria-label="링크" href="#insert-and-select-using-preparedstatement">#</a></h3>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: books 테이블에 PreparedStatement로 두 권 넣고 이름으로 검색하기</p>
+<pre class="hl"><code class="language-java"><span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Insert into books (bname, bcategory, bprice, bisbn) Values (?,?,?,?)"</span><span class="p">;</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Harry Potter"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Fantacy"</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setDouble</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mf">65.3</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="s">"123456789"</span><span class="p">);</span>
+<span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">err</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"1 row updated in the table"</span><span class="p">);</span>
+
+<span class="n">query</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Select * from books where bname = ?"</span><span class="p">;</span>
+<span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">query</span><span class="p">);</span>
+<span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Harry Potter"</span><span class="p">);</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">                       </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>INSERT: <code>?</code> 4개 → <code>setString(1)</code>, <code>setString(2)</code>, <code>setDouble(3)</code>, <code>setString(4)</code> → <code>executeUpdate()</code>.</li>
+<li><strong>같은 ps를 재사용</strong>: 값만 다시 set하고 또 <code>executeUpdate()</code>. 이게 PreparedStatement를 쓰는 이유예요 (SQL은 한 번만 컴파일).</li>
+<li>SELECT: <code>WHERE bname = ?</code> → <code>setString(1, &quot;Harry Potter&quot;)</code> → <code>executeQuery()</code> → <code>while (rs.next())</code>.</li>
+<li><code>bprice</code>는 숫자인데 출력에서 <code>rs.getString(4)</code>로 읽어도 돼요. JDBC가 문자열로 바꿔 줘요. 계산하려면 <code>rs.getDouble(4)</code>.</li>
+</ul>
+<p>출력: <code>1 Harry Potter Fantacy 65.3 123456789</code>.</p>
+</div><hr />
+<h2 id="4-강의-슬라이드-week-8-segment-4-javafx-and-jdbc">4. 📑 강의 슬라이드: Week 8 · Segment 4. JavaFX and JDBC <a class="anchor" aria-label="링크" href="#4-강의-슬라이드-week-8-segment-4-javafx-and-jdbc">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>JDBC를 <strong>JavaFX 화면에 붙이는</strong> 단계별 예제예요. 회원가입 폼 → 입력 검사 → <code>JdbcDao.insertRecord</code>, 로그인 폼 → <code>JdbcDao.validate</code>. Week 7 샘플 <code>WK_7_Login_MySql</code>과 거의 같은 구조라 같이 비교하면 좋아요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: MySQL Connector로 JDBC + JavaFX 예제 만들기: 레이아웃, 컨트롤 추가, 입력 검증, MySQL 연결.</li>
+<li>👀 <strong>Steps 1 to 3: Project, Libraries, Database</strong>: JavaFX 프로젝트 만들기 (슬라이드는 Eclipse, 우리는 IntelliJ + Maven).</li>
+<li>👀 <strong>Step 5: Main.java</strong>: 평소와 같은 JavaFX 시작 클래스예요. <code>FXMLLoader.load(getClass().getResource(&quot;/com/senecacollege/views/Register.fxml&quot;))</code>: 경로가 <code>/</code>로 시작하면 resources 폴더 루...</li>
+<li>👀 <strong>Step 7: Registration Controller</strong>: 입력 검증의 정석이에요. Week 7 샘플과 비교해서 올바른 점을 보세요.</li>
+<li>⌨️ <strong><a href="#practice-5">Step 8: JdbcDao for database operations</a></strong>:  (⌨️ JdbcDao.insertRecord를 SQLite URL로 바꿔서 쳐 보기)</li>
+<li>👀 <strong>Login view and LoginController</strong>: 회원가입 화면에서 로그인 화면으로: 새 Stage를 만들어 띄워요 (Week 7 &quot;새 창 띄우기&quot;와 같음).</li>
+<li>⌨️ <strong><a href="#practice-6">JdbcDao.validate</a></strong>:  (⌨️ validate를 쳐서 맞는/틀린 비밀번호로 true/false 확인)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 8 · Segment 4 &quot;JavaFX and JDBC&quot; 강의 슬라이드 (Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 정리</p>
+</blockquote>
+<h3 id="outcomes-2">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes-2">#</a></h3>
+<blockquote>
+<p>JDBC with FX example using MySQL Connector. Creating layouts of JavaFX, adding UI controls, validating controls, connecting with MySQL via JDBC API.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>MySQL Connector로 JDBC + JavaFX 예제 만들기: 레이아웃, 컨트롤 추가, <strong>입력 검증</strong>, MySQL 연결.</p>
+</div><h3 id="steps-1-to-3-project-libraries-database">📑 Steps 1 to 3: Project, Libraries, Database <a class="anchor" aria-label="링크" href="#steps-1-to-3-project-libraries-database">#</a></h3>
+<blockquote>
+<ul>
+<li>Add JavaFX libraries required for the project. Download the MySQL JDBC Connector and add it to the project as well.</li>
+<li>Make sure you have MySQL installed on your machine. First create the database, next create a table.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-sql"><span class="k">create</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="n">registrationloginFX</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">registration</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">full_name</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">email_id</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>준비 3단계:</p>
+<ol>
+<li>JavaFX 프로젝트 만들기 (슬라이드는 Eclipse, 우리는 IntelliJ + Maven).</li>
+<li>라이브러리: JavaFX + <strong>MySQL JDBC Connector</strong>. Maven이면 pom.xml에:</li>
+</ol>
+<pre class="hl"><code class="language-xml"><span class="nt">&lt;dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.mysql<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>mysql-connector-j<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>9.1.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+<p>모듈 프로젝트면 <code>module-info.java</code>에 <code>requires java.sql;</code>도 추가.</p>
+<ol start="3">
+<li>MySQL에서 DB와 테이블 생성. <code>id BIGINT PRIMARY KEY AUTO_INCREMENT</code>(MySQL은 <code>AUTO_INCREMENT</code>, SQLite는 <code>AUTOINCREMENT</code>), <code>NOT NULL</code>은 빈 값 금지.</li>
+</ol>
+</div><h3 id="step-5-mainjava">📑 Step 5: Main.java <a class="anchor" aria-label="링크" href="#step-5-mainjava">#</a></h3>
+<blockquote>
+<p>As before, for creating a JavaFX application, we'll need to extend our Main class from <code>javafx.application.Application</code> and override its <code>start()</code> method.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">primaryStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">BorderPane</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">BorderPane</span><span class="p">)</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">.</span><span class="na">load</span><span class="p">(</span>
+<span class="w">                </span><span class="n">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">"/com/senecacollege/views/Register.fxml"</span><span class="p">));</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"User Registration"</span><span class="p">);</span>
+<span class="w">            </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">);</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>평소와 같은 JavaFX 시작 클래스예요. <code>FXMLLoader.load(getClass().getResource(&quot;/com/senecacollege/views/Register.fxml&quot;))</code>: 경로가 <code>/</code>로 시작하면 <strong>resources 폴더 루트 기준</strong>, <code>/</code> 없으면 이 클래스가 있는 패키지 기준이에요. 경로가 틀리면 <code>Location is not set</code> 에러가 나요. <code>(BorderPane)</code>는 load 결과를 BorderPane으로 캐스팅.</p>
+</div><h3 id="step-7-registration-controller">📑 Step 7: Registration Controller <a class="anchor" aria-label="링크" href="#step-7-registration-controller">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">submitButton</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">submitButton</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your name"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emailidText</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your email id"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter a password"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">fullName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emailidText</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">JdbcDao</span><span class="w"> </span><span class="n">jdbcDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">JdbcDao</span><span class="p">();</span>
+<span class="w">    </span><span class="n">jdbcDao</span><span class="p">.</span><span class="na">insertRecord</span><span class="p">(</span><span class="n">fullName</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">CONFIRMATION</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Registration Successful!"</span><span class="p">,</span>
+<span class="w">              </span><span class="s">"Welcome "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="w"> </span><span class="n">alertType</span><span class="p">,</span><span class="w"> </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Alert</span><span class="w"> </span><span class="n">alert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Alert</span><span class="p">(</span><span class="n">alertType</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setHeaderText</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setContentText</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">initOwner</span><span class="p">(</span><span class="n">owner</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>JdbcDao class is being used for validating the fields and to store and to retrieve or to manipulate data from the database.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>입력 검증의 정석이에요. Week 7 샘플과 비교해서 <strong>올바른 점</strong>을 보세요.</p>
+<ul>
+<li>이름, 이메일, 비밀번호가 비었으면 Alert를 띄우고 <strong><code>return;</code></strong>. 그래서 빈 값으로 DB에 저장되지 않아요. (Week 7 샘플에는 이 <code>return</code>이 빠져 있었죠.)</li>
+<li>검사를 다 통과한 뒤에야 <code>JdbcDao</code>를 만들어 <code>insertRecord(fullName, emailId, password)</code>. 인자 순서가 메서드 정의와 <strong>같아요</strong>.</li>
+<li>성공하면 <code>AlertType.CONFIRMATION</code>으로 &quot;Welcome 이름&quot;.</li>
+<li><code>showAlert</code> 도우미 메서드로 Alert 만드는 코드 중복을 줄였어요. <code>setHeaderText(null)</code>은 머리글 줄을 없애요.</li>
+<li>역할 분리: Controller는 <strong>화면과 검증</strong>, DB 작업은 <strong>JdbcDao</strong>(DAO = Data Access Object). Repository 패턴과 같은 생각이에요.</li>
+</ul>
+</div><h3 id="step-8-jdbcdao-for-database-operations">📑 Step 8: JdbcDao for database operations <a class="anchor" aria-label="링크" href="#step-8-jdbcdao-for-database-operations">#</a></h3>
+<blockquote>
+<ul>
+<li>Steps: Establishing a connection, Create a statement, Execute the query. Using try-with-resources Statements to Automatically Close JDBC Resources.</li>
+<li>From JDBC 4.0, we don't need to include <code>Class.forName()</code> in our code, to load JDBC driver. When the method <code>getConnection</code> is called, the <code>DriverManager</code> will automatically load the suitable driver.</li>
+</ul>
+</blockquote>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: JdbcDao.insertRecord를 SQLite URL로 바꿔서 쳐 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JdbcDao</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Replace below database url, username and password with your actual database credentials</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"jdbc:mysql://localhost:3306/registrationFX?useSSL=false"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"root"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"root"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">INSERT_QUERY</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="s">"INSERT INTO registration (full_name, email_id, password) VALUES (?, ?, ?)"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">insertRecord</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">fullName</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Step 1: Establishing a Connection and</span>
+<span class="w">        </span><span class="c1">// try-with-resource statement will auto close the connection.</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="p">);</span>
+<span class="w">             </span><span class="c1">// Step 2: Create a statement using connection object</span>
+<span class="w">             </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">INSERT_QUERY</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fullName</span><span class="p">);</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">);</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">            </span><span class="c1">// Step 3: Execute the query or update query</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>DAO의 표준 모양이에요.</p>
+<ul>
+<li>상수로 URL, 사용자, 비밀번호, SQL을 모아 둠. (실제 비밀번호를 코드에 쓰는 건 연습용일 때만. 공개 저장소에 올리면 안 돼요.)</li>
+<li><code>try (Connection ...; PreparedStatement ...)</code>: 두 자원을 <strong>세미콜론으로 구분</strong>해 한 번에 열고, 끝나면 <strong>역순으로</strong> 자동 close.</li>
+<li>주석의 Step 1, 2, 3이 JDBC 4단계와 같아요.</li>
+<li><strong>JDBC 4.0부터 <code>Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;)</code> 필요 없음</strong>. <code>getConnection</code>할 때 DriverManager가 클래스패스에서 맞는 드라이버를 자동으로 찾아요. 퀴즈에 &quot;Class.forName이 꼭 필요하다(T/F)&quot; → <strong>F</strong>.</li>
+</ul>
+<p>SQLite로 연습하려면 URL만 <code>&quot;jdbc:sqlite:registration.db&quot;</code>로 바꾸고 사용자/비밀번호 없이 <code>getConnection(url)</code>.</p>
+</div><h3 id="login-view-and-logincontroller">📑 Login view and LoginController <a class="anchor" aria-label="링크" href="#login-view-and-logincontroller">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="c1">// RegisterController: open the login window</span>
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loginClickEvent</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">FXMLLoader</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">"/com/senecacollege/views/Login.fxml"</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Parent</span><span class="w"> </span><span class="n">loginRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loader</span><span class="p">.</span><span class="na">load</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Stage</span><span class="w"> </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Stage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"User Login"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">loginRoot</span><span class="p">,</span><span class="w"> </span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">);</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// LoginController</span>
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">submitButton</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emailIdField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your email id"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter a password"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emailIdField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">JdbcDao</span><span class="w"> </span><span class="n">jdbcDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">JdbcDao</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jdbcDao</span><span class="p">.</span><span class="na">validate</span><span class="p">(</span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">infoBox</span><span class="p">(</span><span class="s">"Please enter correct Email and Password"</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">"Failed"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">infoBox</span><span class="p">(</span><span class="s">"Login Successful!"</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">"Failed"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>회원가입 화면에서 로그인 화면으로: <strong>새 Stage</strong>를 만들어 띄워요 (Week 7 &quot;새 창 띄우기&quot;와 같음).</li>
+<li>로그인 검사: 이메일, 비밀번호가 비었는지 확인 → <code>jdbcDao.validate(emailId, password)</code> → true/false에 따라 메시지.</li>
+<li>슬라이드의 작은 실수: 성공일 때도 제목이 <code>&quot;Failed&quot;</code>예요. 퀴즈에서 &quot;이 코드의 문제는?&quot;으로 나오면 지적할 수 있어야 해요.</li>
+</ul>
+</div><h3 id="jdbcdaovalidate">📑 JdbcDao.validate <a class="anchor" aria-label="링크" href="#jdbcdaovalidate">#</a></h3>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: validate를 쳐서 맞는/틀린 비밀번호로 true/false 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">SELECT_QUERY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT * FROM registration WHERE email_id = ? and password = ?"</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">SELECT_QUERY</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">);</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>로그인 검사 = <strong>이메일과 비밀번호가 둘 다 맞는 행이 있는가</strong>.</p>
+<ol>
+<li><code>SELECT * FROM registration WHERE email_id = ? and password = ?</code></li>
+<li><code>setString(1, emailId)</code>, <code>setString(2, password)</code></li>
+<li><code>executeQuery()</code> → <code>ResultSet</code></li>
+<li><code>if (resultSet.next()) return true;</code> 행이 하나라도 있으면 로그인 성공.</li>
+<li>예외가 나거나 행이 없으면 마지막 <code>return false;</code>.</li>
+</ol>
+<p><code>return true</code>가 try 블록 안에 있어도 try-with-resources가 <strong>close를 먼저 하고</strong> 돌아가요. 걱정 안 해도 돼요.</p>
+<p>참고: 실제 서비스에서는 비밀번호를 그대로 저장하지 않고 <strong>해시</strong>해서 저장해요. 수업 예제는 개념 설명용이에요.</p>
+</div><hr />
+<h2 id="직접-해-보기-sqlite로-jdbc-한-파일-연습">⌨️ 직접 해 보기: SQLite로 JDBC 한 파일 연습 <a class="anchor" aria-label="링크" href="#직접-해-보기-sqlite로-jdbc-한-파일-연습">#</a></h2>
+<p>MySQL 설치 없이 바로 돌릴 수 있어요. IntelliJ에서 새 Maven 프로젝트(Java)를 만들고 <code>pom.xml</code>에 SQLite 드라이버를 추가하세요.</p>
+<pre class="hl"><code class="language-xml"><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">    </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;groupId&gt;</span>org.xerial<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;artifactId&gt;</span>sqlite-jdbc<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">        </span><span class="nt">&lt;version&gt;</span>3.46.1.3<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre>
+<p>모듈(<code>module-info.java</code>)이 없는 프로젝트면 바로 실행돼요. 있으면 <code>requires java.sql;</code>을 추가하세요. 아래 파일 하나로 CRUD 네 가지를 다 해 봐요.</p>
+<pre class="hl"><code class="language-java"><span class="kn">import</span><span class="w"> </span><span class="nn">java.sql.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JdbcPractice</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"jdbc:sqlite:practice.db"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">URL</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// CREATE</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Statement</span><span class="w"> </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">createStatement</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">st</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="s">"DROP TABLE IF EXISTS players"</span><span class="p">);</span>
+<span class="w">                </span><span class="kt">boolean</span><span class="w"> </span><span class="n">isResultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">st</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">"CREATE TABLE players (id INTEGER PRIMARY KEY AUTOINCREMENT, "</span>
+<span class="w">                  </span><span class="o">+</span><span class="w"> </span><span class="s">"name TEXT NOT NULL, team TEXT, goals INTEGER)"</span><span class="p">);</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"execute() returned "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">isResultSet</span><span class="p">);</span><span class="w">   </span><span class="c1">// false</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="c1">// INSERT (C)</span>
+<span class="w">            </span><span class="n">String</span><span class="w"> </span><span class="n">insert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"INSERT INTO players (name, team, goals) VALUES (?, ?, ?)"</span><span class="p">;</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">insert</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Jack"</span><span class="p">);</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Alpha"</span><span class="p">);</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"rows: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">());</span><span class="w">           </span><span class="c1">// 1</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Mike"</span><span class="p">);</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Beta"</span><span class="p">);</span><span class="w">  </span><span class="n">ps</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">);</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Kyle"</span><span class="p">);</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Alpha"</span><span class="p">);</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="c1">// UPDATE (U)</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">"UPDATE players SET goals = goals + 1 WHERE team = ?"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Alpha"</span><span class="p">);</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"updated: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">());</span><span class="w">       </span><span class="c1">// 2</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="c1">// DELETE (D)</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">"DELETE FROM players WHERE name = ?"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Mike"</span><span class="p">);</span>
+<span class="w">                </span><span class="n">ps</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">            </span><span class="p">}</span>
+
+<span class="w">            </span><span class="c1">// SELECT (R)</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span>
+<span class="w">                    </span><span class="s">"SELECT id, name, goals FROM players ORDER BY goals DESC"</span><span class="p">);</span>
+<span class="w">                 </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="s">"id"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"DB error: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getMessage</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p>예상 출력을 <strong>먼저 종이에 쓰고</strong> 실행해서 맞춰 보세요.</p>
+<details><summary>예상 출력</summary>
+<pre class="hl"><code class="language-text">execute() returned false
+rows: 1
+updated: 2
+1 Jack 4
+3 Kyle 2
+</code></pre>
+<p>Alpha 팀(Jack 3→4, Kyle 1→2)만 +1, Mike는 삭제, goals 내림차순.</p>
+</details>
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-8">🧩 이번 주 토이 프로젝트: CafeOrder Week 8 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-8">#</a></h2>
+<p>Week 7의 <code>InMemoryMenuRepository</code> 옆에 <code>JdbcMenuRepository implements MenuRepository</code>를 만들어 <strong>SQLite</strong>에 메뉴와 주문을 저장해요. <code>AppModule</code>의 bind 한 줄만 바꾸면 메모리 저장 → DB 저장으로 바뀌는 걸 확인하는 게 목표예요 (IoC의 Flexibility 체험). (Week 8 토이 가이드는 준비 중이에요.)</p>
+<h2 id="quiz-5-대비-체크리스트-week-8">✅ Quiz 5 대비 체크리스트 (Week 8) <a class="anchor" aria-label="링크" href="#quiz-5-대비-체크리스트-week-8">#</a></h2>
+<ul>
+<li>[ ] Persistent data, 3-Tier(Presentation, Domain, Data Source)를 설명할 수 있다.</li>
+<li>[ ] Object-relational mismatch와 관계형 vs 객체 모델 차이 5개를 안다.</li>
+<li>[ ] ORM 정의(&quot;virtual object database&quot;, metadata로 매핑)와 장점(CRUD 자동, 비즈니스 로직 집중)을 안다.</li>
+<li>[ ] 다대다 관계를 join table로 표현할 수 있다.</li>
+<li>[ ] Entity vs Value Object, Aggregate를 구분한다.</li>
+<li>[ ] Domain Model, Table Module, Active Record, Data Mapper를 짝지을 수 있다.</li>
+<li>[ ] 상속 매핑 3가지와 가장 흔한 것(table per concrete class)을 안다.</li>
+<li>[ ] Lazy loading을 비유로 설명할 수 있다.</li>
+<li>[ ] JDBC 정의, <code>java.sql</code>/<code>javax.sql</code>, 드라이버 Type 1~4를 안다.</li>
+<li>[ ] Connection → Statement/PreparedStatement → execute → ResultSet → close 순서로 코드를 쓸 수 있다.</li>
+<li>[ ] <code>execute</code>/<code>executeQuery</code>/<code>executeUpdate</code>의 용도와 반환 타입을 안다.</li>
+<li>[ ] PreparedStatement 장점 4개, 특히 SQL Injection 방지를 설명할 수 있다.</li>
+<li>[ ] <code>?</code>와 열 번호가 1부터라는 것, <code>rs.next()</code> 커서 동작을 안다.</li>
+<li>[ ] JDBC 4.0부터 <code>Class.forName</code> 불필요, try-with-resources로 자동 close.</li>
+<li>[ ] module-info에 <code>requires java.sql;</code>이 필요하다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li><code>students(id, name, gpa)</code> 테이블에서 gpa가 주어진 값 <strong>이상</strong>인 학생 이름을 모두 출력하는 메서드 <code>printHonors(Connection conn, double min)</code>를 PreparedStatement로 써 보세요.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printHonors</span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">conn</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">min</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT name FROM students WHERE gpa &gt;= ?"</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">setDouble</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">min</span><span class="p">);</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"name"</span><span class="p">));</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<ol start="2">
+<li>빈칸을 채우세요.</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">________</span><span class="p">(</span><span class="s">"jdbc:sqlite:shop.db"</span><span class="p">);</span>
+<span class="w">     </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">________</span><span class="p">(</span><span class="s">"DELETE FROM items WHERE id = ?"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ps</span><span class="p">.</span><span class="na">________</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">42</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">________</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" row(s) deleted"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p><code>getConnection</code>, <code>prepareStatement</code>, <code>setInt</code>, <code>executeUpdate</code>.</p>
+</details>
+<ol start="3">
+<li>다음 코드가 위험한 이유와 고친 코드를 쓰세요.</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT * FROM users WHERE email = '"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">emailField</span><span class="p">.</span><span class="na">getText</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"'"</span><span class="p">;</span>
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">createStatement</span><span class="p">().</span><span class="na">executeQuery</span><span class="p">(</span><span class="n">sql</span><span class="p">);</span>
+</code></pre>
+<details><summary>3번 정답</summary>
+<p>사용자 입력을 SQL 문자열에 그대로 이어 붙여서 <strong>SQL Injection</strong> 위험이 있어요(예: <code>' OR '1'='1</code>). 또 Statement와 ResultSet을 닫지 않아요.</p>
+<pre class="hl"><code class="language-java"><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT * FROM users WHERE email = ?"</span><span class="p">;</span>
+<span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ps</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">emailField</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// ...</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w8" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-07.html"><small>← 이전</small>Week 7. 여러 화면과 IoC</a><span></span></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

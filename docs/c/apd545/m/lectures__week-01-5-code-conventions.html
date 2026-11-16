@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Java Code Conventions · APD545</title><meta name="description" content="Week 1 · Java Code Conventions · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 1 · Java Code Conventions</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#why-have-code-conventions">Why Have Code Conventions</a></li><li class="l2"><a href="#file-names-and-organization">File Names and Organization</a></li><li class="l2"><a href="#order-inside-a-class">Order inside a Class</a></li><li class="l2"><a href="#indentation-and-line-length">Indentation and Line Length</a></li><li class="l2"><a href="#naming-conventions">Naming Conventions</a></li></ol></nav>
+<article class="md"><p>Source: &lt;Java Code Conventions (Sun Microsystems), Week 1 수업 자료 핵심 발췌&gt;</p>
+<h1 id="week-1-java-code-conventions">Week 1 · Java Code Conventions <a class="anchor" aria-label="링크" href="#week-1-java-code-conventions">#</a></h1>
+<h2 id="why-have-code-conventions">Why Have Code Conventions <a class="anchor" aria-label="링크" href="#why-have-code-conventions">#</a></h2>
+<blockquote>
+<ul>
+<li>80% of the lifetime cost of a piece of software goes to maintenance.</li>
+<li>Hardly any software is maintained for its whole life by the original author.</li>
+<li>Code conventions improve the readability of the software, allowing engineers to understand new code more quickly and thoroughly.</li>
+</ul>
+</blockquote>
+<h2 id="file-names-and-organization">File Names and Organization <a class="anchor" aria-label="링크" href="#file-names-and-organization">#</a></h2>
+<blockquote>
+<ul>
+<li>Java source <code>.java</code>, Java bytecode <code>.class</code></li>
+<li>Files longer than 2000 lines are cumbersome and should be avoided.</li>
+<li>Each Java source file contains a single public class or interface.</li>
+<li>Order: Beginning comments, Package and Import statements, Class and interface declarations.</li>
+</ul>
+</blockquote>
+<h2 id="order-inside-a-class">Order inside a Class <a class="anchor" aria-label="링크" href="#order-inside-a-class">#</a></h2>
+<blockquote>
+<ol>
+<li>Class (static) variables: public, then protected, then package level, then private</li>
+<li>Instance variables: same order</li>
+<li>Constructors</li>
+<li>Methods: grouped by functionality rather than by scope or accessibility</li>
+</ol>
+</blockquote>
+<h2 id="indentation-and-line-length">Indentation and Line Length <a class="anchor" aria-label="링크" href="#indentation-and-line-length">#</a></h2>
+<blockquote>
+<ul>
+<li>Four spaces should be used as the unit of indentation.</li>
+<li>Avoid lines longer than 80 characters.</li>
+<li>Break after a comma. Break before an operator.</li>
+</ul>
+</blockquote>
+<h2 id="naming-conventions">Naming Conventions <a class="anchor" aria-label="링크" href="#naming-conventions">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Identifier Type</th>
+<th>Rule</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Packages</td>
+<td>all-lowercase</td>
+<td><code>com.sun.eng</code></td>
+</tr>
+<tr>
+<td>Classes</td>
+<td>nouns, mixed case, first letter of each word capitalized</td>
+<td><code>class Raster;</code> <code>class ImageSprite;</code></td>
+</tr>
+<tr>
+<td>Interfaces</td>
+<td>capitalized like class names</td>
+<td><code>interface RasterDelegate;</code></td>
+</tr>
+<tr>
+<td>Methods</td>
+<td>verbs, mixed case with the first letter lowercase</td>
+<td><code>run();</code> <code>getBackground();</code></td>
+</tr>
+<tr>
+<td>Variables</td>
+<td>mixed case with a lowercase first letter, short yet meaningful</td>
+<td><code>int i;</code> <code>float myWidth;</code></td>
+</tr>
+<tr>
+<td>Constants</td>
+<td>all uppercase with words separated by underscores</td>
+<td><code>static final int MIN_WIDTH = 4;</code></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

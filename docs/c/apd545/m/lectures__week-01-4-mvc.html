@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Segment 4. MVC Pattern · APD545</title><meta name="description" content="Week 1 · Segment 4. MVC Pattern · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 1 · Segment 4. MVC Pattern</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-design-pattern">What is Design Pattern?</a></li><li class="l2"><a href="#what-is-mvc">What is MVC?</a></li><li class="l2"><a href="#what-is-model-in-mvc">What is Model in MVC?</a></li><li class="l2"><a href="#why-use-mvc-design-pattern">Why use MVC Design Pattern?</a></li><li class="l2"><a href="#what-is-view-in-mvc">What is View in MVC?</a></li><li class="l2"><a href="#what-is-controller-in-mvc">What is Controller in MVC?</a></li><li class="l2"><a href="#mainjava">Main.java</a></li><li class="l2"><a href="#mvc-in-java-in-one-sentence-each">MVC in Java, in one sentence each</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 1 · Segment 4 &quot;MVC Pattern&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. Employee 예제 코드는 슬라이드 그대로 정리&gt;</p>
+<h1 id="week-1-segment-4-mvc-pattern">Week 1 · Segment 4. MVC Pattern <a class="anchor" aria-label="링크" href="#week-1-segment-4-mvc-pattern">#</a></h1>
+<h2 id="what-is-design-pattern">What is Design Pattern? <a class="anchor" aria-label="링크" href="#what-is-design-pattern">#</a></h2>
+<blockquote>
+<ul>
+<li>Designing object-oriented software is hard and designing reusable object-oriented software is even harder.</li>
+<li>Design patterns make it easier to reuse successful designs and architectures.</li>
+<li>The design patterns are descriptions of communicating objects and classes that are customized to solve a general design problem in a particular context.</li>
+</ul>
+</blockquote>
+<h2 id="what-is-mvc">What is MVC? <a class="anchor" aria-label="링크" href="#what-is-mvc">#</a></h2>
+<blockquote>
+<p>MVC is a software design pattern. It describes the separation of software into three elements: <strong>Model, View, Controller</strong></p>
+</blockquote>
+<h2 id="what-is-model-in-mvc">What is Model in MVC? <a class="anchor" aria-label="링크" href="#what-is-model-in-mvc">#</a></h2>
+<blockquote>
+<ul>
+<li>Manages the data of an application.</li>
+<li>The model is agnostic to the way the data is represented to the user or any application workflow, so it can be said that the model is the central part of a MVC application.</li>
+<li>Developing a model is among the first steps of any MVC software project.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class that represents model</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Employee</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">EmployeeId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">EmployeeName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="why-use-mvc-design-pattern">Why use MVC Design Pattern? <a class="anchor" aria-label="링크" href="#why-use-mvc-design-pattern">#</a></h2>
+<blockquote>
+<p>This makes it easier to work on each part separately, so you can update or fix things without messing up the whole app. It helps developers add new features smoothly, makes testing simpler, and allows for better user interfaces.</p>
+</blockquote>
+<h2 id="what-is-view-in-mvc">What is View in MVC? <a class="anchor" aria-label="링크" href="#what-is-view-in-mvc">#</a></h2>
+<blockquote>
+<ul>
+<li>Describes the presentation of the data and control elements (inputs, buttons, check boxes, menus, and so on) to the user.</li>
+<li>A view also may use different technologies, like a GUI component installed on the user's PC, an app on a mobile phone, or a web page to be viewed in a browser.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class which represents the view</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EmployeeView</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printEmployeeDetails</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Employee Details: "</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Name: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">EmployeeName</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Employee ID: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">EmployeeId</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="what-is-controller-in-mvc">What is Controller in MVC? <a class="anchor" aria-label="링크" href="#what-is-controller-in-mvc">#</a></h2>
+<blockquote>
+<ul>
+<li>Handles user input and prepares the data set necessary for the view part to do its work.</li>
+<li>While a view shows model items, the view never has to know how data is stored and retrieved from some persistent storage (database).</li>
+<li>Because the user input determines what an application has to do next, the controller also contains the application logic.</li>
+<li>Any calculation and data transformation happens in the control part of MVC.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// class which represent the controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">EmployeeController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">EmployeeController</span><span class="p">(</span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEmployeeName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setEmployeeId</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">id</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="n">id</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getEmployeeId</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getId</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// method to update view</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">updateView</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">printEmployeeDetails</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="na">getName</span><span class="p">(),</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getId</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="mainjava">Main.java <a class="anchor" aria-label="링크" href="#mainjava">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MVCMain</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// fetching the employee record based on the employee_id from the database</span>
+<span class="w">        </span><span class="n">Employee</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">retriveEmployeeFromDatabase</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// creating a view to write Employee details on console</span>
+<span class="w">        </span><span class="n">EmployeeView</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmployeeView</span><span class="p">();</span>
+<span class="w">        </span><span class="n">EmployeeController</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">EmployeeController</span><span class="p">(</span><span class="n">model</span><span class="p">,</span><span class="w"> </span><span class="n">view</span><span class="p">);</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">updateView</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// updating the model data</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">setEmployeeName</span><span class="p">(</span><span class="s">"Frank"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"\n Employee Details after updating: "</span><span class="p">);</span>
+<span class="w">        </span><span class="n">controller</span><span class="p">.</span><span class="na">updateView</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// (슬라이드에는 없는 부분: 실행되도록 추가한 가짜 DB 조회)</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="nf">retriveEmployeeFromDatabase</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Employee</span><span class="w"> </span><span class="n">employee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Employee</span><span class="p">();</span>
+<span class="w">        </span><span class="n">employee</span><span class="p">.</span><span class="na">setName</span><span class="p">(</span><span class="s">"Joe"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">employee</span><span class="p">.</span><span class="na">setId</span><span class="p">(</span><span class="s">"11"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">employee</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="mvc-in-java-in-one-sentence-each">MVC in Java, in one sentence each <a class="anchor" aria-label="링크" href="#mvc-in-java-in-one-sentence-each">#</a></h2>
+<blockquote>
+<ul>
+<li>a model (stored in memory) defines the application's state;</li>
+<li>a view shows model values and sends user interactions to a controller;</li>
+<li>the controller prepares model data, handles user input and accordingly changes model values, and then decides which view page to show next.</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

@@ -43,7 +43,8 @@ def snack(code,name):
     q={'name':name[:60],'platform':plat,'sdkVersion':'54.0.0','code':code}
     if d: q['dependencies']=','.join(f"{p}@{VER.get(p,'*')}" for p in d)
     return 'https://snack.expo.dev/?'+up.urlencode(q,quote_via=up.quote)
-def where_to_type(code):
+def where_to_type(code,lang=None):
+    if lang=='java' or RUNNER=='intellij': return 'IntelliJ'
     web=re.search(r'<div|<button|<h1|createRoot|function MyApp',code) and 'react-native' not in code
     return 'CodeSandbox' if (web or RUNNER!='snack') and web else 'Snack'
 def fix_body(text,name,kind,mark=None):
@@ -59,13 +60,13 @@ def fix_body(text,name,kind,mark=None):
             code='\n'.join(lines[i+1:j])
             if not lang: lang='json' if code.lstrip().startswith('{') and '"dependencies"' in code else 'jsx'
             marked=False
-            skipweb=has_rn and where_to_type(code)=='CodeSandbox'   # HTML 'before' version next to the RN version
-            if mark and not skipweb and lang in('jsx','js','tsx','ts') and (first or len(mark)>2 or 'export default' in code):
+            skipweb=has_rn and where_to_type(code,lang)=='CodeSandbox'   # HTML 'before' version next to the RN version
+            if mark and not skipweb and lang in('jsx','js','tsx','ts','java') and (first or len(mark)>2 or 'export default' in code or 'void main' in code):
                 marked=True
                 no,todo=mark[:2]; ind=m.group(1)
                 idattr=f' id="practice-{no}"' if (first and no) else ''
                 tail=f': {html.escape(todo)}' if (first and todo) else ''
-                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 {where_to_type(code)}에서 직접 쳐 보세요</b>{tail}</p>' if first else f'{ind}<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>'); out.append('')
+                out.append(''); out.append(f'{ind}<p class="typeit"{idattr}>⌨️ <b>이 코드는 {where_to_type(code,lang)}에서 직접 쳐 보세요</b>{tail}</p>' if first else f'{ind}<p class="typeit sm">⌨️ 이 부분도 직접 쳐 보세요</p>'); out.append('')
                 first=False
             out.append(m.group(1)+'```'+lang); out+=lines[i+1:j]; out.append(m.group(1)+'```')
             if RUNNER!='snack': pass
@@ -93,7 +94,7 @@ def auto_kind(typ,h,body):
     if typ=='LAB':
         if h.startswith(SKIM) or h.endswith('Playground'): return 'skim'
         return 'read' if h in('Setup','Overview') else 'lab'
-    if typ=='LEC':
+    if typ in('LEC','IN'):
         if h.endswith('Playground'): return 'skim'
         if h.startswith('Finished') or h.startswith(('Why','How It Works','What to Show')) or 'Checklist' in h: return 'read'
         if (h.startswith('Example') and '```' in body) or h.startswith(('Starter','Step')): return 'type'
@@ -112,6 +113,7 @@ def first_line(k):
 def doc_box(kind,text,items):
     """원문 출처 앞에 한 번만 나오는 한글 미리보기. items=[(kind, heading, text, todo, practice_no)]"""
     badge=f' · {KIND[kind]}' if kind in KIND else ''
+    if RUNNER=='intellij': badge=badge.replace('Snack','IntelliJ')
     md=f'<div class="sum" data-kind="{kind}">\n\n**🧭 먼저 한국어로**{badge}\n\n{text}\n\n'
     if items:
         md+='**이 챕터 구성**\n\n'
@@ -163,7 +165,7 @@ def build(annpath,outpath):
                     kor.setdefault(norm(key),[]).append(blocks[k][1].strip())
                 k+=1
             sec+=1
-            label={'NOTE':'📘 코스노트','LEC':'💻 인클래스 예제','LAB':'🧪 Lab','TEST':'📝 샘플 시험'}[typ]
+            label={'NOTE':'📘 코스노트','LEC':'💻 인클래스 예제','LAB':'🧪 Lab','TEST':'📝 샘플 시험','SLIDE':'📑 강의 슬라이드','IN':'💻 교수님 샘플 코드'}[typ]
             h=f'{sec}. {label}: {title}'; toc.append(h)
             out.append(f'\n---\n\n## {h}\n')
             # one Korean preview per document: _doc text + every section's short preview, then source, then original
@@ -200,7 +202,7 @@ def build(annpath,outpath):
                 if c['lvl']==2: parent=c['h']
                 nm=c['h'] if c['lvl']==2 else parent+' - '+c['h']
                 hl='###' if c['lvl']==2 else '####'
-                ic={'NOTE':'📘','LEC':'💻','LAB':'🧪','TEST':'📝'}[typ]
+                ic={'NOTE':'📘','LEC':'💻','LAB':'🧪','TEST':'📝','SLIDE':'📑','IN':'💻'}[typ]
                 bd=fix_body('\n'.join(c['body']).strip(),f'{CODE} W{wk} {nm}',typ,marks.get(ci))
                 mk=marks.get(ci)
                 if mk and mk[0] and f'id="practice-{mk[0]}"' not in bd:
@@ -222,7 +224,7 @@ def build(annpath,outpath):
             warn.append('bad directive '+d); k+=1
     if plan:
         rows=[f'| {i} | [{w}](#practice-{i}) | {t} |' for i,(w,t) in enumerate(plan,1)]
-        planmd='\n**⌨️ 직접 쳐 볼 것 (이 순서대로)**\n\n어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
+        planmd=f'\n**⌨️ {"IntelliJ에서 " if RUNNER=="intellij" else ""}직접 쳐 볼 것 (이 순서대로)**\n\n어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.\n\n| # | 어디 | 무엇을 |\n| --- | --- | --- |\n'+'\n'.join(rows)+'\n\n나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.\n'
         out=[o.replace('{{PRACTICE}}',planmd) for o in out]
     out=[o.replace('{{PRACTICE}}','') for o in out]
     tocmd='\n## 목차\n\n'+'\n'.join(f'- {t}' for t in toc)+'\n'

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 7 · Segment 2. Inversion of Control (IoC) · APD545</title><meta name="description" content="Week 7 · Segment 2. Inversion of Control (IoC) · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 7 · Segment 2. Inversion of Control (IoC)</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#inversion-of-control-ioc">Inversion of Control (IoC)</a></li><li class="l2"><a href="#what-is-it">What is it?</a></li><li class="l2"><a href="#why-it-matters">Why it matters?</a></li><li class="l2"><a href="#in-action">In Action</a></li><li class="l2"><a href="#ioc-techniques">IoC Techniques</a></li><li class="l2"><a href="#example-from-the-class">Example from the class</a></li><li class="l2"><a href="#what-ioc-is-not">What IoC is not?</a></li><li class="l2"><a href="#analogy-restaurant-ordering">Analogy: Restaurant Ordering</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 7 · Segment 2 &quot;Inversion of Control&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-7-segment-2-inversion-of-control-ioc">Week 7 · Segment 2. Inversion of Control (IoC) <a class="anchor" aria-label="링크" href="#week-7-segment-2-inversion-of-control-ioc">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>I can explain IoC: define Inversion of Control and describe how it changes responsibility in a program.</li>
+<li>I can spot IoC in frameworks: recognize examples of IoC in Dependency Injection, callbacks, and design patterns.</li>
+<li>I can use IoC in code: apply IoC by writing code that uses a DI framework (like Guice) instead of manual wiring.</li>
+</ul>
+</blockquote>
+<h2 id="inversion-of-control-ioc">Inversion of Control (IoC) <a class="anchor" aria-label="링크" href="#inversion-of-control-ioc">#</a></h2>
+<blockquote>
+<p>Inversion of Control (IoC) is a design principle in software engineering where the control over program flow or object creation is inverted: instead of the application code directly managing dependencies and execution, a framework or container takes responsibility for providing objects and orchestrating the flow.</p>
+<p>Key idea: <strong>&quot;Don't call us, we'll call you.&quot;</strong></p>
+</blockquote>
+<h2 id="what-is-it">What is it? <a class="anchor" aria-label="링크" href="#what-is-it">#</a></h2>
+<blockquote>
+<ul>
+<li>Shifts responsibility of object creation &amp; wiring from your code → to a framework/container</li>
+<li>Your code focuses on business logic, not dependency management</li>
+</ul>
+</blockquote>
+<h2 id="why-it-matters">Why it matters? <a class="anchor" aria-label="링크" href="#why-it-matters">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Decoupling</strong>: Classes don't depend on concrete implementations</li>
+<li><strong>Flexibility</strong>: Swap implementations easily (e.g., mock vs real repository)</li>
+<li><strong>Testability</strong>: Easier unit testing with injected dependencies</li>
+<li><strong>Maintainability</strong>: Centralized configuration, less scattered <code>new</code> statements</li>
+</ul>
+</blockquote>
+<h2 id="in-action">In Action <a class="anchor" aria-label="링크" href="#in-action">#</a></h2>
+<blockquote>
+<p>Without IoC (manual wiring):</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">SceneRepository</span><span class="w"> </span><span class="n">repo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InMemorySceneRepository</span><span class="p">();</span>
+<span class="n">MainController</span><span class="w"> </span><span class="n">controller</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MainController</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">repo</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>With IoC (using Guice): Framework injects dependencies automatically</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="nd">@Inject</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">MainController</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="p">,</span><span class="w"> </span><span class="n">SceneRepository</span><span class="w"> </span><span class="n">repo</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<h2 id="ioc-techniques">IoC Techniques <a class="anchor" aria-label="링크" href="#ioc-techniques">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Dependency Injection (DI)</strong>: Constructor, setter, or field injection. Most popular because it makes dependencies explicit and testable.</li>
+<li><strong>Service Locator Pattern</strong>: Instead of injecting, classes ask a central &quot;locator&quot; for dependencies. Still IoC, because the class doesn't decide how the dependency is built. Less favored today because it hides dependencies.</li>
+<li><strong>Event-driven / Callback style</strong>: Framework calls your code at the right time (e.g., JavaFX method, servlet lifecycle methods). You don't control the flow, the framework does. This inversion of control is about program flow, not just object creation.</li>
+<li><strong>Template Method Pattern</strong>: Framework defines the skeleton of an algorithm, and your subclass provides specific steps. Control of execution order is inverted to the framework.</li>
+</ul>
+</blockquote>
+<h2 id="example-from-the-class">Example from the class <a class="anchor" aria-label="링크" href="#example-from-the-class">#</a></h2>
+<blockquote>
+<ul>
+<li>Controllers declare dependencies (Stage, SceneRepository)</li>
+<li>Guice AppModule binds interfaces → implementations</li>
+<li>FXMLLoader uses Guice to create controllers</li>
+<li>Result: Controllers only handle scene logic, not wiring</li>
+</ul>
+</blockquote>
+<h2 id="what-ioc-is-not">What IoC is not? <a class="anchor" aria-label="링크" href="#what-ioc-is-not">#</a></h2>
+<blockquote>
+<p>IoC is ≠ Dependency Injection. Rather DI is the most commonly used technique of IoC.</p>
+</blockquote>
+<h2 id="analogy-restaurant-ordering">Analogy: Restaurant Ordering <a class="anchor" aria-label="링크" href="#analogy-restaurant-ordering">#</a></h2>
+<blockquote>
+<ul>
+<li>Without IoC (manual control): You go into the kitchen, gather ingredients, cook the meal yourself. You control everything.</li>
+<li>With IoC (inversion of control): You sit at a table, order from the menu. The chef and staff handle cooking, serving, cleanup. You focus only on enjoying the meal.</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

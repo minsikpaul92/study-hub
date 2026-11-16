@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8 · Segment 4. JavaFX and JDBC · APD545</title><meta name="description" content="Week 8 · Segment 4. JavaFX and JDBC · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 8 · Segment 4. JavaFX and JDBC</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#steps-1-to-3-project-libraries-database">Steps 1 to 3: Project, Libraries, Database</a></li><li class="l2"><a href="#step-5-mainjava">Step 5: Main.java</a></li><li class="l2"><a href="#step-7-registration-controller">Step 7: Registration Controller</a></li><li class="l2"><a href="#step-8-jdbcdao-for-database-operations">Step 8: JdbcDao for database operations</a></li><li class="l2"><a href="#login-view-and-logincontroller">Login view and LoginController</a></li><li class="l2"><a href="#jdbcdaovalidate">JdbcDao.validate</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 8 · Segment 4 &quot;JavaFX and JDBC&quot; 강의 슬라이드 (Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 정리&gt;</p>
+<h1 id="week-8-segment-4-javafx-and-jdbc">Week 8 · Segment 4. JavaFX and JDBC <a class="anchor" aria-label="링크" href="#week-8-segment-4-javafx-and-jdbc">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<p>JDBC with FX example using MySQL Connector. Creating layouts of JavaFX, adding UI controls, validating controls, connecting with MySQL via JDBC API.</p>
+</blockquote>
+<h2 id="steps-1-to-3-project-libraries-database">Steps 1 to 3: Project, Libraries, Database <a class="anchor" aria-label="링크" href="#steps-1-to-3-project-libraries-database">#</a></h2>
+<blockquote>
+<ul>
+<li>Add JavaFX libraries required for the project. Download the MySQL JDBC Connector and add it to the project as well.</li>
+<li>Make sure you have MySQL installed on your machine. First create the database, next create a table.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-sql"><span class="k">create</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="n">registrationloginFX</span><span class="p">;</span>
+
+<span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">registration</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="nb">BIGINT</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="w"> </span><span class="n">AUTO_INCREMENT</span><span class="p">,</span>
+<span class="w">    </span><span class="n">full_name</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">email_id</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="nb">varchar</span><span class="p">(</span><span class="mi">250</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre>
+<h2 id="step-5-mainjava">Step 5: Main.java <a class="anchor" aria-label="링크" href="#step-5-mainjava">#</a></h2>
+<blockquote>
+<p>As before, for creating a JavaFX application, we'll need to extend our Main class from <code>javafx.application.Application</code> and override its <code>start()</code> method.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">primaryStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">BorderPane</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">BorderPane</span><span class="p">)</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">.</span><span class="na">load</span><span class="p">(</span>
+<span class="w">                </span><span class="n">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">"/com/senecacollege/views/Register.fxml"</span><span class="p">));</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"User Registration"</span><span class="p">);</span>
+<span class="w">            </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">);</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">            </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="step-7-registration-controller">Step 7: Registration Controller <a class="anchor" aria-label="링크" href="#step-7-registration-controller">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">submitButton</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">submitButton</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your name"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emailidText</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your email id"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter a password"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">fullName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emailidText</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">JdbcDao</span><span class="w"> </span><span class="n">jdbcDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">JdbcDao</span><span class="p">();</span>
+<span class="w">    </span><span class="n">jdbcDao</span><span class="p">.</span><span class="na">insertRecord</span><span class="p">(</span><span class="n">fullName</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">CONFIRMATION</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Registration Successful!"</span><span class="p">,</span>
+<span class="w">              </span><span class="s">"Welcome "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fullNameText</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="w"> </span><span class="n">alertType</span><span class="p">,</span><span class="w"> </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Alert</span><span class="w"> </span><span class="n">alert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Alert</span><span class="p">(</span><span class="n">alertType</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setHeaderText</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">setContentText</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">initOwner</span><span class="p">(</span><span class="n">owner</span><span class="p">);</span>
+<span class="w">    </span><span class="n">alert</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>JdbcDao class is being used for validating the fields and to store and to retrieve or to manipulate data from the database.</p>
+</blockquote>
+<h2 id="step-8-jdbcdao-for-database-operations">Step 8: JdbcDao for database operations <a class="anchor" aria-label="링크" href="#step-8-jdbcdao-for-database-operations">#</a></h2>
+<blockquote>
+<ul>
+<li>Steps: Establishing a connection, Create a statement, Execute the query. Using try-with-resources Statements to Automatically Close JDBC Resources.</li>
+<li>From JDBC 4.0, we don't need to include <code>Class.forName()</code> in our code, to load JDBC driver. When the method <code>getConnection</code> is called, the <code>DriverManager</code> will automatically load the suitable driver.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JdbcDao</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Replace below database url, username and password with your actual database credentials</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_URL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"jdbc:mysql://localhost:3306/registrationFX?useSSL=false"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"root"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"root"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">INSERT_QUERY</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="s">"INSERT INTO registration (full_name, email_id, password) VALUES (?, ?, ?)"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">insertRecord</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">fullName</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Step 1: Establishing a Connection and</span>
+<span class="w">        </span><span class="c1">// try-with-resource statement will auto close the connection.</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="p">);</span>
+<span class="w">             </span><span class="c1">// Step 2: Create a statement using connection object</span>
+<span class="w">             </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">INSERT_QUERY</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">fullName</span><span class="p">);</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">);</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">            </span><span class="c1">// Step 3: Execute the query or update query</span>
+<span class="w">            </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="login-view-and-logincontroller">Login view and LoginController <a class="anchor" aria-label="링크" href="#login-view-and-logincontroller">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="c1">// RegisterController: open the login window</span>
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">loginClickEvent</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">FXMLLoader</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">getClass</span><span class="p">().</span><span class="na">getResource</span><span class="p">(</span><span class="s">"/com/senecacollege/views/Login.fxml"</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Parent</span><span class="w"> </span><span class="n">loginRoot</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">loader</span><span class="p">.</span><span class="na">load</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Stage</span><span class="w"> </span><span class="n">st</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Stage</span><span class="p">();</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"User Login"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">loginRoot</span><span class="p">,</span><span class="w"> </span><span class="mi">800</span><span class="p">,</span><span class="w"> </span><span class="mi">500</span><span class="p">);</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">        </span><span class="n">st</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">Exception</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// LoginController</span>
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Window</span><span class="w"> </span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">submitButton</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">emailIdField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your email id"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="n">owner</span><span class="p">,</span><span class="w"> </span><span class="s">"Form Error!"</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter a password"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">emailIdField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">();</span>
+<span class="w">    </span><span class="n">JdbcDao</span><span class="w"> </span><span class="n">jdbcDao</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">JdbcDao</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">boolean</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jdbcDao</span><span class="p">.</span><span class="na">validate</span><span class="p">(</span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">flag</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">infoBox</span><span class="p">(</span><span class="s">"Please enter correct Email and Password"</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">"Failed"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">infoBox</span><span class="p">(</span><span class="s">"Login Successful!"</span><span class="p">,</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="s">"Failed"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="jdbcdaovalidate">JdbcDao.validate <a class="anchor" aria-label="링크" href="#jdbcdaovalidate">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">SELECT_QUERY</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT * FROM registration WHERE email_id = ? and password = ?"</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">emailId</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">password</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">SQLException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">connection</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">getConnection</span><span class="p">(</span><span class="n">DATABASE_URL</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_USERNAME</span><span class="p">,</span><span class="w"> </span><span class="n">DATABASE_PASSWORD</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">preparedStatement</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">connection</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="n">SELECT_QUERY</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">emailId</span><span class="p">);</span>
+<span class="w">        </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">password</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">resultSet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">preparedStatement</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">resultSet</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">printSQLException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

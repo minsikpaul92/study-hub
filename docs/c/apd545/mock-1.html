@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quiz 5 모의퀴즈 (Week 7~8) · APD545</title><meta name="description" content="Quiz 5 모의퀴즈 (Week 7~8) · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Quiz 5 모의퀴즈 (Week 7~8)</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#a-multiple-choice-1-mark-each">A. Multiple Choice (1 mark each)</a></li><li class="l2"><a href="#b-short-answer-3-marks-each">B. Short Answer (3 marks each)</a></li><li class="l2"><a href="#c-code-reading-writing">C. Code Reading / Writing</a></li></ol></nav>
+<article class="md"><h1 id="quiz-5-모의퀴즈-week-78">Quiz 5 모의퀴즈 (Week 7~8) <a class="anchor" aria-label="링크" href="#quiz-5-모의퀴즈-week-78">#</a></h1>
+<blockquote>
+<p>실제 Quiz 5: <strong>2026년 11월 20일</strong>, 범위 Week 7 (Multiple Views, IoC) + Week 8 (ORM, JDBC, JavaFX + JDBC).
+형식은 Quiz 4 연습문제와 같은 틀로 만들었어요: <strong>A. 객관식 10문항, B. 짧은 서술 5문항, C. 코드 읽기/쓰기 5문항</strong>. 시간은 <strong>40분</strong>으로 잡고 노트 없이 풀어 보세요. 정답과 해설은 별도 페이지에 있어요.
+실제 퀴즈의 문항 수와 배점은 다를 수 있어요. 이 모의퀴즈는 범위와 난이도 연습용이에요.</p>
+</blockquote>
+<h2 id="a-multiple-choice-1-mark-each">A. Multiple Choice (1 mark each) <a class="anchor" aria-label="링크" href="#a-multiple-choice-1-mark-each">#</a></h2>
+<p><strong>A1.</strong> Inversion of Control is best described as:</p>
+<ul>
+<li>(a) Each class creating its own dependencies with <code>new</code></li>
+<li>(b) Handing control over object creation or program flow to a framework or container</li>
+<li>(c) Running methods in reverse order</li>
+<li>(d) Letting the database control the user interface</li>
+</ul>
+<p><strong>A2.</strong> Which statement is correct?</p>
+<ul>
+<li>(a) IoC and Dependency Injection are the same thing.</li>
+<li>(b) IoC is one kind of Dependency Injection.</li>
+<li>(c) DI is the most commonly used technique for achieving IoC.</li>
+<li>(d) Service Locator is not a form of IoC.</li>
+</ul>
+<p><strong>A3.</strong> In a JavaFX application, the framework calls your <code>start(Stage)</code> method and your button handlers. This is IoC of:</p>
+<ul>
+<li>(a) object creation (DI)</li>
+<li>(b) program flow (event-driven / callback)</li>
+<li>(c) data storage (repository)</li>
+<li>(d) none; it is not IoC</li>
+</ul>
+<p><strong>A4.</strong> Which Guice code binds the interface to the implementation and keeps one shared instance?</p>
+<ul>
+<li>(a) <code>bind(UserService.class).to(IUserService.class);</code></li>
+<li>(b) <code>bind(IUserService.class).to(UserService.class).in(Scopes.SINGLETON);</code></li>
+<li>(c) <code>inject(IUserService.class, new UserService());</code></li>
+<li>(d) <code>@Singleton new UserService();</code></li>
+</ul>
+<p><strong>A5.</strong> Which method shows a new window and does <strong>not</strong> return until that window is closed?</p>
+<ul>
+<li>(a) <code>stage.show()</code></li>
+<li>(b) <code>stage.setScene(scene)</code></li>
+<li>(c) <code>stage.showAndWait()</code></li>
+<li>(d) <code>stage.initOwner(owner)</code></li>
+</ul>
+<p><strong>A6.</strong> In the 3-tier architecture, validation of input coming from the UI belongs to:</p>
+<ul>
+<li>(a) Presentation  (b) Domain (business) logic  (c) Data source  (d) the JDBC driver</li>
+</ul>
+<p><strong>A7.</strong> Which relationship requires a join (linking) table in a relational database?</p>
+<ul>
+<li>(a) One-to-one  (b) One-to-many  (c) Many-to-many  (d) Inheritance with a single table</li>
+</ul>
+<p><strong>A8.</strong> Which JDBC driver type is pure Java and talks directly to the database?</p>
+<ul>
+<li>(a) Type 1  (b) Type 2  (c) Type 3  (d) Type 4</li>
+</ul>
+<p><strong>A9.</strong> <code>statement.execute(&quot;CREATE TABLE t (id INTEGER)&quot;)</code> returns:</p>
+<ul>
+<li>(a) <code>true</code>, because the table was created</li>
+<li>(b) <code>false</code>, because the result is not a ResultSet</li>
+<li>(c) <code>1</code>, the number of tables created</li>
+<li>(d) a <code>ResultSet</code> with zero rows</li>
+</ul>
+<p><strong>A10.</strong> Which is <strong>NOT</strong> a benefit of <code>PreparedStatement</code>?</p>
+<ul>
+<li>(a) Prevents SQL injection</li>
+<li>(b) Precompiled, faster for repeated queries</li>
+<li>(c) Removes the need for a JDBC driver</li>
+<li>(d) Parametric queries with <code>?</code> placeholders</li>
+</ul>
+<h2 id="b-short-answer-3-marks-each">B. Short Answer (3 marks each) <a class="anchor" aria-label="링크" href="#b-short-answer-3-marks-each">#</a></h2>
+<p><strong>B1.</strong> Explain why <code>FXMLLoader</code> cannot create a controller whose only constructor is <code>@Inject public MainController(IPlayerRepository repo)</code>, and write the one line that fixes it when using Guice.</p>
+<p><strong>B2.</strong> List the four benefits of IoC from the lecture and give a one-line example of <strong>Flexibility</strong> using a repository.</p>
+<p><strong>B3.</strong> Explain the difference between an <strong>entity</strong> and a <strong>value object</strong> with one example of each.</p>
+<p><strong>B4.</strong> Compare <code>execute</code>, <code>executeQuery</code>, and <code>executeUpdate</code>: when to use each and what each returns.</p>
+<p><strong>B5.</strong> Explain how a <code>PreparedStatement</code> prevents SQL injection. Include an example of a malicious input.</p>
+<h2 id="c-code-reading-writing">C. Code Reading / Writing <a class="anchor" aria-label="링크" href="#c-code-reading-writing">#</a></h2>
+<p><strong>C1. (2 marks)</strong> What happens when the user types <code>Password</code> (capital P) and clicks the button? What if they type <code>password</code> (spaces around)?</p>
+<pre class="hl"><code class="language-java"><span class="n">loginButton</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">trim</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="s">"password"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">errorLabel</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Unknown password!"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">welcomeScene</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<p><strong>C2. (3 marks)</strong> Find <strong>two</strong> bugs in this registration handler.</p>
+<pre class="hl"><code class="language-java"><span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nameField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">showAlert</span><span class="p">(</span><span class="n">Alert</span><span class="p">.</span><span class="na">AlertType</span><span class="p">.</span><span class="na">ERROR</span><span class="p">,</span><span class="w"> </span><span class="s">"Please enter your name"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// insertRecord(String fullName, String email, String password)</span>
+<span class="w">    </span><span class="n">dao</span><span class="p">.</span><span class="na">insertRecord</span><span class="p">(</span><span class="n">emailField</span><span class="p">.</span><span class="na">getText</span><span class="p">(),</span><span class="w"> </span><span class="n">nameField</span><span class="p">.</span><span class="na">getText</span><span class="p">(),</span><span class="w"> </span><span class="n">passwordField</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre>
+<p><strong>C3. (4 marks)</strong> Fill in the blanks so the method returns <code>true</code> only if a user with that email and password exists.</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">email</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">pw</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">sql</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"SELECT * FROM registration WHERE email_id = ? AND password = ?"</span><span class="p">;</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">DriverManager</span><span class="p">.</span><span class="na">______</span><span class="p">(</span><span class="n">URL</span><span class="p">,</span><span class="w"> </span><span class="n">USER</span><span class="p">,</span><span class="w"> </span><span class="n">PASS</span><span class="p">);</span>
+<span class="w">         </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">______</span><span class="p">(</span><span class="n">sql</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">______</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">email</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ps</span><span class="p">.</span><span class="na">______</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">pw</span><span class="p">);</span>
+<span class="w">        </span><span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">______</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">______</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">SQLException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">e</span><span class="p">.</span><span class="na">printStackTrace</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<p><strong>C4. (3 marks)</strong> What is printed? The <code>players</code> table is empty and <code>id</code> is AUTOINCREMENT starting at 1.</p>
+<pre class="hl"><code class="language-java"><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ins</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">"INSERT INTO players (name, goals) VALUES (?, ?)"</span><span class="p">);</span>
+<span class="n">ins</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Jack"</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="n">ins</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Mike"</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+<span class="n">ins</span><span class="p">.</span><span class="na">setString</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Kyle"</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="n">ins</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">();</span>
+
+<span class="n">PreparedStatement</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">"UPDATE players SET goals = goals + 2 WHERE goals &lt; ?"</span><span class="p">);</span>
+<span class="n">up</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">up</span><span class="p">.</span><span class="na">executeUpdate</span><span class="p">());</span>
+
+<span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">"SELECT id, name, goals FROM players ORDER BY goals DESC"</span><span class="p">).</span><span class="na">executeQuery</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"name"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rs</span><span class="p">.</span><span class="na">getInt</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+</code></pre>
+<p><strong>C5. (5 marks)</strong> Write a Guice <code>AppModule</code> that binds <code>IMenuRepository</code> to <code>InMemoryMenuRepository</code> as a singleton, a controller <code>MenuController</code> that receives the repository by constructor injection, and the two lines in <code>start()</code> that create the injector and make an <code>FXMLLoader</code> use Guice for controllers.</p>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

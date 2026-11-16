@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 1 · Segment 2. Similarities of Java and C++ · APD545</title><meta name="description" content="Week 1 · Segment 2. Similarities of Java and C++ · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 1 · Segment 2. Similarities of Java and C++</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#syntax-and-comments">Syntax and Comments</a></li><li class="l2"><a href="#loops-conditionals-and-operators">Loops, Conditionals and Operators</a></li><li class="l2"><a href="#basic-data-types">Basic Data Types</a></li><li class="l2"><a href="#keywords-and-multithreading">Keywords and Multithreading</a></li><li class="l2"><a href="#object-oriented-programming">Object Oriented Programming</a></li><li class="l3"><a href="#inheritance">Inheritance</a></li><li class="l3"><a href="#polymorphism">Polymorphism</a></li><li class="l3"><a href="#abstraction">Abstraction</a></li><li class="l3"><a href="#encapsulation">Encapsulation</a></li><li class="l2"><a href="#static-keyword">Static Keyword</a></li><li class="l2"><a href="#foreach">ForEach</a></li><li class="l2"><a href="#templates-vs-generics">Templates vs Generics</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 1 · Segment 2 &quot;Similarities of Java and C++&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 슬라이드 예제를 Java 쪽만 정리&gt;</p>
+<h1 id="week-1-segment-2-similarities-of-java-and-c">Week 1 · Segment 2. Similarities of Java and C++ <a class="anchor" aria-label="링크" href="#week-1-segment-2-similarities-of-java-and-c">#</a></h1>
+<h2 id="syntax-and-comments">Syntax and Comments <a class="anchor" aria-label="링크" href="#syntax-and-comments">#</a></h2>
+<blockquote>
+<p>Every Java Program starts with a class, nothing stays outside the class.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Hello</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Every Java Program starts with a class</span>
+<span class="cm">       nothing stays outside the class */</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">   </span><span class="c1">// Execution begins from main</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">"Hello Java"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="loops-conditionals-and-operators">Loops, Conditionals and Operators <a class="anchor" aria-label="링크" href="#loops-conditionals-and-operators">#</a></h2>
+<blockquote>
+<ul>
+<li>All loops such as while, do while, for and so on are all same.</li>
+<li>All conditional statements such as if, else if, else and switch are all same as well.</li>
+<li>The arithmetic operators are same in both languages. <code>+, -, /, *</code></li>
+<li>The relational operators are also same in both languages. <code>&lt;, &gt;, &lt;=, &gt;=, !=</code></li>
+</ul>
+</blockquote>
+<h2 id="basic-data-types">Basic Data Types <a class="anchor" aria-label="링크" href="#basic-data-types">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Java</th>
+<th>size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>1 byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>2 bytes</td>
+</tr>
+<tr>
+<td>int</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>long</td>
+<td>8 bytes</td>
+</tr>
+<tr>
+<td>float</td>
+<td>4 bytes</td>
+</tr>
+<tr>
+<td>double</td>
+<td>8 bytes</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>1 bit</td>
+</tr>
+<tr>
+<td>char</td>
+<td>2 bytes</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h2 id="keywords-and-multithreading">Keywords and Multithreading <a class="anchor" aria-label="링크" href="#keywords-and-multithreading">#</a></h2>
+<blockquote>
+<p>Many of the keywords are same: <code>break, continue, char, int, double, new, public, private, return, static</code> etc.
+Both have multiple-threading support.</p>
+</blockquote>
+<h2 id="object-oriented-programming">Object Oriented Programming <a class="anchor" aria-label="링크" href="#object-oriented-programming">#</a></h2>
+<blockquote>
+<p>Both Java and C++ support Object Oriented programming. OOPs characteristics include: <strong>Inheritance, Polymorphism, Abstraction, Encapsulation</strong></p>
+</blockquote>
+<h3 id="inheritance">Inheritance <a class="anchor" aria-label="링크" href="#inheritance">#</a></h3>
+<blockquote>
+<p>Process by which objects of one class can link and share some common properties of objects from another class.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Vehicle</span><span class="w"> </span><span class="p">{</span><span class="w">                       </span><span class="c1">// Base class</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">brand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Ford"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">honk</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Tuut, tuut!"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Car</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Vehicle</span><span class="w"> </span><span class="p">{</span><span class="w">           </span><span class="c1">// Derived class</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">modelName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Mustang"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Car</span><span class="w"> </span><span class="n">myCar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Car</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myCar</span><span class="p">.</span><span class="na">honk</span><span class="p">();</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">myCar</span><span class="p">.</span><span class="na">brand</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">myCar</span><span class="p">.</span><span class="na">modelName</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="polymorphism">Polymorphism <a class="anchor" aria-label="링크" href="#polymorphism">#</a></h3>
+<blockquote>
+<p>Allows us to perform a single action in different ways.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The animal makes a sound"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Cat</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The cat says: Meo Meo"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Dog</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The dog says: bow wow"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Main</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myAnimal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Animal</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myCat</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Cat</span><span class="p">();</span>
+<span class="w">        </span><span class="n">Animal</span><span class="w"> </span><span class="n">myDog</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Dog</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myAnimal</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myCat</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">        </span><span class="n">myDog</span><span class="p">.</span><span class="na">animalSound</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="abstraction">Abstraction <a class="anchor" aria-label="링크" href="#abstraction">#</a></h3>
+<blockquote>
+<p>Includes representing essential features without including the background details.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">();</span><span class="w">          </span><span class="c1">// Abstract method (does not have a body)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">sleep</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Zzz"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// Regular method</span>
+<span class="p">}</span>
+<span class="kd">class</span> <span class="nc">Cat</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">animalSound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The cat says: Meo Meo"</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h3 id="encapsulation">Encapsulation <a class="anchor" aria-label="링크" href="#encapsulation">#</a></h3>
+<blockquote>
+<p>Process of combining data and functions into a single unit.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">              </span><span class="c1">// Getter</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">newName</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newName</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// Setter</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="static-keyword">Static Keyword <a class="anchor" aria-label="링크" href="#static-keyword">#</a></h2>
+<blockquote>
+<ul>
+<li>Like C++, static data members in Java are class members and shared among all objects.</li>
+<li>Static member methods: They can only call other static methods. They must only access static data. They can't access <code>this</code> or <code>super</code>.</li>
+<li>Static data members and static methods can be accessed without creating an object. They can be accessed using the class names.</li>
+</ul>
+</blockquote>
+<h2 id="foreach">ForEach <a class="anchor" aria-label="링크" href="#foreach">#</a></h2>
+<blockquote>
+<p>Both use the foreach loop to quickly iterate over the elements of a container (array, vectors, etc.) without performing initialization, testing, or increment/decrement.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kt">int</span><span class="w"> </span><span class="n">arr</span><span class="o">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="w"> </span><span class="p">};</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">var</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">arr</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">);</span>
+</code></pre>
+<h2 id="templates-vs-generics">Templates vs Generics <a class="anchor" aria-label="링크" href="#templates-vs-generics">#</a></h2>
+<blockquote>
+<p>Generics in Java and the similar in C++ named Template come in handy, when we want to write a code ... where our program works regardless of the type of data is being passed.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenericClass</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GenericClass</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">showType</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Type:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">.</span><span class="na">getClass</span><span class="p">().</span><span class="na">getSimpleName</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Value: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">GenericClass</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericClass</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Generics vs Templates"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">GenericClass</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">integer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericClass</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">9</span><span class="p">);</span>
+<span class="w">        </span><span class="n">str</span><span class="p">.</span><span class="na">showType</span><span class="p">();</span>
+<span class="w">        </span><span class="n">integer</span><span class="p">.</span><span class="na">showType</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

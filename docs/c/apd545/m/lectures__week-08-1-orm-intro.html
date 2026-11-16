@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 8 · Segment 1. Introduction to ORM · APD545</title><meta name="description" content="Week 8 · Segment 1. Introduction to ORM · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 8 · Segment 1. Introduction to ORM</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#why-the-need">Why the need?</a></li><li class="l2"><a href="#different-types-of-systems">Different types of systems</a></li><li class="l2"><a href="#what-are-patterns">What are patterns?</a></li><li class="l2"><a href="#the-three-principal-layers-3-tier-architecture">The Three Principal Layers (3-Tier Architecture)</a></li><li class="l2"><a href="#trouble-with-objects">Trouble with Objects</a></li><li class="l2"><a href="#example-dog-and-owner">Example: Dog and Owner</a></li><li class="l3"><a href="#relationship-between-dog-and-owner">Relationship between Dog and Owner</a></li><li class="l3"><a href="#join-table">Join table</a></li><li class="l2"><a href="#what-is-orm-then">What is ORM then?</a></li><li class="l2"><a href="#relational-models-vs-oo-models">Relational Models vs OO Models</a></li><li class="l2"><a href="#benefits-of-orm">Benefits of ORM</a></li><li class="l2"><a href="#selecting-a-suitable-orm">Selecting a suitable ORM</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 8 · Segment 1 &quot;ORM's&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-8-segment-1-introduction-to-orm">Week 8 · Segment 1. Introduction to ORM <a class="anchor" aria-label="링크" href="#week-8-segment-1-introduction-to-orm">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>What are ORM's? · Benefits of ORM's. · Disadvantages of ORM's. · ORM Patterns · Best practices for building persistence layers</li>
+</ul>
+</blockquote>
+<h2 id="why-the-need">Why the need? <a class="anchor" aria-label="링크" href="#why-the-need">#</a></h2>
+<blockquote>
+<ul>
+<li>One of the Biggest challenge comes from Database.</li>
+<li>Enterprise level of application usually involve persistent data.</li>
+<li>The data is persistent because it needs to be around between multiple runs of the program.</li>
+<li>Usually, many people access data concurrently.</li>
+</ul>
+</blockquote>
+<h2 id="different-types-of-systems">Different types of systems <a class="anchor" aria-label="링크" href="#different-types-of-systems">#</a></h2>
+<blockquote>
+<ul>
+<li>A B2C (business to customer) online retailer: we need to be able to handle a very high volume of users.</li>
+<li>A system that automates the processing of leasing agreements: many fewer users, more complicated business logic.</li>
+<li>A simple expense-tracking system for a small company: you have to build it very quickly and bear in mind that it may grow.</li>
+</ul>
+</blockquote>
+<h2 id="what-are-patterns">What are patterns? <a class="anchor" aria-label="링크" href="#what-are-patterns">#</a></h2>
+<blockquote>
+<p>Each pattern describes a problem which occurs over and over again in our environment, and then describes the core of the solution to that problem, in such a way that you can use this solution a million times over, without ever doing it the same way twice.</p>
+</blockquote>
+<h2 id="the-three-principal-layers-3-tier-architecture">The Three Principal Layers (3-Tier Architecture) <a class="anchor" aria-label="링크" href="#the-three-principal-layers-3-tier-architecture">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Presentation</strong>: Presentation logic is about how to handle the interaction between the user and the software.</li>
+<li><strong>Data Source</strong>: Data source logic is about communicating with other systems that carry out tasks on behalf of the application.</li>
+<li><strong>Domain Logic</strong>: also referred to as business logic. It involves calculations based on inputs and stored data, validation of any data that comes in from the presentation and figuring out exactly what data source logic to dispatch.</li>
+</ul>
+</blockquote>
+<h2 id="trouble-with-objects">Trouble with Objects <a class="anchor" aria-label="링크" href="#trouble-with-objects">#</a></h2>
+<blockquote>
+<ul>
+<li>From an OO standpoint, the problem with these persistence mechanisms is that their core abstractions are not objects.</li>
+<li>They are tables with rows and columns (RDBMS) or (some variation on) key-value pairs (NoSQL).</li>
+<li>The OO world has classes, sub-classes, inheritance, associations, objects, attributes, methods, polymorphism. These concepts do not easily map into the abstractions of persistence mechanisms.</li>
+</ul>
+</blockquote>
+<h2 id="example-dog-and-owner">Example: Dog and Owner <a class="anchor" aria-label="링크" href="#example-dog-and-owner">#</a></h2>
+<blockquote>
+<ul>
+<li>You will at least have a table called <code>dogs</code> to store Dog instances and a table called <code>owners</code> to store Owner instances.</li>
+<li>Convention of many object-relational mapping systems: class names are singular; table names are the associated plural form: Person ⇒ People; Cat ⇒ Cats.</li>
+<li>For each table you would have columns that correspond to each attribute (plus an implicit id column); each row would correspond to an instance of the class: <code>1 | Fido | true</code></li>
+</ul>
+</blockquote>
+<h3 id="relationship-between-dog-and-owner">Relationship between Dog and Owner <a class="anchor" aria-label="링크" href="#relationship-between-dog-and-owner">#</a></h3>
+<blockquote>
+<ul>
+<li>Owner participates in a &quot;has_one&quot; relationship with Dog. Dog participates in a &quot;has_many&quot; relationship with Owner.</li>
+<li>The short answer is <strong>foreign key relationships and join tables</strong>.</li>
+<li>You might see code like: <code>List&lt;Owner&gt; owners = dog.getOwners();</code> Behind the scenes, the method will hide the database calls required.</li>
+</ul>
+</blockquote>
+<h3 id="join-table">Join table <a class="anchor" aria-label="링크" href="#join-table">#</a></h3>
+<blockquote>
+<ul>
+<li>dogs: <code>1 | Fido | true</code>, <code>2 | Spot | false</code>; owners: <code>1 | Ken</code>, <code>2 | Max</code></li>
+<li>A third table is then used to maintain mappings between them: <code>1 | 1 ; 1 | 2 ; 2 | 2</code></li>
+<li>This says that Fido is owned by Ken and Max and Spot is owned by Max.</li>
+<li>That third table is known as a join table and has the structure <code>dog_fk | owner_fk</code>.</li>
+</ul>
+</blockquote>
+<h2 id="what-is-orm-then">What is ORM then? <a class="anchor" aria-label="링크" href="#what-is-orm-then">#</a></h2>
+<blockquote>
+<ul>
+<li>Object-relational mapping is a programming technique for converting data between incompatible type systems by creating objects using OO programming languages, essentially wrapping tables or stored procedures in classes.</li>
+<li>ORM is an automated way of connecting an object model, sometimes referred to as a domain model, to a relational database by using metadata as the descriptor of the object and data. This creates, in effect, a &quot;virtual object database&quot;.</li>
+<li>This act of mapping is an efficient way to overcome the mismatch that exists between object-oriented development languages and relational databases.</li>
+</ul>
+</blockquote>
+<h2 id="relational-models-vs-oo-models">Relational Models vs OO Models <a class="anchor" aria-label="링크" href="#relational-models-vs-oo-models">#</a></h2>
+<blockquote>
+<ul>
+<li>Types (ex. <code>char(n)</code> versus string)</li>
+<li>Identity (keys versus address or equality)</li>
+<li>Relations (foreign keys versus references)</li>
+<li>Many to many relations require linking table in SQL</li>
+<li>Inheritance and polymorphism</li>
+</ul>
+</blockquote>
+<h2 id="benefits-of-orm">Benefits of ORM <a class="anchor" aria-label="링크" href="#benefits-of-orm">#</a></h2>
+<blockquote>
+<ul>
+<li>Automates the Object-to-table and Table-to-object conversions.</li>
+<li>Work in the OO model without having to worry about the underlying data structure.</li>
+<li>Typically provide support for the full set of CRUD (create, read, update, delete) operations.</li>
+<li>Save time and money (time to market). Focus on the business logic rather than database/persistence logic.</li>
+</ul>
+</blockquote>
+<h2 id="selecting-a-suitable-orm">Selecting a suitable ORM <a class="anchor" aria-label="링크" href="#selecting-a-suitable-orm">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Object-to-database mapping</strong>: The single most important aspect of an ORM tool.</li>
+<li><strong>Object caching</strong>: to improve performance.</li>
+<li><strong>GUI mapping</strong>: Can survive without it but it will be bonus.</li>
+<li><strong>Dynamic Querying</strong></li>
+<li><strong>Lazy loading</strong>: Improves the performance by optimizing the memory utilization of database server.</li>
+<li><strong>Nonintrusive persistence</strong>: no more class, interface or inheritance based specific relations.</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>
