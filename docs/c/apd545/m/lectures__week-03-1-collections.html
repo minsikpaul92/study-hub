@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3 · Segment 1. Java Collections Framework · APD545</title><meta name="description" content="Week 3 · Segment 1. Java Collections Framework · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 3 · Segment 1. Java Collections Framework</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#the-collection">The Collection</a></li><li class="l2"><a href="#collection-interface-hierarchy">Collection interface hierarchy</a></li><li class="l2"><a href="#collection-example-basic">Collection Example (Basic)</a></li><li class="l2"><a href="#collection-vs-collections">Collection vs Collections</a></li><li class="l2"><a href="#java-arraylist">Java ArrayList</a></li><li class="l2"><a href="#non-generic-vs-generic-collection">Non-generic vs Generic Collection</a></li><li class="l2"><a href="#arraylist-vs-vector">ArrayList VS Vector</a></li><li class="l2"><a href="#the-list">The List</a></li><li class="l2"><a href="#arraylist-methods">ArrayList methods</a></li><li class="l2"><a href="#two-ways-to-implement-lists">Two Ways to Implement Lists</a></li><li class="l2"><a href="#examining-list">Examining List</a></li><li class="l2"><a href="#set-interface">Set Interface</a></li><li class="l2"><a href="#set-implementation">Set implementation</a></li><li class="l2"><a href="#equals-and-hashcode-in-a-hashset">equals() and hashCode() in a HashSet</a></li><li class="l2"><a href="#set-and-list-performance">Set and List Performance</a></li><li class="l2"><a href="#the-map-interface">The Map Interface</a></li><li class="l2"><a href="#map-methods">Map methods</a></li><li class="l2"><a href="#hash-table">Hash Table</a></li><li class="l2"><a href="#map-implementation">Map Implementation</a></li><li class="l2"><a href="#keyset-and-values">keySet and values</a></li><li class="l2"><a href="#reversing-a-map">Reversing a map</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 3 · Segment 1 &quot;Collection Framework&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-3-segment-1-java-collections-framework">Week 3 · Segment 1. Java Collections Framework <a class="anchor" aria-label="링크" href="#week-3-segment-1-java-collections-framework">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<p>Understanding of Collections: Lists, Sets, Maps</p>
+</blockquote>
+<h2 id="the-collection">The Collection <a class="anchor" aria-label="링크" href="#the-collection">#</a></h2>
+<blockquote>
+<p>A collection is a container object that represents a group of objects, often referred to as elements. Examples: a poker hand (collection of cards), a mail folder (collection of letters), a telephone directory (mapping of names to phone numbers).</p>
+</blockquote>
+<h2 id="collection-interface-hierarchy">Collection interface hierarchy <a class="anchor" aria-label="링크" href="#collection-interface-hierarchy">#</a></h2>
+<blockquote>
+<p>The <strong>Collection</strong> interface is the root interface for manipulating a collection of objects. <code>java.util</code> contains all the collections framework interfaces. Sub-interfaces: <strong>Set, List, Queue, Deque</strong>. (Map is a separate hierarchy.)</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><code>&lt;E&gt;</code> tells you that the interface is generic. <code>Iterable&lt;T&gt;</code> is from <code>java.lang</code> with one method <code>iterator()</code>, so any collection can be used in a for-each loop.</p>
+</blockquote>
+<h2 id="collection-example-basic">Collection Example (Basic) <a class="anchor" aria-label="링크" href="#collection-example-basic">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">collection1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Atlanta"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Madison"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">collection1</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">));</span><span class="w">   </span><span class="c1">// true</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">collection1</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">               </span><span class="c1">// 3</span>
+
+<span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">collection2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Seattle"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Portland"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Los Angeles"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Atlanta"</span><span class="p">);</span>
+
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">addAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">      </span><span class="c1">// union:        [New York, Atlanta, Madison, Seattle, Portland, Los Angeles, Atlanta]</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">retainAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">   </span><span class="c1">// intersection: [Atlanta]</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">removeAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">   </span><span class="c1">// difference:   [New York, Madison]</span>
+</code></pre>
+<h2 id="collection-vs-collections">Collection vs Collections <a class="anchor" aria-label="링크" href="#collection-vs-collections">#</a></h2>
+<blockquote>
+<p><code>Collection</code> is the root <strong>interface</strong>. <code>Collections</code> is a <strong>utility class</strong> with static methods such as <code>sort</code>, <code>shuffle</code>, <code>max</code>.</p>
+</blockquote>
+<h2 id="java-arraylist">Java ArrayList <a class="anchor" aria-label="링크" href="#java-arraylist">#</a></h2>
+<blockquote>
+<ul>
+<li>Uses a <strong>dynamic array</strong> for storing the elements. There is no size limit.</li>
+<li>Can have <strong>duplicate</strong> elements. Maintains the <strong>insertion order</strong>.</li>
+<li>Implements the List interface.</li>
+</ul>
+</blockquote>
+<h2 id="non-generic-vs-generic-collection">Non-generic vs Generic Collection <a class="anchor" aria-label="링크" href="#non-generic-vs-generic-collection">#</a></h2>
+<blockquote>
+<p>Java generic collection allows you to have only one type of object in a collection. Now it is <strong>type-safe</strong>, so typecasting is not required at runtime. If you try to add another type of object, it gives a <strong>compile-time error</strong>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ArrayList</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="p">();</span><span class="w">                  </span><span class="c1">// old non-generic (raw)</span>
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span><span class="w">  </span><span class="c1">// generic</span>
+</code></pre>
+<h2 id="arraylist-vs-vector">ArrayList VS Vector <a class="anchor" aria-label="링크" href="#arraylist-vs-vector">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>ArrayList</th>
+<th>Vector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not synchronized, so <strong>fast</strong></td>
+<td><strong>synchronized</strong> (thread-safe), so slower</td>
+</tr>
+<tr>
+<td>grows by <strong>50%</strong></td>
+<td>grows by <strong>100%</strong> (doubles)</td>
+</tr>
+<tr>
+<td>not legacy (JDK 1.2)</td>
+<td>legacy class</td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>Iterator or Enumeration</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h2 id="the-list">The List <a class="anchor" aria-label="링크" href="#the-list">#</a></h2>
+<blockquote>
+<p>A List stores <strong>duplicate</strong> elements, lets the user specify <strong>where</strong> the element is stored, and access the element <strong>by index</strong> (0-based).</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arrayList</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">linkedList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</code></pre>
+<h2 id="arraylist-methods">ArrayList methods <a class="anchor" aria-label="링크" href="#arraylist-methods">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add(value)</code> / <code>add(index, value)</code></td>
+<td>append / insert, shifting later values right</td>
+</tr>
+<tr>
+<td><code>get(index)</code> / <code>set(index, value)</code></td>
+<td>read / replace</td>
+</tr>
+<tr>
+<td><code>remove(index)</code> / <code>remove(value)</code></td>
+<td>remove by position / by value</td>
+</tr>
+<tr>
+<td><code>indexOf(value)</code> / <code>lastIndexOf(value)</code></td>
+<td>first / last index, <strong>-1 if not found</strong></td>
+</tr>
+<tr>
+<td><code>contains(value)</code>, <code>size()</code>, <code>clear()</code>, <code>isEmpty()</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>subList(from, to)</code></td>
+<td>from <strong>inclusive</strong>, to <strong>exclusive</strong></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h2 id="two-ways-to-implement-lists">Two Ways to Implement Lists <a class="anchor" aria-label="링크" href="#two-ways-to-implement-lists">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Array</strong>: if the capacity is exceeded, create a new larger array and copy. ArrayList default capacity is 10, increased by 50%. Fast random access O(1). <code>add(index, e)</code> and <code>remove(index)</code> shift elements: O(n). <code>contains()</code>, <code>indexOf()</code> use <code>equals()</code>: O(n).</li>
+<li><strong>Linked list</strong>: a linked structure consists of nodes. Each node holds an element and a link to its next neighbor. Efficient for adding and removing anywhere.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="n">element</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Node</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Node</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">);</span>
+<span class="n">Node</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Denver"</span><span class="p">);</span>
+<span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+</code></pre>
+<h2 id="examining-list">Examining List <a class="anchor" aria-label="링크" href="#examining-list">#</a></h2>
+<blockquote>
+<p>Elements of Sets and Maps can't be accessed by index; must use a &quot;foreach&quot; loop. Problem: <strong>foreach is read-only</strong>; cannot modify while looping.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">scores</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">score</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">scores</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">score</span><span class="p">);</span><span class="w">   </span><span class="c1">// throws ConcurrentModificationException</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="set-interface">Set Interface <a class="anchor" aria-label="링크" href="#set-interface">#</a></h2>
+<blockquote>
+<p>The Set interface extends Collection. It does not introduce new methods, but it stipulates that an instance of Set contains <strong>no duplicate elements</strong>: no two elements e1 and e2 such that <code>e1.equals(e2)</code> is true.</p>
+</blockquote>
+<h2 id="set-implementation">Set implementation <a class="anchor" aria-label="링크" href="#set-implementation">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>HashSet</strong>: hash table. Very fast O(1). Elements stored in <strong>unpredictable order</strong>. Default capacity 16, load factor 0.75. Internally uses HashMap.</li>
+<li><strong>LinkedHashSet</strong>: O(1), but stores in <strong>order of insertion</strong>.</li>
+<li><strong>TreeSet</strong>: binary search tree. O(log N). Elements stored in <strong>sorted order</strong>. <code>first()</code>, <code>last()</code>.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"London"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Paris"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span><span class="w">          </span><span class="c1">// added twice, kept once</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">set</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">  </span><span class="c1">// 3</span>
+<span class="n">set</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">));</span>
+</code></pre>
+<h2 id="equals-and-hashcode-in-a-hashset">equals() and hashCode() in a HashSet <a class="anchor" aria-label="링크" href="#equals-and-hashcode-in-a-hashset">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Book</span><span class="w"> </span><span class="n">book1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">"Walden"</span><span class="p">,</span><span class="w"> </span><span class="s">"Henry Thoreau"</span><span class="p">,</span><span class="w"> </span><span class="mi">1854</span><span class="p">);</span>
+<span class="n">Book</span><span class="w"> </span><span class="n">book2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">"Walden"</span><span class="p">,</span><span class="w"> </span><span class="s">"Henry Thoreau"</span><span class="p">,</span><span class="w"> </span><span class="mi">1854</span><span class="p">);</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">book1</span><span class="p">);</span>
+<span class="n">set2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">book2</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">set2</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">   </span><span class="c1">// 2 without equals/hashCode, 1 after overriding both</span>
+</code></pre>
+<h2 id="set-and-list-performance">Set and List Performance <a class="anchor" aria-label="링크" href="#set-and-list-performance">#</a></h2>
+<blockquote>
+<p>Conclusion: <strong>Sets are more efficient than Lists</strong> for testing whether an element is in a set or list.</p>
+</blockquote>
+<h2 id="the-map-interface">The Map Interface <a class="anchor" aria-label="링크" href="#the-map-interface">#</a></h2>
+<blockquote>
+<p>A Map stores a collection of <strong>key/value pairs</strong>. The keys are like indexes. In List, the indexes are integer. In Map, the keys can be any objects. <strong>Cannot contain duplicate keys.</strong> Each key maps to one value.</p>
+</blockquote>
+<h2 id="map-methods">Map methods <a class="anchor" aria-label="링크" href="#map-methods">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put(key, value)</code></td>
+<td>adds a mapping; <strong>if the key already exists, replaces its value</strong></td>
+</tr>
+<tr>
+<td><code>get(key)</code></td>
+<td>value for the key (<strong>null if not found</strong>)</td>
+</tr>
+<tr>
+<td><code>containsKey(key)</code>, <code>containsValue(v)</code>, <code>remove(key)</code>, <code>size()</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>keySet()</code></td>
+<td>a <strong>Set</strong> of all keys</td>
+</tr>
+<tr>
+<td><code>values()</code></td>
+<td>a <strong>Collection</strong> of all values</td>
+</tr>
+<tr>
+<td><code>entrySet()</code></td>
+<td>a Set of entries (key + value)</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<h2 id="hash-table">Hash Table <a class="anchor" aria-label="링크" href="#hash-table">#</a></h2>
+<blockquote>
+<p>Each slot in an array is a <strong>bucket</strong> that references a linked list of mappings. Hash function: bucket # = f(key, array-size), e.g. <code>key % array-size</code>. In Java: <code>hash(key.hashCode())</code>, then <code>hash &amp; (length - 1)</code>. Insertion uses separate chaining: if a mapping with the key exists, <strong>overwrite</strong> the value. Load factor decides when to resize (rehashing).</p>
+</blockquote>
+<h2 id="map-implementation">Map Implementation <a class="anchor" aria-label="링크" href="#map-implementation">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>HashMap</strong>: fast, entries in random order. One null key allowed.</li>
+<li><strong>TreeMap</strong>: entries in <strong>increasing order of the keys</strong>.</li>
+<li><strong>LinkedHashMap</strong>: nearly as fast as HashMap, entries in <strong>insertion order</strong>.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hashMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Smith"</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Anderson"</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Lewis"</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Cook"</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">treeMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">hashMap</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">treeMap</span><span class="p">);</span><span class="w">   </span><span class="c1">// {Anderson=31, Cook=29, Lewis=29, Smith=30}</span>
+
+<span class="n">treeMap</span><span class="p">.</span><span class="na">forEach</span><span class="p">((</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">": "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">));</span>
+</code></pre>
+<h2 id="keyset-and-values">keySet and values <a class="anchor" aria-label="링크" href="#keyset-and-values">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Marty"</span><span class="p">,</span><span class="w"> </span><span class="mi">19</span><span class="p">);</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Geneva"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Vicki"</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ages</span><span class="p">.</span><span class="na">keySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ages</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" -&gt; "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="reversing-a-map">Reversing a map <a class="anchor" aria-label="링크" href="#reversing-a-map">#</a></h2>
+<blockquote>
+<p>More than one TA can have the same GPA. The map will store <strong>only the last mapping</strong> we add. Really each GPA maps to a collection of people:</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">taGpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mf">3.6</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeSet</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="s">"Jared"</span><span class="p">);</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="s">"Stef"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">));</span><span class="w">   </span><span class="c1">// [Jared, Stef]</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

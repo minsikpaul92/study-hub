@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Segment 2. Interfaces and Implementations · APD545</title><meta name="description" content="Week 2 · Segment 2. Interfaces and Implementations · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 2 · Segment 2. Interfaces and Implementations</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#the-question">The question</a></li><li class="l2"><a href="#multiple-inheritance">Multiple Inheritance</a></li><li class="l2"><a href="#interfaces">Interfaces</a></li><li class="l2"><a href="#interface-definition">Interface Definition</a></li><li class="l2"><a href="#interface-structure">Interface Structure</a></li><li class="l2"><a href="#abstract-classes-vs-interfaces">Abstract Classes VS Interfaces</a></li><li class="l2"><a href="#implements">implements</a></li><li class="l2"><a href="#example-edible">Example: Edible</a></li><li class="l2"><a href="#some-common-interfaces-of-java-api">Some Common Interfaces of Java API</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 2 · Segment 2 &quot;Interfaces and Implementations&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-2-segment-2-interfaces-and-implementations">Week 2 · Segment 2. Interfaces and Implementations <a class="anchor" aria-label="링크" href="#week-2-segment-2-interfaces-and-implementations">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>Understanding of multiple Inheritance in Java</li>
+<li>Understanding of Interfaces in Java</li>
+</ul>
+</blockquote>
+<h2 id="the-question">The question <a class="anchor" aria-label="링크" href="#the-question">#</a></h2>
+<blockquote>
+<p>How though, would we define (and perhaps force) common behavior between seemingly <strong>unrelated classes</strong> in different parts of the class hierarchy?</p>
+</blockquote>
+<h2 id="multiple-inheritance">Multiple Inheritance <a class="anchor" aria-label="링크" href="#multiple-inheritance">#</a></h2>
+<blockquote>
+<p>Java does not support multiple inheritance. Why? <strong>Diamond Problem</strong></p>
+</blockquote>
+<h2 id="interfaces">Interfaces <a class="anchor" aria-label="링크" href="#interfaces">#</a></h2>
+<blockquote>
+<p>An interface is a specification (i.e., a list) of a set of methods such that any classes implementing the interface are <strong>forced to write these methods</strong>.</p>
+<p>In many ways, an interface is similar to an abstract class, but the intent of an interface is to specify <strong>common behavior</strong> for objects. For example, you can specify that the objects are comparable, edible, cloneable.</p>
+</blockquote>
+<h2 id="interface-definition">Interface Definition <a class="anchor" aria-label="링크" href="#interface-definition">#</a></h2>
+<blockquote>
+<p>Interface is a reference type in Java, similar to a class. Interfaces <strong>cannot be instantiated</strong>, they can only be implemented by a class or extended by other interfaces.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">interface</span> <span class="nc">InterfaceName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="n">InterfaceName</span><span class="w"> </span><span class="n">refVariable</span><span class="p">;</span><span class="w">   </span><span class="c1">// an interface is a new reference type</span>
+</code></pre>
+<h2 id="interface-structure">Interface Structure <a class="anchor" aria-label="링크" href="#interface-structure">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Sharable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">getItemData</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<ul>
+<li>Abstract method is public (and abstract) by default (modifiers omitted)</li>
+<li>Fields are <strong>public, static and final</strong> by default</li>
+<li>All members are public by default. Members can't be private &amp; protected.</li>
+</ul>
+</blockquote>
+<h2 id="abstract-classes-vs-interfaces">Abstract Classes VS Interfaces <a class="anchor" aria-label="링크" href="#abstract-classes-vs-interfaces">#</a></h2>
+<blockquote>
+<ul>
+<li>Similar: we cannot create instances of either (<code>new Loan()</code> nor <code>new Loanable()</code>).</li>
+<li>We cannot declare attributes in an interface (only constants), whereas an abstract class may have them.</li>
+<li>In previous versions of JAVA, we were only able to declare &quot;empty&quot; methods in an interface (newer versions allow interfaces to have code: default and static methods).</li>
+<li>All methods in an interface must be public.</li>
+</ul>
+</blockquote>
+<h2 id="implements">implements <a class="anchor" aria-label="링크" href="#implements">#</a></h2>
+<blockquote>
+<p>We simply add the keyword <strong>implements</strong> in the class definition, followed by the name of the interface.</p>
+</blockquote>
+<h2 id="example-edible">Example: Edible <a class="anchor" aria-label="링크" href="#example-edible">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Edible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Chicken</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Edible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Chicken: Fry it"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">()</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Chicken: cock-a-doodle-doo"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Tiger</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Tiger: RROAARR"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Fruit</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Edible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// no howToEat() here: OK because abstract</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Apple</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Apple: Make apple cider"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestEdible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Object</span><span class="o">[]</span><span class="w"> </span><span class="n">objs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="k">new</span><span class="w"> </span><span class="n">Tiger</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Chicken</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Apple</span><span class="p">()};</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">objs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Edible</span><span class="p">)</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(((</span><span class="n">Edible</span><span class="p">)</span><span class="w"> </span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="na">howToEat</span><span class="p">());</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Animal</span><span class="p">)</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(((</span><span class="n">Animal</span><span class="p">)</span><span class="w"> </span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="na">sound</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="some-common-interfaces-of-java-api">Some Common Interfaces of Java API <a class="anchor" aria-label="링크" href="#some-common-interfaces-of-java-api">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Comparable</strong>: allow objects to be compared to another. Common use for ordering the objects in collections like ArrayList.</li>
+<li><strong>Serializable</strong>: objects can be written to (serialized) or read from (deserialized) storage or transmitted across a network.</li>
+<li><strong>Runnable</strong>: a task to perform, Multithreading.</li>
+<li><strong>AutoCloseable</strong>: closing resources. Invoked automatically by the <strong>try-with-resources</strong> statement.</li>
+<li><strong>ActionListener</strong>: assign behavior to events when a user clicks a button.</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

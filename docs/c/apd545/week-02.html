@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2. 상속과 인터페이스 · APD545</title><meta name="description" content="Week 2. 상속과 인터페이스 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 2</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-2-segment-1-inheritance-and-abstract-classes">1. 📑 강의 슬라이드: Week 2 · Segment 1. Inheritance and Abstract Classes</a></li><li class="l3"><a href="#outcomes">📑 Outcomes</a></li><li class="l3"><a href="#organizing-class-the-need">📑 Organizing class: The need</a></li><li class="l3"><a href="#class-hierarchy">📑 Class hierarchy</a></li><li class="l3"><a href="#inheritance-quick-overview">📑 Inheritance (Quick overview)</a></li><li class="l3"><a href="#are-superclasss-constructor-inherited">📑 Are Superclass&#x27;s Constructor Inherited?</a></li><li class="l3"><a href="#using-the-keyword-super">📑 Using the Keyword super</a></li><li class="l3"><a href="#constructor-chaining">📑 Constructor Chaining</a></li><li class="l3"><a href="#find-out-the-errors-in-the-program">📑 Find out the errors in the program</a></li><li class="l3"><a href="#example-geometricobject-circle-rectangle">📑 Example: GeometricObject, Circle, Rectangle</a></li><li class="l3"><a href="#overriding">📑 Overriding</a></li><li class="l3"><a href="#method-calling-vs-overriding">📑 Method calling VS Overriding</a></li><li class="l3"><a href="#how-are-access-modifiers-affected-by-inheritance">📑 How are access Modifiers affected by Inheritance?</a></li><li class="l3"><a href="#final-classes-methods">📑 Final Classes / Methods</a></li><li class="l3"><a href="#abstraction">📑 Abstraction</a></li><li class="l3"><a href="#concrete-class-vs-abstract-class">📑 Concrete class vs Abstract class</a></li><li class="l3"><a href="#abstract-classes-and-abstract-methods">📑 Abstract classes and Abstract Methods</a></li><li class="l3"><a href="#an-abstract-method">📑 An Abstract method</a></li><li class="l3"><a href="#abstract-method-why">📑 Abstract Method: Why?</a></li><li class="l3"><a href="#example-abstract-geometricobject">📑 Example: abstract GeometricObject</a></li><li class="l3"><a href="#concrete-class-or-abstract-class">📑 Concrete class or Abstract class?</a></li><li class="l2"><a href="#2-강의-슬라이드-week-2-segment-2-interfaces-and-implementations">2. 📑 강의 슬라이드: Week 2 · Segment 2. Interfaces and Implementations</a></li><li class="l3"><a href="#outcomes-1">📑 Outcomes</a></li><li class="l3"><a href="#the-question">📑 The question</a></li><li class="l3"><a href="#multiple-inheritance">📑 Multiple Inheritance</a></li><li class="l3"><a href="#interfaces">📑 Interfaces</a></li><li class="l3"><a href="#interface-definition">📑 Interface Definition</a></li><li class="l3"><a href="#interface-structure">📑 Interface Structure</a></li><li class="l3"><a href="#abstract-classes-vs-interfaces">📑 Abstract Classes VS Interfaces</a></li><li class="l3"><a href="#implements">📑 implements</a></li><li class="l3"><a href="#example-edible">📑 Example: Edible</a></li><li class="l3"><a href="#some-common-interfaces-of-java-api">📑 Some Common Interfaces of Java API</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-2">🧩 이번 주 토이 프로젝트: CafeOrder Week 2</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-2">✅ 시험 대비 체크리스트 (Week 2)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-2-상속-추상-클래스-인터페이스">Week 2. 상속, 추상 클래스, 인터페이스 <a class="anchor" aria-label="링크" href="#week-2-상속-추상-클래스-인터페이스">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요.</p>
+<p>이번 주 내용은 뒤에서 계속 나와요. Week 5 MVC의 Model 상속, Week 6~7의 <code>Repository</code> <strong>인터페이스</strong>와 구현 클래스, Guice의 <code>bind(인터페이스).to(구현)</code>이 전부 여기서 출발해요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>상속 <code>extends</code></td>
+<td>is-a 관계. 부모의 필드, 메서드를 물려받음 (private은 직접 접근 불가)</td>
+<td>&quot;Circle <strong>is a</strong> GeometricObject&quot;</td>
+</tr>
+<tr>
+<td>생성자</td>
+<td><strong>상속 안 됨</strong>. <code>super(...)</code>로 부르고, 안 쓰면 부모의 <strong>인자 없는 생성자</strong>가 자동 호출</td>
+<td>부모에 인자 없는 생성자가 없으면 컴파일 에러</td>
+</tr>
+<tr>
+<td>constructor chaining</td>
+<td>자식 객체를 만들면 <strong>맨 위 조상 생성자부터</strong> 차례로 실행</td>
+<td>출력 순서 맞히기</td>
+</tr>
+<tr>
+<td>overriding</td>
+<td>같은 시그니처로 부모 메서드 교체. 접근 범위는 <strong>넓히기만</strong> 가능</td>
+<td>static은 override 안 됨 (hiding)</td>
+</tr>
+<tr>
+<td>final</td>
+<td>final 클래스는 상속 불가(String), final 메서드는 override 불가</td>
+<td></td>
+</tr>
+<tr>
+<td>abstract class</td>
+<td><code>new</code> 불가. 추상 메서드 + 일반 메서드 + 필드 가능</td>
+<td>추상 메서드를 다 구현 안 하면 자식도 abstract</td>
+</tr>
+<tr>
+<td>interface</td>
+<td>공통 <strong>행동</strong> 명세. 메서드는 기본 public abstract, 필드는 public static final</td>
+<td><code>implements</code>, 여러 개 가능</td>
+</tr>
+<tr>
+<td>다중 상속</td>
+<td>클래스는 하나만 <code>extends</code> (Diamond Problem), 인터페이스는 여러 개 <code>implements</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li><code>super(...)</code>는 생성자의 <strong>첫 줄</strong>이어야 한다. 부모 생성자를 이름으로 부르면(<code>GeometricObject()</code>) 에러.</li>
+<li>부모에 <code>Fruit(String name)</code>만 있고 인자 없는 생성자가 없으면, <code>class Apple extends Fruit {}</code>는 <strong>컴파일 에러</strong>.</li>
+<li>private 필드도 상속은 된다. 다만 자식 코드에서 <strong>직접 접근이 안 될 뿐</strong> (getter, setter로 접근).</li>
+<li>메서드 찾기는 <strong>위로만</strong> 올라간다 (자식 → 부모 → ... → Object). 아래로는 안 내려간다.</li>
+<li>abstract 메서드는 <strong>body가 없고, static일 수 없고, 반드시 override</strong>된다.</li>
+<li>인터페이스 멤버는 private, protected 불가. 구현할 때 <code>public</code>을 빼먹으면 접근 범위를 좁힌 것이라 에러.</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Constructor Chaining</a></td>
+<td>Faculty, Employee, Person을 쳐서 (1)~(4) 출력 순서 확인</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Example: abstract GeometricObject</a></td>
+<td>abstract GeometricObject와 Circle, Rectangle을 만들고 <code>new GeometricObject()</code>가 에러 나는지 확인</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: Edible</a></td>
+<td>Edible, Animal, Chicken, Tiger, Fruit, Apple, TestEdible을 쳐서 instanceof와 캐스팅 결과 확인</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-2-segment-1-inheritance-and-abstract-classes">1. 📑 강의 슬라이드: Week 2 · Segment 1. Inheritance and Abstract Classes <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-2-segment-1-inheritance-and-abstract-classes">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>비슷한 클래스끼리 겹치는 부분을 <strong>부모 클래스 하나로 모으는 법</strong>(상속)과, &quot;직접 만들지는 말고 꼭 자식을 만들어 써&quot;라고 강제하는 <strong>추상 클래스</strong>를 배워요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 이번 세그먼트 목표는 세 가지예요: 클래스를 정리하는 법, 상속, 추상 클래스.</li>
+<li>👀 <strong>Organizing class: The need</strong>: Person, Employee, Manager, Customer는 모두 <code>name</code>, <code>phoneNumber</code>가 있어요.</li>
+<li>👀 <strong>Class hierarchy</strong>: 클래스 계층은 거꾸로 된 나무예요. 위로 갈수록 일반적(generalization), 아래로 갈수록 구체적(specialization).</li>
+<li>👀 <strong>Inheritance (Quick overview)</strong>: <code>extends</code> 한 단어로 상속해요. 자식은 모든 조상의 상태(필드)와 행동(메서드)을 물려받아요.</li>
+<li>👀 <strong>Are Superclass's Constructor Inherited?</strong>: 생성자는 상속되지 않아요. 필드, 메서드와 다른 점이에요.</li>
+<li>👀 <strong>Using the Keyword super</strong>: <code>super(color, filled)</code>: 부모 생성자 호출.</li>
+<li>⌨️ <strong><a href="#practice-1">Constructor Chaining</a></strong>:  (⌨️ Faculty, Employee, Person을 쳐서 (1)~(4) 출력 순서 확인)</li>
+<li>👀 <strong>Find out the errors in the program</strong>: 답: 컴파일 에러예요. <code>Apple</code>에는 생성자가 없으니 컴파일러가 기본 생성자 <code>Apple() { super(); }</code>를 만들어요.</li>
+<li>👀 <strong>Example: GeometricObject, Circle, Rectangle</strong>: <code>color</code>, <code>filled</code>는 부모에서 private이라 자식이 <code>this.color = color</code>로 직접 못 써요.</li>
+<li>👀 <strong>Overriding</strong>: 이름, 매개변수 목록(시그니처)이 똑같아야 해요.</li>
+<li>👀 <strong>Method calling VS Overriding</strong>: 메서드를 부르면 Java는 객체의 실제 클래스부터 위로 찾아요.</li>
+<li>👀 <strong>How are access Modifiers affected by Inheritance?</strong>: 슬라이드 예: Manager(Employee의 자식)는 Employee의 private 메서드만 못 불러요.</li>
+<li>👀 <strong>Final Classes / Methods</strong>: <code>final class</code>: 자식 금지. 대표 예 <code>String</code>.</li>
+<li>👀 <strong>Abstraction</strong>: 추상화 = 무엇을 하는지만 보여주고, 어떻게 하는지는 숨기기.</li>
+<li>👀 <strong>Concrete class vs Abstract class</strong>: 은행에 계좌 종류가 4개(SuperSavings, PowerSavings, BusinessChequing, PowerChequing)만 있다면, 그냥 &quot;Account&quot;는 실제로 열 수 없는 개념이에요.</li>
+<li>👀 <strong>Abstract classes and Abstract Methods</strong>: <code>abstract class</code>는 <code>new</code> 불가.</li>
+<li>👀 <strong>An Abstract method</strong>: 추상 메서드 3대 규칙(슬라이드 그림): No Body, Must be overridden, Can't be static.</li>
+<li>👀 <strong>Abstract Method: Why?</strong>: 추상 메서드는 &quot;자식들아, 이 메서드는 꼭 만들어&quot;라는 약속이에요.</li>
+<li>⌨️ <strong><a href="#practice-2">Example: abstract GeometricObject</a></strong>:  (⌨️ abstract GeometricObject와 Circle, Rectangle을 만들고 <code>new GeometricObject()</code>가 에러 나는지 확인)</li>
+<li>👀 <strong>Concrete class or Abstract class?</strong>: 고르는 기준: 확실하지 않으면 concrete로 두세요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 2 · Segment 1 &quot;Inheritance and Abstract Classes&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h3>
+<blockquote>
+<ul>
+<li>Organizing Classes</li>
+<li>Understanding of Inheritance.</li>
+<li>Understanding of Abstract classes.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이번 세그먼트 목표는 세 가지예요: 클래스를 <strong>정리하는 법</strong>, <strong>상속</strong>, <strong>추상 클래스</strong>.</p>
+</div><h3 id="organizing-class-the-need">📑 Organizing class: The need <a class="anchor" aria-label="링크" href="#organizing-class-the-need">#</a></h3>
+<blockquote>
+<p>There are some objects that &quot;share&quot; attributes in common. For example, Person objects may have name and phoneNumber attributes, but so can Employee, Manager, Customer and Company objects.</p>
+<p>All object-oriented languages (e.g., JAVA) allow you to organize your classes in a way that allows you to take advantage of the commonality between classes.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Person, Employee, Manager, Customer는 모두 <code>name</code>, <code>phoneNumber</code>가 있어요. 클래스마다 똑같은 필드와 getter를 복사해 넣으면 고칠 때 네 군데를 다 고쳐야 하죠. 그래서 <strong>공통 부분은 부모 클래스에 한 번만</strong> 쓰고, 각자 다른 부분(Employee의 <code>employeeID</code>, Company의 <code>clientList</code>)만 자식에 써요.</p>
+</div><h3 id="class-hierarchy">📑 Class hierarchy <a class="anchor" aria-label="링크" href="#class-hierarchy">#</a></h3>
+<blockquote>
+<p>A class hierarchy is often represented as an upside-down tree. A child object defined in the tree is a more specific kind of object than its parent or ancestors in the tree. Hence, there is an <strong>&quot;is a&quot;</strong> (i.e., &quot;is-a-kind-of&quot;) relationship between classes.</p>
+<p>Each class is a subclass (i.e., a specialization) of some other class which is called its superclass (i.e., a generalization).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>클래스 계층은 <strong>거꾸로 된 나무</strong>예요. 위로 갈수록 일반적(generalization), 아래로 갈수록 구체적(specialization).</p>
+<p>관계를 확인하는 말은 <strong>&quot;is a&quot;</strong>: &quot;Manager <strong>is an</strong> Employee&quot;, &quot;Circle <strong>is a</strong> GeometricObject&quot;. 이 문장이 자연스러우면 상속이 맞고, &quot;Car is an Engine&quot;처럼 어색하면 상속이 아니라 <strong>has-a</strong>(필드로 가지기)예요.</p>
+</div><h3 id="inheritance-quick-overview">📑 Inheritance (Quick overview) <a class="anchor" aria-label="링크" href="#inheritance-quick-overview">#</a></h3>
+<blockquote>
+<ul>
+<li>In JAVA, in order to create a subclass of another class, use the <strong>extends</strong> keyword in our class definition.</li>
+<li>A subclass inherits state and behavior from all its ancestor.</li>
+<li>Subclass inherits all, but <strong>private</strong> superclass's members</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SuperClass</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SubClass</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SuperClass</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>extends</code> 한 단어로 상속해요. 자식은 <strong>모든 조상</strong>의 상태(필드)와 행동(메서드)을 물려받아요. 단, <code>private</code> 멤버는 자식 코드에서 직접 못 써요(아래 접근 제한자 부분에서 다시 나와요).</p>
+<p>C++과 다른 점: Java는 <code>extends</code> 뒤에 <strong>클래스 하나만</strong> 올 수 있어요. 그리고 아무것도 extends 안 하면 자동으로 <code>Object</code>를 상속해요.</p>
+</div><h3 id="are-superclasss-constructor-inherited">📑 Are Superclass's Constructor Inherited? <a class="anchor" aria-label="링크" href="#are-superclasss-constructor-inherited">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>No.</strong> They are not inherited. They are invoked explicitly or implicitly.</li>
+<li>Superclass constructor can only be invoked from the subclasses' constructors, using the keyword <strong>super</strong>.</li>
+<li>If the keyword super is not explicitly used, the superclass's <strong>no-arg constructor is automatically invoked</strong>.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>생성자는 <strong>상속되지 않아요.</strong> 필드, 메서드와 다른 점이에요.</p>
+<ul>
+<li>자식 생성자 안에서 <code>super(...)</code>로 부모 생성자를 <strong>명시적으로</strong> 부르거나,</li>
+<li>안 쓰면 컴파일러가 첫 줄에 <code>super();</code>를 <strong>몰래 넣어요</strong>(암묵적 호출).</li>
+</ul>
+<p>그래서 부모에 인자 없는 생성자가 없으면 문제가 생겨요. 아래 Apple/Fruit 문제가 바로 그거예요.</p>
+</div><h3 id="using-the-keyword-super">📑 Using the Keyword super <a class="anchor" aria-label="링크" href="#using-the-keyword-super">#</a></h3>
+<blockquote>
+<p>The keyword super refers to the superclass of the class in which super appears. This keyword can be used in two ways: to call a superclass constructor, and to call a superclass method.</p>
+<ul>
+<li>Invoking the name of the superclass's constructor in a subclass causes an error.</li>
+<li><strong>super keyword must appear first in the constructor.</strong></li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="nf">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">            </span><span class="c1">// is equivalent to</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>super</code>의 두 가지 용도:</p>
+<ol>
+<li><code>super(color, filled)</code>: 부모 <strong>생성자</strong> 호출. 생성자의 <strong>첫 줄</strong>만 가능.</li>
+<li><code>super.toString()</code>: 부모의 <strong>메서드</strong> 호출. override한 메서드 안에서 부모 버전도 쓰고 싶을 때.</li>
+</ol>
+<p><code>public A() { }</code>와 <code>public A() { super(); }</code>는 <strong>똑같아요.</strong> 시험에 &quot;equivalent&quot; 문제로 나와요.</p>
+</div><h3 id="constructor-chaining">📑 Constructor Chaining <a class="anchor" aria-label="링크" href="#constructor-chaining">#</a></h3>
+<blockquote>
+<p>Constructing an instance of a class invokes all the super classes' constructors along the inheritance chain. This is called <strong>constructor chaining</strong>.</p>
+</blockquote>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Faculty, Employee, Person을 쳐서 (1)~(4) 출력 순서 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Faculty</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Faculty</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Faculty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(4) Faculty's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Employee</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Employee</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">(</span><span class="s">"(2) Invoke Employee's overloaded constructor"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(3) Employee's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Employee</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Person</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(1) Person's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>new Faculty()</code> 한 줄의 출력:</p>
+<pre class="hl"><code class="language-text">(1) Person's no-arg constructor is invoked
+(2) Invoke Employee's overloaded constructor
+(3) Employee's no-arg constructor is invoked
+(4) Faculty's no-arg constructor is invoked
+</code></pre>
+<p>따라가 보면:</p>
+<ol>
+<li><code>Faculty()</code> 첫 줄에 숨은 <code>super()</code> → <code>Employee()</code>로.</li>
+<li><code>Employee()</code> 첫 줄은 <code>this(&quot;(2) ...&quot;)</code>. 같은 클래스의 다른 생성자 <code>Employee(String s)</code>로.</li>
+<li><code>Employee(String s)</code> 첫 줄에 숨은 <code>super()</code> → <code>Person()</code>. <strong>(1)</strong> 출력.</li>
+<li>돌아와서 <code>Employee(String s)</code> 몸통: <strong>(2)</strong> 출력.</li>
+<li>돌아와서 <code>Employee()</code> 나머지: <strong>(3)</strong>, 마지막으로 <code>Faculty()</code> 몸통: <strong>(4)</strong>.</li>
+</ol>
+<p>규칙: 생성자 첫 줄에 <code>this(...)</code>가 있으면 <code>super()</code>는 그 <strong>다른 생성자 쪽</strong>에 들어가요. <code>this(...)</code>와 <code>super(...)</code>는 둘 다 첫 줄이어야 해서 <strong>같이 쓸 수 없어요.</strong> (제가 직접 돌려서 출력 확인했어요.)</p>
+</div><h3 id="find-out-the-errors-in-the-program">📑 Find out the errors in the program <a class="anchor" aria-label="링크" href="#find-out-the-errors-in-the-program">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Apple</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Fruit</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Fruit's constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>답: <strong>컴파일 에러</strong>예요. <code>Apple</code>에는 생성자가 없으니 컴파일러가 기본 생성자 <code>Apple() { super(); }</code>를 만들어요. 그런데 <code>Fruit</code>에는 <code>Fruit(String name)</code>만 있고 <strong>인자 없는 <code>Fruit()</code>가 없어요.</strong> 생성자를 하나라도 직접 쓰면 기본 생성자는 자동으로 안 생기거든요.</p>
+<p>고치는 법 두 가지: (1) <code>Fruit</code>에 <code>public Fruit() {}</code> 추가, (2) <code>Apple</code>에 <code>public Apple() { super(&quot;apple&quot;); }</code> 추가.</p>
+</div><h3 id="example-geometricobject-circle-rectangle">📑 Example: GeometricObject, Circle, Rectangle <a class="anchor" aria-label="링크" href="#example-geometricobject-circle-rectangle">#</a></h3>
+<blockquote>
+<p>GeometricObject (color, filled, dateCreated) is the superclass. Circle (radius) and Rectangle (width, height) extend it and add getArea(), getPerimeter().</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CircleFromGeometricObject</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">GeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CircleFromGeometricObject</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">        </span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">);</span><span class="w">     </span><span class="c1">// color is private in the superclass, so use the setter</span>
+<span class="w">        </span><span class="n">setFilled</span><span class="p">(</span><span class="n">filled</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getPerimeter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>color</code>, <code>filled</code>는 부모에서 <strong>private</strong>이라 자식이 <code>this.color = color</code>로 직접 못 써요. 그래서 <code>setColor(color)</code>, <code>setFilled(filled)</code>로 넣어요. 또는 <code>super(color, filled)</code>를 첫 줄에 쓰는 방법도 있어요(더 깔끔해요).</p>
+<p><code>toString()</code>은 부모에만 있는데 <code>circle.toString()</code>이 되는 건 <strong>물려받았기 때문</strong>이에요.</p>
+</div><h3 id="overriding">📑 Overriding <a class="anchor" aria-label="링크" href="#overriding">#</a></h3>
+<blockquote>
+<p>Replacing the superclass's implementation with a new method in a subclass is called <strong>overriding</strong>.</p>
+<ul>
+<li>The signature should be identical.</li>
+<li>Only accessible non-static method can be overridden.</li>
+<li>Access modifier could be different in overridden method as long as the subclass modifier is <strong>less restrictive</strong> than the superclass.</li>
+<li>A static method can be inherited. A static method <strong>cannot be overridden</strong>. If you redefine the static method in its subclass then the method of the superclass will be <strong>hidden</strong>.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>override 규칙 정리:</p>
+<ul>
+<li>이름, 매개변수 목록(시그니처)이 <strong>똑같아야</strong> 해요. 매개변수가 다르면 override가 아니라 <strong>overloading</strong>(새 메서드)이에요.</li>
+<li>접근 제한자는 <strong>같거나 더 넓게</strong>만: 부모가 <code>protected</code>면 자식은 <code>protected</code>나 <code>public</code>. <code>private</code>으로 좁히면 에러.</li>
+<li><code>static</code> 메서드는 override가 안 되고 <strong>hiding</strong>(가려짐)이에요.</li>
+<li><code>@Override</code>를 붙이면 컴파일러가 진짜 override인지 검사해 줘요. 오타로 새 메서드를 만드는 실수를 막아요.</li>
+</ul>
+</div><h3 id="method-calling-vs-overriding">📑 Method calling VS Overriding <a class="anchor" aria-label="링크" href="#method-calling-vs-overriding">#</a></h3>
+<blockquote>
+<p>Whenever you call a method, JAVA looks first to see whether or not you have such a method in the class that you are calling it from. Otherwise, JAVA tries to look for the method <strong>up the hierarchy (never down the hierarchy)</strong> ... until it reaches the <strong>Object</strong> class at the top of the tree.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>메서드를 부르면 Java는 <strong>객체의 실제 클래스부터 위로</strong> 찾아요. <code>GeometricObject g = new Circle(5); g.getArea();</code>면 변수 타입이 GeometricObject여도 실제 객체가 Circle이니까 **Circle의 getArea()**가 실행돼요. 이게 다형성(polymorphism)이에요.</p>
+<p>절대 아래(자식)로는 안 내려가요. 그래서 부모 타입 변수로는 자식에만 있는 메서드(<code>getRadius()</code>)를 <strong>부를 수 없어요</strong>(컴파일 에러). 캐스팅이 필요해요: <code>((Circle) g).getRadius()</code>.</p>
+</div><h3 id="how-are-access-modifiers-affected-by-inheritance">📑 How are access Modifiers affected by Inheritance? <a class="anchor" aria-label="링크" href="#how-are-access-modifiers-affected-by-inheritance">#</a></h3>
+<blockquote>
+<p>When an inherited attribute is declared as <strong>private</strong>, the subclasses still inherit it, but they cannot access it directly from within their own &quot;local&quot; code.</p>
+<p>A <strong>protected</strong> method cannot be called from a class that is not a subclass (and not in the same package).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>접근 제한자 표:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>같은 클래스</th>
+<th>같은 패키지</th>
+<th>자식 클래스</th>
+<th>아무데서나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+</tr>
+<tr>
+<td><code>protected</code></td>
+<td>O</td>
+<td>O</td>
+<td>O</td>
+<td>X</td>
+</tr>
+<tr>
+<td>(없음, default)</td>
+<td>O</td>
+<td>O</td>
+<td>X (다른 패키지)</td>
+<td>X</td>
+</tr>
+<tr>
+<td><code>private</code></td>
+<td>O</td>
+<td>X</td>
+<td>X</td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<p>슬라이드 예: Manager(Employee의 자식)는 Employee의 private 메서드만 못 불러요. Customer(자식 아님)는 protected 메서드도 못 불러요.</p>
+</div><h3 id="final-classes-methods">📑 Final Classes / Methods <a class="anchor" aria-label="링크" href="#final-classes-methods">#</a></h3>
+<blockquote>
+<ul>
+<li>A class that is declared <strong>final cannot be subclassed</strong>. Example: <code>java.lang.String</code></li>
+<li>A method that is declared final <strong>cannot be overridden</strong> or hidden by subclasses.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>final</code>의 세 가지 쓰임:</p>
+<ul>
+<li><code>final class</code>: 자식 금지. 대표 예 <code>String</code>.</li>
+<li><code>final</code> 메서드: override 금지.</li>
+<li><code>final</code> 변수: 값 변경 금지(상수).</li>
+</ul>
+<p><code>String</code>이 final인 이유: 누가 <code>String</code>을 상속해서 이상하게 바꾸면 보안, 안정성 문제가 생기니까요.</p>
+</div><h3 id="abstraction">📑 Abstraction <a class="anchor" aria-label="링크" href="#abstraction">#</a></h3>
+<blockquote>
+<p>Abstraction says hide the implementation from the user by showing only functionality. Two ways to achieve abstraction in java: 1. Abstract classes. 2. Interfaces.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>추상화 = <strong>무엇을 하는지만 보여주고, 어떻게 하는지는 숨기기</strong>. 리모컨의 전원 버튼만 알면 되고 회로는 몰라도 되는 것처럼요. Java에서는 <strong>추상 클래스</strong>와 <strong>인터페이스</strong> 두 가지로 해요.</p>
+</div><h3 id="concrete-class-vs-abstract-class">📑 Concrete class vs Abstract class <a class="anchor" aria-label="링크" href="#concrete-class-vs-abstract-class">#</a></h3>
+<blockquote>
+<p>A <strong>concrete class</strong> is a class that we can make instances of directly by using the new keyword. An <strong>abstract class</strong> is a class for which we cannot create instances.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>은행에 계좌 종류가 4개(SuperSavings, PowerSavings, BusinessChequing, PowerChequing)만 있다면, 그냥 &quot;Account&quot;는 실제로 열 수 없는 개념이에요. 이렇게 <strong><code>new</code>로 만들 수 있으면 concrete</strong>, 만들 수 없게 막아 둔 건 <strong>abstract</strong>예요.</p>
+</div><h3 id="abstract-classes-and-abstract-methods">📑 Abstract classes and Abstract Methods <a class="anchor" aria-label="링크" href="#abstract-classes-and-abstract-methods">#</a></h3>
+<blockquote>
+<ul>
+<li>Class declared with a keyword abstract. Needs to be extended. <strong>Cannot be instantiated.</strong></li>
+<li>An abstract class can contain abstract methods that are to be implemented in concrete subclasses. Abstract classes can also contain non-abstract methods.</li>
+<li>If a subclass doesn't want to override the abstract methods of the superclass, then subclass needs to be an abstract as well.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>추상 클래스 규칙:</p>
+<ul>
+<li><code>abstract class</code>는 <code>new</code> 불가. 반드시 상속해서 써요.</li>
+<li>추상 메서드(body 없음)와 <strong>일반 메서드, 필드, 생성자</strong>를 다 가질 수 있어요. 생성자는 자식이 <code>super(...)</code>로 불러요(그래서 예제는 <code>protected</code> 생성자).</li>
+<li>자식이 추상 메서드를 다 구현하지 않으면 <strong>자식도 abstract</strong>로 선언해야 해요.</li>
+</ul>
+</div><h3 id="an-abstract-method">📑 An Abstract method <a class="anchor" aria-label="링크" href="#an-abstract-method">#</a></h3>
+<blockquote>
+<p>Declared with the keyword abstract and does not contain any implementation: <code>abstract void someMethod();</code></p>
+<ul>
+<li>An abstract method cannot be contained in a non-abstract class.</li>
+<li>A subclass can be abstract even if its superclass is concrete.</li>
+<li>No body. Must be overridden. Can't be static.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>추상 메서드 3대 규칙(슬라이드 그림): <strong>No Body</strong>, <strong>Must be overridden</strong>, <strong>Can't be static</strong>.</p>
+<ul>
+<li><code>abstract void someMethod();</code> 중괄호 대신 세미콜론.</li>
+<li>추상 메서드가 하나라도 있으면 클래스도 반드시 <code>abstract</code>.</li>
+<li>반대로, 부모가 concrete여도 자식을 abstract로 만들 수 있어요(예: <code>Object</code>는 concrete인데 <code>GeometricObject</code>는 abstract).</li>
+</ul>
+</div><h3 id="abstract-method-why">📑 Abstract Method: Why? <a class="anchor" aria-label="링크" href="#abstract-method-why">#</a></h3>
+<blockquote>
+<p>By defining an abstract method, you are really just informing everyone that the concrete subclasses <strong>must</strong> write code for that method. All concrete subclasses of an abstract class MUST implement the abstract methods defined in their superclasses, there is no way around it.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>추상 메서드는 **&quot;자식들아, 이 메서드는 꼭 만들어&quot;**라는 약속이에요. GeometricObject는 모양을 모르니 넓이 공식을 쓸 수 없지만, &quot;모든 도형은 넓이가 있다&quot;는 건 확실하죠. 그래서 <code>getArea()</code>를 추상으로 두면 Circle, Rectangle이 각자 공식을 <strong>반드시</strong> 써야 해요. 안 쓰면 컴파일러가 막아요.</p>
+</div><h3 id="example-abstract-geometricobject">📑 Example: abstract GeometricObject <a class="anchor" aria-label="링크" href="#example-abstract-geometricobject">#</a></h3>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: abstract GeometricObject와 Circle, Rectangle을 만들고 `new GeometricObject()`가 에러 나는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"white"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">GeometricObject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">GeometricObject</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filled</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getArea</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getPerimeter</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestGeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">GeometricObject</span><span class="w"> </span><span class="n">geo1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">GeometricObject</span><span class="w"> </span><span class="n">geo2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Same area? "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">geo1</span><span class="p">.</span><span class="na">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getArea</span><span class="p">()));</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The area is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getArea</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The perimeter is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getPerimeter</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이제 <code>GeometricObject</code>가 abstract라서 <code>getArea()</code>를 부모 타입으로 부를 수 있어요. <code>equalArea(GeometricObject o1, GeometricObject o2)</code> 같은 메서드가 <strong>어떤 도형이든</strong> 받을 수 있는 이유예요.</p>
+<p>예상 출력(Rectangle 5x3): <code>The area is 15.0</code>, <code>The perimeter is 16.0</code>. 원(반지름 5) 넓이는 78.539...라서 같은 넓이? <code>false</code>.</p>
+<p>참고: 원래 슬라이드 출력에는 Rectangle 넓이가 <code>13.0</code>으로 적혀 있는데, 5 × 3 = <strong>15.0</strong>이 맞아요. 슬라이드 오타예요.</p>
+<p>생성자가 <code>protected</code>인 이유: 어차피 <code>new</code>가 안 되니 <strong>자식만</strong> 부르면 되거든요.</p>
+</div><h3 id="concrete-class-or-abstract-class">📑 Concrete class or Abstract class? <a class="anchor" aria-label="링크" href="#concrete-class-or-abstract-class">#</a></h3>
+<blockquote>
+<p>If we are not sure, it is better to leave them as concrete. By making a class abstract, you are informing the users of that class that they should not be creating instances of that class ... You are actually forcing them to create a subclass.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>고르는 기준: 확실하지 않으면 <strong>concrete</strong>로 두세요. 자식들이 가능한 모든 경우를 다 덮는다는 확신이 있을 때만 abstract로. abstract의 장점은 &quot;이 클래스는 직접 만들지 말고 구체적인 자식을 만들어&quot;라고 <strong>사용자에게 강제</strong>하는 것, 그래서 코드가 덜 애매해지는 것이에요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-2-segment-2-interfaces-and-implementations">2. 📑 강의 슬라이드: Week 2 · Segment 2. Interfaces and Implementations <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-2-segment-2-interfaces-and-implementations">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>서로 <strong>관계없는 클래스들</strong>(Chicken과 Apple)에게 같은 행동(&quot;먹는 법&quot;)을 강제하려면? 상속으로는 안 되고 <strong>인터페이스</strong>를 써요. Week 6~8의 Repository, Service가 전부 인터페이스라 꼭 잡고 가세요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 목표: Java에서 다중 상속이 어떻게 처리되는지, 인터페이스가 무엇인지.</li>
+<li>👀 <strong>The question</strong>: 상속은 같은 줄기(부모-자식)에서만 공통점을 나눠요.</li>
+<li>👀 <strong>Multiple Inheritance</strong>: Java 클래스는 부모를 하나만 가질 수 있어요.</li>
+<li>👀 <strong>Interfaces</strong>: 인터페이스 = 메서드 목록(명세). 이걸 implements한 클래스는 그 메서드를 반드시 써야 해요.</li>
+<li>👀 <strong>Interface Definition</strong>: 인터페이스도 타입이에요. <code>Edible e = new Apple();</code>처럼 변수 타입으로 쓸 수 있어요.</li>
+<li>👀 <strong>Interface Structure</strong>: public interface Sharable {</li>
+<li>👀 <strong>implements</strong>: 문법: <code>class Person extends Mammal implements Insurable, Comparable&lt;Person&gt;</code>.</li>
+<li>⌨️ <strong><a href="#practice-3">Example: Edible</a></strong>:  (⌨️ Edible, Animal, Chicken, Tiger, Fruit, Apple, TestEdible을 쳐서 instanceof와 캐스팅 결과 확인)</li>
+<li>👀 <strong>Some Common Interfaces of Java API</strong>: <code>Comparable&lt;T&gt;</code>: <code>compareTo</code> 하나.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 2 · Segment 2 &quot;Interfaces and Implementations&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes-1">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes-1">#</a></h3>
+<blockquote>
+<ul>
+<li>Understanding of multiple Inheritance in Java</li>
+<li>Understanding of Interfaces in Java</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>목표: Java에서 <strong>다중 상속</strong>이 어떻게 처리되는지, <strong>인터페이스</strong>가 무엇인지.</p>
+</div><h3 id="the-question">📑 The question <a class="anchor" aria-label="링크" href="#the-question">#</a></h3>
+<blockquote>
+<p>How though, would we define (and perhaps force) common behavior between seemingly <strong>unrelated classes</strong> in different parts of the class hierarchy?</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>상속은 <strong>같은 줄기</strong>(부모-자식)에서만 공통점을 나눠요. 그런데 Book, WebLink, Movie는 각자 다른 부모를 가질 수 있는데도 &quot;공유할 수 있다(Sharable)&quot;는 공통 행동이 있어요. 줄기가 다른 클래스에 같은 행동을 강제하는 도구가 필요해요.</p>
+</div><h3 id="multiple-inheritance">📑 Multiple Inheritance <a class="anchor" aria-label="링크" href="#multiple-inheritance">#</a></h3>
+<blockquote>
+<p>Java does not support multiple inheritance. Why? <strong>Diamond Problem</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java 클래스는 <strong>부모를 하나만</strong> 가질 수 있어요. 이유는 <strong>Diamond Problem</strong>: B와 C가 둘 다 A를 상속하고 같은 메서드를 각자 override했는데, D가 B와 C를 동시에 상속하면 D에서 그 메서드를 부를 때 B 것인지 C 것인지 모호해요. C++은 허용하지만 Java는 막았어요. 대신 <strong>인터페이스는 여러 개</strong> 구현할 수 있어요.</p>
+</div><h3 id="interfaces">📑 Interfaces <a class="anchor" aria-label="링크" href="#interfaces">#</a></h3>
+<blockquote>
+<p>An interface is a specification (i.e., a list) of a set of methods such that any classes implementing the interface are <strong>forced to write these methods</strong>.</p>
+<p>In many ways, an interface is similar to an abstract class, but the intent of an interface is to specify <strong>common behavior</strong> for objects. For example, you can specify that the objects are comparable, edible, cloneable.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>인터페이스 = <strong>메서드 목록(명세)</strong>. 이걸 implements한 클래스는 그 메서드를 <strong>반드시 써야</strong> 해요.</p>
+<p>추상 클래스와 비슷하지만 목적이 달라요. 추상 클래스는 &quot;<strong>무엇인가</strong>&quot;(is-a, 가족), 인터페이스는 &quot;<strong>무엇을 할 수 있나</strong>&quot;(can-do, 능력). 그래서 이름도 <code>Comparable</code>, <code>Edible</code>, <code>Cloneable</code>처럼 <strong>-able</strong>이 많아요.</p>
+</div><h3 id="interface-definition">📑 Interface Definition <a class="anchor" aria-label="링크" href="#interface-definition">#</a></h3>
+<blockquote>
+<p>Interface is a reference type in Java, similar to a class. Interfaces <strong>cannot be instantiated</strong>, they can only be implemented by a class or extended by other interfaces.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">interface</span> <span class="nc">InterfaceName</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="n">InterfaceName</span><span class="w"> </span><span class="n">refVariable</span><span class="p">;</span><span class="w">   </span><span class="c1">// an interface is a new reference type</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>인터페이스도 <strong>타입</strong>이에요. <code>Edible e = new Apple();</code>처럼 변수 타입으로 쓸 수 있어요. 하지만 <code>new Edible()</code>은 안 돼요.</p>
+<p>이게 Week 6~7의 핵심이에요: <code>IUserRepository repo = new InMemoryUserRepository();</code> 이렇게 <strong>인터페이스 타입 변수</strong>에 구현 객체를 넣으면, 나중에 <code>MySqlUserRepository</code>로 바꿔도 나머지 코드는 그대로예요.</p>
+</div><h3 id="interface-structure">📑 Interface Structure <a class="anchor" aria-label="링크" href="#interface-structure">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Sharable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">getItemData</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<ul>
+<li>Abstract method is public (and abstract) by default (modifiers omitted)</li>
+<li>Fields are <strong>public, static and final</strong> by default</li>
+<li>All members are public by default. Members can't be private &amp; protected.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>생략된 키워드를 채우면:</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Sharable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MAX</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">     </span><span class="c1">// 필드: 자동으로 public static final (상수)</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getItemData</span><span class="p">();</span><span class="w"> </span><span class="c1">// 메서드: 자동으로 public abstract</span>
+<span class="p">}</span>
+</code></pre>
+<p>슬라이드에는 메서드가 &quot;public and static by default&quot;라고 적혀 있는데, 정확히는 <strong>public abstract</strong>예요. 추상 메서드는 static일 수 없어요(Segment 1의 &quot;Can't be static&quot;). 시험에서는 &quot;<strong>메서드는 public abstract, 필드는 public static final</strong>&quot;로 기억하세요.</p>
+<p>구현 클래스에서 <code>public</code>을 빼먹으면 접근 범위를 <strong>좁힌</strong> 것이 되어 컴파일 에러예요.</p>
+</div><h3 id="abstract-classes-vs-interfaces">📑 Abstract Classes VS Interfaces <a class="anchor" aria-label="링크" href="#abstract-classes-vs-interfaces">#</a></h3>
+<blockquote>
+<ul>
+<li>Similar: we cannot create instances of either (<code>new Loan()</code> nor <code>new Loanable()</code>).</li>
+<li>We cannot declare attributes in an interface (only constants), whereas an abstract class may have them.</li>
+<li>In previous versions of JAVA, we were only able to declare &quot;empty&quot; methods in an interface (newer versions allow interfaces to have code: default and static methods).</li>
+<li>All methods in an interface must be public.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>abstract class</th>
+<th>interface</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>new</code></td>
+<td>불가</td>
+<td>불가</td>
+</tr>
+<tr>
+<td>필드</td>
+<td>일반 필드 가능</td>
+<td>상수(public static final)만</td>
+</tr>
+<tr>
+<td>메서드</td>
+<td>추상 + 일반</td>
+<td>추상 (Java 8부터 <code>default</code>, <code>static</code> 메서드 가능)</td>
+</tr>
+<tr>
+<td>생성자</td>
+<td>있음</td>
+<td>없음</td>
+</tr>
+<tr>
+<td>접근</td>
+<td>아무거나</td>
+<td>전부 public</td>
+</tr>
+<tr>
+<td>개수</td>
+<td><code>extends</code> 하나</td>
+<td><code>implements</code> 여러 개</td>
+</tr>
+</tbody>
+</table>
+</div><h3 id="implements">📑 implements <a class="anchor" aria-label="링크" href="#implements">#</a></h3>
+<blockquote>
+<p>We simply add the keyword <strong>implements</strong> in the class definition, followed by the name of the interface.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>문법: <code>class Person extends Mammal implements Insurable, Comparable&lt;Person&gt;</code>. <strong>extends가 먼저, implements가 나중</strong>, 인터페이스는 쉼표로 여러 개.</p>
+<p>인터페이스끼리는 <code>interface A extends B, C</code>처럼 <strong>extends</strong>를 써요(여러 개 가능).</p>
+</div><h3 id="example-edible">📑 Example: Edible <a class="anchor" aria-label="링크" href="#example-edible">#</a></h3>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Edible, Animal, Chicken, Tiger, Fruit, Apple, TestEdible을 쳐서 instanceof와 캐스팅 결과 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Edible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Chicken</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Edible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Chicken: Fry it"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">()</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Chicken: cock-a-doodle-doo"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Tiger</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Animal</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">sound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Tiger: RROAARR"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Fruit</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Edible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// no howToEat() here: OK because abstract</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Apple</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span><span class="w"> </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">howToEat</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Apple: Make apple cider"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestEdible</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Object</span><span class="o">[]</span><span class="w"> </span><span class="n">objs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="k">new</span><span class="w"> </span><span class="n">Tiger</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Chicken</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Apple</span><span class="p">()};</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">objs</span><span class="p">.</span><span class="na">length</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Edible</span><span class="p">)</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(((</span><span class="n">Edible</span><span class="p">)</span><span class="w"> </span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="na">howToEat</span><span class="p">());</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="k">instanceof</span><span class="w"> </span><span class="n">Animal</span><span class="p">)</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(((</span><span class="n">Animal</span><span class="p">)</span><span class="w"> </span><span class="n">objs</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">).</span><span class="na">sound</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>출력:</p>
+<pre class="hl"><code class="language-text">Tiger: RROAARR
+Chicken: Fry it
+Chicken: cock-a-doodle-doo
+Apple: Make apple cider
+</code></pre>
+<p>포인트:</p>
+<ul>
+<li>배열 타입이 <code>Object[]</code>라서 그대로는 <code>howToEat()</code>를 못 불러요. <code>instanceof</code>로 확인하고 <code>(Edible)</code>로 <strong>캐스팅</strong>해야 해요.</li>
+<li>Tiger는 Edible이 아니라 <code>howToEat</code> 줄이 없어요. Apple은 Animal이 아니라 <code>sound</code> 줄이 없어요. Chicken만 둘 다.</li>
+<li><code>Fruit</code>는 Edible을 implements했지만 <code>howToEat()</code>를 안 써요. <strong>abstract라서 괜찮아요.</strong> 대신 concrete 자식 Apple, Orange가 써야 해요.</li>
+</ul>
+</div><h3 id="some-common-interfaces-of-java-api">📑 Some Common Interfaces of Java API <a class="anchor" aria-label="링크" href="#some-common-interfaces-of-java-api">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Comparable</strong>: allow objects to be compared to another. Common use for ordering the objects in collections like ArrayList.</li>
+<li><strong>Serializable</strong>: objects can be written to (serialized) or read from (deserialized) storage or transmitted across a network.</li>
+<li><strong>Runnable</strong>: a task to perform, Multithreading.</li>
+<li><strong>AutoCloseable</strong>: closing resources. Invoked automatically by the <strong>try-with-resources</strong> statement.</li>
+<li><strong>ActionListener</strong>: assign behavior to events when a user clicks a button.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>뒤 주차와 연결해서 외우세요.</p>
+<ul>
+<li><code>Comparable&lt;T&gt;</code>: <code>compareTo</code> 하나. Week 3 컬렉션 정렬(<code>Collections.sort</code>).</li>
+<li><code>Serializable</code>: 메서드 없는 표시용(marker) 인터페이스. Week 9 객체 파일 저장.</li>
+<li><code>Runnable</code>: <code>run()</code>. Week 11 Thread.</li>
+<li><code>AutoCloseable</code>: <code>close()</code>. Week 8 JDBC의 try-with-resources.</li>
+<li><code>ActionListener</code>: 버튼 클릭 처리(AWT/Swing). JavaFX에서는 <code>EventHandler&lt;ActionEvent&gt;</code>가 같은 역할.</li>
+</ul>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-2">🧩 이번 주 토이 프로젝트: CafeOrder Week 2 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-2">#</a></h2>
+<p>CafeOrder의 <code>MenuItem</code>을 <strong>abstract class</strong>로 바꾸고 <code>Drink</code>, <code>Food</code>가 상속하게 해요. 가격 계산 <code>getPrice()</code>는 추상 메서드로 두고, <code>Drink</code>는 사이즈별 추가 요금을 더해요. 할인 가능 품목에는 <code>Discountable</code> 인터페이스를 붙여요. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-2">✅ 시험 대비 체크리스트 (Week 2) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-2">#</a></h2>
+<ul>
+<li>[ ] is-a 관계와 <code>extends</code>, private 멤버 상속의 의미를 설명할 수 있다.</li>
+<li>[ ] 생성자는 상속되지 않고, <code>super(...)</code>가 첫 줄이어야 하며, 없으면 <code>super()</code>가 자동으로 들어간다는 것을 안다.</li>
+<li>[ ] constructor chaining 출력 순서를 예측할 수 있다 (<code>this(...)</code> 포함).</li>
+<li>[ ] 부모에 인자 없는 생성자가 없을 때 생기는 컴파일 에러를 찾고 고칠 수 있다.</li>
+<li>[ ] override 규칙(시그니처 동일, 접근 범위 넓히기만, static은 hiding)을 안다.</li>
+<li>[ ] final 클래스, final 메서드의 의미를 안다.</li>
+<li>[ ] abstract 클래스와 abstract 메서드 규칙(No body, Must be overridden, Can't be static)을 안다.</li>
+<li>[ ] 인터페이스 멤버의 기본 키워드(메서드 public abstract, 필드 public static final)를 안다.</li>
+<li>[ ] abstract class와 interface 차이를 표로 말할 수 있다.</li>
+<li>[ ] Java가 다중 상속을 막는 이유(Diamond Problem)를 설명할 수 있다.</li>
+<li>[ ] <code>instanceof</code>와 캐스팅으로 인터페이스 메서드를 부를 수 있다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li><code>abstract class Shape</code>에 <code>abstract double area();</code>와 <code>public String describe() { return &quot;Area: &quot; + area(); }</code>를 두고, <code>Square(double side)</code>를 만들어 <code>new Square(3).describe()</code>가 <code>Area: 9.0</code>이 되게 하세요.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Shape</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">area</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">describe</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Area: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Square</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Shape</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">side</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Square</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">side</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">side</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">side</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">area</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">side</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">side</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<p><code>describe()</code>는 부모에 있지만, 안에서 부르는 <code>area()</code>는 실제 객체(Square)의 것이 실행돼요.</p>
+</details>
+<ol start="2">
+<li>다음 코드의 출력은?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">A</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">"A "</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">B</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">B</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">"B "</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">class</span> <span class="nc">C</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">C</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">();</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="s">"C "</span><span class="p">);</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span>
+<span class="c1">// main: new C();</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p><code>A B C</code>. 생성자는 맨 위 조상부터 실행돼요.</p>
+</details>
+<ol start="3">
+<li><code>interface Payable { double pay(); }</code>를 만들고, 관계없는 두 클래스 <code>Employee</code>와 <code>Invoice</code>가 구현하게 한 뒤, <code>Payable[]</code> 배열을 돌며 합계를 구하세요.</li>
+</ol>
+<details><summary>3번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">interface</span> <span class="nc">Payable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">pay</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Employee</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Payable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">pay</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c1">// public 필수</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Invoice</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Payable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">pay</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">250.5</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Payable</span><span class="o">[]</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Employee</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Invoice</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Payable</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">items</span><span class="p">)</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">pay</span><span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">total</span><span class="p">);</span><span class="w">   </span><span class="c1">// 1250.5</span>
+</code></pre>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w2" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-01.html"><small>← 이전</small>Week 1. Java 입문과 MVC</a><a class="next" href="week-03.html"><small>다음 →</small>Week 3. 컬렉션, 제네릭, 서비스 계층</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

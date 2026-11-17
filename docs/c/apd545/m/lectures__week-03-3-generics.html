@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3 · Segment 3. Generics · APD545</title><meta name="description" content="Week 3 · Segment 3. Generics · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 3 · Segment 3. Generics</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#what-is-generics">What is Generics?</a></li><li class="l2"><a href="#motivation">Motivation</a></li><li class="l2"><a href="#generic-class">Generic class</a></li><li class="l2"><a href="#generic-type-and-parameterized-type">Generic Type and Parameterized Type</a></li><li class="l2"><a href="#type-parameter-naming-conventions">Type Parameter Naming Conventions</a></li><li class="l2"><a href="#multiple-type-parameters">Multiple Type Parameters</a></li><li class="l2"><a href="#why-generics-benefits">Why Generics: Benefits</a></li><li class="l2"><a href="#generic-class-example-genericbox">Generic Class example: GenericBox</a></li><li class="l2"><a href="#type-erasure">Type Erasure</a></li><li class="l2"><a href="#raw-types">Raw Types</a></li><li class="l2"><a href="#generic-method">Generic method</a></li><li class="l2"><a href="#restrictions">Restrictions</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 3 · Segment 3 &quot;Generics (Templates)&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-3-segment-3-generics">Week 3 · Segment 3. Generics <a class="anchor" aria-label="링크" href="#week-3-segment-3-generics">#</a></h1>
+<h2 id="what-is-generics">What is Generics? <a class="anchor" aria-label="링크" href="#what-is-generics">#</a></h2>
+<blockquote>
+<p>Generics adds stability to your code by <strong>detecting bugs on the compile time</strong>. Generics is the capability to <strong>parameterize types</strong>: we can pass types as arguments when defining classes, interfaces and methods.</p>
+</blockquote>
+<h2 id="motivation">Motivation <a class="anchor" aria-label="링크" href="#motivation">#</a></h2>
+<blockquote>
+<p>A <code>Store</code> holding <code>Object</code> is too generic: explicit casting, and a <strong>ClassCastException at runtime</strong> if someone stores a different type.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Store</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Store</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Store</span><span class="p">();</span>
+<span class="n">store</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"hello"</span><span class="p">);</span><span class="w">                 </span><span class="c1">// someone stores a String</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">  </span><span class="c1">// compiles, but ClassCastException at runtime</span>
+</code></pre>
+<h2 id="generic-class">Generic class <a class="anchor" aria-label="링크" href="#generic-class">#</a></h2>
+<blockquote>
+<p>Generics was introduced to solve this. Generics is <strong>purely compile time</strong> concept.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Store</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Store</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Store</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w">   </span><span class="c1">// diamond notation (Java 7)</span>
+<span class="n">store</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">());</span>
+<span class="n">Book</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">                </span><span class="c1">// no cast</span>
+</code></pre>
+<h2 id="generic-type-and-parameterized-type">Generic Type and Parameterized Type <a class="anchor" aria-label="링크" href="#generic-type-and-parameterized-type">#</a></h2>
+<blockquote>
+<ul>
+<li><code>class Store&lt;T&gt;</code>: <strong>generic type</strong>, <code>T</code> is the type parameter (formal).</li>
+<li><code>Store&lt;String&gt;</code>: <strong>parameterized type</strong>, <code>String</code> is the type argument (actual).</li>
+</ul>
+</blockquote>
+<h2 id="type-parameter-naming-conventions">Type Parameter Naming Conventions <a class="anchor" aria-label="링크" href="#type-parameter-naming-conventions">#</a></h2>
+<blockquote>
+<p>Single uppercase letters: <strong>E</strong> Element (Collections), <strong>K</strong> Key, <strong>V</strong> Value (Maps), <strong>N</strong> Number, <strong>T</strong> Type, <strong>S, U, V</strong> 2nd, 3rd, 4th types.</p>
+</blockquote>
+<h2 id="multiple-type-parameters">Multiple Type Parameters <a class="anchor" aria-label="링크" href="#multiple-type-parameters">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">K</span><span class="w"> </span><span class="nf">getKey</span><span class="p">();</span>
+<span class="w">    </span><span class="n">V</span><span class="w"> </span><span class="nf">getValue</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderedPair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderedPair</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="nf">getKey</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="nf">getValue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OrderedPair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderedPair</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"One"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</code></pre>
+<h2 id="why-generics-benefits">Why Generics: Benefits <a class="anchor" aria-label="링크" href="#why-generics-benefits">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Stronger type checking</strong>: <code>list.add(32)</code> on a <code>List&lt;String&gt;</code> is a compile-time error.</li>
+<li><strong>Casting can be eliminated</strong>: <code>String s = list.get(0);</code></li>
+<li><strong>Type safety</strong>: holds only a single type of objects.</li>
+</ul>
+</blockquote>
+<h2 id="generic-class-example-genericbox">Generic Class example: GenericBox <a class="anchor" aria-label="링크" href="#generic-class-example-genericbox">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenericBox</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="n">content</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GenericBox</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">content</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="nf">getContent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">content</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" ("</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">content</span><span class="p">.</span><span class="na">getClass</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">")"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">GenericBox</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">box2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericBox</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span><span class="w">   </span><span class="c1">// autobox int to Integer</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box2</span><span class="p">.</span><span class="na">getContent</span><span class="p">();</span><span class="w">                          </span><span class="c1">// unbox</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">box2</span><span class="p">);</span><span class="w">                           </span><span class="c1">// 123 (class java.lang.Integer)</span>
+</code></pre>
+<h2 id="type-erasure">Type Erasure <a class="anchor" aria-label="링크" href="#type-erasure">#</a></h2>
+<blockquote>
+<p>When a generic type is instantiated, the compiler translates those types by a technique called <strong>type erasure</strong>: it replaces all references to the type parameter with <strong>Object</strong>, performs the type check, and inserts the required downcast operators.</p>
+</blockquote>
+<h2 id="raw-types">Raw Types <a class="anchor" aria-label="링크" href="#raw-types">#</a></h2>
+<blockquote>
+<p>A raw type is the name of a generic class without any type arguments: <code>Store rawStore = new Store();</code>. <strong>Avoid raw types</strong>: not type safe, possible runtime error, require casting.</p>
+</blockquote>
+<h2 id="generic-method">Generic method <a class="anchor" aria-label="링크" href="#generic-method">#</a></h2>
+<blockquote>
+<p>Type parameters can also be declared within method signatures. The type parameter's scope is limited to the method.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isEqual</span><span class="p">(</span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">g1</span><span class="p">.</span><span class="na">get</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="n">g2</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kt">boolean</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenericsMethods</span><span class="p">.</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">isEqual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">g2</span><span class="p">);</span>
+<span class="n">same</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenericsMethods</span><span class="p">.</span><span class="na">isEqual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">g2</span><span class="p">);</span><span class="w">   </span><span class="c1">// type inferred</span>
+</code></pre>
+<h2 id="restrictions">Restrictions <a class="anchor" aria-label="링크" href="#restrictions">#</a></h2>
+<blockquote>
+<ul>
+<li>Type argument <strong>cannot be a primitive</strong>: <code>Store&lt;int&gt;</code> is an error. Use <code>Store&lt;Integer&gt;</code>.</li>
+<li>Type parameter <strong>cannot be used in a static context</strong>: <code>private static T deviceType;</code> is an error (T would be Smartphone or Pager?).</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 2 · Segment 1. Inheritance and Abstract Classes · APD545</title><meta name="description" content="Week 2 · Segment 1. Inheritance and Abstract Classes · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 2 · Segment 1. Inheritance and Abstract Classes</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#organizing-class-the-need">Organizing class: The need</a></li><li class="l2"><a href="#class-hierarchy">Class hierarchy</a></li><li class="l2"><a href="#inheritance-quick-overview">Inheritance (Quick overview)</a></li><li class="l2"><a href="#are-superclasss-constructor-inherited">Are Superclass&#x27;s Constructor Inherited?</a></li><li class="l2"><a href="#using-the-keyword-super">Using the Keyword super</a></li><li class="l2"><a href="#constructor-chaining">Constructor Chaining</a></li><li class="l2"><a href="#find-out-the-errors-in-the-program">Find out the errors in the program</a></li><li class="l2"><a href="#example-geometricobject-circle-rectangle">Example: GeometricObject, Circle, Rectangle</a></li><li class="l2"><a href="#overriding">Overriding</a></li><li class="l2"><a href="#method-calling-vs-overriding">Method calling VS Overriding</a></li><li class="l2"><a href="#how-are-access-modifiers-affected-by-inheritance">How are access Modifiers affected by Inheritance?</a></li><li class="l2"><a href="#final-classes-methods">Final Classes / Methods</a></li><li class="l2"><a href="#abstraction">Abstraction</a></li><li class="l2"><a href="#concrete-class-vs-abstract-class">Concrete class vs Abstract class</a></li><li class="l2"><a href="#abstract-classes-and-abstract-methods">Abstract classes and Abstract Methods</a></li><li class="l2"><a href="#an-abstract-method">An Abstract method</a></li><li class="l2"><a href="#abstract-method-why">Abstract Method: Why?</a></li><li class="l2"><a href="#example-abstract-geometricobject">Example: abstract GeometricObject</a></li><li class="l2"><a href="#concrete-class-or-abstract-class">Concrete class or Abstract class?</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 2 · Segment 1 &quot;Inheritance and Abstract Classes&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-2-segment-1-inheritance-and-abstract-classes">Week 2 · Segment 1. Inheritance and Abstract Classes <a class="anchor" aria-label="링크" href="#week-2-segment-1-inheritance-and-abstract-classes">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>Organizing Classes</li>
+<li>Understanding of Inheritance.</li>
+<li>Understanding of Abstract classes.</li>
+</ul>
+</blockquote>
+<h2 id="organizing-class-the-need">Organizing class: The need <a class="anchor" aria-label="링크" href="#organizing-class-the-need">#</a></h2>
+<blockquote>
+<p>There are some objects that &quot;share&quot; attributes in common. For example, Person objects may have name and phoneNumber attributes, but so can Employee, Manager, Customer and Company objects.</p>
+<p>All object-oriented languages (e.g., JAVA) allow you to organize your classes in a way that allows you to take advantage of the commonality between classes.</p>
+</blockquote>
+<h2 id="class-hierarchy">Class hierarchy <a class="anchor" aria-label="링크" href="#class-hierarchy">#</a></h2>
+<blockquote>
+<p>A class hierarchy is often represented as an upside-down tree. A child object defined in the tree is a more specific kind of object than its parent or ancestors in the tree. Hence, there is an <strong>&quot;is a&quot;</strong> (i.e., &quot;is-a-kind-of&quot;) relationship between classes.</p>
+<p>Each class is a subclass (i.e., a specialization) of some other class which is called its superclass (i.e., a generalization).</p>
+</blockquote>
+<h2 id="inheritance-quick-overview">Inheritance (Quick overview) <a class="anchor" aria-label="링크" href="#inheritance-quick-overview">#</a></h2>
+<blockquote>
+<ul>
+<li>In JAVA, in order to create a subclass of another class, use the <strong>extends</strong> keyword in our class definition.</li>
+<li>A subclass inherits state and behavior from all its ancestor.</li>
+<li>Subclass inherits all, but <strong>private</strong> superclass's members</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SuperClass</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">SubClass</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">SuperClass</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<h2 id="are-superclasss-constructor-inherited">Are Superclass's Constructor Inherited? <a class="anchor" aria-label="링크" href="#are-superclasss-constructor-inherited">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>No.</strong> They are not inherited. They are invoked explicitly or implicitly.</li>
+<li>Superclass constructor can only be invoked from the subclasses' constructors, using the keyword <strong>super</strong>.</li>
+<li>If the keyword super is not explicitly used, the superclass's <strong>no-arg constructor is automatically invoked</strong>.</li>
+</ul>
+</blockquote>
+<h2 id="using-the-keyword-super">Using the Keyword super <a class="anchor" aria-label="링크" href="#using-the-keyword-super">#</a></h2>
+<blockquote>
+<p>The keyword super refers to the superclass of the class in which super appears. This keyword can be used in two ways: to call a superclass constructor, and to call a superclass method.</p>
+<ul>
+<li>Invoking the name of the superclass's constructor in a subclass causes an error.</li>
+<li><strong>super keyword must appear first in the constructor.</strong></li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="nf">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">            </span><span class="c1">// is equivalent to</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">A</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<h2 id="constructor-chaining">Constructor Chaining <a class="anchor" aria-label="링크" href="#constructor-chaining">#</a></h2>
+<blockquote>
+<p>Constructing an instance of a class invokes all the super classes' constructors along the inheritance chain. This is called <strong>constructor chaining</strong>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Faculty</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Employee</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Faculty</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Faculty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(4) Faculty's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Employee</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Employee</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">(</span><span class="s">"(2) Invoke Employee's overloaded constructor"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(3) Employee's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Employee</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Person</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Person</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"(1) Person's no-arg constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="find-out-the-errors-in-the-program">Find out the errors in the program <a class="anchor" aria-label="링크" href="#find-out-the-errors-in-the-program">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Apple</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">Fruit</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Fruit</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Fruit's constructor is invoked"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="example-geometricobject-circle-rectangle">Example: GeometricObject, Circle, Rectangle <a class="anchor" aria-label="링크" href="#example-geometricobject-circle-rectangle">#</a></h2>
+<blockquote>
+<p>GeometricObject (color, filled, dateCreated) is the superclass. Circle (radius) and Rectangle (width, height) extend it and add getArea(), getPerimeter().</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">CircleFromGeometricObject</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">GeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CircleFromGeometricObject</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">radius</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">        </span><span class="n">setColor</span><span class="p">(</span><span class="n">color</span><span class="p">);</span><span class="w">     </span><span class="c1">// color is private in the superclass, so use the setter</span>
+<span class="w">        </span><span class="n">setFilled</span><span class="p">(</span><span class="n">filled</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getArea</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getPerimeter</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="overriding">Overriding <a class="anchor" aria-label="링크" href="#overriding">#</a></h2>
+<blockquote>
+<p>Replacing the superclass's implementation with a new method in a subclass is called <strong>overriding</strong>.</p>
+<ul>
+<li>The signature should be identical.</li>
+<li>Only accessible non-static method can be overridden.</li>
+<li>Access modifier could be different in overridden method as long as the subclass modifier is <strong>less restrictive</strong> than the superclass.</li>
+<li>A static method can be inherited. A static method <strong>cannot be overridden</strong>. If you redefine the static method in its subclass then the method of the superclass will be <strong>hidden</strong>.</li>
+</ul>
+</blockquote>
+<h2 id="method-calling-vs-overriding">Method calling VS Overriding <a class="anchor" aria-label="링크" href="#method-calling-vs-overriding">#</a></h2>
+<blockquote>
+<p>Whenever you call a method, JAVA looks first to see whether or not you have such a method in the class that you are calling it from. Otherwise, JAVA tries to look for the method <strong>up the hierarchy (never down the hierarchy)</strong> ... until it reaches the <strong>Object</strong> class at the top of the tree.</p>
+</blockquote>
+<h2 id="how-are-access-modifiers-affected-by-inheritance">How are access Modifiers affected by Inheritance? <a class="anchor" aria-label="링크" href="#how-are-access-modifiers-affected-by-inheritance">#</a></h2>
+<blockquote>
+<p>When an inherited attribute is declared as <strong>private</strong>, the subclasses still inherit it, but they cannot access it directly from within their own &quot;local&quot; code.</p>
+<p>A <strong>protected</strong> method cannot be called from a class that is not a subclass (and not in the same package).</p>
+</blockquote>
+<h2 id="final-classes-methods">Final Classes / Methods <a class="anchor" aria-label="링크" href="#final-classes-methods">#</a></h2>
+<blockquote>
+<ul>
+<li>A class that is declared <strong>final cannot be subclassed</strong>. Example: <code>java.lang.String</code></li>
+<li>A method that is declared final <strong>cannot be overridden</strong> or hidden by subclasses.</li>
+</ul>
+</blockquote>
+<h2 id="abstraction">Abstraction <a class="anchor" aria-label="링크" href="#abstraction">#</a></h2>
+<blockquote>
+<p>Abstraction says hide the implementation from the user by showing only functionality. Two ways to achieve abstraction in java: 1. Abstract classes. 2. Interfaces.</p>
+</blockquote>
+<h2 id="concrete-class-vs-abstract-class">Concrete class vs Abstract class <a class="anchor" aria-label="링크" href="#concrete-class-vs-abstract-class">#</a></h2>
+<blockquote>
+<p>A <strong>concrete class</strong> is a class that we can make instances of directly by using the new keyword. An <strong>abstract class</strong> is a class for which we cannot create instances.</p>
+</blockquote>
+<h2 id="abstract-classes-and-abstract-methods">Abstract classes and Abstract Methods <a class="anchor" aria-label="링크" href="#abstract-classes-and-abstract-methods">#</a></h2>
+<blockquote>
+<ul>
+<li>Class declared with a keyword abstract. Needs to be extended. <strong>Cannot be instantiated.</strong></li>
+<li>An abstract class can contain abstract methods that are to be implemented in concrete subclasses. Abstract classes can also contain non-abstract methods.</li>
+<li>If a subclass doesn't want to override the abstract methods of the superclass, then subclass needs to be an abstract as well.</li>
+</ul>
+</blockquote>
+<h2 id="an-abstract-method">An Abstract method <a class="anchor" aria-label="링크" href="#an-abstract-method">#</a></h2>
+<blockquote>
+<p>Declared with the keyword abstract and does not contain any implementation: <code>abstract void someMethod();</code></p>
+<ul>
+<li>An abstract method cannot be contained in a non-abstract class.</li>
+<li>A subclass can be abstract even if its superclass is concrete.</li>
+<li>No body. Must be overridden. Can't be static.</li>
+</ul>
+</blockquote>
+<h2 id="abstract-method-why">Abstract Method: Why? <a class="anchor" aria-label="링크" href="#abstract-method-why">#</a></h2>
+<blockquote>
+<p>By defining an abstract method, you are really just informing everyone that the concrete subclasses <strong>must</strong> write code for that method. All concrete subclasses of an abstract class MUST implement the abstract methods defined in their superclasses, there is no way around it.</p>
+</blockquote>
+<h2 id="example-abstract-geometricobject">Example: abstract GeometricObject <a class="anchor" aria-label="링크" href="#example-abstract-geometricobject">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"white"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">GeometricObject</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">GeometricObject</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">color</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">filled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">color</span><span class="p">;</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">filled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">filled</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getArea</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getPerimeter</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">TestGeometricObject</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">GeometricObject</span><span class="w"> </span><span class="n">geo1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="w">        </span><span class="n">GeometricObject</span><span class="w"> </span><span class="n">geo2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Rectangle</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Same area? "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">geo1</span><span class="p">.</span><span class="na">getArea</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getArea</span><span class="p">()));</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The area is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getArea</span><span class="p">());</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"The perimeter is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">geo2</span><span class="p">.</span><span class="na">getPerimeter</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="concrete-class-or-abstract-class">Concrete class or Abstract class? <a class="anchor" aria-label="링크" href="#concrete-class-or-abstract-class">#</a></h2>
+<blockquote>
+<p>If we are not sure, it is better to leave them as concrete. By making a class abstract, you are informing the users of that class that they should not be creating instances of that class ... You are actually forcing them to create a subclass.</p>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

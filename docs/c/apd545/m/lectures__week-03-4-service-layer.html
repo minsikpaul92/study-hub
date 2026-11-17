@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3 · Segment 4. Service Layer · APD545</title><meta name="description" content="Week 3 · Segment 4. Service Layer · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 3 · Segment 4. Service Layer</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#service-layer">Service Layer</a></li><li class="l2"><a href="#why-do-we-use-service-layer">Why do we use Service Layer?</a></li><li class="l2"><a href="#service-layer-in-the-example">Service Layer in the Example</a></li><li class="l2"><a href="#working-in-the-example">Working in the Example</a></li><li class="l2"><a href="#issuance-services">Issuance Services</a></li><li class="l2"><a href="#service-layer-vs-service-layer-design-pattern">Service Layer vs. Service Layer Design Pattern</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 3 · Segment 4 &quot;Service Layer&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-3-segment-4-service-layer">Week 3 · Segment 4. Service Layer <a class="anchor" aria-label="링크" href="#week-3-segment-4-service-layer">#</a></h1>
+<h2 id="service-layer">Service Layer <a class="anchor" aria-label="링크" href="#service-layer">#</a></h2>
+<blockquote>
+<p>A Service Layer is a dedicated part of your application that contains <strong>business logic</strong>: the rules, operations, and workflows of your system. Purpose: keep controllers clean, centralize logic in one place, make code easier to maintain and test, promote modular design.</p>
+</blockquote>
+<h2 id="why-do-we-use-service-layer">Why do we use Service Layer? <a class="anchor" aria-label="링크" href="#why-do-we-use-service-layer">#</a></h2>
+<blockquote>
+<ul>
+<li>Avoids <strong>&quot;fat controllers&quot;</strong></li>
+<li>Encourages separation of concerns</li>
+<li>Makes the system easier to extend</li>
+<li>Allows reuse of logic across multiple controllers</li>
+</ul>
+<p>Key Concept: <strong>Controllers coordinate, services think.</strong></p>
+</blockquote>
+<h2 id="service-layer-in-the-example">Service Layer in the Example <a class="anchor" aria-label="링크" href="#service-layer-in-the-example">#</a></h2>
+<blockquote>
+<p>controllers/ handles user actions, services/ contains business logic, models/ holds data structures. LibraryController calls BookService, UserService, IssuanceService.</p>
+</blockquote>
+<h2 id="working-in-the-example">Working in the Example <a class="anchor" aria-label="링크" href="#working-in-the-example">#</a></h2>
+<blockquote>
+<p>Controller receives input, delegates to a service (<code>bookService.addBook(book)</code>). Service validates, updates internal data, applies rules, and returns results. <strong>Controller does NOT contain logic.</strong></p>
+</blockquote>
+<h2 id="issuance-services">Issuance Services <a class="anchor" aria-label="링크" href="#issuance-services">#</a></h2>
+<blockquote>
+<p>Handles rules like &quot;A book cannot be issued twice&quot; and &quot;A user must exist before issuing&quot;. These are <strong>business rules, not controller rules</strong>.</p>
+</blockquote>
+<h2 id="service-layer-vs-service-layer-design-pattern">Service Layer vs. Service Layer Design Pattern <a class="anchor" aria-label="링크" href="#service-layer-vs-service-layer-design-pattern">#</a></h2>
+<blockquote>
+<p>What we implemented: a Service Layer. What we did NOT implement yet: the full Service Layer Design Pattern, which includes <strong>interfaces, dependency injection, stateless services, repository layer</strong>. Coming soon.</p>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

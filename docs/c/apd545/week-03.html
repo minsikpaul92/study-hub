@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 3. 컬렉션, 제네릭, 서비스 계층 · APD545</title><meta name="description" content="Week 3. 컬렉션, 제네릭, 서비스 계층 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 3</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-3-segment-1-java-collections-framework">1. 📑 강의 슬라이드: Week 3 · Segment 1. Java Collections Framework</a></li><li class="l3"><a href="#outcomes">📑 Outcomes</a></li><li class="l3"><a href="#the-collection">📑 The Collection</a></li><li class="l3"><a href="#collection-interface-hierarchy">📑 Collection interface hierarchy</a></li><li class="l3"><a href="#collection-example-basic">📑 Collection Example (Basic)</a></li><li class="l3"><a href="#collection-vs-collections">📑 Collection vs Collections</a></li><li class="l3"><a href="#java-arraylist">📑 Java ArrayList</a></li><li class="l3"><a href="#non-generic-vs-generic-collection">📑 Non-generic vs Generic Collection</a></li><li class="l3"><a href="#arraylist-vs-vector">📑 ArrayList VS Vector</a></li><li class="l3"><a href="#the-list">📑 The List</a></li><li class="l3"><a href="#arraylist-methods">📑 ArrayList methods</a></li><li class="l3"><a href="#two-ways-to-implement-lists">📑 Two Ways to Implement Lists</a></li><li class="l3"><a href="#examining-list">📑 Examining List</a></li><li class="l3"><a href="#set-interface">📑 Set Interface</a></li><li class="l3"><a href="#set-implementation">📑 Set implementation</a></li><li class="l3"><a href="#equals-and-hashcode-in-a-hashset">📑 equals() and hashCode() in a HashSet</a></li><li class="l3"><a href="#set-and-list-performance">📑 Set and List Performance</a></li><li class="l3"><a href="#the-map-interface">📑 The Map Interface</a></li><li class="l3"><a href="#map-methods">📑 Map methods</a></li><li class="l3"><a href="#hash-table">📑 Hash Table</a></li><li class="l3"><a href="#map-implementation">📑 Map Implementation</a></li><li class="l3"><a href="#keyset-and-values">📑 keySet and values</a></li><li class="l3"><a href="#reversing-a-map">📑 Reversing a map</a></li><li class="l2"><a href="#2-강의-슬라이드-week-3-segment-2-java-iterators">2. 📑 강의 슬라이드: Week 3 · Segment 2. Java Iterators</a></li><li class="l3"><a href="#iterators">📑 Iterators</a></li><li class="l3"><a href="#the-three-methods">📑 The three methods</a></li><li class="l3"><a href="#iterator-example">📑 Iterator example</a></li><li class="l3"><a href="#limitations-of-iterator-interface">📑 Limitations of Iterator Interface</a></li><li class="l3"><a href="#iterator-vs-iterable">📑 Iterator VS Iterable</a></li><li class="l3"><a href="#java-iterator-vs-c-iterator">📑 Java Iterator VS C++ Iterator</a></li><li class="l2"><a href="#3-강의-슬라이드-week-3-segment-3-generics">3. 📑 강의 슬라이드: Week 3 · Segment 3. Generics</a></li><li class="l3"><a href="#what-is-generics">📑 What is Generics?</a></li><li class="l3"><a href="#motivation">📑 Motivation</a></li><li class="l3"><a href="#generic-class">📑 Generic class</a></li><li class="l3"><a href="#generic-type-and-parameterized-type">📑 Generic Type and Parameterized Type</a></li><li class="l3"><a href="#type-parameter-naming-conventions">📑 Type Parameter Naming Conventions</a></li><li class="l3"><a href="#multiple-type-parameters">📑 Multiple Type Parameters</a></li><li class="l3"><a href="#why-generics-benefits">📑 Why Generics: Benefits</a></li><li class="l3"><a href="#generic-class-example-genericbox">📑 Generic Class example: GenericBox</a></li><li class="l3"><a href="#type-erasure">📑 Type Erasure</a></li><li class="l3"><a href="#raw-types">📑 Raw Types</a></li><li class="l3"><a href="#generic-method">📑 Generic method</a></li><li class="l3"><a href="#restrictions">📑 Restrictions</a></li><li class="l2"><a href="#4-강의-슬라이드-week-3-segment-4-service-layer">4. 📑 강의 슬라이드: Week 3 · Segment 4. Service Layer</a></li><li class="l3"><a href="#service-layer">📑 Service Layer</a></li><li class="l3"><a href="#why-do-we-use-service-layer">📑 Why do we use Service Layer?</a></li><li class="l3"><a href="#service-layer-in-the-example">📑 Service Layer in the Example</a></li><li class="l3"><a href="#working-in-the-example">📑 Working in the Example</a></li><li class="l3"><a href="#issuance-services">📑 Issuance Services</a></li><li class="l3"><a href="#service-layer-vs-service-layer-design-pattern">📑 Service Layer vs. Service Layer Design Pattern</a></li><li class="l2"><a href="#5-교수님-샘플-코드-week-3-sample-wk_3_ds_lib_service">5. 💻 교수님 샘플 코드: Week 3 · Sample: WK_3_DS_Lib_Service</a></li><li class="l3"><a href="#project-structure">💻 Project Structure</a></li><li class="l3"><a href="#example-bookservice-hashmap-by-isbn">💻 Example: BookService (HashMap by ISBN)</a></li><li class="l3"><a href="#example-issuanceservice-linkedhashmap-entryset">💻 Example: IssuanceService (LinkedHashMap + entrySet)</a></li><li class="l3"><a href="#example-librarycontrollerissuebook">💻 Example: LibraryController.issueBook</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-3">🧩 이번 주 토이 프로젝트: CafeOrder Week 3</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-3">✅ 시험 대비 체크리스트 (Week 3)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-3-컬렉션-iterator-제네릭-서비스-계층">Week 3. 컬렉션, Iterator, 제네릭, 서비스 계층 <a class="anchor" aria-label="링크" href="#week-3-컬렉션-iterator-제네릭-서비스-계층">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. 💻 표시는 교수님 샘플 코드(<code>WK_3_DS_Lib_Service</code>)예요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요.</p>
+<p>이 주의 <code>List</code>, <code>Map</code>, 제네릭 <code>&lt;T&gt;</code>는 Week 5 이후 <code>ObservableList</code>, Repository(<code>Map&lt;Integer, Student&gt;</code>)에서 매일 써요. <strong>Service Layer</strong>는 Week 6~7 DI, Repository, Service 패턴의 첫 단추예요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Collection vs Collections</td>
+<td>인터페이스(뿌리) vs 유틸 클래스(<code>sort</code>, <code>shuffle</code>)</td>
+<td>이름 하나 차이 함정</td>
+</tr>
+<tr>
+<td>List</td>
+<td>순서 있음, <strong>중복 허용</strong>, 인덱스</td>
+<td><code>remove(1)</code>은 인덱스, <code>remove(Integer.valueOf(1))</code>은 값</td>
+</tr>
+<tr>
+<td>ArrayList vs LinkedList</td>
+<td>배열(조회 O(1), 중간 삽입 O(n)) vs 노드 연결(중간 삽입 빠름)</td>
+<td>어느 게 빠른가</td>
+</tr>
+<tr>
+<td>ArrayList vs Vector</td>
+<td>Vector는 synchronized(느림, legacy), 2배로 늘어남</td>
+<td>표 비교</td>
+</tr>
+<tr>
+<td>Set</td>
+<td><strong>중복 없음</strong>. Hash(순서 없음) / LinkedHash(넣은 순서) / Tree(정렬)</td>
+<td>출력 순서 맞히기</td>
+</tr>
+<tr>
+<td>Map</td>
+<td>key → value. key 중복 없음, <code>put</code>은 덮어씀, 없는 key <code>get</code>은 <strong>null</strong></td>
+<td><code>keySet()</code>, <code>values()</code>, <code>entrySet()</code></td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td><code>hasNext()</code>, <code>next()</code>, <code>remove()</code>. 순회 중 삭제는 iterator로</td>
+<td>foreach 안 <code>remove</code>는 <code>ConcurrentModificationException</code></td>
+</tr>
+<tr>
+<td>Generics</td>
+<td>타입을 매개변수로. <strong>컴파일 시간</strong>에 타입 검사, 캐스팅 제거</td>
+<td><code>Store&lt;int&gt;</code> 에러, static T 에러</td>
+</tr>
+<tr>
+<td>Type erasure</td>
+<td>컴파일 후 T는 Object로 바뀌고 캐스팅이 자동 삽입</td>
+<td>정의</td>
+</tr>
+<tr>
+<td>Service Layer</td>
+<td>비즈니스 규칙은 서비스에. &quot;Controllers coordinate, services think.&quot;</td>
+<td>fat controller</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li><code>indexOf</code>가 못 찾으면 <strong>-1</strong>, <code>Map.get</code>이 못 찾으면 <strong>null</strong>.</li>
+<li><code>subList(1, 3)</code>은 인덱스 1, 2만 (끝은 <strong>포함 안 함</strong>).</li>
+<li><code>HashSet</code>, <code>HashMap</code> 출력 순서는 <strong>예측 불가</strong>. 순서를 물으면 LinkedHash(넣은 순서) 또는 Tree(정렬)를 써야 함.</li>
+<li>내가 만든 클래스를 HashSet/HashMap key에 넣을 때 <strong><code>equals()</code>와 <code>hashCode()</code>를 둘 다</strong> override해야 중복이 걸러진다.</li>
+<li>제네릭 타입 인자는 <strong>기본형 불가</strong>: <code>List&lt;int&gt;</code> X, <code>List&lt;Integer&gt;</code> O.</li>
+<li><code>Collection&lt;String&gt; c = new ArrayList&lt;&gt;();</code>로 선언하면 <code>c.get(0)</code>은 <strong>없다</strong> (Collection에는 인덱스 메서드가 없음).</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Collection Example (Basic)</a></td>
+<td>collection1, collection2로 addAll, retainAll, removeAll 결과를 직접 확인</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Set implementation</a></td>
+<td>HashSet, LinkedHashSet, TreeSet에 같은 도시를 넣고 출력 순서 비교</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Map Implementation</a></td>
+<td>HashMap, TreeMap, LinkedHashMap에 같은 이름과 나이를 넣고 출력 순서 비교</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Iterator example</a></td>
+<td>flowers 리스트를 Iterator로 출력하고, 이어서 &quot;s&quot;로 시작하는 꽃만 it.remove()로 지워 보기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Generic class</a></td>
+<td>Store<T>를 만들고 Store<String>에 숫자를 넣으면 컴파일 에러가 나는지 확인</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Generic Class example: GenericBox</a></td>
+<td>GenericBox를 쳐서 String, Integer, Double 세 상자의 toString 출력 확인</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-3-segment-1-java-collections-framework">1. 📑 강의 슬라이드: Week 3 · Segment 1. Java Collections Framework <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-3-segment-1-java-collections-framework">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Java가 기본으로 주는 자료구조 세트(Collections Framework)예요. <strong>List, Set, Map</strong> 세 가지를 언제 무엇을 쓰는지, 출력이 어떻게 나오는지가 핵심이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 이번 세그먼트 목표: List, Set, Map 이해하기.</li>
+<li>👀 <strong>The Collection</strong>: 컬렉션 = 객체 여러 개를 담는 그릇 객체. 카드 패(목록), 편지함(목록), 전화번호부(이름 → 번호 짝)처럼 일상의 &quot;모음&quot;을 코드로 옮긴 거예요.</li>
+<li>👀 <strong>Collection interface hierarchy</strong>: ├ List (ArrayList, LinkedList, Vector, Stack)</li>
+<li>⌨️ <strong><a href="#practice-1">Collection Example (Basic)</a></strong>:  (⌨️ collection1, collection2로 addAll, retainAll, removeAll 결과를 직접 확인)</li>
+<li>👀 <strong>Collection vs Collections</strong>: <code>Collection</code>(s 없음) = 인터페이스, <code>Collections</code>(s 있음) = 정적 메서드 모음 클래스.</li>
+<li>👀 <strong>Java ArrayList</strong>: ArrayList = 자동으로 커지는 배열. C++의 <code>vector</code>와 같아요.</li>
+<li>👀 <strong>Non-generic vs Generic Collection</strong>: 옛날 방식 <code>ArrayList list = new ArrayList();</code>(raw type)은 아무 타입이나 들어가서, 꺼낼 때 캐스팅해야 하고 잘못 넣으면 실행 중에 터져요.</li>
+<li>👀 <strong>ArrayList VS Vector</strong>: 요즘 코드는 거의 ArrayList예요. Vector는 모든 메서드가 <code>synchronized</code>(한 번에 한 스레드만)라서 안전하지만 느려요.</li>
+<li>👀 <strong>The List</strong>: List의 세 가지 특징: 순서, 중복 허용, 인덱스 접근.</li>
+<li>👀 <strong>ArrayList methods</strong>: List<Integer> l = new ArrayList&lt;&gt;(List.of(10, 20, 30, 40));</li>
+<li>👀 <strong>Two Ways to Implement Lists</strong>: 노드 코드: <code>head</code>는 첫 노드, <code>tail</code>은 마지막 노드.</li>
+<li>👀 <strong>Examining List</strong>: foreach로 돌면서 그 리스트를 <code>remove</code>하면 보통 <code>ConcurrentModificationException</code>이 나요.</li>
+<li>👀 <strong>Set Interface</strong>: Set = 중복 없는 모음. 새 메서드는 없고 &quot;중복 금지&quot;라는 규칙만 추가해요.</li>
+<li>⌨️ <strong><a href="#practice-2">Set implementation</a></strong>:  (⌨️ HashSet, LinkedHashSet, TreeSet에 같은 도시를 넣고 출력 순서 비교)</li>
+<li>👀 <strong>equals() and hashCode() in a HashSet</strong>: Book 두 개는 내용이 같아도 다른 객체라서, <code>equals</code>와 <code>hashCode</code>를 override하지 않으면 HashSet에 둘 다 들어가요.</li>
+<li>👀 <strong>Set and List Performance</strong>: 5000개 <code>contains</code> 실험: HashSet 약 20ms vs ArrayList 약 40,000ms.</li>
+<li>👀 <strong>The Map Interface</strong>: Map = 사전. 단어(key)로 뜻(value)을 찾아요.</li>
+<li>👀 <strong>Map methods</strong>: Map&lt;String, Integer&gt; m = new HashMap&lt;&gt;();</li>
+<li>👀 <strong>Hash Table</strong>: 해시 테이블 원리: key → <code>hashCode()</code> → 버킷 번호 → 그 버킷의 연결 리스트에서 <code>equals</code>로 찾기.</li>
+<li>⌨️ <strong><a href="#practice-3">Map Implementation</a></strong>:  (⌨️ HashMap, TreeMap, LinkedHashMap에 같은 이름과 나이를 넣고 출력 순서 비교)</li>
+<li>👀 <strong>keySet and values</strong>: <code>for (String name : ages.keySet())</code>로 key를 돌고 <code>ages.get(name)</code>으로 값을 꺼내요.</li>
+<li>👀 <strong>Reversing a map</strong>: GPA → 이름으로 뒤집으면 3.6인 사람이 두 명인데 key는 하나라 마지막 put만 남아요(Stef가 Jared를 덮어씀).</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 3 · Segment 1 &quot;Collection Framework&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h3>
+<blockquote>
+<p>Understanding of Collections: Lists, Sets, Maps</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이번 세그먼트 목표: <strong>List, Set, Map</strong> 이해하기.</p>
+</div><h3 id="the-collection">📑 The Collection <a class="anchor" aria-label="링크" href="#the-collection">#</a></h3>
+<blockquote>
+<p>A collection is a container object that represents a group of objects, often referred to as elements. Examples: a poker hand (collection of cards), a mail folder (collection of letters), a telephone directory (mapping of names to phone numbers).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>컬렉션 = 객체 여러 개를 담는 <strong>그릇 객체</strong>. 카드 패(목록), 편지함(목록), 전화번호부(이름 → 번호 짝)처럼 일상의 &quot;모음&quot;을 코드로 옮긴 거예요. 배열과 달리 <strong>크기가 자동으로</strong> 늘고 줄어요.</p>
+</div><h3 id="collection-interface-hierarchy">📑 Collection interface hierarchy <a class="anchor" aria-label="링크" href="#collection-interface-hierarchy">#</a></h3>
+<blockquote>
+<p>The <strong>Collection</strong> interface is the root interface for manipulating a collection of objects. <code>java.util</code> contains all the collections framework interfaces. Sub-interfaces: <strong>Set, List, Queue, Deque</strong>. (Map is a separate hierarchy.)</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Collection</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<blockquote>
+<p><code>&lt;E&gt;</code> tells you that the interface is generic. <code>Iterable&lt;T&gt;</code> is from <code>java.lang</code> with one method <code>iterator()</code>, so any collection can be used in a for-each loop.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>구조를 그림으로 외우세요.</p>
+<pre class="hl"><code class="language-text">Iterable
+  └ Collection
+      ├ List   (ArrayList, LinkedList, Vector, Stack)
+      ├ Set    (HashSet, LinkedHashSet, TreeSet)
+      └ Queue  (PriorityQueue), Deque (ArrayDeque)
+Map (따로!)  (HashMap, LinkedHashMap, TreeMap)
+</code></pre>
+<p><strong>Map은 Collection을 상속하지 않아요.</strong> 짝(key, value)으로 저장하니까 구조가 달라요. 시험 단골이에요.</p>
+<p><code>Collection&lt;E&gt; extends Iterable&lt;E&gt;</code>라서 모든 컬렉션은 <code>for (E e : collection)</code>이 돼요.</p>
+</div><h3 id="collection-example-basic">📑 Collection Example (Basic) <a class="anchor" aria-label="링크" href="#collection-example-basic">#</a></h3>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: collection1, collection2로 addAll, retainAll, removeAll 결과를 직접 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">collection1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Atlanta"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">);</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Madison"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">collection1</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">));</span><span class="w">   </span><span class="c1">// true</span>
+<span class="n">collection1</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="s">"Dallas"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">collection1</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">               </span><span class="c1">// 3</span>
+
+<span class="n">Collection</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">collection2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Seattle"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Portland"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Los Angeles"</span><span class="p">);</span>
+<span class="n">collection2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Atlanta"</span><span class="p">);</span>
+
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">addAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">      </span><span class="c1">// union:        [New York, Atlanta, Madison, Seattle, Portland, Los Angeles, Atlanta]</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">retainAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">   </span><span class="c1">// intersection: [Atlanta]</span>
+<span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="n">collection1</span><span class="p">.</span><span class="na">clone</span><span class="p">();</span>
+<span class="n">c1</span><span class="p">.</span><span class="na">removeAll</span><span class="p">(</span><span class="n">collection2</span><span class="p">);</span><span class="w">   </span><span class="c1">// difference:   [New York, Madison]</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>집합 연산 세 개를 기억하세요.</p>
+<ul>
+<li><code>addAll</code> = <strong>합집합</strong> (List라서 중복 Atlanta가 두 번 들어가요)</li>
+<li><code>retainAll</code> = <strong>교집합</strong> (둘 다에 있는 것만 남김)</li>
+<li><code>removeAll</code> = <strong>차집합</strong> (상대에 있는 것 빼기)</li>
+</ul>
+<p><code>clone()</code>으로 복사본을 만든 다음 연산하는 이유: 원본 <code>collection1</code>을 망가뜨리지 않으려고요. <code>clone()</code>은 <code>Object</code>를 돌려주니까 <code>(ArrayList&lt;String&gt;)</code> 캐스팅이 필요해요.</p>
+<p><code>collection2</code>는 <code>Collection&lt;String&gt;</code> 타입으로 선언했어요. <strong>인터페이스 타입으로 선언</strong>하는 습관, Week 2에서 배운 거죠.</p>
+</div><h3 id="collection-vs-collections">📑 Collection vs Collections <a class="anchor" aria-label="링크" href="#collection-vs-collections">#</a></h3>
+<blockquote>
+<p><code>Collection</code> is the root <strong>interface</strong>. <code>Collections</code> is a <strong>utility class</strong> with static methods such as <code>sort</code>, <code>shuffle</code>, <code>max</code>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Collection</code>(s 없음) = 인터페이스, <code>Collections</code>(s 있음) = 정적 메서드 모음 클래스. 예: <code>Collections.sort(list)</code>, <code>Collections.shuffle(list)</code>, <code>Collections.max(list)</code>. <code>Arrays</code>(배열 도우미)와 <code>Array</code>의 관계와 같아요.</p>
+</div><h3 id="java-arraylist">📑 Java ArrayList <a class="anchor" aria-label="링크" href="#java-arraylist">#</a></h3>
+<blockquote>
+<ul>
+<li>Uses a <strong>dynamic array</strong> for storing the elements. There is no size limit.</li>
+<li>Can have <strong>duplicate</strong> elements. Maintains the <strong>insertion order</strong>.</li>
+<li>Implements the List interface.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ArrayList = <strong>자동으로 커지는 배열</strong>. C++의 <code>vector</code>와 같아요. 중복 허용, 넣은 순서 유지.</p>
+</div><h3 id="non-generic-vs-generic-collection">📑 Non-generic vs Generic Collection <a class="anchor" aria-label="링크" href="#non-generic-vs-generic-collection">#</a></h3>
+<blockquote>
+<p>Java generic collection allows you to have only one type of object in a collection. Now it is <strong>type-safe</strong>, so typecasting is not required at runtime. If you try to add another type of object, it gives a <strong>compile-time error</strong>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ArrayList</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="p">();</span><span class="w">                  </span><span class="c1">// old non-generic (raw)</span>
+<span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="p">();</span><span class="w">  </span><span class="c1">// generic</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>옛날 방식 <code>ArrayList list = new ArrayList();</code>(raw type)은 아무 타입이나 들어가서, 꺼낼 때 캐스팅해야 하고 잘못 넣으면 <strong>실행 중에</strong> 터져요. <code>ArrayList&lt;String&gt;</code>처럼 타입을 정하면 다른 타입을 넣는 순간 <strong>컴파일 에러</strong>로 막아 줘요. 오른쪽은 <code>new ArrayList&lt;&gt;()</code>처럼 <strong>다이아몬드</strong>로 줄여 써요.</p>
+</div><h3 id="arraylist-vs-vector">📑 ArrayList VS Vector <a class="anchor" aria-label="링크" href="#arraylist-vs-vector">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>ArrayList</th>
+<th>Vector</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>not synchronized, so <strong>fast</strong></td>
+<td><strong>synchronized</strong> (thread-safe), so slower</td>
+</tr>
+<tr>
+<td>grows by <strong>50%</strong></td>
+<td>grows by <strong>100%</strong> (doubles)</td>
+</tr>
+<tr>
+<td>not legacy (JDK 1.2)</td>
+<td>legacy class</td>
+</tr>
+<tr>
+<td>Iterator</td>
+<td>Iterator or Enumeration</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>요즘 코드는 거의 ArrayList예요. Vector는 모든 메서드가 <code>synchronized</code>(한 번에 한 스레드만)라서 안전하지만 느려요. 시험에는 표의 숫자(<strong>50% vs 100%</strong>)와 &quot;Vector is legacy&quot;가 나와요. 스레드 안전은 Week 11에서 다시 봐요.</p>
+</div><h3 id="the-list">📑 The List <a class="anchor" aria-label="링크" href="#the-list">#</a></h3>
+<blockquote>
+<p>A List stores <strong>duplicate</strong> elements, lets the user specify <strong>where</strong> the element is stored, and access the element <strong>by index</strong> (0-based).</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">arrayList</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">linkedList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>List의 세 가지 특징: <strong>순서</strong>, <strong>중복 허용</strong>, <strong>인덱스 접근</strong>. 선언은 <code>List&lt;Integer&gt; list = new ArrayList&lt;&gt;();</code>처럼 왼쪽 인터페이스, 오른쪽 구현.</p>
+</div><h3 id="arraylist-methods">📑 ArrayList methods <a class="anchor" aria-label="링크" href="#arraylist-methods">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add(value)</code> / <code>add(index, value)</code></td>
+<td>append / insert, shifting later values right</td>
+</tr>
+<tr>
+<td><code>get(index)</code> / <code>set(index, value)</code></td>
+<td>read / replace</td>
+</tr>
+<tr>
+<td><code>remove(index)</code> / <code>remove(value)</code></td>
+<td>remove by position / by value</td>
+</tr>
+<tr>
+<td><code>indexOf(value)</code> / <code>lastIndexOf(value)</code></td>
+<td>first / last index, <strong>-1 if not found</strong></td>
+</tr>
+<tr>
+<td><code>contains(value)</code>, <code>size()</code>, <code>clear()</code>, <code>isEmpty()</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>subList(from, to)</code></td>
+<td>from <strong>inclusive</strong>, to <strong>exclusive</strong></td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>헷갈리는 두 개:</p>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">));</span>
+<span class="n">l</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">                    </span><span class="c1">// 인덱스 1 삭제 → [10, 30, 40]</span>
+<span class="n">l</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">valueOf</span><span class="p">(</span><span class="mi">30</span><span class="p">));</span><span class="w">  </span><span class="c1">// 값 30 삭제   → [10, 40]</span>
+</code></pre>
+<p><code>Integer</code> 리스트에서 <code>remove(1)</code>은 <strong>인덱스</strong>로 해석돼요. 값으로 지우려면 <code>Integer.valueOf(...)</code>로 감싸요. (직접 돌려서 확인했어요.)</p>
+<p><code>add(index, value)</code>는 그 자리에 <strong>끼워 넣고</strong> 뒤를 밀어요. <code>set(index, value)</code>는 <strong>바꿔치기</strong>예요.</p>
+</div><h3 id="two-ways-to-implement-lists">📑 Two Ways to Implement Lists <a class="anchor" aria-label="링크" href="#two-ways-to-implement-lists">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Array</strong>: if the capacity is exceeded, create a new larger array and copy. ArrayList default capacity is 10, increased by 50%. Fast random access O(1). <code>add(index, e)</code> and <code>remove(index)</code> shift elements: O(n). <code>contains()</code>, <code>indexOf()</code> use <code>equals()</code>: O(n).</li>
+<li><strong>Linked list</strong>: a linked structure consists of nodes. Each node holds an element and a link to its next neighbor. Efficient for adding and removing anywhere.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">E</span><span class="w"> </span><span class="n">element</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Node</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Node</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">o</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Node</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">head</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">);</span>
+<span class="n">Node</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">head</span><span class="p">;</span>
+<span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Node</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"Denver"</span><span class="p">);</span>
+<span class="n">tail</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tail</span><span class="p">.</span><span class="na">next</span><span class="p">;</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>ArrayList (배열)</th>
+<th>LinkedList (노드)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get(i)</code></td>
+<td>O(1) 빠름</td>
+<td>O(n) 앞에서부터 따라감</td>
+</tr>
+<tr>
+<td>중간 <code>add</code>, <code>remove</code></td>
+<td>O(n) 밀고 당김</td>
+<td>위치만 알면 O(1)</td>
+</tr>
+<tr>
+<td>메모리</td>
+<td>값만</td>
+<td>값 + 다음 노드 주소</td>
+</tr>
+</tbody>
+</table>
+<p>노드 코드: <code>head</code>는 첫 노드, <code>tail</code>은 마지막 노드. 새 노드 추가는 <code>tail.next = new Node&lt;&gt;(...)</code> 후 <code>tail = tail.next</code>. 빈 리스트면 head, tail 둘 다 <code>null</code>.</p>
+<p><code>contains</code>, <code>indexOf</code>는 둘 다 처음부터 <strong><code>equals()</code>로</strong> 하나씩 비교해서 O(n). 검색이 잦으면 HashSet(O(1))을 쓰라는 게 슬라이드 결론이에요.</p>
+</div><h3 id="examining-list">📑 Examining List <a class="anchor" aria-label="링크" href="#examining-list">#</a></h3>
+<blockquote>
+<p>Elements of Sets and Maps can't be accessed by index; must use a &quot;foreach&quot; loop. Problem: <strong>foreach is read-only</strong>; cannot modify while looping.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">score</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">scores</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">score</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">scores</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">score</span><span class="p">);</span><span class="w">   </span><span class="c1">// throws ConcurrentModificationException</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>foreach로 돌면서 그 리스트를 <code>remove</code>하면 보통 **<code>ConcurrentModificationException</code>**이 나요. 해결은 Segment 2의 <strong>Iterator의 <code>remove()</code></strong>:</p>
+<pre class="hl"><code class="language-java"><span class="n">Iterator</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">it</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scores</span><span class="p">.</span><span class="na">iterator</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="na">next</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">60</span><span class="p">)</span><span class="w"> </span><span class="n">it</span><span class="p">.</span><span class="na">remove</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<p>또는 Java 8부터 <code>scores.removeIf(s -&gt; s &lt; 60);</code> 한 줄.</p>
+</div><h3 id="set-interface">📑 Set Interface <a class="anchor" aria-label="링크" href="#set-interface">#</a></h3>
+<blockquote>
+<p>The Set interface extends Collection. It does not introduce new methods, but it stipulates that an instance of Set contains <strong>no duplicate elements</strong>: no two elements e1 and e2 such that <code>e1.equals(e2)</code> is true.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Set = <strong>중복 없는</strong> 모음. 새 메서드는 없고 &quot;중복 금지&quot;라는 <strong>규칙</strong>만 추가해요. 중복 판단은 <code>equals()</code>로 해요 (HashSet은 <code>hashCode()</code>도 같이).</p>
+</div><h3 id="set-implementation">📑 Set implementation <a class="anchor" aria-label="링크" href="#set-implementation">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>HashSet</strong>: hash table. Very fast O(1). Elements stored in <strong>unpredictable order</strong>. Default capacity 16, load factor 0.75. Internally uses HashMap.</li>
+<li><strong>LinkedHashSet</strong>: O(1), but stores in <strong>order of insertion</strong>.</li>
+<li><strong>TreeSet</strong>: binary search tree. O(log N). Elements stored in <strong>sorted order</strong>. <code>first()</code>, <code>last()</code>.</li>
+</ul>
+</blockquote>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: HashSet, LinkedHashSet, TreeSet에 같은 도시를 넣고 출력 순서 비교</p>
+<pre class="hl"><code class="language-java"><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"London"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Paris"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span>
+<span class="n">set</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"New York"</span><span class="p">);</span><span class="w">          </span><span class="c1">// added twice, kept once</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">set</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">  </span><span class="c1">// 3</span>
+<span class="n">set</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 개의 차이는 <strong>순서</strong>예요. 같은 도시를 넣었을 때 (직접 돌린 결과):</p>
+<ul>
+<li><code>HashSet</code>: <code>[San Francisco, Beijing, New York, London, Paris]</code> 순서 뒤죽박죽</li>
+<li><code>LinkedHashSet</code>: <code>[London, Paris, New York, San Francisco, Beijing]</code> 넣은 순서</li>
+<li><code>TreeSet</code>: <code>[Beijing, London, New York, Paris, San Francisco]</code> 알파벳 순</li>
+</ul>
+<p>&quot;New York&quot;을 두 번 넣어도 <strong>하나만</strong> 남아요. <code>set.forEach(e -&gt; ...)</code>는 Week 10 람다 미리보기예요.</p>
+</div><h3 id="equals-and-hashcode-in-a-hashset">📑 equals() and hashCode() in a HashSet <a class="anchor" aria-label="링크" href="#equals-and-hashcode-in-a-hashset">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">Book</span><span class="w"> </span><span class="n">book1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">"Walden"</span><span class="p">,</span><span class="w"> </span><span class="s">"Henry Thoreau"</span><span class="p">,</span><span class="w"> </span><span class="mi">1854</span><span class="p">);</span>
+<span class="n">Book</span><span class="w"> </span><span class="n">book2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">(</span><span class="s">"Walden"</span><span class="p">,</span><span class="w"> </span><span class="s">"Henry Thoreau"</span><span class="p">,</span><span class="w"> </span><span class="mi">1854</span><span class="p">);</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashSet</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">set2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">book1</span><span class="p">);</span>
+<span class="n">set2</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">book2</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">set2</span><span class="p">.</span><span class="na">size</span><span class="p">());</span><span class="w">   </span><span class="c1">// 2 without equals/hashCode, 1 after overriding both</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Book 두 개는 내용이 같아도 <strong>다른 객체</strong>라서, <code>equals</code>와 <code>hashCode</code>를 override하지 않으면 HashSet에 <strong>둘 다</strong> 들어가요. (기본 <code>equals</code>는 주소 비교.)</p>
+<p>규칙: <strong>equals가 true인 두 객체는 hashCode도 같아야</strong> 해요. HashSet은 먼저 hashCode로 버킷을 찾고, 그 안에서 equals로 비교하거든요. 하나만 override하면 중복이 안 걸러져요.</p>
+</div><h3 id="set-and-list-performance">📑 Set and List Performance <a class="anchor" aria-label="링크" href="#set-and-list-performance">#</a></h3>
+<blockquote>
+<p>Conclusion: <strong>Sets are more efficient than Lists</strong> for testing whether an element is in a set or list.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>5000개 <code>contains</code> 실험: HashSet 약 20ms vs ArrayList 약 40,000ms. &quot;이게 있나?&quot;를 자주 물으면 <strong>Set</strong>이 압도적으로 빨라요.</p>
+</div><h3 id="the-map-interface">📑 The Map Interface <a class="anchor" aria-label="링크" href="#the-map-interface">#</a></h3>
+<blockquote>
+<p>A Map stores a collection of <strong>key/value pairs</strong>. The keys are like indexes. In List, the indexes are integer. In Map, the keys can be any objects. <strong>Cannot contain duplicate keys.</strong> Each key maps to one value.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Map = <strong>사전</strong>. 단어(key)로 뜻(value)을 찾아요. List의 인덱스가 0, 1, 2 정수라면 Map의 key는 아무 객체(보통 String, Integer). key는 중복 불가, value는 중복 가능.</p>
+</div><h3 id="map-methods">📑 Map methods <a class="anchor" aria-label="링크" href="#map-methods">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>method</th>
+<th>meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>put(key, value)</code></td>
+<td>adds a mapping; <strong>if the key already exists, replaces its value</strong></td>
+</tr>
+<tr>
+<td><code>get(key)</code></td>
+<td>value for the key (<strong>null if not found</strong>)</td>
+</tr>
+<tr>
+<td><code>containsKey(key)</code>, <code>containsValue(v)</code>, <code>remove(key)</code>, <code>size()</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>keySet()</code></td>
+<td>a <strong>Set</strong> of all keys</td>
+</tr>
+<tr>
+<td><code>values()</code></td>
+<td>a <strong>Collection</strong> of all values</td>
+</tr>
+<tr>
+<td><code>entrySet()</code></td>
+<td>a Set of entries (key + value)</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>꼭 알 것:</p>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">m</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">     </span><span class="c1">// null 반환 (이전 값 없음)</span>
+<span class="n">m</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w">     </span><span class="c1">// 1 반환, 값이 2로 덮어써짐</span>
+<span class="n">m</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">"a"</span><span class="p">);</span><span class="w">        </span><span class="c1">// 2</span>
+<span class="n">m</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="s">"z"</span><span class="p">);</span><span class="w">        </span><span class="c1">// null (없는 key)</span>
+</code></pre>
+<p>순회 세 가지: <code>keySet()</code>(key만, Set), <code>values()</code>(value만, Collection), <code>entrySet()</code>(둘 다, <code>entry.getKey()</code>, <code>entry.getValue()</code>).</p>
+</div><h3 id="hash-table">📑 Hash Table <a class="anchor" aria-label="링크" href="#hash-table">#</a></h3>
+<blockquote>
+<p>Each slot in an array is a <strong>bucket</strong> that references a linked list of mappings. Hash function: bucket # = f(key, array-size), e.g. <code>key % array-size</code>. In Java: <code>hash(key.hashCode())</code>, then <code>hash &amp; (length - 1)</code>. Insertion uses separate chaining: if a mapping with the key exists, <strong>overwrite</strong> the value. Load factor decides when to resize (rehashing).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>해시 테이블 원리: key → <code>hashCode()</code> → 버킷 번호 → 그 버킷의 연결 리스트에서 <code>equals</code>로 찾기. 그래서 평균 <strong>O(1)</strong>.</p>
+<ul>
+<li>같은 버킷에 여러 개가 들어가는 걸 충돌(collision)이라 하고, 리스트로 이어 붙이는 방식이 <strong>separate chaining</strong>.</li>
+<li><strong>load factor 0.75</strong>: 75% 차면 배열을 키우고 전부 다시 배치(rehashing, 비쌈).</li>
+<li>HashMap은 null key <strong>하나</strong> 허용, TreeMap은 null key 불가(정렬 비교를 못 하니까).</li>
+</ul>
+</div><h3 id="map-implementation">📑 Map Implementation <a class="anchor" aria-label="링크" href="#map-implementation">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>HashMap</strong>: fast, entries in random order. One null key allowed.</li>
+<li><strong>TreeMap</strong>: entries in <strong>increasing order of the keys</strong>.</li>
+<li><strong>LinkedHashMap</strong>: nearly as fast as HashMap, entries in <strong>insertion order</strong>.</li>
+</ul>
+</blockquote>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: HashMap, TreeMap, LinkedHashMap에 같은 이름과 나이를 넣고 출력 순서 비교</p>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">hashMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Smith"</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Anderson"</span><span class="p">,</span><span class="w"> </span><span class="mi">31</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Lewis"</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">);</span>
+<span class="n">hashMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Cook"</span><span class="p">,</span><span class="w"> </span><span class="mi">29</span><span class="p">);</span>
+
+<span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">treeMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">hashMap</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">treeMap</span><span class="p">);</span><span class="w">   </span><span class="c1">// {Anderson=31, Cook=29, Lewis=29, Smith=30}</span>
+
+<span class="n">treeMap</span><span class="p">.</span><span class="na">forEach</span><span class="p">((</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">age</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">": "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Set과 똑같은 3종 세트예요 (실제로 HashSet 안에 HashMap이 들어 있어요).</p>
+<ul>
+<li><code>HashMap</code>: <code>{Lewis=29, Smith=30, Cook=29, Anderson=31}</code> 순서 예측 불가</li>
+<li><code>TreeMap</code>: <code>{Anderson=31, Cook=29, Lewis=29, Smith=30}</code> <strong>key</strong> 알파벳 순</li>
+<li><code>LinkedHashMap</code>: <code>{Smith=30, Anderson=31, Lewis=29, Cook=29}</code> 넣은 순서</li>
+</ul>
+<p>참고: 슬라이드의 LinkedHashMap 출력은 <code>{Smith=30, Anderson=31, Cook=29, Lewis=29}</code>로 적혀 있지만, 넣은 순서가 Smith, Anderson, Lewis, Cook이라 <strong>Lewis가 Cook보다 먼저</strong> 나와야 맞아요.</p>
+<p><code>treeMap.forEach((name, age) -&gt; ...)</code>: Map의 forEach는 매개변수가 <strong>두 개</strong>(key, value)예요.</p>
+</div><h3 id="keyset-and-values">📑 keySet and values <a class="anchor" aria-label="링크" href="#keyset-and-values">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Marty"</span><span class="p">,</span><span class="w"> </span><span class="mi">19</span><span class="p">);</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Geneva"</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span>
+<span class="n">ages</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"Vicki"</span><span class="p">,</span><span class="w"> </span><span class="mi">57</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">ages</span><span class="p">.</span><span class="na">keySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ages</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" -&gt; "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">age</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>for (String name : ages.keySet())</code>로 key를 돌고 <code>ages.get(name)</code>으로 값을 꺼내요. TreeMap이라 Geneva, Marty, Vicki 순으로 나와요.</p>
+<p>참고: 원래 슬라이드는 <code>ages.get(age)</code>로 적혀 있는데, <code>age</code>는 아직 선언 전이라 컴파일 에러예요. <code>ages.get(name)</code>이 맞아요.</p>
+</div><h3 id="reversing-a-map">📑 Reversing a map <a class="anchor" aria-label="링크" href="#reversing-a-map">#</a></h3>
+<blockquote>
+<p>More than one TA can have the same GPA. The map will store <strong>only the last mapping</strong> we add. Really each GPA maps to a collection of people:</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">taGpa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="mf">3.6</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeSet</span><span class="o">&lt;&gt;</span><span class="p">());</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="s">"Jared"</span><span class="p">);</span>
+<span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">).</span><span class="na">add</span><span class="p">(</span><span class="s">"Stef"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">taGpa</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mf">3.6</span><span class="p">));</span><span class="w">   </span><span class="c1">// [Jared, Stef]</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>GPA → 이름으로 뒤집으면 3.6인 사람이 두 명인데 key는 하나라 <strong>마지막 put만 남아요</strong>(Stef가 Jared를 덮어씀). 해결: value를 <strong>Set</strong>으로 해서 <code>Map&lt;Double, Set&lt;String&gt;&gt;</code>. 주의: <code>get(3.6).add(...)</code> 전에 그 key에 빈 Set을 <strong>먼저 put</strong>해야 해요. 안 하면 <code>get</code>이 null이라 <code>NullPointerException</code>.</p>
+<p>Java 8 이후 한 줄 버전: <code>taGpa.computeIfAbsent(3.6, k -&gt; new TreeSet&lt;&gt;()).add(&quot;Jared&quot;);</code></p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-3-segment-2-java-iterators">2. 📑 강의 슬라이드: Week 3 · Segment 2. Java Iterators <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-3-segment-2-java-iterators">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>컬렉션을 하나씩 걸어가며 보는 <strong>커서</strong>(Iterator)예요. 짧지만 &quot;순회 중 안전하게 지우기&quot;가 시험에 잘 나와요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Iterators</strong>: Iterator = 컬렉션 위의 책갈피. 어느 컬렉션이든 같은 방법(<code>hasNext</code>, <code>next</code>)으로 돌 수 있어서 &quot;Universal Cursor&quot;라고 불러요.</li>
+<li>👀 <strong>The three methods</strong>: 패턴은 항상 <code>hasNext()</code>로 확인 → <code>next()</code>로 꺼내기.</li>
+<li>⌨️ <strong><a href="#practice-4">Iterator example</a></strong>:  (⌨️ flowers 리스트를 Iterator로 출력하고, 이어서 &quot;s&quot;로 시작하는 꽃만 it.remove()로 지워 보기)</li>
+<li>👀 <strong>Limitations of Iterator Interface</strong>: Iterator는 앞으로만, 읽기와 삭제만. 뒤로 가기나 <code>set</code>, <code>add</code>가 필요하면 List 전용 <code>ListIterator</code>(<code>hasPrevious</code>, <code>previous</code>, <code>set</code>, <code>add</code>)를 써요.</li>
+<li>👀 <strong>Iterator VS Iterable</strong>: Iterable: &quot;나는 돌 수 있어&quot; 능력. 메서드 <code>iterator()</code> 하나.</li>
+<li>👀 <strong>Java Iterator VS C++ Iterator</strong>: C++은 <code>it != v.end()</code>로 끝을 직접 비교하고 <code>++it</code>, <code>--it</code>, <code>*it = x</code>가 다 돼요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 3 · Segment 2 &quot;Java Iterators&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="iterators">📑 Iterators <a class="anchor" aria-label="링크" href="#iterators">#</a></h3>
+<blockquote>
+<p>An Iterator is a construct/object that is used to traverse or step through the collection. It is part of <code>java.util</code>. Types: Enumerator, Iterator, ListIterator. Popularly known as <strong>&quot;Universal Java Cursor&quot;</strong> as it works with all collections. Supports 'read' and 'remove' operations.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Iterator = 컬렉션 위의 <strong>책갈피</strong>. 어느 컬렉션이든 같은 방법(<code>hasNext</code>, <code>next</code>)으로 돌 수 있어서 &quot;Universal Cursor&quot;라고 불러요. 옛날 Vector에서 쓰던 <code>Enumeration</code>을 대체했어요.</p>
+</div><h3 id="the-three-methods">📑 The three methods <a class="anchor" aria-label="링크" href="#the-three-methods">#</a></h3>
+<blockquote>
+<ul>
+<li><code>E next()</code>: returns the next element. If there are no more elements, throws <strong>NoSuchElementException</strong>.</li>
+<li><code>boolean hasNext()</code>: checks if there are more elements; use it to decide if <code>next()</code> is to be called.</li>
+<li><code>void remove()</code>: removes the last element returned by the iterator. Can be called <strong>only once per next()</strong> call. Throws <strong>IllegalStateException</strong> if <code>next</code> has not been called yet.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>패턴은 항상 <strong><code>hasNext()</code>로 확인 → <code>next()</code>로 꺼내기</strong>. 확인 없이 <code>next()</code>를 부르다 끝을 넘으면 <code>NoSuchElementException</code>.</p>
+<p><code>remove()</code>는 <strong>방금 <code>next()</code>로 받은 것</strong>을 지워요. 그래서 <code>next()</code> 없이 <code>remove()</code>를 부르거나, 한 번의 <code>next()</code> 뒤에 <code>remove()</code>를 두 번 부르면 <code>IllegalStateException</code>.</p>
+</div><h3 id="iterator-example">📑 Iterator example <a class="anchor" aria-label="링크" href="#iterator-example">#</a></h3>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: flowers 리스트를 Iterator로 출력하고, 이어서 &quot;s&quot;로 시작하는 꽃만 it.remove()로 지워 보기</p>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">flowers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">flowers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Rose"</span><span class="p">);</span>
+<span class="n">flowers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Jasmine"</span><span class="p">);</span>
+<span class="n">flowers</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"sunflower"</span><span class="p">);</span>
+
+<span class="n">Iterator</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">flowersIterator</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">flowers</span><span class="p">.</span><span class="na">iterator</span><span class="p">();</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">flowersIterator</span><span class="p">.</span><span class="na">hasNext</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">flowersIterator</span><span class="p">.</span><span class="na">next</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>flowers.iterator()</code>로 Iterator를 얻고 while로 돌아요. 출력: <code>Rose Jasmine sunflower </code>.</p>
+<p>foreach <code>for (String f : flowers)</code>도 내부적으로는 이 Iterator를 써요. 차이는 foreach에서는 <code>remove</code>를 할 수 없다는 것.</p>
+</div><h3 id="limitations-of-iterator-interface">📑 Limitations of Iterator Interface <a class="anchor" aria-label="링크" href="#limitations-of-iterator-interface">#</a></h3>
+<blockquote>
+<ul>
+<li>Cannot replace an element or add a new element.</li>
+<li>Proceeds only in <strong>one direction</strong> (forward). Supports only sequential iteration.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Iterator는 <strong>앞으로만</strong>, <strong>읽기와 삭제만</strong>. 뒤로 가기나 <code>set</code>, <code>add</code>가 필요하면 List 전용 <strong><code>ListIterator</code></strong>(<code>hasPrevious</code>, <code>previous</code>, <code>set</code>, <code>add</code>)를 써요.</p>
+</div><h3 id="iterator-vs-iterable">📑 Iterator VS Iterable <a class="anchor" aria-label="링크" href="#iterator-vs-iterable">#</a></h3>
+<blockquote>
+<p>Though they sound similar, they are completely different. A class that implements <strong>Iterable</strong> acquires the ability to be iterated (it has <code>iterator()</code>, and works with for-each). <strong>Iterator</strong> is the object that does the stepping (<code>hasNext</code>, <code>next</code>, <code>remove</code>).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>Iterable</strong>: &quot;나는 돌 수 있어&quot; 능력. 메서드 <code>iterator()</code> 하나. 구현하면 foreach 가능.</li>
+<li><strong>Iterator</strong>: 실제로 도는 <strong>커서 객체</strong>. <code>hasNext</code>, <code>next</code>, <code>remove</code>.</li>
+</ul>
+<p>비유: Iterable은 책, Iterator는 그 책에 꽂힌 책갈피.</p>
+</div><h3 id="java-iterator-vs-c-iterator">📑 Java Iterator VS C++ Iterator <a class="anchor" aria-label="링크" href="#java-iterator-vs-c-iterator">#</a></h3>
+<blockquote>
+<p>Java iterators are read-only, forward-only (like C++ input iterators) and know their limit (<code>hasNext</code>). C++ iterators can go backwards, write, random access, and the limit is checked by comparing with <code>end()</code>. Java iterators can't be copied.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>C++은 <code>it != v.end()</code>로 끝을 직접 비교하고 <code>++it</code>, <code>--it</code>, <code>*it = x</code>가 다 돼요. Java Iterator는 <code>hasNext()</code>가 끝을 알고, <strong>앞으로만, 읽기 전용</strong>(삭제만 예외)이에요.</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-3-segment-3-generics">3. 📑 강의 슬라이드: Week 3 · Segment 3. Generics <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-3-segment-3-generics">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p><code>List&lt;String&gt;</code>의 <code>&lt;String&gt;</code>이 무엇인지, 내 클래스에 <code>&lt;T&gt;</code>를 붙이는 법을 배워요. C++ template과 비슷하지만 <strong>컴파일할 때만</strong> 존재해요(type erasure).</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is Generics?</strong>: 제네릭 = 타입을 매개변수로 받기. 메서드에 값을 넘기듯이 클래스에 타입을 넘겨요.</li>
+<li>👀 <strong>Motivation</strong>: <code>Object</code>로 다 받으면 아무거나 들어가서 편하지만, 꺼낼 때 캐스팅이 필요하고 잘못된 타입이면 실행 중 <code>ClassCastException</code>.</li>
+<li>⌨️ <strong><a href="#practice-5">Generic class</a></strong>:  (⌨️ Store<T>를 만들고 Store<String>에 숫자를 넣으면 컴파일 에러가 나는지 확인)</li>
+<li>👀 <strong>Generic Type and Parameterized Type</strong>: <code>Store&lt;T&gt;</code>: generic type, T는 type parameter(형식)</li>
+<li>👀 <strong>Type Parameter Naming Conventions</strong>: 관례일 뿐 문법은 아니에요. <code>List&lt;E&gt;</code>, <code>Map&lt;K, V&gt;</code>가 이 관례예요.</li>
+<li>👀 <strong>Multiple Type Parameters</strong>: 쉼표로 여러 개: <code>Pair&lt;K, V&gt;</code>. <code>OrderedPair&lt;String, Integer&gt; p1 = new OrderedPair&lt;&gt;(&quot;One&quot;, 1);</code>에서 <code>1</code>은 int인데 Integer로 자동 박싱돼요.</li>
+<li>👀 <strong>Why Generics: Benefits</strong>: 세 가지: 더 강한 타입 검사, 캐스팅 제거, 타입 안전.</li>
+<li>⌨️ <strong><a href="#practice-6">Generic Class example: GenericBox</a></strong>:  (⌨️ GenericBox를 쳐서 String, Integer, Double 세 상자의 toString 출력 확인)</li>
+<li>👀 <strong>Type Erasure</strong>: 컴파일러가 하는 일: (1) 타입 검사, (2) T를 Object로 지우기, (3) 꺼내는 곳에 캐스팅 자동 삽입.</li>
+<li>👀 <strong>Raw Types</strong>: raw type = 타입 인자를 안 붙인 제네릭(<code>Store</code>, <code>ArrayList</code>).</li>
+<li>👀 <strong>Generic method</strong>: 메서드에만 타입 매개변수: 반환 타입 앞에 <code>&lt;T&gt;</code>.</li>
+<li>👀 <strong>Restrictions</strong>: 기본형 불가: <code>Store&lt;int&gt;</code> X → <code>Store&lt;Integer&gt;</code> O.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 3 · Segment 3 &quot;Generics (Templates)&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="what-is-generics">📑 What is Generics? <a class="anchor" aria-label="링크" href="#what-is-generics">#</a></h3>
+<blockquote>
+<p>Generics adds stability to your code by <strong>detecting bugs on the compile time</strong>. Generics is the capability to <strong>parameterize types</strong>: we can pass types as arguments when defining classes, interfaces and methods.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>제네릭 = <strong>타입을 매개변수로 받기</strong>. 메서드에 값을 넘기듯이 클래스에 타입을 넘겨요. 목적은 버그를 <strong>실행 전(컴파일)에</strong> 잡는 것.</p>
+</div><h3 id="motivation">📑 Motivation <a class="anchor" aria-label="링크" href="#motivation">#</a></h3>
+<blockquote>
+<p>A <code>Store</code> holding <code>Object</code> is too generic: explicit casting, and a <strong>ClassCastException at runtime</strong> if someone stores a different type.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Store</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Object</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Store</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Store</span><span class="p">();</span>
+<span class="n">store</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"hello"</span><span class="p">);</span><span class="w">                 </span><span class="c1">// someone stores a String</span>
+<span class="n">Integer</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Integer</span><span class="p">)</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">  </span><span class="c1">// compiles, but ClassCastException at runtime</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Object</code>로 다 받으면 아무거나 들어가서 편하지만, 꺼낼 때 <strong>캐스팅</strong>이 필요하고 잘못된 타입이면 <strong>실행 중 <code>ClassCastException</code></strong>. 컴파일러가 못 잡아요.</p>
+<p>참고: 원래 슬라이드는 <code>java.util.Date</code>와 <code>java.sql.Date</code>로 이 예를 드는데, <code>java.sql.Date</code>는 <code>java.util.Date</code>의 <strong>자식</strong>이라 그 캐스팅은 실제로는 성공해요. 그래서 여기서는 String과 Integer로 바꿔서 보여 줬어요.</p>
+</div><h3 id="generic-class">📑 Generic class <a class="anchor" aria-label="링크" href="#generic-class">#</a></h3>
+<blockquote>
+<p>Generics was introduced to solve this. Generics is <strong>purely compile time</strong> concept.</p>
+</blockquote>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Store&lt;T&gt;를 만들고 Store&lt;String&gt;에 숫자를 넣으면 컴파일 에러가 나는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Store</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="nf">get</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Store</span><span class="o">&lt;</span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">store</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Store</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w">   </span><span class="c1">// diamond notation (Java 7)</span>
+<span class="n">store</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Book</span><span class="p">());</span>
+<span class="n">Book</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">store</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w">                </span><span class="c1">// no cast</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>class Store&lt;T&gt;</code>: T 자리에 나중에 실제 타입이 들어가요. <code>Store&lt;Book&gt;</code>이면 <code>set(Book)</code>, <code>Book get()</code>이 되는 것처럼 동작해요. 다른 타입을 넣으면 <strong>컴파일 에러</strong>, 꺼낼 때 <strong>캐스팅 불필요</strong>.</p>
+</div><h3 id="generic-type-and-parameterized-type">📑 Generic Type and Parameterized Type <a class="anchor" aria-label="링크" href="#generic-type-and-parameterized-type">#</a></h3>
+<blockquote>
+<ul>
+<li><code>class Store&lt;T&gt;</code>: <strong>generic type</strong>, <code>T</code> is the type parameter (formal).</li>
+<li><code>Store&lt;String&gt;</code>: <strong>parameterized type</strong>, <code>String</code> is the type argument (actual).</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>용어 두 쌍:</p>
+<ul>
+<li><code>Store&lt;T&gt;</code>: <strong>generic type</strong>, T는 <strong>type parameter</strong>(형식)</li>
+<li><code>Store&lt;String&gt;</code>: <strong>parameterized type</strong>, String은 <strong>type argument</strong>(실제)</li>
+</ul>
+<p>메서드의 매개변수(parameter)와 인자(argument) 관계랑 똑같아요.</p>
+</div><h3 id="type-parameter-naming-conventions">📑 Type Parameter Naming Conventions <a class="anchor" aria-label="링크" href="#type-parameter-naming-conventions">#</a></h3>
+<blockquote>
+<p>Single uppercase letters: <strong>E</strong> Element (Collections), <strong>K</strong> Key, <strong>V</strong> Value (Maps), <strong>N</strong> Number, <strong>T</strong> Type, <strong>S, U, V</strong> 2nd, 3rd, 4th types.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>관례일 뿐 문법은 아니에요. <code>List&lt;E&gt;</code>, <code>Map&lt;K, V&gt;</code>가 이 관례예요.</p>
+</div><h3 id="multiple-type-parameters">📑 Multiple Type Parameters <a class="anchor" aria-label="링크" href="#multiple-type-parameters">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">K</span><span class="w"> </span><span class="nf">getKey</span><span class="p">();</span>
+<span class="w">    </span><span class="n">V</span><span class="w"> </span><span class="nf">getValue</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderedPair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">K</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">OrderedPair</span><span class="p">(</span><span class="n">K</span><span class="w"> </span><span class="n">key</span><span class="p">,</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">K</span><span class="w"> </span><span class="nf">getKey</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">key</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="nf">getValue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OrderedPair</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderedPair</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="s">"One"</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>쉼표로 여러 개: <code>Pair&lt;K, V&gt;</code>. <code>OrderedPair&lt;String, Integer&gt; p1 = new OrderedPair&lt;&gt;(&quot;One&quot;, 1);</code>에서 <code>1</code>은 int인데 Integer로 <strong>자동 박싱</strong>돼요. Week 6 <code>Dialog</code>의 <code>Pair&lt;String, String&gt;</code>이 바로 이거예요.</p>
+</div><h3 id="why-generics-benefits">📑 Why Generics: Benefits <a class="anchor" aria-label="링크" href="#why-generics-benefits">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Stronger type checking</strong>: <code>list.add(32)</code> on a <code>List&lt;String&gt;</code> is a compile-time error.</li>
+<li><strong>Casting can be eliminated</strong>: <code>String s = list.get(0);</code></li>
+<li><strong>Type safety</strong>: holds only a single type of objects.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 가지: <strong>더 강한 타입 검사</strong>, <strong>캐스팅 제거</strong>, <strong>타입 안전</strong>. 한 문장: 실행 중 에러를 컴파일 에러로 바꿔 준다.</p>
+</div><h3 id="generic-class-example-genericbox">📑 Generic Class example: GenericBox <a class="anchor" aria-label="링크" href="#generic-class-example-genericbox">#</a></h3>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: GenericBox를 쳐서 String, Integer, Double 세 상자의 toString 출력 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GenericBox</span><span class="o">&lt;</span><span class="n">E</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="n">content</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GenericBox</span><span class="p">(</span><span class="n">E</span><span class="w"> </span><span class="n">content</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">content</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">content</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">E</span><span class="w"> </span><span class="nf">getContent</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">content</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">toString</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">content</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" ("</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">content</span><span class="p">.</span><span class="na">getClass</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">")"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">GenericBox</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">box2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GenericBox</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span><span class="w">   </span><span class="c1">// autobox int to Integer</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">box2</span><span class="p">.</span><span class="na">getContent</span><span class="p">();</span><span class="w">                          </span><span class="c1">// unbox</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">box2</span><span class="p">);</span><span class="w">                           </span><span class="c1">// 123 (class java.lang.Integer)</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>출력:</p>
+<pre class="hl"><code class="language-text">Hello (class java.lang.String)
+123 (class java.lang.Integer)
+55.66 (class java.lang.Double)
+</code></pre>
+<p><code>int i = box2.getContent();</code>: Integer가 int로 자동 <strong>언박싱</strong>. <code>content.getClass()</code>는 실행 중 <strong>실제</strong> 객체 타입을 알려줘요.</p>
+</div><h3 id="type-erasure">📑 Type Erasure <a class="anchor" aria-label="링크" href="#type-erasure">#</a></h3>
+<blockquote>
+<p>When a generic type is instantiated, the compiler translates those types by a technique called <strong>type erasure</strong>: it replaces all references to the type parameter with <strong>Object</strong>, performs the type check, and inserts the required downcast operators.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>컴파일러가 하는 일: (1) 타입 검사, (2) T를 <strong>Object</strong>로 지우기, (3) 꺼내는 곳에 캐스팅 자동 삽입. 그래서 실행 중에는 <code>List&lt;String&gt;</code>과 <code>List&lt;Integer&gt;</code>가 <strong>같은 클래스</strong>예요. &quot;Generics is purely compile time concept&quot;의 뜻이에요.</p>
+</div><h3 id="raw-types">📑 Raw Types <a class="anchor" aria-label="링크" href="#raw-types">#</a></h3>
+<blockquote>
+<p>A raw type is the name of a generic class without any type arguments: <code>Store rawStore = new Store();</code>. <strong>Avoid raw types</strong>: not type safe, possible runtime error, require casting.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>raw type = 타입 인자를 안 붙인 제네릭(<code>Store</code>, <code>ArrayList</code>). 옛날 코드 호환용이라 쓰지 말라는 경고가 나와요.</p>
+</div><h3 id="generic-method">📑 Generic method <a class="anchor" aria-label="링크" href="#generic-method">#</a></h3>
+<blockquote>
+<p>Type parameters can also be declared within method signatures. The type parameter's scope is limited to the method.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isEqual</span><span class="p">(</span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">g1</span><span class="p">.</span><span class="na">get</span><span class="p">().</span><span class="na">equals</span><span class="p">(</span><span class="n">g2</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="kt">boolean</span><span class="w"> </span><span class="n">same</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenericsMethods</span><span class="p">.</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="n">isEqual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">g2</span><span class="p">);</span>
+<span class="n">same</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GenericsMethods</span><span class="p">.</span><span class="na">isEqual</span><span class="p">(</span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">g2</span><span class="p">);</span><span class="w">   </span><span class="c1">// type inferred</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>메서드에만 타입 매개변수: <strong>반환 타입 앞에 <code>&lt;T&gt;</code></strong>.</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">isEqual</span><span class="p">(</span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g1</span><span class="p">,</span><span class="w"> </span><span class="n">GenericsType</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span><span class="w"> </span><span class="n">g2</span><span class="p">)</span>
+</code></pre>
+<p>부를 때 <code>GenericsMethods.&lt;String&gt;isEqual(g1, g2)</code>처럼 명시해도 되고, 보통은 생략해요(컴파일러가 추론).</p>
+</div><h3 id="restrictions">📑 Restrictions <a class="anchor" aria-label="링크" href="#restrictions">#</a></h3>
+<blockquote>
+<ul>
+<li>Type argument <strong>cannot be a primitive</strong>: <code>Store&lt;int&gt;</code> is an error. Use <code>Store&lt;Integer&gt;</code>.</li>
+<li>Type parameter <strong>cannot be used in a static context</strong>: <code>private static T deviceType;</code> is an error (T would be Smartphone or Pager?).</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>두 가지 제한:</p>
+<ol>
+<li><strong>기본형 불가</strong>: <code>Store&lt;int&gt;</code> X → <code>Store&lt;Integer&gt;</code> O. (erasure로 Object가 되는데 int는 Object가 아니니까요.)</li>
+<li><strong>static에 T 불가</strong>: static 필드는 모든 객체가 공유하는데, <code>Device&lt;Smartphone&gt;</code>과 <code>Device&lt;Pager&gt;</code>가 같은 static을 쓰면 T가 무엇인지 정할 수 없어요.</li>
+</ol>
+</div><hr />
+<h2 id="4-강의-슬라이드-week-3-segment-4-service-layer">4. 📑 강의 슬라이드: Week 3 · Segment 4. Service Layer <a class="anchor" aria-label="링크" href="#4-강의-슬라이드-week-3-segment-4-service-layer">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>비즈니스 규칙을 컨트롤러에서 꺼내 <strong>서비스</strong>로 모으는 이유예요. Week 6~7의 Service Pattern과 이어져요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Service Layer</strong>: Service Layer = 앱의 규칙과 작업 흐름이 사는 곳.</li>
+<li>👀 <strong>Why do we use Service Layer?</strong>: fat controller = 버튼 처리, 검증, 계산, 저장을 다 하는 뚱뚱한 컨트롤러.</li>
+<li>👀 <strong>Service Layer in the Example</strong>: 폴더 구조가 곧 역할 분리예요: <code>controllers/</code>(사용자 동작), <code>services/</code>(규칙), <code>models/</code>(데이터).</li>
+<li>👀 <strong>Working in the Example</strong>: 흐름: 입력 → 컨트롤러 → 서비스에 위임 → 서비스가 검증, 저장, 규칙 적용 → 결과를 컨트롤러로 → 화면.</li>
+<li>👀 <strong>Issuance Services</strong>: &quot;두 번 대출 불가&quot;, &quot;사용자가 있어야 대출&quot;은 business rule이에요.</li>
+<li>👀 <strong>Service Layer vs. Service Layer Design Pattern</strong>: 이번 주는 &quot;서비스로 나누기&quot;까지만. 완전한 패턴은 인터페이스 + DI + stateless + Repository가 붙어요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 3 · Segment 4 &quot;Service Layer&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="service-layer">📑 Service Layer <a class="anchor" aria-label="링크" href="#service-layer">#</a></h3>
+<blockquote>
+<p>A Service Layer is a dedicated part of your application that contains <strong>business logic</strong>: the rules, operations, and workflows of your system. Purpose: keep controllers clean, centralize logic in one place, make code easier to maintain and test, promote modular design.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Service Layer = 앱의 <strong>규칙과 작업 흐름</strong>이 사는 곳. 예: &quot;책은 두 번 빌려줄 수 없다&quot;, &quot;가입한 사용자만 빌릴 수 있다&quot;. 이런 건 화면(UI)과 상관없는 <strong>업무 규칙</strong>이에요.</p>
+</div><h3 id="why-do-we-use-service-layer">📑 Why do we use Service Layer? <a class="anchor" aria-label="링크" href="#why-do-we-use-service-layer">#</a></h3>
+<blockquote>
+<ul>
+<li>Avoids <strong>&quot;fat controllers&quot;</strong></li>
+<li>Encourages separation of concerns</li>
+<li>Makes the system easier to extend</li>
+<li>Allows reuse of logic across multiple controllers</li>
+</ul>
+<p>Key Concept: <strong>Controllers coordinate, services think.</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>fat controller</strong> = 버튼 처리, 검증, 계산, 저장을 다 하는 뚱뚱한 컨트롤러. 고치기 어렵고 재사용이 안 돼요. 서비스로 빼면 다른 컨트롤러(웹, 콘솔)도 같은 규칙을 그대로 써요.</p>
+<p>외울 문장: <strong>&quot;Controllers coordinate, services think.&quot;</strong> 컨트롤러는 &quot;누구에게 시킬지&quot;만, 서비스가 &quot;어떻게 할지&quot;를 판단해요.</p>
+</div><h3 id="service-layer-in-the-example">📑 Service Layer in the Example <a class="anchor" aria-label="링크" href="#service-layer-in-the-example">#</a></h3>
+<blockquote>
+<p>controllers/ handles user actions, services/ contains business logic, models/ holds data structures. LibraryController calls BookService, UserService, IssuanceService.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>폴더 구조가 곧 역할 분리예요: <code>controllers/</code>(사용자 동작), <code>services/</code>(규칙), <code>models/</code>(데이터). Week 5 MVC에 services 층이 하나 더 붙은 모양이에요.</p>
+</div><h3 id="working-in-the-example">📑 Working in the Example <a class="anchor" aria-label="링크" href="#working-in-the-example">#</a></h3>
+<blockquote>
+<p>Controller receives input, delegates to a service (<code>bookService.addBook(book)</code>). Service validates, updates internal data, applies rules, and returns results. <strong>Controller does NOT contain logic.</strong></p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>흐름: 입력 → 컨트롤러 → <strong>서비스에 위임</strong> → 서비스가 검증, 저장, 규칙 적용 → 결과를 컨트롤러로 → 화면. 컨트롤러에는 <code>if</code>로 규칙을 판단하는 코드가 <strong>없어야</strong> 해요.</p>
+</div><h3 id="issuance-services">📑 Issuance Services <a class="anchor" aria-label="링크" href="#issuance-services">#</a></h3>
+<blockquote>
+<p>Handles rules like &quot;A book cannot be issued twice&quot; and &quot;A user must exist before issuing&quot;. These are <strong>business rules, not controller rules</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>&quot;두 번 대출 불가&quot;, &quot;사용자가 있어야 대출&quot;은 <strong>business rule</strong>이에요. 화면이 콘솔이든 JavaFX든 똑같이 지켜야 하니까 서비스 소속이에요.</p>
+</div><h3 id="service-layer-vs-service-layer-design-pattern">📑 Service Layer vs. Service Layer Design Pattern <a class="anchor" aria-label="링크" href="#service-layer-vs-service-layer-design-pattern">#</a></h3>
+<blockquote>
+<p>What we implemented: a Service Layer. What we did NOT implement yet: the full Service Layer Design Pattern, which includes <strong>interfaces, dependency injection, stateless services, repository layer</strong>. Coming soon.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이번 주는 &quot;서비스로 나누기&quot;까지만. 완전한 패턴은 <strong>인터페이스 + DI + stateless + Repository</strong>가 붙어요. 그게 Week 6 Segment 5와 Week 7 Guice에서 완성돼요. 지금 서비스는 <code>new BookService()</code>를 컨트롤러가 직접 하니까 DI가 아니에요.</p>
+</div><hr />
+<h2 id="5-교수님-샘플-코드-week-3-sample-wk_3_ds_lib_service">5. 💻 교수님 샘플 코드: Week 3 · Sample: WK_3_DS_Lib_Service <a class="anchor" aria-label="링크" href="#5-교수님-샘플-코드-week-3-sample-wk_3_ds_lib_service">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>도서관 앱으로 Map과 Service Layer를 같이 써요. 교수님 코드에서 <strong>규칙이 아직 컨트롤러에 남아 있는 부분</strong>을 찾아보는 게 좋은 복습이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Project Structure</strong>: models, services, controllers, views 네 층.</li>
+<li>⌨️ <strong>Example: BookService (HashMap by ISBN)</strong>: ISBN을 key로 하는 <code>HashMap&lt;String, Book&gt;</code>.</li>
+<li>⌨️ <strong>Example: IssuanceService (LinkedHashMap + entrySet)</strong>: 대출 기록은 LinkedHashMap: 대출한 순서대로 출력하려고요.</li>
+<li>⌨️ <strong>Example: LibraryController.issueBook</strong>: 잘 보세요. &quot;책이 있고, 사용자가 있고, 아직 대출 안 됐으면&quot;이라는 업무 규칙 if문이 컨트롤러에 있어요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 3 교수님 샘플 코드 WK_3_DS_Lib_Service 발췌 (구조와 핵심 메서드만)</p>
+</blockquote>
+<h3 id="project-structure">💻 Project Structure <a class="anchor" aria-label="링크" href="#project-structure">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="nx">ca</span><span class="p">.</span><span class="nx">senecacollege</span>
+<span class="w">  </span><span class="nx">models</span><span class="o">/</span><span class="w">       </span><span class="nx">Book</span><span class="p">,</span><span class="w"> </span><span class="nx">User</span><span class="p">,</span><span class="w"> </span><span class="nx">BookIssueRecord</span><span class="p">,</span><span class="w"> </span><span class="nx">Library</span>
+<span class="w">  </span><span class="nx">services</span><span class="o">/</span><span class="w">     </span><span class="nx">BookService</span><span class="p">,</span><span class="w"> </span><span class="nx">UserService</span><span class="p">,</span><span class="w"> </span><span class="nx">IssuanceService</span><span class="p">,</span><span class="w"> </span><span class="nx">LibraryService</span>
+<span class="w">  </span><span class="nx">controllers</span><span class="o">/</span><span class="w">  </span><span class="nx">LibraryController</span>
+<span class="w">  </span><span class="nx">views</span><span class="o">/</span><span class="w">        </span><span class="nx">MainView</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>models, services, controllers, views 네 층. MVC + Service예요.</p>
+</div><h3 id="example-bookservice-hashmap-by-isbn">💻 Example: BookService (HashMap by ISBN) <a class="anchor" aria-label="링크" href="#example-bookservice-hashmap-by-isbn">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BookService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Book</span><span class="o">&gt;</span><span class="w"> </span><span class="n">books</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">BookService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">books</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addBook</span><span class="p">(</span><span class="n">Book</span><span class="w"> </span><span class="n">book</span><span class="p">)</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="n">books</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">book</span><span class="p">.</span><span class="na">getIsbn</span><span class="p">(),</span><span class="w"> </span><span class="n">book</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Book</span><span class="w"> </span><span class="nf">getBook</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">isbn</span><span class="p">)</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">books</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">isbn</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">removeBook</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">isbn</span><span class="p">){</span><span class="w"> </span><span class="n">books</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">isbn</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">displayBooks</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Book</span><span class="w"> </span><span class="n">book</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">books</span><span class="p">.</span><span class="na">values</span><span class="p">())</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">book</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ISBN을 key로 하는 <code>HashMap&lt;String, Book&gt;</code>. ISBN으로 찾기, 지우기가 O(1)이에요. <code>books.values()</code>로 모든 책을 돌아요(순서는 보장 안 됨).</p>
+</div><h3 id="example-issuanceservice-linkedhashmap-entryset">💻 Example: IssuanceService (LinkedHashMap + entrySet) <a class="anchor" aria-label="링크" href="#example-issuanceservice-linkedhashmap-entryset">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">IssuanceService</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">BookIssueRecord</span><span class="o">&gt;</span><span class="w"> </span><span class="n">issuedBooks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedHashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">issueBook</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">isbn</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="n">BookIssueRecord</span><span class="w"> </span><span class="n">record</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">issuedBooks</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">isbn</span><span class="p">,</span><span class="w"> </span><span class="n">record</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">BookIssueRecord</span><span class="w"> </span><span class="nf">returnBook</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">isbn</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">issuedBooks</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">isbn</span><span class="p">);</span><span class="w">    </span><span class="c1">// returns the removed value, or null</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">displayIssuedBooks</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">BookIssueRecord</span><span class="o">&gt;</span><span class="w"> </span><span class="n">entry</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">issuedBooks</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">entry</span><span class="p">.</span><span class="na">getKey</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" -&gt; "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">entry</span><span class="p">.</span><span class="na">getValue</span><span class="p">().</span><span class="na">getUserId</span><span class="p">());</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>대출 기록은 <strong>LinkedHashMap</strong>: 대출한 순서대로 출력하려고요. <code>entrySet()</code>으로 key(ISBN)와 value(기록)를 같이 꺼내요.</p>
+<p><code>returnBook</code>의 <code>issuedBooks.remove(isbn)</code>은 <strong>지운 값</strong>을 돌려주고, 없으면 <code>null</code>. 그래서 호출하는 쪽에서 <code>if (record != null)</code>로 반납 성공 여부를 알 수 있어요.</p>
+</div><h3 id="example-librarycontrollerissuebook">💻 Example: LibraryController.issueBook <a class="anchor" aria-label="링크" href="#example-librarycontrollerissuebook">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">issueBook</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">isbn</span><span class="p">,</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">userId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">bookService</span><span class="p">.</span><span class="na">getBook</span><span class="p">(</span><span class="n">isbn</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="n">userService</span><span class="p">.</span><span class="na">getUser</span><span class="p">(</span><span class="n">userId</span><span class="p">)</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<span class="w">        </span><span class="n">issuanceService</span><span class="p">.</span><span class="na">getIssuedBooks</span><span class="p">().</span><span class="na">get</span><span class="p">(</span><span class="n">isbn</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">        </span><span class="n">issuanceService</span><span class="p">.</span><span class="na">issueBook</span><span class="p">(</span><span class="n">isbn</span><span class="p">,</span><span class="w"> </span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BookIssueRecord</span><span class="p">(</span><span class="n">userId</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Date</span><span class="p">(),</span><span class="w"> </span><span class="kc">null</span><span class="p">));</span>
+<span class="w">        </span><span class="n">bookService</span><span class="p">.</span><span class="na">removeBook</span><span class="p">(</span><span class="n">isbn</span><span class="p">);</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Book issued"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Book can't be issued"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>잘 보세요. &quot;책이 있고, 사용자가 있고, 아직 대출 안 됐으면&quot;이라는 <strong>업무 규칙 if문이 컨트롤러에</strong> 있어요. 슬라이드 원칙(&quot;Controller does NOT contain logic&quot;)대로라면 이 검사는 <code>IssuanceService.issue(isbn, userId)</code> 안으로 들어가야 해요. 시험에서 &quot;이 코드에서 service로 옮겨야 할 부분은?&quot;으로 나올 수 있는 모양이에요.</p>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-3">🧩 이번 주 토이 프로젝트: CafeOrder Week 3 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-3">#</a></h2>
+<p>메뉴를 <code>Map&lt;String, MenuItem&gt;</code>(메뉴 코드 → 품목)으로, 장바구니를 <code>List&lt;OrderLine&gt;</code>으로 바꿔요. &quot;재고 없는 품목은 담을 수 없다&quot;, &quot;같은 품목은 수량만 늘린다&quot; 규칙은 <code>OrderService</code>에 넣고 컨트롤러는 서비스만 불러요. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-3">✅ 시험 대비 체크리스트 (Week 3) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-3">#</a></h2>
+<ul>
+<li>[ ] Collection 계층 그림(List, Set, Queue)과 Map이 따로라는 것을 안다.</li>
+<li>[ ] <code>Collection</code>과 <code>Collections</code>의 차이를 안다.</li>
+<li>[ ] ArrayList vs LinkedList, ArrayList vs Vector 차이를 말할 수 있다.</li>
+<li>[ ] <code>remove(int)</code>와 <code>remove(Object)</code>, <code>indexOf</code>의 -1, <code>subList</code>의 끝 미포함을 안다.</li>
+<li>[ ] HashSet, LinkedHashSet, TreeSet의 출력 순서를 예측할 수 있다.</li>
+<li>[ ] HashSet 중복 제거에 <code>equals</code>와 <code>hashCode</code>가 둘 다 필요한 이유를 안다.</li>
+<li>[ ] Map의 <code>put</code> 덮어쓰기, 없는 key의 <code>get</code> null, <code>keySet</code>/<code>values</code>/<code>entrySet</code>을 쓸 수 있다.</li>
+<li>[ ] HashMap, LinkedHashMap, TreeMap 순서 차이를 안다.</li>
+<li>[ ] Iterator의 <code>hasNext</code>, <code>next</code>, <code>remove</code> 규칙과 예외 이름(NoSuchElement, IllegalState, ConcurrentModification)을 안다.</li>
+<li>[ ] Iterable과 Iterator 차이를 안다.</li>
+<li>[ ] 제네릭 클래스 <code>Box&lt;T&gt;</code>와 제네릭 메서드 <code>&lt;T&gt; void m(T t)</code>를 쓸 수 있다.</li>
+<li>[ ] type erasure, raw type, 기본형 불가, static T 불가를 안다.</li>
+<li>[ ] Service Layer의 목적과 &quot;Controllers coordinate, services think&quot;를 설명할 수 있다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li>문장 <code>&quot;the cat and the hat and the bat&quot;</code>의 단어 개수를 세는 <code>Map&lt;String, Integer&gt;</code>를 만들고, 알파벳 순으로 출력하세요.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">counts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">"the cat and the hat and the bat"</span><span class="p">.</span><span class="na">split</span><span class="p">(</span><span class="s">" "</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">counts</span><span class="p">.</span><span class="na">containsKey</span><span class="p">(</span><span class="n">w</span><span class="p">))</span><span class="w"> </span><span class="n">counts</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">counts</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="n">counts</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">counts</span><span class="p">);</span><span class="w">   </span><span class="c1">// {and=2, bat=1, cat=1, hat=1, the=3}</span>
+</code></pre>
+<p><code>counts.merge(w, 1, Integer::sum);</code> 한 줄로도 돼요.</p>
+</details>
+<ol start="2">
+<li>다음 코드의 출력은?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">List</span><span class="p">.</span><span class="na">of</span><span class="p">(</span><span class="s">"b"</span><span class="p">,</span><span class="w"> </span><span class="s">"a"</span><span class="p">,</span><span class="w"> </span><span class="s">"c"</span><span class="p">,</span><span class="w"> </span><span class="s">"a"</span><span class="p">));</span>
+<span class="n">Set</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeSet</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">list</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">set</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">set</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">list</span><span class="p">.</span><span class="na">indexOf</span><span class="p">(</span><span class="s">"z"</span><span class="p">));</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p><code>4 3 [a, b, c] -1</code>. List는 중복 허용, TreeSet은 중복 제거 후 정렬, 못 찾으면 -1.</p>
+</details>
+<ol start="3">
+<li>아무 타입이나 두 개를 담는 <code>class Pair&lt;A, B&gt;</code>(생성자, <code>getFirst</code>, <code>getSecond</code>)와, 두 값을 뒤바꾼 새 Pair를 돌려주는 제네릭 정적 메서드 <code>swap</code>을 쓰세요.</li>
+</ol>
+<details><summary>3번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Pair</span><span class="o">&lt;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="n">first</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="n">second</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Pair</span><span class="p">(</span><span class="n">A</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="n">second</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">first</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">first</span><span class="p">;</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">second</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">second</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="nf">getFirst</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">first</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="n">B</span><span class="w"> </span><span class="nf">getSecond</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">second</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="o">&lt;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="o">&gt;</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">A</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">swap</span><span class="p">(</span><span class="n">Pair</span><span class="o">&lt;</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="o">&gt;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pair</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">p</span><span class="p">.</span><span class="na">getSecond</span><span class="p">(),</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getFirst</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w3" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-02.html"><small>← 이전</small>Week 2. 상속과 인터페이스</a><a class="next" href="week-07.html"><small>다음 →</small>Week 7. 여러 화면과 IoC</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>
