@@ -1,0 +1,892 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 10. 람다, 스트림, 바인딩 · APD545</title><meta name="description" content="Week 10. 람다, 스트림, 바인딩 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 10</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-10-segment-1-lambda-and-stream">1. 📑 강의 슬라이드: Week 10 · Segment 1. Lambda and Stream</a></li><li class="l3"><a href="#why-the-need">📑 Why the need?</a></li><li class="l3"><a href="#what-is-functional-programming">📑 What is Functional Programming?</a></li><li class="l3"><a href="#lambda">📑 Lambda</a></li><li class="l3"><a href="#imperative-vs-declarative">📑 Imperative vs Declarative</a></li><li class="l3"><a href="#javafx-button-onaction">📑 JavaFX Button onAction</a></li><li class="l3"><a href="#lambda-expressions-syntax">📑 Lambda Expressions: Syntax</a></li><li class="l3"><a href="#functional-interfaces">📑 Functional Interfaces</a></li><li class="l3"><a href="#method-reference">📑 Method Reference</a></li><li class="l3"><a href="#javautilfunction">📑 java.util.function</a></li><li class="l3"><a href="#what-are-streams">📑 What are Streams?</a></li><li class="l3"><a href="#java-7-vs-java-8-code">📑 Java 7 VS Java 8 Code</a></li><li class="l3"><a href="#what-exactly-is-the-stream">📑 What exactly is the Stream?</a></li><li class="l3"><a href="#two-important-characteristics">📑 Two important characteristics</a></li><li class="l3"><a href="#stream-operations">📑 Stream Operations</a></li><li class="l2"><a href="#2-강의-슬라이드-week-10-segment-2-properties-and-binding">2. 📑 강의 슬라이드: Week 10 · Segment 2. Properties and Binding</a></li><li class="l3"><a href="#introduction">📑 Introduction</a></li><li class="l3"><a href="#readwritable-properties">📑 Read/Writable Properties</a></li><li class="l3"><a href="#read-only-properties">📑 Read-Only Properties</a></li><li class="l3"><a href="#creating-a-property">📑 Creating a property</a></li><li class="l3"><a href="#javafx-java-bean-example">📑 JavaFX Java Bean: Example</a></li><li class="l3"><a href="#listeners">📑 Listeners</a></li><li class="l3"><a href="#change-vs-invalidation-listeners">📑 Change vs Invalidation Listeners</a></li><li class="l3"><a href="#binding">📑 Binding</a></li><li class="l3"><a href="#one-directional-binding">📑 One-directional binding</a></li><li class="l3"><a href="#two-directional-binding">📑 Two-directional binding</a></li><li class="l3"><a href="#intermediate-binding-techniques">📑 Intermediate binding techniques</a></li><li class="l3"><a href="#fluent-api">📑 Fluent API</a></li><li class="l3"><a href="#the-bindings-api">📑 The Bindings API</a></li><li class="l3"><a href="#low-level-binding">📑 Low-Level Binding</a></li><li class="l2"><a href="#3-강의-슬라이드-week-10-segment-4-gui-editor-painter-app-with-scene-builder">3. 📑 강의 슬라이드: Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder</a></li><li class="l3"><a href="#scene-graph-and-node-size">📑 Scene Graph and Node Size</a></li><li class="l3"><a href="#borderpane-areas">📑 BorderPane areas</a></li><li class="l3"><a href="#layout-settings">📑 Layout settings</a></li><li class="l3"><a href="#radiobutton-and-togglegroup">📑 RadioButton and ToggleGroup</a></li><li class="l3"><a href="#controller-and-event-handler-names">📑 Controller and event handler names</a></li><li class="l3"><a href="#paintercontroller">📑 PainterController</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-10">🧩 이번 주 토이 프로젝트: CafeOrder Week 10</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-10">✅ 시험 대비 체크리스트 (Week 10)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-10-lambda-stream-property와-binding-scene-builder-그림판">Week 10. Lambda, Stream, Property와 Binding, Scene Builder 그림판 <a class="anchor" aria-label="링크" href="#week-10-lambda-stream-property와-binding-scene-builder-그림판">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요. Lambda와 Stream은 <code>main</code>만으로, Property와 Binding은 JavaFX 라이브러리가 있는 프로젝트(Week 4 샘플처럼 Maven JavaFX)에서 <code>main</code>으로 돌려 볼 수 있어요.</p>
+<p>Week 4에서 쓴 <code>setOnAction(e -&gt; ...)</code>가 정확히 무엇인지, Week 5 MVC에서 Model이 바뀌면 View가 알아서 바뀌던 원리(Property)를 이번 주에 제대로 배워요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lambda</td>
+<td>이름 없는 함수. <code>(파라미터) -&gt; 식</code> 또는 <code>-&gt; { 문장; }</code></td>
+<td>괄호, 중괄호, return 생략 규칙</td>
+</tr>
+<tr>
+<td>Functional Interface</td>
+<td>추상 메서드가 <strong>딱 하나</strong>(SAM). <code>@FunctionalInterface</code>는 컴파일 검사만</td>
+<td>추상 메서드 2개면 람다 불가</td>
+</tr>
+<tr>
+<td>Method Reference</td>
+<td><code>System.out::println</code>, <code>Dish::getName</code></td>
+<td>람다를 더 짧게</td>
+</tr>
+<tr>
+<td>Predicate / Consumer / Function</td>
+<td><code>test</code>→boolean / <code>accept</code>→void / <code>apply</code>→R</td>
+<td>filter / forEach / map</td>
+</tr>
+<tr>
+<td>Stream</td>
+<td>컬렉션을 <strong>선언형</strong>으로 처리하는 파이프라인</td>
+<td><code>stream()</code>으로 시작</td>
+</tr>
+<tr>
+<td>중간 vs 최종 연산</td>
+<td>filter, sorted, map(<strong>lazy</strong>) / forEach, collect, count, reduce</td>
+<td>최종 연산 없으면 아무 일도 안 함</td>
+</tr>
+<tr>
+<td>한 번만 사용</td>
+<td>소비한 스트림 재사용 → <code>IllegalStateException</code></td>
+<td></td>
+</tr>
+<tr>
+<td>Property</td>
+<td>값을 감싸서 <strong>listener</strong>와 <strong>binding</strong>을 가능하게</td>
+<td><code>get</code>, <code>set</code>, <code>xxxProperty()</code></td>
+</tr>
+<tr>
+<td>ChangeListener vs InvalidationListener</td>
+<td>(ov, old, new) eager / (observable) lazy</td>
+<td>파라미터 개수</td>
+</tr>
+<tr>
+<td>bind</td>
+<td>단방향. target이 source를 따라감, target에 <code>set</code> 불가</td>
+<td>기존 값 사라짐</td>
+</tr>
+<tr>
+<td>bindBidirectional</td>
+<td>양방향. 처음엔 <strong>인자로 준 쪽 값</strong>으로 맞춰짐</td>
+<td></td>
+</tr>
+<tr>
+<td>Fluent / Bindings / Low-Level</td>
+<td><code>a.multiply(2)</code> / <code>Bindings.add(a,b)</code> / <code>computeValue()</code> 오버라이드</td>
+<td></td>
+</tr>
+<tr>
+<td>ToggleGroup + userData</td>
+<td>라디오 버튼 하나만 선택, 선택된 것의 데이터 꺼내기</td>
+<td>캐스팅</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li>파라미터가 <strong>없으면</strong> 괄호 필수: <code>() -&gt; ...</code>. 하나일 때만 괄호 생략 가능.</li>
+<li>중괄호를 쓰고 값을 돌려줘야 하면 <code>return</code> 필수. 중괄호 없이 <code>return</code>을 쓰면 <strong>문법 에러</strong>(<code>x -&gt; return x;</code> 안 됨).</li>
+<li>람다 변수는 메서드처럼 바로 부를 수 없어요. <code>func(2.0)</code>이 아니라 <code>func.apply(2.0)</code>.</li>
+<li>중간 연산만 있고 최종 연산이 없으면 filter 안의 코드가 <strong>한 번도 실행되지 않아요</strong>(lazy).</li>
+<li><code>map</code>에 넘기는 람다는 <strong>Function</strong>(값을 바꿔 돌려줌), <code>forEach</code>는 <strong>Consumer</strong>. 슬라이드 주석 중 map을 Consumer라고 쓴 곳이 있는데 틀렸어요.</li>
+<li><code>bind()</code>는 <strong>void</strong>를 돌려줘요. 그래서 <code>a.bind(b).multiply(2)</code> 같은 체인은 컴파일 에러. 계산은 <code>a.bind(b.multiply(2))</code>처럼 <strong>괄호 안에서</strong>.</li>
+<li><code>bind</code>된 property에 <code>set()</code>하면 <code>RuntimeException</code>(&quot;A bound value cannot be set&quot;).</li>
+<li><code>bindBidirectional(source)</code> 직후 두 값은 <strong>source(인자) 값</strong>이 돼요. target의 원래 값은 사라짐.</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Functional Interfaces</a></td>
+<td>MyEquation 인터페이스를 만들고 area, perimeter 두 람다로 3, 4를 계산해 12.0과 14.0이 나오는지 확인</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">What are Streams?</a></td>
+<td>23, 84, 74, 85, 54, 60에서 54보다 큰 것만 골라 정렬하고 16진수 대문자로 출력해 3C 4A 54 55가 나오는지 확인</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Two important characteristics</a></td>
+<td>같은 스트림에 forEach를 두 번 불러 IllegalStateException이 나는 것 직접 보기</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Listeners</a></td>
+<td>SimpleIntegerProperty에 ChangeListener를 달고 set(5), set(5), set(7)을 해서 리스너가 몇 번 불리는지 세어 보기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Two-directional binding</a></td>
+<td>source &quot;A&quot;, target &quot;B&quot;로 bindBidirectional 후 두 값 출력, target.set(&quot;C&quot;) 후 source 값 확인</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Low-Level Binding</a></td>
+<td>cost와 itemCount로 DoubleBinding을 만들고 itemCount를 바꿔서 totalCost가 자동으로 바뀌는지 확인</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">PainterController</a></td>
+<td>Scene Builder로 화면을 만들고 PainterController를 직접 쳐서, 드래그하면 원이 그려지고 Undo, Clear가 동작하는지 확인</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-10-segment-1-lambda-and-stream">1. 📑 강의 슬라이드: Week 10 · Segment 1. Lambda and Stream <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-10-segment-1-lambda-and-stream">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Java 8의 <strong>람다</strong>(코드를 값처럼 넘기기)와 <strong>스트림</strong>(컬렉션을 쿼리처럼 처리하기)을 배워요. 이 챕터는 <code>main</code>만으로 전부 돌려 볼 수 있어요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Why the need?</strong>: 왜 람다가 생겼을까요? CPU 코어가 여러 개(멀티코어)가 되면서, 데이터를 나눠서 동시에 처리하고 싶어졌어요.</li>
+<li>👀 <strong>What is Functional Programming?</strong>: 함수형 프로그래밍 = 코드(동작)를 메서드에 넘기는 것.</li>
+<li>👀 <strong>Lambda</strong>: 람다 = 이름 없는 함수. 수학의 람다 대수(lambda calculus)에서 이름을 따왔어요.</li>
+<li>👀 <strong>Imperative vs Declarative</strong>: 명령형(imperative): for문, if, break, found 변수까지 모든 단계를 내가 지시.</li>
+<li>👀 <strong>JavaFX Button onAction</strong>: Week 4에서 쓴 바로 그 코드예요! 위는 익명 클래스(EventHandler를 그 자리에서 구현), 아래는 같은 일을 하는 람다.</li>
+<li>👀 <strong>Lambda Expressions: Syntax</strong>: 파라미터가 하나면 괄호 생략 가능: <code>x -&gt; x * x</code>.</li>
+<li>⌨️ <strong><a href="#practice-1">Functional Interfaces</a></strong>:  (⌨️ MyEquation 인터페이스를 만들고 area, perimeter 두 람다로 3, 4를 계산해 12.0과 14.0이 나오는지 확인)</li>
+<li>👀 <strong>Method Reference</strong>: 람다가 메서드 하나를 그냥 부르기만 할 때 <code>::</code>로 더 줄일 수 있어요.</li>
+<li>👀 <strong>java.util.function</strong>: Java가 미리 만들어 둔 함수형 인터페이스 3총사:</li>
+<li>⌨️ <strong><a href="#practice-2">What are Streams?</a></strong>:  (⌨️ 23, 84, 74, 85, 54, 60에서 54보다 큰 것만 골라 정렬하고 16진수 대문자로 출력해 3C 4A 54 55가 나오는지 확인)</li>
+<li>👀 <strong>Java 7 VS Java 8 Code</strong>: Java 7이라면: 400 칼로리 미만을 담을 리스트 만들기, for로 거르기, <code>Collections.sort</code>에 Comparator 익명 클래스, 또 for로 이름만 뽑기.</li>
+<li>👀 <strong>What exactly is the Stream?</strong>: 한 문장으로: 컬렉션은 데이터(저장), 스트림은 계산(처리).</li>
+<li>⌨️ <strong><a href="#practice-3">Two important characteristics</a></strong>:  (⌨️ 같은 스트림에 forEach를 두 번 불러 IllegalStateException이 나는 것 직접 보기)</li>
+<li>👀 <strong>Stream Operations</strong>: 중간 연산(filter, sorted, map, distinct, limit): 스트림을 돌려줌.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 10 · Segment 1 &quot;Java Lambdas and Streams&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="why-the-need">📑 Why the need? <a class="anchor" aria-label="링크" href="#why-the-need">#</a></h3>
+<blockquote>
+<p>The biggest need is due to the rise of <strong>multicore CPUs</strong>. Java 8 lambdas allow you to write complex collection-processing algorithms, and simply by changing a single method call you can efficiently execute this code on multicore CPUs.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>왜 람다가 생겼을까요? CPU 코어가 여러 개(멀티코어)가 되면서, 데이터를 나눠서 <strong>동시에</strong> 처리하고 싶어졌어요. 람다 + 스트림으로 쓰면 <code>stream()</code>을 <code>parallelStream()</code>으로 바꾸는 것만으로 병렬 처리가 돼요. for문으로 직접 쓰면 이걸 손으로 쪼개야 해서 어렵고 버그가 많아요.</p>
+</div><h3 id="what-is-functional-programming">📑 What is Functional Programming? <a class="anchor" aria-label="링크" href="#what-is-functional-programming">#</a></h3>
+<blockquote>
+<p>Passing code to methods (and also being able to return it and incorporate it into data structures) is commonly referred to as <strong>functional-style programming</strong>. It is thinking about your problem domain in terms of <strong>immutable values and functions</strong> that translate between them.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>함수형 프로그래밍 = <strong>코드(동작)를 메서드에 넘기는 것</strong>. 지금까지는 메서드에 값(숫자, 객체)만 넘겼는데, 이제 &quot;이렇게 처리해 줘&quot;라는 동작 자체를 넘겨요. 그리고 값을 직접 바꾸기(mutable)보다 <strong>새 값을 만들어 내는</strong> 방식을 좋아해요.</p>
+</div><h3 id="lambda">📑 Lambda <a class="anchor" aria-label="링크" href="#lambda">#</a></h3>
+<blockquote>
+<p>Named after <strong>lambda calculus</strong>. Languages that support functional programming can create <strong>anonymous (unnamed) functions</strong>, commonly known as <strong>closures</strong>. In Java 8, functions can be treated like objects: assigned to variables and passed into other functions.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>람다 = <strong>이름 없는 함수</strong>. 수학의 람다 대수(lambda calculus)에서 이름을 따왔어요. Java 8부터 함수를 변수에 담고, 다른 메서드에 넘길 수 있어요. 다른 언어에서 closure라고 부르는 것과 거의 같은 개념이에요.</p>
+</div><h3 id="imperative-vs-declarative">📑 Imperative vs Declarative <a class="anchor" aria-label="링크" href="#imperative-vs-declarative">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Imperative</strong> style: we tell Java every step of what we want it to do.</li>
+<li><strong>Declarative</strong> style: what we want rather than how to do it.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// imperative: every step</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">cities</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">city</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// declarative: just say what you want</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Found chicago?:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cities</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">));</span>
+</code></pre>
+<blockquote>
+<p>Improvements: no messing around with mutable variables, iteration steps wrapped under the hood, less clutter, better clarity, less error prone.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>명령형</strong>(imperative): for문, if, break, found 변수까지 <strong>모든 단계</strong>를 내가 지시.</li>
+<li><strong>선언형</strong>(declarative): <code>cities.contains(&quot;Chicago&quot;)</code>처럼 <strong>무엇을</strong> 원하는지만 말하고 방법은 Java에게 맡김.</li>
+</ul>
+<p>⚠️ 슬라이드 원본에서는 두 예제의 이름표(imperative/declarative)가 <strong>서로 바뀌어</strong> 붙어 있는 곳이 있어요. for문 쪽이 명령형, contains 쪽이 선언형이 맞아요. 시험에서는 &quot;단계를 하나하나 쓰면 명령형&quot;으로 기억하세요.</p>
+<p>선언형의 장점: 바뀌는 변수(found)가 없음, 반복이 숨겨짐, 짧고 읽기 쉬움, 실수가 적음.</p>
+</div><h3 id="javafx-button-onaction">📑 JavaFX Button onAction <a class="anchor" aria-label="링크" href="#javafx-button-onaction">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Week 4에서 쓴 바로 그 코드예요! 위는 <strong>익명 클래스</strong>(EventHandler를 그 자리에서 구현), 아래는 같은 일을 하는 <strong>람다</strong>. <code>EventHandler</code>는 추상 메서드가 <code>handle</code> 하나뿐인 인터페이스라서 람다로 줄일 수 있어요. <code>event</code>의 타입(ActionEvent)도 Java가 알아서 추론해요.</p>
+</div><h3 id="lambda-expressions-syntax">📑 Lambda Expressions: Syntax <a class="anchor" aria-label="링크" href="#lambda-expressions-syntax">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="p">(</span><span class="n">param1</span><span class="p">,</span><span class="w"> </span><span class="n">param2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">expression</span><span class="p">;</span>
+<span class="p">(</span><span class="n">param1</span><span class="p">,</span><span class="w"> </span><span class="n">param2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* code statements */</span><span class="w"> </span><span class="p">};</span>
+</code></pre>
+<blockquote>
+<ul>
+<li>Parentheses are optional only if there is <strong>one</strong> parameter. With <strong>no</strong> parameters, the parentheses are still required: <code>() -&gt; ...</code>.</li>
+<li>Without curly braces, the body must be a single expression; it is evaluated and <strong>returned implicitly</strong>.</li>
+<li>With curly braces and a return type, you <strong>must have a return</strong> statement.</li>
+<li>Lambdas don't define a return type; it is defined by the <strong>functional interface</strong> (the context).</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Function</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w">   </span><span class="c1">// explicit return</span>
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">               </span><span class="c1">// implicit return</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="mf">2.0</span><span class="p">);</span><span class="w">                               </span><span class="c1">// 4.0</span>
+
+<span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">y</span><span class="w">                                 </span><span class="c1">// same thing</span>
+
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">));</span>
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>규칙 4개를 꼭 외우세요.</p>
+<ol>
+<li>파라미터가 <strong>하나</strong>면 괄호 생략 가능: <code>x -&gt; x * x</code>. <strong>없으면</strong> <code>() -&gt; ...</code> 괄호 필수. 두 개 이상도 괄호 필수.</li>
+<li>중괄호 <strong>없으면</strong> 식 하나만, 그 값이 <strong>자동으로 return</strong>.</li>
+<li>중괄호 <strong>있고</strong> 값을 돌려줘야 하면 <code>return</code> <strong>필수</strong>.</li>
+<li>람다는 반환 타입을 안 써요. 어디에 대입되는지(함수형 인터페이스)가 정해 줘요.</li>
+</ol>
+<p>⚠️ 슬라이드 원본 오류 두 가지:</p>
+<ul>
+<li><code>func(2.0)</code>처럼 부르는 예가 있는데, 람다 변수는 <strong>인터페이스 객체</strong>라서 <code>func.apply(2.0)</code>처럼 그 인터페이스의 메서드로 불러야 해요.</li>
+<li><code>(String txt) -&gt; return txt...</code>처럼 중괄호 없이 <code>return</code>을 쓴 예는 <strong>문법 에러</strong>예요. <code>(String txt) -&gt; { return ...; }</code> 또는 <code>return</code> 없이 식만.</li>
+</ul>
+<p><code>(x, y) -&gt; x &gt; y ? x : y</code>는 삼항 연산자로 if-else를 식 하나로 만든 거예요.</p>
+</div><h3 id="functional-interfaces">📑 Functional Interfaces <a class="anchor" aria-label="링크" href="#functional-interfaces">#</a></h3>
+<blockquote>
+<p>Any Java interface which contains <strong>one and only one abstract method</strong> (Single Abstract Method, SAM). <code>@FunctionalInterface</code> has no effect on the code; it is a compile time check.</p>
+</blockquote>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: MyEquation 인터페이스를 만들고 area, perimeter 두 람다로 3, 4를 계산해 12.0과 14.0이 나오는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">MyEquation</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">val1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">val2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">MyEquation</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">width</span><span class="p">;</span>
+<span class="n">MyEquation</span><span class="w"> </span><span class="n">perimeter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">width</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Area = "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area</span><span class="p">.</span><span class="na">compute</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span><span class="w">            </span><span class="c1">// 12.0</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Perimeter = "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">perimeter</span><span class="p">.</span><span class="na">compute</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span><span class="w">  </span><span class="c1">// 14.0</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>함수형 인터페이스 = <strong>추상 메서드가 딱 하나</strong>인 인터페이스(SAM, Single Abstract Method). 람다는 오직 이런 인터페이스 자리에만 들어갈 수 있어요. 메서드가 하나뿐이니 &quot;이 람다가 그 메서드의 몸통&quot;이라고 Java가 알 수 있거든요.</p>
+<p><code>@FunctionalInterface</code>는 <strong>없어도</strong> 동작해요. 붙이면 실수로 추상 메서드를 두 개 만들었을 때 컴파일러가 잡아 줘요. (default, static 메서드는 개수에 안 들어가요.)</p>
+<p><code>area.compute(3, 4)</code> → 12.0, <code>perimeter.compute(3, 4)</code> → 14.0 (직접 돌려 확인했어요). 파라미터 타입은 인터페이스에서 double로 정해져 있어서 3, 4가 3.0, 4.0이 돼요.</p>
+<p>⚠️ 슬라이드에서 같은 예제의 인터페이스 이름이 <code>Convert</code>와 <code>Converter</code>로 섞여 나와요. 이름은 하나로 통일해야 컴파일돼요.</p>
+</div><h3 id="method-reference">📑 Method Reference <a class="anchor" aria-label="링크" href="#method-reference">#</a></h3>
+<blockquote>
+<p>Syntactic sugar for a lambda that just calls one method. The double colon <code>::</code> references the method by name.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span><span class="w">    </span><span class="c1">// same as e -&gt; System.out.println(e)</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>람다가 <strong>메서드 하나를 그냥 부르기만</strong> 할 때 <code>::</code>로 더 줄일 수 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>람다</th>
+<th>메서드 참조</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>e -&gt; System.out.println(e)</code></td>
+<td><code>System.out::println</code></td>
+</tr>
+<tr>
+<td><code>d -&gt; d.getName()</code></td>
+<td><code>Dish::getName</code></td>
+</tr>
+<tr>
+<td><code>s -&gt; Integer.parseInt(s)</code></td>
+<td><code>Integer::parseInt</code></td>
+</tr>
+</tbody>
+</table>
+<p>괄호 <code>()</code>를 쓰지 않는 것에 주의. <code>System.out::println()</code>은 에러예요.</p>
+</div><h3 id="javautilfunction">📑 java.util.function <a class="anchor" aria-label="링크" href="#javautilfunction">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Predicate&lt;T&gt;</strong>: <code>boolean test(T t)</code>. Filter operations.</li>
+<li><strong>Consumer&lt;T&gt;</strong>: <code>void accept(T t)</code>. Do something with each element.</li>
+<li><strong>Function&lt;T,R&gt;</strong>: <code>R apply(T t)</code>. Map one object to another.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byWeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">Apple</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">Apple</span><span class="w"> </span><span class="n">a2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="na">getWeight</span><span class="p">().</span><span class="na">compareTo</span><span class="p">(</span><span class="n">a2</span><span class="p">.</span><span class="na">getWeight</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byWeight2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="na">getWeight</span><span class="p">().</span><span class="na">compareTo</span><span class="p">(</span><span class="n">a2</span><span class="p">.</span><span class="na">getWeight</span><span class="p">());</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java가 미리 만들어 둔 함수형 인터페이스 3총사:</p>
+<table>
+<thead>
+<tr>
+<th>이름</th>
+<th>메서드</th>
+<th>하는 일</th>
+<th>스트림에서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Predicate&lt;T&gt;</code></td>
+<td><code>boolean test(T)</code></td>
+<td>조건 검사</td>
+<td><code>filter</code></td>
+</tr>
+<tr>
+<td><code>Consumer&lt;T&gt;</code></td>
+<td><code>void accept(T)</code></td>
+<td>받아서 쓰기만, 돌려주는 것 없음</td>
+<td><code>forEach</code></td>
+</tr>
+<tr>
+<td><code>Function&lt;T,R&gt;</code></td>
+<td><code>R apply(T)</code></td>
+<td>T를 R로 변환</td>
+<td><code>map</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>Comparator</code>도 <code>compare</code> 하나뿐이라 함수형 인터페이스예요. 익명 클래스 6줄이 람다 한 줄이 되는 걸 보세요. 더 짧게는 <code>Comparator.comparing(Apple::getWeight)</code>.</p>
+</div><h3 id="what-are-streams">📑 What are Streams? <a class="anchor" aria-label="링크" href="#what-are-streams">#</a></h3>
+<blockquote>
+<p>Streams let you manipulate collections of data in a <strong>declarative</strong> way (you express a query). Think of them as fancy iterators. Streams can be processed <strong>in parallel</strong> transparently. A <strong>pipeline</strong> is a sequence of operations. Start with the <code>stream()</code> method of <code>Collection</code>.</p>
+</blockquote>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: 23, 84, 74, 85, 54, 60에서 54보다 큰 것만 골라 정렬하고 16진수 대문자로 출력해 3C 4A 54 55가 나오는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">84</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">54</span><span class="p">;</span>
+<span class="n">values</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w">                          </span><span class="c1">// Predicate</span>
+<span class="w">      </span><span class="p">.</span><span class="na">sorted</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">dec</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">toHexString</span><span class="p">(</span><span class="n">dec</span><span class="p">).</span><span class="na">toUpperCase</span><span class="p">())</span><span class="w">      </span><span class="c1">// Function</span>
+<span class="w">      </span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">val</span><span class="p">));</span><span class="w">                </span><span class="c1">// Consumer</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>스트림 = 컬렉션 위에서 도는 <strong>처리 파이프라인</strong>(공장 컨베이어 벨트). Week 9의 IO Stream과는 <strong>전혀 다른 것</strong>이에요(이름만 같음).</p>
+<p>예제 흐름: <code>[23, 84, 74, 85, 54, 60]</code> → filter(54 초과) → <code>[84, 74, 85, 60]</code> → sorted → <code>[60, 74, 84, 85]</code> → map(16진수) → <code>3C 4A 54 55</code>. 54는 <code>&gt;</code>라서 빠져요. (직접 돌려 확인했어요.)</p>
+<p><code>threshold</code>처럼 람다 안에서 쓰는 바깥 지역변수는 <strong>값이 바뀌지 않아야</strong>(effectively final) 해요. 뒤에서 <code>threshold = 60;</code>을 하면 컴파일 에러.</p>
+</div><h3 id="java-7-vs-java-8-code">📑 Java 7 VS Java 8 Code <a class="anchor" aria-label="링크" href="#java-7-vs-java-8-code">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lowCaloricDishesName</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">menu</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">getCalories</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">400</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">sorted</span><span class="p">(</span><span class="n">Comparator</span><span class="p">.</span><span class="na">comparing</span><span class="p">(</span><span class="n">Dish</span><span class="p">::</span><span class="n">getCalories</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">Dish</span><span class="p">::</span><span class="n">getName</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java 7이라면: 400 칼로리 미만을 담을 리스트 만들기, for로 거르기, <code>Collections.sort</code>에 Comparator 익명 클래스, 또 for로 이름만 뽑기. 10줄이 넘어요. Java 8은 파이프라인 한 줄.</p>
+<p><code>collect(Collectors.toList())</code>는 결과를 다시 <strong>List로 모으는</strong> 최종 연산이에요.</p>
+<p>⚠️ 슬라이드 원본에 <code>menu.Stream()</code>, <code>Dishes::getCalories</code> 같은 오타가 있어요. 정확히는 소문자 <code>stream()</code>, 클래스 이름 <code>Dish</code>.</p>
+</div><h3 id="what-exactly-is-the-stream">📑 What exactly is the Stream? <a class="anchor" aria-label="링크" href="#what-exactly-is-the-stream">#</a></h3>
+<blockquote>
+<p>A sequence of elements from a source that supports data processing operations. <strong>Collections are about data; Streams are about computations.</strong> Sources: collections, arrays, I/O resources. Operations: filter, map, reduce, find, match, sort.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>한 문장으로: <strong>컬렉션은 데이터(저장), 스트림은 계산(처리)</strong>. 스트림은 데이터를 저장하지 않고 원본(source)에서 흘려 보내며 처리만 해요. 원본 리스트는 <strong>바뀌지 않아요</strong>.</p>
+<p>소스: 컬렉션(<code>list.stream()</code>), 배열(<code>Arrays.stream(arr)</code>), 파일 줄(<code>Files.lines</code>). 연산: filter, map, reduce, find, match, sort.</p>
+</div><h3 id="two-important-characteristics">📑 Two important characteristics <a class="anchor" aria-label="링크" href="#two-important-characteristics">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Pipelining</strong>: many stream operations return a stream themselves, so they can be chained.</li>
+<li><strong>Internal iteration</strong>: stream operations do the iteration behind the scenes.</li>
+<li><strong>Traversable only once</strong>: after the first iteration the stream is consumed.</li>
+</ul>
+</blockquote>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: 같은 스트림에 forEach를 두 번 불러 IllegalStateException이 나는 것 직접 보기</p>
+<pre class="hl"><code class="language-java"><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="s">"Sky"</span><span class="p">,</span><span class="w"> </span><span class="s">"is"</span><span class="p">,</span><span class="w"> </span><span class="s">"blue"</span><span class="p">).</span><span class="na">stream</span><span class="p">();</span>
+<span class="n">a</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span><span class="w">   </span><span class="c1">// throws IllegalStateException</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>파이프라이닝</strong>: 중간 연산이 스트림을 돌려줘서 <code>.</code>으로 계속 이어 붙여요.</li>
+<li><strong>내부 반복</strong>: for문을 내가 안 써요. 스트림이 안에서 돌아요.</li>
+<li><strong>한 번만 순회</strong>: 다 쓴 스트림을 다시 쓰면 <code>IllegalStateException: stream has already been operated upon or closed</code>. 다시 필요하면 <code>list.stream()</code>을 새로 불러요.</li>
+</ul>
+</div><h3 id="stream-operations">📑 Stream Operations <a class="anchor" aria-label="링크" href="#stream-operations">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Intermediate</strong> operations such as filter or sorted return another stream. They don't perform any processing until a terminal operation is invoked: they're <strong>lazy</strong>.</li>
+<li><strong>Terminal</strong> operations produce a result: a List, an Integer, or even void (forEach, collect, count, reduce).</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>중간 연산</strong>(filter, sorted, map, distinct, limit): 스트림을 돌려줌. <strong>lazy</strong>라서 최종 연산이 불릴 때까지 아무것도 안 해요.</li>
+<li><strong>최종 연산</strong>(forEach, collect, count, reduce): 결과를 만들고 스트림을 닫아요.</li>
+</ul>
+<p>시험 포인트: <code>list.stream().filter(x -&gt; { System.out.println(x); return true; });</code>만 쓰면 <strong>아무것도 출력 안 돼요</strong>. 최종 연산이 없으니까요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-10-segment-2-properties-and-binding">2. 📑 강의 슬라이드: Week 10 · Segment 2. Properties and Binding <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-10-segment-2-properties-and-binding">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>JavaFX의 <strong>Property</strong>(값을 감싼 객체)와 <strong>Binding</strong>(값 두 개를 자동으로 맞추기)을 배워요. Week 5 MVC에서 Model이 바뀌면 화면이 따라 바뀌던 비밀이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Introduction</strong>: Property = 값(String, int 등)을 감싼 상자인데, 상자 안 값이 바뀌면 알려 줘요.</li>
+<li>👀 <strong>Read/Writable Properties</strong>: <code>StringProperty</code>는 추상 타입, <code>SimpleStringProperty</code>가 실제 구현이에요(List / ArrayList 관계와 비슷).</li>
+<li>👀 <strong>Read-Only Properties</strong>: 밖에서는 읽기만, 안에서는 바꿀 수 있게 하려면:</li>
+<li>👀 <strong>Creating a property</strong>: <code>Simple</code> + 타입 + <code>Property</code>: <code>SimpleIntegerProperty</code>, <code>SimpleDoubleProperty</code>, <code>SimpleBooleanProperty</code>, <code>SimpleObjectProperty&lt;T&gt;</code>, `SimpleL...</li>
+<li>👀 <strong>JavaFX Java Bean: Example</strong>: JavaFX Bean 규칙(시험에 자주 나와요).</li>
+<li>⌨️ <strong><a href="#practice-4">Listeners</a></strong>:  (⌨️ SimpleIntegerProperty에 ChangeListener를 달고 set(5), set(5), set(7)을 해서 리스너가 몇 번 불리는지 세어 보기)</li>
+<li>👀 <strong>Change vs Invalidation Listeners</strong>: Invalidation(lazy): &quot;값이 옛날 거야&quot; 표시만 하고 새 값을 바로 계산하지 않아요.</li>
+<li>👀 <strong>Binding</strong>: 바인딩 = 두 값을 항상 같게 유지. 속으로는 Change 리스너가 &quot;source 바뀌면 target도 set&quot;을 대신 해 주는 거예요.</li>
+<li>👀 <strong>One-directional binding</strong>: <code>targetProperty.bind(sourceProperty)</code>: target이 source를 따라가요.</li>
+<li>⌨️ <strong><a href="#practice-5">Two-directional binding</a></strong>:  (⌨️ source &quot;A&quot;, target &quot;B&quot;로 bindBidirectional 후 두 값 출력, target.set(&quot;C&quot;) 후 source 값 확인)</li>
+<li>👀 <strong>Intermediate binding techniques</strong>: &quot;그대로 복사&quot;가 아니라 계산된 값에 묶고 싶을 때 3가지 방법:</li>
+<li>👀 <strong>Fluent API</strong>: <code>degrees.multiply(Math.PI).divide(180)</code>은 값이 아니라 식(Binding 객체)이에요.</li>
+<li>👀 <strong>The Bindings API</strong>: <code>Bindings</code> 클래스의 정적 메서드들이에요.</li>
+<li>⌨️ <strong><a href="#practice-6">Low-Level Binding</a></strong>:  (⌨️ cost와 itemCount로 DoubleBinding을 만들고 itemCount를 바꿔서 totalCost가 자동으로 바뀌는지 확인)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 10 · Segment 2 &quot;Properties and Binding&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="introduction">📑 Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h3>
+<blockquote>
+<p>Properties are <strong>wrapper objects</strong> for JavaFX-based object attributes such as String or Integer. They allow developers to add <strong>listener</strong> code to respond when the wrapped value has changed or is flagged as invalid. Property objects can be <strong>bound</strong> to one another. Properties let you wire your scene so that the view updates automatically whenever you modify the data behind it.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Property = 값(String, int 등)을 감싼 <strong>상자</strong>인데, 상자 안 값이 바뀌면 <strong>알려 줘요</strong>. 그래서 두 가지가 가능해요:</p>
+<ul>
+<li><strong>Listener</strong>: 바뀌면 내 코드 실행</li>
+<li><strong>Binding</strong>: 다른 Property와 값을 자동 동기화</li>
+</ul>
+<p>화면(View)의 <code>textProperty()</code>를 데이터에 묶어 두면, 데이터만 바꿔도 화면이 바뀌어요. MVC의 핵심 연결 고리예요.</p>
+</div><h3 id="readwritable-properties">📑 Read/Writable Properties <a class="anchor" aria-label="링크" href="#readwritable-properties">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"password1"</span><span class="p">);</span>
+<span class="n">password</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"1234"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Modified StringProperty "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">   </span><span class="c1">// 1234</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>StringProperty</code>는 추상 타입, <code>SimpleStringProperty</code>가 실제 구현이에요(List / ArrayList 관계와 비슷). 읽기 <code>get()</code>, 쓰기 <code>set()</code>. <code>getValue()</code>/<code>setValue()</code>도 있어요(기본형 대신 객체로).</p>
+</div><h3 id="read-only-properties">📑 Read-Only Properties <a class="anchor" aria-label="링크" href="#read-only-properties">#</a></h3>
+<blockquote>
+<p>Instantiate a read-only wrapper class, then invoke <code>getReadOnlyProperty()</code> to return a true read-only property object.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ReadOnlyStringWrapper</span><span class="w"> </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="p">(</span><span class="s">"jamestkirk"</span><span class="p">);</span>
+<span class="n">ReadOnlyStringProperty</span><span class="w"> </span><span class="n">readOnlyUserName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">getReadOnlyProperty</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>밖에서는 읽기만, 안에서는 바꿀 수 있게 하려면:</p>
+<ol>
+<li>클래스 안에 <code>ReadOnlyStringWrapper</code>(바꿀 수 있는 원본)를 둬요.</li>
+<li>밖에 줄 때는 <code>getReadOnlyProperty()</code>로 <strong>읽기 전용 얼굴</strong>만 줘요.</li>
+</ol>
+<p><code>ReadOnlyStringProperty</code>에는 <code>set()</code>이 아예 없어서 바깥 코드가 바꿀 수 없어요. private 필드 + getter만 두는 캡슐화와 같은 생각이에요.</p>
+</div><h3 id="creating-a-property">📑 Creating a property <a class="anchor" aria-label="링크" href="#creating-a-property">#</a></h3>
+<blockquote>
+<p>Simple classes: <code>SimpleBooleanProperty, SimpleDoubleProperty, SimpleIntegerProperty, SimpleStringProperty, SimpleObjectProperty, SimpleListProperty, ...</code>. Without an initial value they default to 0, false, &quot;&quot; or an empty collection. They can also be created with a <strong>bean</strong> (owner object) and a <strong>name</strong>.</p>
+<p>All JavaFX properties can: 1. listen for changes, 2. bind, 3. get and set.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Simple</code> + 타입 + <code>Property</code>: <code>SimpleIntegerProperty</code>, <code>SimpleDoubleProperty</code>, <code>SimpleBooleanProperty</code>, <code>SimpleObjectProperty&lt;T&gt;</code>, <code>SimpleListProperty</code> ...</p>
+<p>초기값 없이 만들면 기본값: 숫자 0, boolean false, String <strong>&quot;&quot;</strong>(빈 문자열), 컬렉션은 빈 것.</p>
+<p>생성자에 <code>(bean, name, 초기값)</code>을 줄 수 있어요. bean = 이 property를 가진 객체(<code>this</code>), name = 이름. 디버깅이나 리스너에서 &quot;누구의 무슨 property인지&quot; 알 때 써요.</p>
+<p>모든 Property의 3가지 능력: <strong>listen, bind, get/set</strong>.</p>
+</div><h3 id="javafx-java-bean-example">📑 JavaFX Java Bean: Example <a class="anchor" aria-label="링크" href="#javafx-java-bean-example">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="w"> </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="s">"userName"</span><span class="p">,</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">"user.name"</span><span class="p">));</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="s">"password"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getUserName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ReadOnlyStringProperty</span><span class="w"> </span><span class="nf">userNameProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">getReadOnlyProperty</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getPassword</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setPassword</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="nf">passwordProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">password</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JavaFX Bean 규칙(시험에 자주 나와요). 속성 이름이 <code>password</code>면:</p>
+<table>
+<thead>
+<tr>
+<th>메서드</th>
+<th>모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>getter</td>
+<td><code>public final String getPassword()</code></td>
+</tr>
+<tr>
+<td>setter</td>
+<td><code>public final void setPassword(String)</code></td>
+</tr>
+<tr>
+<td>property getter</td>
+<td><code>public StringProperty passwordProperty()</code></td>
+</tr>
+</tbody>
+</table>
+<p>읽기 전용인 <code>userName</code>은 setter가 <strong>없고</strong>, <code>userNameProperty()</code>가 <code>ReadOnlyStringProperty</code>를 돌려줘요. TableView의 <code>PropertyValueFactory(&quot;password&quot;)</code>가 이 이름 규칙으로 메서드를 찾아요(Week 7, 8과 연결).</p>
+</div><h3 id="listeners">📑 Listeners <a class="anchor" aria-label="링크" href="#listeners">#</a></h3>
+<blockquote>
+<p><code>addListener()</code> accepts two types of functional interfaces: <strong>ChangeListener</strong> and <strong>InvalidationListener</strong>. Clean up listeners with <code>removeListener()</code> by passing a referenced (named) listener.</p>
+</blockquote>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: SimpleIntegerProperty에 ChangeListener를 달고 set(5), set(5), set(7)을 해서 리스너가 몇 번 불리는지 세어 보기</p>
+<pre class="hl"><code class="language-java"><span class="n">SimpleIntegerProperty</span><span class="w"> </span><span class="n">xProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">xProperty</span><span class="p">.</span><span class="na">addListener</span><span class="p">((</span><span class="n">Observable</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// invalidated: value may have changed</span>
+<span class="p">});</span>
+
+<span class="n">xProperty</span><span class="p">.</span><span class="na">addListener</span><span class="p">((</span><span class="n">ObservableValue</span><span class="o">&lt;?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Number</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ov</span><span class="p">,</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">newVal</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// changed: we get the old and the new value</span>
+<span class="p">});</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>addListener</code>에 넣을 수 있는 두 종류:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>파라미터</th>
+<th>언제</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>InvalidationListener</code></td>
+<td><code>(Observable o)</code> 1개</td>
+<td>값이 <strong>무효해졌을 때</strong></td>
+</tr>
+<tr>
+<td><code>ChangeListener</code></td>
+<td><code>(ov, oldVal, newVal)</code> 3개</td>
+<td>값이 <strong>실제로 바뀌었을 때</strong></td>
+</tr>
+</tbody>
+</table>
+<p>람다 파라미터 개수로 Java가 어느 쪽인지 구분해요. 같은 값을 다시 <code>set</code>하면(5 → 5) ChangeListener는 <strong>안 불려요</strong>. 그래서 할 일 연습의 답은 2번(0→5, 5→7)이에요.</p>
+<p>리스너를 나중에 떼려면(<code>removeListener</code>) 람다를 <strong>변수에 담아 두어야</strong> 해요. 그 자리에서 쓴 람다는 다시 가리킬 방법이 없거든요.</p>
+</div><h3 id="change-vs-invalidation-listeners">📑 Change vs Invalidation Listeners <a class="anchor" aria-label="링크" href="#change-vs-invalidation-listeners">#</a></h3>
+<blockquote>
+<p>A ChangeListener gets the ObservableValue, the <strong>old value, and the new value</strong>. An InvalidationListener only gets the Observable. Invalidation marks values as invalid but does <strong>not recompute</strong> until needed (lazy), useful in layouts. ChangeListener is used for <strong>eager</strong> evaluation such as validation on a form.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><strong>Invalidation</strong>(lazy): &quot;값이 옛날 거야&quot; 표시만 하고 새 값을 바로 계산하지 않아요. 누가 <code>get()</code> 할 때 계산. 레이아웃처럼 자주 바뀌는 곳에서 효율적.</li>
+<li><strong>Change</strong>(eager): 바뀌는 즉시 새 값을 계산해서 old, new를 줘요. 폼 입력 검사(validation)처럼 바로 반응해야 할 때.</li>
+</ul>
+<p>외우는 법: 새 값이 필요하면 Change, 바뀌었다는 사실만 필요하면 Invalidation.</p>
+</div><h3 id="binding">📑 Binding <a class="anchor" aria-label="링크" href="#binding">#</a></h3>
+<blockquote>
+<p>Binding means at least two values being synchronized: when a dependent variable changes, the other variable changes. Behind the scenes, binding is a specific use-case of change-listening.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>바인딩 = 두 값을 <strong>항상 같게</strong> 유지. 속으로는 Change 리스너가 &quot;source 바뀌면 target도 set&quot;을 대신 해 주는 거예요. 리스너를 직접 쓰는 것보다 짧고 실수가 적어요.</p>
+</div><h3 id="one-directional-binding">📑 One-directional binding <a class="anchor" aria-label="링크" href="#one-directional-binding">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">sourceProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"First Value"</span><span class="p">);</span>
+<span class="n">StringProperty</span><span class="w"> </span><span class="n">targetProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"Second Value"</span><span class="p">);</span>
+<span class="n">targetProperty</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The target listens to the source. If already bound, the old binding is replaced. A null argument throws NullPointerException. The current value of the target is lost (immediately copied from the source).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>targetProperty.bind(sourceProperty)</code>: <strong>target이 source를 따라가요</strong>. 읽는 법: &quot;target을 source에 묶는다&quot;.</p>
+<ul>
+<li>bind 하는 순간 target의 &quot;Second Value&quot;는 <strong>사라지고</strong> &quot;First Value&quot;가 돼요.</li>
+<li>이미 다른 것에 bind돼 있으면 새 것으로 교체.</li>
+<li><code>bind(null)</code>은 <code>NullPointerException</code>.</li>
+<li>bind된 target에 <code>set()</code>하면 <code>RuntimeException</code>. 풀려면 <code>unbind()</code>.</li>
+</ul>
+<p>예: <code>label.textProperty().bind(textField.textProperty());</code> → 입력하는 대로 Label이 바뀌어요.</p>
+</div><h3 id="two-directional-binding">📑 Two-directional binding <a class="anchor" aria-label="링크" href="#two-directional-binding">#</a></h3>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: source &quot;A&quot;, target &quot;B&quot;로 bindBidirectional 후 두 값 출력, target.set(&quot;C&quot;) 후 source 값 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">targetProperty</span><span class="p">.</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>After a bidirectional binding, <strong>both properties will have the value of the property passed as an argument</strong> (the source property).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>bindBidirectional</code>: 어느 쪽을 바꿔도 다른 쪽이 따라와요. 시작할 때는 <strong>인자로 준 쪽(source) 값</strong>으로 둘 다 맞춰져요.</p>
+<p>할 일 연습 예상 결과: source &quot;A&quot;, target &quot;B&quot; → bind 후 둘 다 <strong>A</strong>. <code>target.set(&quot;C&quot;)</code> 후 source도 <strong>C</strong>. 단방향과 달리 target에 <code>set</code>해도 에러가 안 나요.</p>
+<p>폼에서 TextField와 Model의 property를 양방향으로 묶으면, 입력하면 Model이 바뀌고 Model을 바꾸면 화면이 바뀌어요.</p>
+</div><h3 id="intermediate-binding-techniques">📑 Intermediate binding techniques <a class="anchor" aria-label="링크" href="#intermediate-binding-techniques">#</a></h3>
+<blockquote>
+<p>Three ways: the <strong>Fluent API</strong> (<code>myProperty.multiply(2)</code>), the <strong>Bindings API</strong> (<code>Bindings.add(a, b)</code>), the <strong>Low-Level API</strong> (custom <code>DoubleBinding</code>).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>&quot;그대로 복사&quot;가 아니라 <strong>계산된 값</strong>에 묶고 싶을 때 3가지 방법:</p>
+<ol>
+<li><strong>Fluent API</strong>: property에 바로 <code>.add()</code>, <code>.multiply()</code>, <code>.concat()</code>을 이어 붙이기. 가장 읽기 쉬움.</li>
+<li><strong>Bindings API</strong>: <code>Bindings.add(a, b)</code> 같은 정적 메서드.</li>
+<li><strong>Low-Level API</strong>: <code>DoubleBinding</code>을 직접 만들어 <code>computeValue()</code>에 계산식. 가장 자유로움.</li>
+</ol>
+</div><h3 id="fluent-api">📑 Fluent API <a class="anchor" aria-label="링크" href="#fluent-api">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">sourceProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"It doesn't matter how slowly you go"</span><span class="p">);</span>
+<span class="n">StringProperty</span><span class="w"> </span><span class="n">targetProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+<span class="n">targetProperty</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">.</span><span class="na">concat</span><span class="p">(</span><span class="s">" as long as you don't stop"</span><span class="p">));</span>
+
+<span class="n">DoubleProperty</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">(</span><span class="mi">180</span><span class="p">);</span>
+<span class="n">DoubleProperty</span><span class="w"> </span><span class="n">radians</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">();</span>
+<span class="n">radians</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">degrees</span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">).</span><span class="na">divide</span><span class="p">(</span><span class="mi">180</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>degrees.multiply(Math.PI).divide(180)</code>은 값이 아니라 **식(Binding 객체)**이에요. degrees가 바뀌면 radians도 자동 재계산.</p>
+<p>⚠️ 슬라이드 원본에 <code>target.bind(source).multiply(2)</code> 모양의 예가 있는데 <strong>틀렸어요</strong>. <code>bind()</code>는 void라서 뒤에 <code>.multiply</code>를 붙일 수 없어요. 계산은 항상 <strong>bind 괄호 안</strong>에서: <code>target.bind(source.multiply(2))</code>.</p>
+<p>String은 <code>concat</code>, 숫자는 <code>add/subtract/multiply/divide</code>, 비교는 <code>greaterThan</code>, <code>isEqualTo</code> 등.</p>
+</div><h3 id="the-bindings-api">📑 The Bindings API <a class="anchor" aria-label="링크" href="#the-bindings-api">#</a></h3>
+<blockquote>
+<p>A utility class with 249 methods. Operations on values (add, subtract, multiply, divide, min/max, comparisons, string formatting), on collections (bindContent, valueAt, size, isEmpty), and others (and, or, not, when). For subtract and divide, the <strong>order</strong> of arguments matters.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">NumberBinding</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bindings</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">priceA</span><span class="p">,</span><span class="w"> </span><span class="n">priceB</span><span class="p">);</span>
+<span class="n">Bindings</span><span class="p">.</span><span class="na">bindContent</span><span class="p">(</span><span class="n">plainList</span><span class="p">,</span><span class="w"> </span><span class="n">observableList</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Bindings</code> 클래스의 정적 메서드들이에요. <code>Bindings.add(priceA, priceB)</code>는 <code>priceA.add(priceB)</code>와 같아요. <code>subtract</code>, <code>divide</code>는 <strong>순서가 중요</strong>(a - b ≠ b - a).</p>
+<p><code>Bindings.bindContent(plainList, observableList)</code>: ObservableList 내용이 바뀌면 일반 List도 똑같이 맞춰져요. <code>Bindings.when(조건).then(값1).otherwise(값2)</code>는 바인딩 버전 삼항 연산자예요.</p>
+</div><h3 id="low-level-binding">📑 Low-Level Binding <a class="anchor" aria-label="링크" href="#low-level-binding">#</a></h3>
+<blockquote>
+<p>Create a Binding object yourself; only override <strong>computeValue()</strong>. Bind the sources in an initialization block.</p>
+</blockquote>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: cost와 itemCount로 DoubleBinding을 만들고 itemCount를 바꿔서 totalCost가 자동으로 바뀌는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">DoubleProperty</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">IntegerProperty</span><span class="w"> </span><span class="n">itemCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+
+<span class="n">DoubleBinding</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DoubleBinding</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span><span class="w"> </span><span class="n">itemCount</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">computeValue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">itemCount</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>계산이 복잡할 때 직접 Binding을 만들어요.</p>
+<ol>
+<li><code>new DoubleBinding() { ... }</code> 익명 클래스.</li>
+<li><code>{ super.bind(cost, itemCount); }</code>: <strong>초기화 블록</strong>(이름 없는 중괄호)에서 &quot;이 값들이 바뀌면 다시 계산해&quot;라고 등록.</li>
+<li><code>computeValue()</code>만 오버라이드해서 계산식 반환.</li>
+</ol>
+<p>처음 값: 15 × 25 = <strong>375.0</strong>. <code>itemCount.set(20)</code> 하면 <code>totalCost.get()</code>이 <strong>500.0</strong>. <code>super.bind</code>를 빼먹으면 값이 바뀌어도 재계산이 안 돼요(시험 함정).</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-10-segment-4-gui-editor-painter-app-with-scene-builder">3. 📑 강의 슬라이드: Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-10-segment-4-gui-editor-painter-app-with-scene-builder">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Scene Builder로 <strong>그림판 앱</strong>(Painter)을 만들며 BorderPane, TitledPane, RadioButton + ToggleGroup, 마우스 드래그 이벤트를 연결해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Scene Graph and Node Size</strong>: 크기를 숫자로 딱 고정(<code>setWidth(300)</code>)하지 말고, 선호 크기(pref)와 최소/최대 범위를 주고 레이아웃에게 맡기라는 뜻이에요.</li>
+<li>👀 <strong>BorderPane areas</strong>: BorderPane 5칸: top, bottom, left, right, center.</li>
+<li>👀 <strong>Layout settings</strong>: <code>USE_COMPUTED_SIZE</code>: 내용물에 맞춰 크기 자동 계산(기본값).</li>
+<li>👀 <strong>RadioButton and ToggleGroup</strong>: RadioButton만 여러 개 두면 여러 개가 동시에 선택돼요.</li>
+<li>👀 <strong>Controller and event handler names</strong>: Scene Builder에서 쓰는 이름과 컨트롤러 메서드 이름이 정확히 같아야 해요(Week 7 FXML과 같은 규칙).</li>
+<li>⌨️ <strong><a href="#practice-7">PainterController</a></strong>:  (⌨️ Scene Builder로 화면을 만들고 PainterController를 직접 쳐서, 드래그하면 원이 그려지고 Undo, Clear가 동작하는지 확인)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 10 · Segment 4 &quot;Working with Scene Builder&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="scene-graph-and-node-size">📑 Scene Graph and Node Size <a class="anchor" aria-label="링크" href="#scene-graph-and-node-size">#</a></h3>
+<blockquote>
+<p>Nodes shouldn't be defined with explicit size. Instead specify a node's range with acceptable size; the <strong>preferred size</strong> properties should be used by the layout in most cases. A node's position should be defined <strong>relative</strong> to its parent.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>크기를 숫자로 딱 고정(<code>setWidth(300)</code>)하지 말고, **선호 크기(pref)**와 최소/최대 범위를 주고 레이아웃에게 맡기라는 뜻이에요. 그래야 창 크기를 바꿔도 잘 늘어나요. 위치도 절대 좌표가 아니라 <strong>부모 기준</strong>으로.</p>
+</div><h3 id="borderpane-areas">📑 BorderPane areas <a class="anchor" aria-label="링크" href="#borderpane-areas">#</a></h3>
+<blockquote>
+<p>All the areas in the BorderPane are optional. If the top or bottom area is empty, the left, center and right areas expand vertically. If the left or right area is empty, the center expands horizontally.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>BorderPane 5칸: top, bottom, left, right, center. 다 <strong>선택 사항</strong>이에요. 비어 있는 칸은 옆 칸이 늘어나서 채워요. 그림판에서는 left에 도구(VBox), center에 그림 그리는 Pane을 둬요. center가 남는 공간을 다 먹어서 그리기 영역이 커져요.</p>
+</div><h3 id="layout-settings">📑 Layout settings <a class="anchor" aria-label="링크" href="#layout-settings">#</a></h3>
+<blockquote>
+<ul>
+<li>VBox: Spacing 8, Margin 8, Pref size <strong>USE_COMPUTED_SIZE</strong>, Max Height <strong>MAX_VALUE</strong>.</li>
+<li>Drawing Pane (center, <code>fx:id=&quot;drawingAreaPane&quot;</code>): Max Width/Height MAX_VALUE, style <code>-fx-background-color: white</code>.</li>
+<li><strong>TitledPane</strong>: displays a title at its top and is a collapsible panel containing a layout node.</li>
+<li>VBox column: Max Width <strong>USE_PREF_SIZE</strong> (only as wide as it needs to be).</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>USE_COMPUTED_SIZE</code>: 내용물에 맞춰 크기 자동 계산(기본값).</li>
+<li><code>MAX_VALUE</code>(Double.MAX_VALUE): 가능한 만큼 <strong>늘어나기</strong>.</li>
+<li><code>USE_PREF_SIZE</code>: 선호 크기 이상으로 <strong>안 늘어나기</strong>. 도구 열이 필요한 만큼만 차지하게.</li>
+<li><code>TitledPane</code>: 제목 줄 + 접었다 펼 수 있는 패널. &quot;Color&quot;, &quot;Size&quot; 묶음에 써요.</li>
+<li><code>fx:id=&quot;drawingAreaPane&quot;</code>: 컨트롤러의 <code>@FXML Pane drawingAreaPane</code>과 <strong>이름이 같아야</strong> 연결돼요.</li>
+</ul>
+</div><h3 id="radiobutton-and-togglegroup">📑 RadioButton and ToggleGroup <a class="anchor" aria-label="링크" href="#radiobutton-and-togglegroup">#</a></h3>
+<blockquote>
+<p>RadioButtons function as mutually exclusive options. Add multiple RadioButtons to a <strong>ToggleGroup</strong> to ensure that only one is selected at a time. In Scene Builder set the Toggle Group property to <code>colorToggleGroup</code> / <code>sizeToggleGroup</code>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>RadioButton만 여러 개 두면 <strong>여러 개가 동시에</strong> 선택돼요. 같은 <code>ToggleGroup</code>에 넣어야 하나만 선택돼요. 색 그룹(colorToggleGroup)과 크기 그룹(sizeToggleGroup)을 따로 두어서 색 하나, 크기 하나를 고르게 해요.</p>
+<p>코드로는 <code>rb.setToggleGroup(group);</code>. 선택된 것은 <code>group.getSelectedToggle()</code>.</p>
+</div><h3 id="controller-and-event-handler-names">📑 Controller and event handler names <a class="anchor" aria-label="링크" href="#controller-and-event-handler-names">#</a></h3>
+<blockquote>
+<p>Controller Class: <code>PainterController</code>. drawingAreaPane On Mouse Dragged: <code>drawingAreaMouseDragged</code>. Color RadioButtons On Action: <code>colorRadioButtonSelected</code>. Size RadioButtons: <code>sizeRadioButtonSelected</code>. Undo: <code>undoButtonPressed</code>. Clear: <code>clearButtonPressed</code>. Scene Builder can generate a skeleton: <strong>View &gt; Show Sample Controller Skeleton</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Scene Builder에서 쓰는 이름과 컨트롤러 메서드 이름이 <strong>정확히 같아야</strong> 해요(Week 7 FXML과 같은 규칙). FXML에는 <code>onMouseDragged=&quot;#drawingAreaMouseDragged&quot;</code>처럼 <code>#</code>이 붙어요.</p>
+<p><code>View &gt; Show Sample Controller Skeleton</code>을 누르면 Scene Builder가 @FXML 필드와 빈 메서드를 만들어 줘요. 복사해서 시작하면 오타가 줄어요.</p>
+</div><h3 id="paintercontroller">📑 PainterController <a class="anchor" aria-label="링크" href="#paintercontroller">#</a></h3>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Scene Builder로 화면을 만들고 PainterController를 직접 쳐서, 드래그하면 원이 그려지고 Undo, Clear가 동작하는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PainterController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="n">PenSize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SMALL</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">MEDIUM</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">LARGE</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">        </span><span class="n">PenSize</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">radius</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getRadius</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">RadioButton</span><span class="w"> </span><span class="n">blackRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">redRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">greenRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">blueRadioButton</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">RadioButton</span><span class="w"> </span><span class="n">smallRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">mediumRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">largeRadioButton</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">ToggleGroup</span><span class="w"> </span><span class="n">colorToggleGroup</span><span class="p">,</span><span class="w"> </span><span class="n">sizeToggleGroup</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">Pane</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PenSize</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PenSize</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Paint</span><span class="w"> </span><span class="n">brushColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">blackRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">);</span>
+<span class="w">        </span><span class="n">redRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">RED</span><span class="p">);</span>
+<span class="w">        </span><span class="n">greenRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">GREEN</span><span class="p">);</span>
+<span class="w">        </span><span class="n">blueRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLUE</span><span class="p">);</span>
+<span class="w">        </span><span class="n">smallRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">SMALL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">mediumRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">);</span>
+<span class="w">        </span><span class="n">largeRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">LARGE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">drawingAreaMouseDragged</span><span class="p">(</span><span class="n">MouseEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Circle</span><span class="w"> </span><span class="n">newCircle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getX</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">getY</span><span class="p">(),</span><span class="w"> </span><span class="n">radius</span><span class="p">.</span><span class="na">getRadius</span><span class="p">(),</span><span class="w"> </span><span class="n">brushColor</span><span class="p">);</span>
+<span class="w">        </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">newCircle</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">colorRadioButtonSelected</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">brushColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Color</span><span class="p">)</span><span class="w"> </span><span class="n">colorToggleGroup</span><span class="p">.</span><span class="na">getSelectedToggle</span><span class="p">().</span><span class="na">getUserData</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sizeRadioButtonSelected</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PenSize</span><span class="p">)</span><span class="w"> </span><span class="n">sizeToggleGroup</span><span class="p">.</span><span class="na">getSelectedToggle</span><span class="p">().</span><span class="na">getUserData</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">undoButtonPressed</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">remove</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">clearButtonPressed</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>코드 읽기 포인트:</p>
+<ul>
+<li><strong>enum PenSize</strong>: SMALL(2), MEDIUM(4), LARGE(6). enum에 필드와 생성자를 둘 수 있어요. <code>radius.getRadius()</code>로 숫자를 꺼내요.</li>
+<li><strong><code>initialize()</code></strong>: FXML이 로드되고 @FXML 필드가 채워진 <strong>뒤에</strong> 자동 호출돼요. 생성자에서 하면 필드가 아직 null이라 안 돼요.</li>
+<li><strong><code>setUserData</code></strong>: 버튼마다 &quot;내 값&quot;(Color, PenSize)을 붙여 두기. 그래서 핸들러 하나(<code>colorRadioButtonSelected</code>)로 버튼 4개를 처리해요. <code>getUserData()</code>는 Object라서 <strong>캐스팅</strong> <code>(Color)</code> 필요.</li>
+<li><strong>드래그</strong>: 마우스가 움직일 때마다 그 위치에 작은 <code>Circle</code>을 Pane 자식으로 추가. 원이 촘촘히 이어져서 선처럼 보여요.</li>
+<li><strong>Undo</strong>: 마지막 자식(<code>count - 1</code>) 하나 삭제. 원 하나만 지워져서 여러 번 눌러야 해요. <code>count &gt; 0</code> 검사 없이 지우면 빈 화면에서 예외.</li>
+<li><strong>Clear</strong>: <code>getChildren().clear()</code>.</li>
+</ul>
+<p>Paint vs Color: <code>Color</code>는 <code>Paint</code>의 자식이에요. 그래서 <code>Paint brushColor = Color.BLACK;</code>이 돼요.</p>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-10">🧩 이번 주 토이 프로젝트: CafeOrder Week 10 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-10">#</a></h2>
+<p>주문 화면의 합계를 <strong>바인딩</strong>으로 바꿔요. 각 <code>OrderLine</code>에 <code>IntegerProperty quantity</code>, <code>DoubleProperty price</code>를 두고 <code>subtotal = quantity.multiply(price)</code>로 묶어요. 합계 Label은 <code>totalLabel.textProperty().bind(Bindings.format(&quot;$%.2f&quot;, total))</code>. 메뉴 검색은 스트림으로: <code>menu.stream().filter(i -&gt; i.getName().contains(keyword)).collect(Collectors.toList())</code>. 버튼 이벤트는 전부 람다로. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-10">✅ 시험 대비 체크리스트 (Week 10) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-10">#</a></h2>
+<ul>
+<li>[ ] 람다 문법 규칙(괄호, 중괄호, return 생략)을 설명하고 틀린 람다를 찾을 수 있다.</li>
+<li>[ ] 함수형 인터페이스(SAM)의 뜻과 <code>@FunctionalInterface</code>의 역할을 안다.</li>
+<li>[ ] 익명 클래스를 람다로, 람다를 메서드 참조로 바꿀 수 있다.</li>
+<li>[ ] Predicate, Consumer, Function의 메서드 이름과 반환 타입을 안다.</li>
+<li>[ ] filter, sorted, map, forEach, collect로 파이프라인을 쓰고 결과를 예측할 수 있다.</li>
+<li>[ ] 중간 연산(lazy)과 최종 연산을 구분하고, 스트림은 한 번만 쓸 수 있음을 안다.</li>
+<li>[ ] Simple...Property를 만들고 get/set 할 수 있고, ReadOnlyWrapper의 쓰임을 안다.</li>
+<li>[ ] JavaFX Bean의 세 메서드(getX, setX, xProperty) 이름 규칙을 안다.</li>
+<li>[ ] ChangeListener와 InvalidationListener의 차이(파라미터, eager/lazy)를 안다.</li>
+<li>[ ] bind와 bindBidirectional의 방향, 초기값, set 가능 여부를 안다.</li>
+<li>[ ] Fluent API, Bindings API, Low-Level(computeValue)로 계산된 바인딩을 만들 수 있다.</li>
+<li>[ ] ToggleGroup, setUserData/getUserData, initialize()의 역할을 안다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li>다음 람다 중 컴파일 에러가 나는 것을 모두 고르세요.</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="n">Runnable</span><span class="w"> </span><span class="n">r1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"hi"</span><span class="p">);</span>
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="n">BiFunction</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="p">};</span>
+<span class="n">Supplier</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">s1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="s">"hello"</span><span class="p">;</span>
+</code></pre>
+<details><summary>1번 정답</summary>
+<p><code>r1</code>(파라미터 없으면 <code>()</code> 필수), <code>f2</code>(중괄호 없이 return 불가), <code>f3</code>(중괄호 안에서는 <code>return a + b;</code> 필요). f1, s1은 정상.</p>
+</details>
+<ol start="2">
+<li><code>List&lt;String&gt; names = Arrays.asList(&quot;Kim&quot;, &quot;Lee&quot;, &quot;Park&quot;, &quot;Choi&quot;, &quot;Jo&quot;);</code>에서 길이가 3 이상인 이름만 대문자로 바꿔 알파벳순 List로 만드는 스트림을 쓰세요. 결과는?</li>
+</ol>
+<details><summary>2번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">names</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">n</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">n</span><span class="p">.</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">String</span><span class="p">::</span><span class="n">toUpperCase</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">sorted</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">result</span><span class="p">);</span><span class="w">   </span><span class="c1">// [CHOI, KIM, LEE, PARK]</span>
+</code></pre>
+</details>
+<ol start="3">
+<li>출력을 예측하세요.</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="n">IntegerProperty</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">IntegerProperty</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">IntegerProperty</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="n">c</span><span class="p">.</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">get</span><span class="p">());</span>
+</code></pre>
+<details><summary>3번 정답</summary>
+<p><code>5 50 50</code>. b는 a × 10을 따라가요(10 → 50). c는 b와 양방향이라 처음에 b 값(10)으로 맞춰지고, b가 50이 되면 c도 50. (주의: 이 상태에서 <code>c.set(7)</code>을 하면 b에 set하려다 b가 단방향 bind돼 있어서 예외가 나요.)</p>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w10" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-09.html"><small>← 이전</small>Week 9. 파일 입출력</a><a class="next" href="week-11.html"><small>다음 →</small>Week 11. 스레드</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

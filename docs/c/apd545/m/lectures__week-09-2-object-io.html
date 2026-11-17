@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 9 · Segment 2. Reading and Writing Whole Objects · APD545</title><meta name="description" content="Week 9 · Segment 2. Reading and Writing Whole Objects · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 9 · Segment 2. Reading and Writing Whole Objects</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#objectoutputstream">ObjectOutputStream</a></li><li class="l2"><a href="#serialization">Serialization</a></li><li class="l2"><a href="#de-serialization">De-Serialization</a></li><li class="l2"><a href="#danger-class-changes">Danger: class changes</a></li><li class="l2"><a href="#transient-and-custom-serialization">transient and custom serialization</a></li><li class="l2"><a href="#serialization-rules">Serialization rules</a></li><li class="l2"><a href="#randomaccessfile">RandomAccessFile</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 9 · Segment 2 &quot;Java Files and Streams: Object Writing&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-9-segment-2-reading-and-writing-whole-objects">Week 9 · Segment 2. Reading and Writing Whole Objects <a class="anchor" aria-label="링크" href="#week-9-segment-2-reading-and-writing-whole-objects">#</a></h1>
+<h2 id="objectoutputstream">ObjectOutputStream <a class="anchor" aria-label="링크" href="#objectoutputstream">#</a></h2>
+<blockquote>
+<p>Save or load entire JAVA objects with one method call, instead of breaking apart the object into its attributes. ObjectOutputStream is a <strong>wrapper</strong> around the FileOutputStream.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BankAccount</span><span class="w"> </span><span class="n">aBankAccount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BankAccount</span><span class="p">(</span><span class="s">"Rob Banks"</span><span class="p">);</span>
+<span class="n">aBankAccount</span><span class="p">.</span><span class="na">deposit</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="s">"myAcc.dat"</span><span class="p">));</span>
+<span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">);</span>
+<span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<h2 id="serialization">Serialization <a class="anchor" aria-label="링크" href="#serialization">#</a></h2>
+<blockquote>
+<p><strong>Serialization</strong> is the process of breaking down an object into bytes. The object must implement <strong>java.io.Serializable</strong>. This interface does not have any methods; it acts as a <strong>&quot;flag&quot;</strong> that indicates your permission for this object to be serialized.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BankAccount</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">Serializable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>All of the &quot;pieces&quot; of the object must also be serializable. If BankAccount has a <code>Customer owner</code>, then Customer must be Serializable too. Think of a meat grinder: marbles in the meat cannot come out through the grinder.</p>
+</blockquote>
+<h2 id="de-serialization">De-Serialization <a class="anchor" aria-label="링크" href="#de-serialization">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"myAcc.dat"</span><span class="p">));</span>
+<span class="w">    </span><span class="n">BankAccount</span><span class="w"> </span><span class="n">aBankAccount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">BankAccount</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ClassNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Object's class does not match"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot open file"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot read from file"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Once read in, the object must be <strong>type-casted</strong>. A <strong>ClassNotFoundException</strong> may be generated.</p>
+</blockquote>
+<h2 id="danger-class-changes">Danger: class changes <a class="anchor" aria-label="링크" href="#danger-class-changes">#</a></h2>
+<blockquote>
+<p>The saved binary format depends on the class name, attribute types and names. If you change the class definition after it has been saved, it may not be able to be read back in again.</p>
+</blockquote>
+<h2 id="transient-and-custom-serialization">transient and custom serialization <a class="anchor" aria-label="링크" href="#transient-and-custom-serialization">#</a></h2>
+<blockquote>
+<p>Declare any attribute as <strong>transient</strong> (it will not be serialized): <code>private transient String password;</code>. You can write <code>writeObject(ObjectOutputStream)</code> and <code>readObject(ObjectInputStream)</code> to override the default; <code>defaultWriteObject()</code> / <code>defaultReadObject()</code> do the default behavior.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">writeObject</span><span class="p">(</span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">defaultWriteObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">password</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">readObject</span><span class="p">(</span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ClassNotFoundException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">in</span><span class="p">.</span><span class="na">defaultReadObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">decrypt</span><span class="p">((</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="serialization-rules">Serialization rules <a class="anchor" aria-label="링크" href="#serialization-rules">#</a></h2>
+<blockquote>
+<ol>
+<li>If a parent class has implemented Serializable then child class doesn't need to implement it, but vice-versa is not true.</li>
+<li>Only non-static data members are saved.</li>
+<li><strong>Static</strong> data members and <strong>transient</strong> data members are <strong>not saved</strong>.</li>
+<li><strong>Constructor of object is never called</strong> when an object is de-serialized.</li>
+<li>Associated objects must be implementing Serializable.</li>
+</ol>
+</blockquote>
+<h2 id="randomaccessfile">RandomAccessFile <a class="anchor" aria-label="링크" href="#randomaccessfile">#</a></h2>
+<blockquote>
+<p>All streams so far are read-only or write-only, sequential. <strong>RandomAccessFile</strong> allows a file to be read from and written to at random locations. The <strong>file pointer</strong> is where the next read or write occurs; <code>readInt()</code> moves it 4 bytes ahead.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">RandomAccessFile</span><span class="w"> </span><span class="n">raf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RandomAccessFile</span><span class="p">(</span><span class="s">"test.dat"</span><span class="p">,</span><span class="w"> </span><span class="s">"rw"</span><span class="p">);</span><span class="w">   </span><span class="c1">// "r" = read only</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">writeInt</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">raf</span><span class="p">.</span><span class="na">seek</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span><span class="w">                         </span><span class="c1">// jump to byte 8 (the 3rd int)</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">readInt</span><span class="p">();</span><span class="w">               </span><span class="c1">// 20</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">getFilePointer</span><span class="p">();</span><span class="w">     </span><span class="c1">// 12</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">length</span><span class="p">();</span><span class="w">             </span><span class="c1">// 20</span>
+<span class="n">raf</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

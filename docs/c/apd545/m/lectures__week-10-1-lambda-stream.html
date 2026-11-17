@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 10 · Segment 1. Lambda and Stream · APD545</title><meta name="description" content="Week 10 · Segment 1. Lambda and Stream · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 10 · Segment 1. Lambda and Stream</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#why-the-need">Why the need?</a></li><li class="l2"><a href="#what-is-functional-programming">What is Functional Programming?</a></li><li class="l2"><a href="#lambda">Lambda</a></li><li class="l2"><a href="#imperative-vs-declarative">Imperative vs Declarative</a></li><li class="l2"><a href="#javafx-button-onaction">JavaFX Button onAction</a></li><li class="l2"><a href="#lambda-expressions-syntax">Lambda Expressions: Syntax</a></li><li class="l2"><a href="#functional-interfaces">Functional Interfaces</a></li><li class="l2"><a href="#method-reference">Method Reference</a></li><li class="l2"><a href="#javautilfunction">java.util.function</a></li><li class="l2"><a href="#what-are-streams">What are Streams?</a></li><li class="l2"><a href="#java-7-vs-java-8-code">Java 7 VS Java 8 Code</a></li><li class="l2"><a href="#what-exactly-is-the-stream">What exactly is the Stream?</a></li><li class="l2"><a href="#two-important-characteristics">Two important characteristics</a></li><li class="l2"><a href="#stream-operations">Stream Operations</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 10 · Segment 1 &quot;Java Lambdas and Streams&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-10-segment-1-lambda-and-stream">Week 10 · Segment 1. Lambda and Stream <a class="anchor" aria-label="링크" href="#week-10-segment-1-lambda-and-stream">#</a></h1>
+<h2 id="why-the-need">Why the need? <a class="anchor" aria-label="링크" href="#why-the-need">#</a></h2>
+<blockquote>
+<p>The biggest need is due to the rise of <strong>multicore CPUs</strong>. Java 8 lambdas allow you to write complex collection-processing algorithms, and simply by changing a single method call you can efficiently execute this code on multicore CPUs.</p>
+</blockquote>
+<h2 id="what-is-functional-programming">What is Functional Programming? <a class="anchor" aria-label="링크" href="#what-is-functional-programming">#</a></h2>
+<blockquote>
+<p>Passing code to methods (and also being able to return it and incorporate it into data structures) is commonly referred to as <strong>functional-style programming</strong>. It is thinking about your problem domain in terms of <strong>immutable values and functions</strong> that translate between them.</p>
+</blockquote>
+<h2 id="lambda">Lambda <a class="anchor" aria-label="링크" href="#lambda">#</a></h2>
+<blockquote>
+<p>Named after <strong>lambda calculus</strong>. Languages that support functional programming can create <strong>anonymous (unnamed) functions</strong>, commonly known as <strong>closures</strong>. In Java 8, functions can be treated like objects: assigned to variables and passed into other functions.</p>
+</blockquote>
+<h2 id="imperative-vs-declarative">Imperative vs Declarative <a class="anchor" aria-label="링크" href="#imperative-vs-declarative">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Imperative</strong> style: we tell Java every step of what we want it to do.</li>
+<li><strong>Declarative</strong> style: what we want rather than how to do it.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// imperative: every step</span>
+<span class="kt">boolean</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">city</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">cities</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">city</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">found</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w"> </span><span class="k">break</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// declarative: just say what you want</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Found chicago?:"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">cities</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"Chicago"</span><span class="p">));</span>
+</code></pre>
+<blockquote>
+<p>Improvements: no messing around with mutable variables, iteration steps wrapped under the hood, less clutter, better clarity, less error prone.</p>
+</blockquote>
+<h2 id="javafx-button-onaction">JavaFX Button onAction <a class="anchor" aria-label="링크" href="#javafx-button-onaction">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Hello World"</span><span class="p">));</span>
+</code></pre>
+<h2 id="lambda-expressions-syntax">Lambda Expressions: Syntax <a class="anchor" aria-label="링크" href="#lambda-expressions-syntax">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="p">(</span><span class="n">param1</span><span class="p">,</span><span class="w"> </span><span class="n">param2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">expression</span><span class="p">;</span>
+<span class="p">(</span><span class="n">param1</span><span class="p">,</span><span class="w"> </span><span class="n">param2</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* code statements */</span><span class="w"> </span><span class="p">};</span>
+</code></pre>
+<blockquote>
+<ul>
+<li>Parentheses are optional only if there is <strong>one</strong> parameter. With <strong>no</strong> parameters, the parentheses are still required: <code>() -&gt; ...</code>.</li>
+<li>Without curly braces, the body must be a single expression; it is evaluated and <strong>returned implicitly</strong>.</li>
+<li>With curly braces and a return type, you <strong>must have a return</strong> statement.</li>
+<li>Lambdas don't define a return type; it is defined by the <strong>functional interface</strong> (the context).</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Function</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w">   </span><span class="c1">// explicit return</span>
+<span class="n">Function</span><span class="o">&lt;</span><span class="n">Double</span><span class="p">,</span><span class="w"> </span><span class="n">Double</span><span class="o">&gt;</span><span class="w"> </span><span class="n">f2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w">               </span><span class="c1">// implicit return</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f2</span><span class="p">.</span><span class="na">apply</span><span class="p">(</span><span class="mf">2.0</span><span class="p">);</span><span class="w">                               </span><span class="c1">// 4.0</span>
+
+<span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">y</span><span class="w">                                 </span><span class="c1">// same thing</span>
+
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">);</span><span class="w"> </span><span class="p">});</span>
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">((</span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">));</span>
+<span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">event</span><span class="p">));</span>
+</code></pre>
+<h2 id="functional-interfaces">Functional Interfaces <a class="anchor" aria-label="링크" href="#functional-interfaces">#</a></h2>
+<blockquote>
+<p>Any Java interface which contains <strong>one and only one abstract method</strong> (Single Abstract Method, SAM). <code>@FunctionalInterface</code> has no effect on the code; it is a compile time check.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">MyEquation</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">val1</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">val2</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="n">MyEquation</span><span class="w"> </span><span class="n">area</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">width</span><span class="p">;</span>
+<span class="n">MyEquation</span><span class="w"> </span><span class="n">perimeter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">height</span><span class="p">,</span><span class="w"> </span><span class="n">width</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">height</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">width</span><span class="p">;</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Area = "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">area</span><span class="p">.</span><span class="na">compute</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span><span class="w">            </span><span class="c1">// 12.0</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Perimeter = "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">perimeter</span><span class="p">.</span><span class="na">compute</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">));</span><span class="w">  </span><span class="c1">// 14.0</span>
+</code></pre>
+<h2 id="method-reference">Method Reference <a class="anchor" aria-label="링크" href="#method-reference">#</a></h2>
+<blockquote>
+<p>Syntactic sugar for a lambda that just calls one method. The double colon <code>::</code> references the method by name.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">btn</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span><span class="w">    </span><span class="c1">// same as e -&gt; System.out.println(e)</span>
+</code></pre>
+<h2 id="javautilfunction">java.util.function <a class="anchor" aria-label="링크" href="#javautilfunction">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Predicate&lt;T&gt;</strong>: <code>boolean test(T t)</code>. Filter operations.</li>
+<li><strong>Consumer&lt;T&gt;</strong>: <code>void accept(T t)</code>. Do something with each element.</li>
+<li><strong>Function&lt;T,R&gt;</strong>: <code>R apply(T t)</code>. Map one object to another.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byWeight</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">compare</span><span class="p">(</span><span class="n">Apple</span><span class="w"> </span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">Apple</span><span class="w"> </span><span class="n">a2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="na">getWeight</span><span class="p">().</span><span class="na">compareTo</span><span class="p">(</span><span class="n">a2</span><span class="p">.</span><span class="na">getWeight</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+<span class="n">Comparator</span><span class="o">&lt;</span><span class="n">Apple</span><span class="o">&gt;</span><span class="w"> </span><span class="n">byWeight2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a1</span><span class="p">,</span><span class="w"> </span><span class="n">a2</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">a1</span><span class="p">.</span><span class="na">getWeight</span><span class="p">().</span><span class="na">compareTo</span><span class="p">(</span><span class="n">a2</span><span class="p">.</span><span class="na">getWeight</span><span class="p">());</span>
+</code></pre>
+<h2 id="what-are-streams">What are Streams? <a class="anchor" aria-label="링크" href="#what-are-streams">#</a></h2>
+<blockquote>
+<p>Streams let you manipulate collections of data in a <strong>declarative</strong> way (you express a query). Think of them as fancy iterators. Streams can be processed <strong>in parallel</strong> transparently. A <strong>pipeline</strong> is a sequence of operations. Start with the <code>stream()</code> method of <code>Collection</code>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span><span class="w"> </span><span class="mi">84</span><span class="p">,</span><span class="w"> </span><span class="mi">74</span><span class="p">,</span><span class="w"> </span><span class="mi">85</span><span class="p">,</span><span class="w"> </span><span class="mi">54</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">54</span><span class="p">;</span>
+<span class="n">values</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">val</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">threshold</span><span class="p">)</span><span class="w">                          </span><span class="c1">// Predicate</span>
+<span class="w">      </span><span class="p">.</span><span class="na">sorted</span><span class="p">()</span>
+<span class="w">      </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">dec</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">toHexString</span><span class="p">(</span><span class="n">dec</span><span class="p">).</span><span class="na">toUpperCase</span><span class="p">())</span><span class="w">      </span><span class="c1">// Function</span>
+<span class="w">      </span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">val</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">val</span><span class="p">));</span><span class="w">                </span><span class="c1">// Consumer</span>
+</code></pre>
+<h2 id="java-7-vs-java-8-code">Java 7 VS Java 8 Code <a class="anchor" aria-label="링크" href="#java-7-vs-java-8-code">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">lowCaloricDishesName</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="n">menu</span><span class="p">.</span><span class="na">stream</span><span class="p">()</span>
+<span class="w">        </span><span class="p">.</span><span class="na">filter</span><span class="p">(</span><span class="n">d</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="na">getCalories</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">400</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">sorted</span><span class="p">(</span><span class="n">Comparator</span><span class="p">.</span><span class="na">comparing</span><span class="p">(</span><span class="n">Dish</span><span class="p">::</span><span class="n">getCalories</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="na">map</span><span class="p">(</span><span class="n">Dish</span><span class="p">::</span><span class="n">getName</span><span class="p">)</span>
+<span class="w">        </span><span class="p">.</span><span class="na">collect</span><span class="p">(</span><span class="n">Collectors</span><span class="p">.</span><span class="na">toList</span><span class="p">());</span>
+</code></pre>
+<h2 id="what-exactly-is-the-stream">What exactly is the Stream? <a class="anchor" aria-label="링크" href="#what-exactly-is-the-stream">#</a></h2>
+<blockquote>
+<p>A sequence of elements from a source that supports data processing operations. <strong>Collections are about data; Streams are about computations.</strong> Sources: collections, arrays, I/O resources. Operations: filter, map, reduce, find, match, sort.</p>
+</blockquote>
+<h2 id="two-important-characteristics">Two important characteristics <a class="anchor" aria-label="링크" href="#two-important-characteristics">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Pipelining</strong>: many stream operations return a stream themselves, so they can be chained.</li>
+<li><strong>Internal iteration</strong>: stream operations do the iteration behind the scenes.</li>
+<li><strong>Traversable only once</strong>: after the first iteration the stream is consumed.</li>
+</ul>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Stream</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Arrays</span><span class="p">.</span><span class="na">asList</span><span class="p">(</span><span class="s">"Sky"</span><span class="p">,</span><span class="w"> </span><span class="s">"is"</span><span class="p">,</span><span class="w"> </span><span class="s">"blue"</span><span class="p">).</span><span class="na">stream</span><span class="p">();</span>
+<span class="n">a</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span>
+<span class="n">a</span><span class="p">.</span><span class="na">forEach</span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">::</span><span class="n">println</span><span class="p">);</span><span class="w">   </span><span class="c1">// throws IllegalStateException</span>
+</code></pre>
+<h2 id="stream-operations">Stream Operations <a class="anchor" aria-label="링크" href="#stream-operations">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>Intermediate</strong> operations such as filter or sorted return another stream. They don't perform any processing until a terminal operation is invoked: they're <strong>lazy</strong>.</li>
+<li><strong>Terminal</strong> operations produce a result: a List, an Integer, or even void (forEach, collect, count, reduce).</li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

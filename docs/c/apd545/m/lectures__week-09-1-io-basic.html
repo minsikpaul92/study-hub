@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 9 · Segment 1. IO Basics: Files and Streams · APD545</title><meta name="description" content="Week 9 · Segment 1. IO Basics: Files and Streams · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 9 · Segment 1. IO Basics: Files and Streams</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#files-and-streams">Files and Streams</a></li><li class="l2"><a href="#streams">Streams</a></li><li class="l2"><a href="#buffers">Buffers</a></li><li class="l2"><a href="#writing-binary-data-fileoutputstream">Writing binary data: FileOutputStream</a></li><li class="l2"><a href="#dataoutputstream">DataOutputStream</a></li><li class="l2"><a href="#reading-binary-data-fileinputstream">Reading binary data: FileInputStream</a></li><li class="l2"><a href="#writing-text-printwriter">Writing text: PrintWriter</a></li><li class="l2"><a href="#reading-text-bufferedreader-and-scanner">Reading text: BufferedReader and Scanner</a></li><li class="l2"><a href="#buffering-and-chained-streams">Buffering and Chained Streams</a></li><li class="l2"><a href="#stream-io-operations">Stream IO Operations</a></li><li class="l2"><a href="#standard-template">Standard Template</a></li><li class="l2"><a href="#try-with-resources-java-7">try-with-resources (Java 7)</a></li><li class="l2"><a href="#byte-stream-vs-character-stream">Byte Stream vs Character Stream</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 9 · Segment 1 &quot;Java Files and Streams&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-9-segment-1-io-basics-files-and-streams">Week 9 · Segment 1. IO Basics: Files and Streams <a class="anchor" aria-label="링크" href="#week-9-segment-1-io-basics-files-and-streams">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<p>Examine Input/Output classes in java. Create and use I/O streams. Differences between <strong>Byte, Character and Buffered</strong> Streams. Designing and developing File I/O programs.</p>
+</blockquote>
+<h2 id="files-and-streams">Files and Streams <a class="anchor" aria-label="링크" href="#files-and-streams">#</a></h2>
+<blockquote>
+<p>To use a file, it must be first <strong>opened</strong>. When done with a file, it <strong>MUST be closed</strong>. The contents of a file is ultimately reduced to a set of numbers from 0 to 255 called bytes. In JAVA, files are represented as <strong>Stream</strong> objects. The information that is put into a stream comes out <strong>in the same order</strong>.</p>
+</blockquote>
+<h2 id="streams">Streams <a class="anchor" aria-label="링크" href="#streams">#</a></h2>
+<blockquote>
+<p>Streams provide a way to send or receive information to and from files, networks, different programs, and any I/O devices. When a JAVA program starts, 3 streams are automatically created: <code>System.in</code>, <code>System.out</code>, <code>System.err</code>.</p>
+<p>JAVA contains <strong>four</strong> main stream-related hierarchies: <strong>InputStream, OutputStream</strong> (binary bytes) and <strong>Reader, Writer</strong> (text). There is no common Stream class; these 4 abstract classes are the roots.</p>
+</blockquote>
+<h2 id="buffers">Buffers <a class="anchor" aria-label="링크" href="#buffers">#</a></h2>
+<blockquote>
+<p>I/O is a bottleneck. Buffered output allows data to be collected before it is actually sent; only when the buffer gets full does the data actually get sent. <code>flush()</code> empties the buffer immediately.</p>
+<p><code>System.in</code> is a <code>java.io.BufferedInputStream</code>, <code>System.out</code> is a <code>java.io.PrintStream</code>.</p>
+</blockquote>
+<h2 id="writing-binary-data-fileoutputstream">Writing binary data: FileOutputStream <a class="anchor" aria-label="링크" href="#writing-binary-data-fileoutputstream">#</a></h2>
+<blockquote>
+<p><code>new FileOutputStream(String fileName)</code> overwrites an existing file. <code>new FileOutputStream(String fileName, boolean append)</code>: if append = true the new data is appended to the end.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FileOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="s">"myFile.dat"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'H'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="mi">69</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="mi">76</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'L'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'O'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'!'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot open file for writing"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot write to file"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Two exceptions may occur: opening a file may generate <strong>FileNotFoundException</strong>; reading or writing may generate <strong>IOException</strong>. In a path string use two backslashes: <code>&quot;F:\\My Documents\\myFile.dat&quot;</code>.</p>
+</blockquote>
+<h2 id="dataoutputstream">DataOutputStream <a class="anchor" aria-label="링크" href="#dataoutputstream">#</a></h2>
+<blockquote>
+<p>A &quot;wrapper&quot; around the FileOutputStream that writes whole primitives and Strings: <code>writeInt, writeDouble, writeBoolean, writeChar, writeUTF(String)</code>, ... The output is in binary format.</p>
+</blockquote>
+<h2 id="reading-binary-data-fileinputstream">Reading binary data: FileInputStream <a class="anchor" aria-label="링크" href="#reading-binary-data-fileinputstream">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"myFile.dat"</span><span class="p">);</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">available</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">read</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">);</span>
+<span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<blockquote>
+<p><code>read()</code> reads a single byte. <code>available()</code> returns the number of bytes available to be read.</p>
+</blockquote>
+<h2 id="writing-text-printwriter">Writing text: PrintWriter <a class="anchor" aria-label="링크" href="#writing-text-printwriter">#</a></h2>
+<blockquote>
+<p>When objects are written to the text file, the <strong>toString()</strong> method is called. PrintWriter behaves just like the System.out console.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">PrintWriter</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrintWriter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileWriter</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getOwner</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getAccountNumber</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getBalance</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<h2 id="reading-text-bufferedreader-and-scanner">Reading text: BufferedReader and Scanner <a class="anchor" aria-label="링크" href="#reading-text-bufferedreader-and-scanner">#</a></h2>
+<blockquote>
+<p>We can only read in characters and lines of text from a text file, but NOT general objects.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BufferedReader</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">());</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">bal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Float</span><span class="p">.</span><span class="na">parseFloat</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">());</span>
+<span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="n">Scanner</span><span class="w"> </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">String</span><span class="w"> </span><span class="n">name2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">acc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">bal2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextFloat</span><span class="p">();</span>
+<span class="n">sc</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<h2 id="buffering-and-chained-streams">Buffering and Chained Streams <a class="anchor" aria-label="링크" href="#buffering-and-chained-streams">#</a></h2>
+<blockquote>
+<p>read()/write() of a single byte is inefficient; each call is handled by the OS. Buffering reads/writes a <strong>block</strong> of bytes into a memory buffer (byte array, default <strong>8192</strong> bytes). A buffered stream only provides buffering; it works <strong>chained</strong> with another stream.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BufferedInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedInputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"big.dat"</span><span class="p">));</span>
+</code></pre>
+<h2 id="stream-io-operations">Stream IO Operations <a class="anchor" aria-label="링크" href="#stream-io-operations">#</a></h2>
+<blockquote>
+<ol>
+<li>Open stream 2. Read/Write 3. Close stream</li>
+</ol>
+</blockquote>
+<h2 id="standard-template">Standard Template <a class="anchor" aria-label="링크" href="#standard-template">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// read data</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="try-with-resources-java-7">try-with-resources (Java 7) <a class="anchor" aria-label="링크" href="#try-with-resources-java-7">#</a></h2>
+<blockquote>
+<p>Works with <code>java.lang.AutoCloseable</code>. The stream is closed automatically.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+<span class="w">     </span><span class="n">FileOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// read and write</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="byte-stream-vs-character-stream">Byte Stream vs Character Stream <a class="anchor" aria-label="링크" href="#byte-stream-vs-character-stream">#</a></h2>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Byte Stream</th>
+<th>Character Stream</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Raw Data&quot;, byte by byte (8 bits)</td>
+<td>&quot;Character Data&quot;, char by char (16 bits)</td>
+</tr>
+<tr>
+<td>coder converts bytes to characters</td>
+<td>no worries for the coder</td>
+</tr>
+<tr>
+<td>does not always handle Unicode correctly</td>
+<td>handles Unicode appropriately</td>
+</tr>
+</tbody>
+</table>
+<p>Binary I/O does not involve encoding or decoding and is <strong>more efficient</strong> than text I/O.</p>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

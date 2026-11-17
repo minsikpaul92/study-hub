@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 13 · Segment 2. Thread Pooling and JDBC Pooling · APD545</title><meta name="description" content="Week 13 · Segment 2. Thread Pooling and JDBC Pooling · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 13 · Segment 2. Thread Pooling and JDBC Pooling</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#thread-pools-why">Thread Pools: why?</a></li><li class="l2"><a href="#pooling-technology">Pooling Technology</a></li><li class="l2"><a href="#application-of-pooling-technology">Application of Pooling Technology</a></li><li class="l2"><a href="#thread-pool">Thread Pool</a></li><li class="l2"><a href="#memory-pool">Memory Pool</a></li><li class="l2"><a href="#database-connection-pool">Database Connection Pool</a></li><li class="l2"><a href="#thread-pool-separates-threads-and-tasks">Thread Pool separates threads and tasks</a></li><li class="l2"><a href="#advantages-of-thread-pools">Advantages of Thread Pools</a></li><li class="l2"><a href="#disadvantages-of-thread-pools">Disadvantages of Thread Pools</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 13 · Segment 2 &quot;Thread pooling and JDBC Pooling&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 개념을 보여 주려고 해설용으로 새로 쓴 예시&gt;</p>
+<h1 id="week-13-segment-2-thread-pooling-and-jdbc-pooling">Week 13 · Segment 2. Thread Pooling and JDBC Pooling <a class="anchor" aria-label="링크" href="#week-13-segment-2-thread-pooling-and-jdbc-pooling">#</a></h1>
+<h2 id="thread-pools-why">Thread Pools: why? <a class="anchor" aria-label="링크" href="#thread-pools-why">#</a></h2>
+<blockquote>
+<p>Two ways to improve execution efficiency: use threads, or use <strong>thread pools</strong>. In production environments, we usually use the latter.</p>
+</blockquote>
+<h2 id="pooling-technology">Pooling Technology <a class="anchor" aria-label="링크" href="#pooling-technology">#</a></h2>
+<blockquote>
+<p>Pooling technology refers to <strong>preparing some resources in advance</strong>, and these pre-prepared resources can be <strong>reused</strong> when needed. Two main advantages: preparation in advance, and reuse. Creating an object (look up the class, load it, allocate heap memory, run initialization) is complex and time-consuming.</p>
+</blockquote>
+<h2 id="application-of-pooling-technology">Application of Pooling Technology <a class="anchor" aria-label="링크" href="#application-of-pooling-technology">#</a></h2>
+<blockquote>
+<p>Thread pool, memory pool, <strong>database connection pool</strong>, HttpClient connection pool, etc.</p>
+</blockquote>
+<h2 id="thread-pool">Thread Pool <a class="anchor" aria-label="링크" href="#thread-pool">#</a></h2>
+<blockquote>
+<p>A certain number of threads are started in the pool first, all in the <strong>sleep</strong> state. When a new request comes, a sleeping thread <strong>wakes up</strong> and processes it; afterwards it sleeps again. If a new thread is created for each client request, the CPU time and memory consumption are staggering.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드: 스레드 2개로 작업 5개 처리</span>
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">pool</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="n">pool</span><span class="p">.</span><span class="na">execute</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"task "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" on "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Thread</span><span class="p">.</span><span class="na">currentThread</span><span class="p">().</span><span class="na">getName</span><span class="p">()));</span>
+<span class="p">}</span>
+<span class="n">pool</span><span class="p">.</span><span class="na">shutdown</span><span class="p">();</span>
+<span class="c1">// only pool-1-thread-1 and pool-1-thread-2 appear: threads are reused</span>
+</code></pre>
+<h2 id="memory-pool">Memory Pool <a class="anchor" aria-label="링크" href="#memory-pool">#</a></h2>
+<blockquote>
+<p>Enough memory is allocated in advance. Each request gets a free piece, marked as used; releasing it puts it <strong>back into the pool</strong>, marked idle. Advantages: less <strong>memory fragmentation</strong>, higher reuse. Disadvantage: <strong>wastes memory</strong>, since a large idle block is allocated at the beginning and may not be used.</p>
+</blockquote>
+<h2 id="database-connection-pool">Database Connection Pool <a class="anchor" aria-label="링크" href="#database-connection-pool">#</a></h2>
+<blockquote>
+<p>Store database connections as objects in memory when the system is initialized. When the user needs the database, an <strong>idle connection is taken from the pool</strong> instead of establishing a new one. After use, the connection is <strong>put back into the pool</strong> (not really closed). Parameters: initial number of connections, upper and lower limits, maximum uses per connection, maximum idle time.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드: 풀에서 빌리고 돌려주는 흐름 (DataSource는 풀 라이브러리가 제공)</span>
+<span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Connection</span><span class="w"> </span><span class="n">conn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dataSource</span><span class="p">.</span><span class="na">getConnection</span><span class="p">();</span><span class="w">          </span><span class="c1">// borrow an idle connection</span>
+<span class="w">     </span><span class="n">PreparedStatement</span><span class="w"> </span><span class="n">ps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">conn</span><span class="p">.</span><span class="na">prepareStatement</span><span class="p">(</span><span class="s">"SELECT name FROM student WHERE id = ?"</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ps</span><span class="p">.</span><span class="na">setInt</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">7</span><span class="p">);</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ResultSet</span><span class="w"> </span><span class="n">rs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ps</span><span class="p">.</span><span class="na">executeQuery</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">next</span><span class="p">())</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">rs</span><span class="p">.</span><span class="na">getString</span><span class="p">(</span><span class="s">"name"</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span><span class="w">   </span><span class="c1">// conn.close() returns it to the pool</span>
+</code></pre>
+<h2 id="thread-pool-separates-threads-and-tasks">Thread Pool separates threads and tasks <a class="anchor" aria-label="링크" href="#thread-pool-separates-threads-and-tasks">#</a></h2>
+<blockquote>
+<p>A thread pool <strong>separates the concepts of threads and tasks</strong>, avoiding the performance overhead of frequent creation and destruction. Once a thread is created, it remains in the pool and waits for the next task.</p>
+</blockquote>
+<h2 id="advantages-of-thread-pools">Advantages of Thread Pools <a class="anchor" aria-label="링크" href="#advantages-of-thread-pools">#</a></h2>
+<blockquote>
+<ol>
+<li><strong>Reuse threads</strong> to reduce resource consumption (each thread needs its own VM stack, native method stack and program counter). 2. <strong>Improve responsiveness</strong>: existing threads execute tasks faster. 3. <strong>Manage the number of threads and tasks</strong>: a fixed number of threads avoids creating threads infinitely.</li>
+</ol>
+</blockquote>
+<h2 id="disadvantages-of-thread-pools">Disadvantages of Thread Pools <a class="anchor" aria-label="링크" href="#disadvantages-of-thread-pools">#</a></h2>
+<blockquote>
+<p>Too many threads slow the system down: the number of CPU cores is fixed, and too many threads cause contention and frequent <strong>thread switching</strong>. The appropriate number of threads is key. When tasks exceed a limit, a <strong>rejection strategy</strong> handles the excess tasks.</p>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

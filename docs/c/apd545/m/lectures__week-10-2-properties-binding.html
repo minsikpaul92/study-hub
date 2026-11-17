@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 10 · Segment 2. Properties and Binding · APD545</title><meta name="description" content="Week 10 · Segment 2. Properties and Binding · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 10 · Segment 2. Properties and Binding</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#introduction">Introduction</a></li><li class="l2"><a href="#readwritable-properties">Read/Writable Properties</a></li><li class="l2"><a href="#read-only-properties">Read-Only Properties</a></li><li class="l2"><a href="#creating-a-property">Creating a property</a></li><li class="l2"><a href="#javafx-java-bean-example">JavaFX Java Bean: Example</a></li><li class="l2"><a href="#listeners">Listeners</a></li><li class="l2"><a href="#change-vs-invalidation-listeners">Change vs Invalidation Listeners</a></li><li class="l2"><a href="#binding">Binding</a></li><li class="l2"><a href="#one-directional-binding">One-directional binding</a></li><li class="l2"><a href="#two-directional-binding">Two-directional binding</a></li><li class="l2"><a href="#intermediate-binding-techniques">Intermediate binding techniques</a></li><li class="l2"><a href="#fluent-api">Fluent API</a></li><li class="l2"><a href="#the-bindings-api">The Bindings API</a></li><li class="l2"><a href="#low-level-binding">Low-Level Binding</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 10 · Segment 2 &quot;Properties and Binding&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-10-segment-2-properties-and-binding">Week 10 · Segment 2. Properties and Binding <a class="anchor" aria-label="링크" href="#week-10-segment-2-properties-and-binding">#</a></h1>
+<h2 id="introduction">Introduction <a class="anchor" aria-label="링크" href="#introduction">#</a></h2>
+<blockquote>
+<p>Properties are <strong>wrapper objects</strong> for JavaFX-based object attributes such as String or Integer. They allow developers to add <strong>listener</strong> code to respond when the wrapped value has changed or is flagged as invalid. Property objects can be <strong>bound</strong> to one another. Properties let you wire your scene so that the view updates automatically whenever you modify the data behind it.</p>
+</blockquote>
+<h2 id="readwritable-properties">Read/Writable Properties <a class="anchor" aria-label="링크" href="#readwritable-properties">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"password1"</span><span class="p">);</span>
+<span class="n">password</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"1234"</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Modified StringProperty "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">get</span><span class="p">());</span><span class="w">   </span><span class="c1">// 1234</span>
+</code></pre>
+<h2 id="read-only-properties">Read-Only Properties <a class="anchor" aria-label="링크" href="#read-only-properties">#</a></h2>
+<blockquote>
+<p>Instantiate a read-only wrapper class, then invoke <code>getReadOnlyProperty()</code> to return a true read-only property object.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ReadOnlyStringWrapper</span><span class="w"> </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="p">(</span><span class="s">"jamestkirk"</span><span class="p">);</span>
+<span class="n">ReadOnlyStringProperty</span><span class="w"> </span><span class="n">readOnlyUserName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">getReadOnlyProperty</span><span class="p">();</span>
+</code></pre>
+<h2 id="creating-a-property">Creating a property <a class="anchor" aria-label="링크" href="#creating-a-property">#</a></h2>
+<blockquote>
+<p>Simple classes: <code>SimpleBooleanProperty, SimpleDoubleProperty, SimpleIntegerProperty, SimpleStringProperty, SimpleObjectProperty, SimpleListProperty, ...</code>. Without an initial value they default to 0, false, &quot;&quot; or an empty collection. They can also be created with a <strong>bean</strong> (owner object) and a <strong>name</strong>.</p>
+<p>All JavaFX properties can: 1. listen for changes, 2. bind, 3. get and set.</p>
+</blockquote>
+<h2 id="javafx-java-bean-example">JavaFX Java Bean: Example <a class="anchor" aria-label="링크" href="#javafx-java-bean-example">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="w"> </span><span class="n">userName</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">ReadOnlyStringWrapper</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="s">"userName"</span><span class="p">,</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">"user.name"</span><span class="p">));</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="k">this</span><span class="p">,</span><span class="w"> </span><span class="s">"password"</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getUserName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ReadOnlyStringProperty</span><span class="w"> </span><span class="nf">userNameProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userName</span><span class="p">.</span><span class="na">getReadOnlyProperty</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getPassword</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setPassword</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">password</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">p</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="nf">passwordProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">password</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="listeners">Listeners <a class="anchor" aria-label="링크" href="#listeners">#</a></h2>
+<blockquote>
+<p><code>addListener()</code> accepts two types of functional interfaces: <strong>ChangeListener</strong> and <strong>InvalidationListener</strong>. Clean up listeners with <code>removeListener()</code> by passing a referenced (named) listener.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">SimpleIntegerProperty</span><span class="w"> </span><span class="n">xProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="n">xProperty</span><span class="p">.</span><span class="na">addListener</span><span class="p">((</span><span class="n">Observable</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// invalidated: value may have changed</span>
+<span class="p">});</span>
+
+<span class="n">xProperty</span><span class="p">.</span><span class="na">addListener</span><span class="p">((</span><span class="n">ObservableValue</span><span class="o">&lt;?</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Number</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ov</span><span class="p">,</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">oldVal</span><span class="p">,</span><span class="w"> </span><span class="n">Number</span><span class="w"> </span><span class="n">newVal</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// changed: we get the old and the new value</span>
+<span class="p">});</span>
+</code></pre>
+<h2 id="change-vs-invalidation-listeners">Change vs Invalidation Listeners <a class="anchor" aria-label="링크" href="#change-vs-invalidation-listeners">#</a></h2>
+<blockquote>
+<p>A ChangeListener gets the ObservableValue, the <strong>old value, and the new value</strong>. An InvalidationListener only gets the Observable. Invalidation marks values as invalid but does <strong>not recompute</strong> until needed (lazy), useful in layouts. ChangeListener is used for <strong>eager</strong> evaluation such as validation on a form.</p>
+</blockquote>
+<h2 id="binding">Binding <a class="anchor" aria-label="링크" href="#binding">#</a></h2>
+<blockquote>
+<p>Binding means at least two values being synchronized: when a dependent variable changes, the other variable changes. Behind the scenes, binding is a specific use-case of change-listening.</p>
+</blockquote>
+<h2 id="one-directional-binding">One-directional binding <a class="anchor" aria-label="링크" href="#one-directional-binding">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">sourceProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"First Value"</span><span class="p">);</span>
+<span class="n">StringProperty</span><span class="w"> </span><span class="n">targetProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"Second Value"</span><span class="p">);</span>
+<span class="n">targetProperty</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>The target listens to the source. If already bound, the old binding is replaced. A null argument throws NullPointerException. The current value of the target is lost (immediately copied from the source).</p>
+</blockquote>
+<h2 id="two-directional-binding">Two-directional binding <a class="anchor" aria-label="링크" href="#two-directional-binding">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">targetProperty</span><span class="p">.</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>After a bidirectional binding, <strong>both properties will have the value of the property passed as an argument</strong> (the source property).</p>
+</blockquote>
+<h2 id="intermediate-binding-techniques">Intermediate binding techniques <a class="anchor" aria-label="링크" href="#intermediate-binding-techniques">#</a></h2>
+<blockquote>
+<p>Three ways: the <strong>Fluent API</strong> (<code>myProperty.multiply(2)</code>), the <strong>Bindings API</strong> (<code>Bindings.add(a, b)</code>), the <strong>Low-Level API</strong> (custom <code>DoubleBinding</code>).</p>
+</blockquote>
+<h2 id="fluent-api">Fluent API <a class="anchor" aria-label="링크" href="#fluent-api">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">StringProperty</span><span class="w"> </span><span class="n">sourceProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">"It doesn't matter how slowly you go"</span><span class="p">);</span>
+<span class="n">StringProperty</span><span class="w"> </span><span class="n">targetProperty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+<span class="n">targetProperty</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">sourceProperty</span><span class="p">.</span><span class="na">concat</span><span class="p">(</span><span class="s">" as long as you don't stop"</span><span class="p">));</span>
+
+<span class="n">DoubleProperty</span><span class="w"> </span><span class="n">degrees</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">(</span><span class="mi">180</span><span class="p">);</span>
+<span class="n">DoubleProperty</span><span class="w"> </span><span class="n">radians</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">();</span>
+<span class="n">radians</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">degrees</span><span class="p">.</span><span class="na">multiply</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">).</span><span class="na">divide</span><span class="p">(</span><span class="mi">180</span><span class="p">));</span>
+</code></pre>
+<h2 id="the-bindings-api">The Bindings API <a class="anchor" aria-label="링크" href="#the-bindings-api">#</a></h2>
+<blockquote>
+<p>A utility class with 249 methods. Operations on values (add, subtract, multiply, divide, min/max, comparisons, string formatting), on collections (bindContent, valueAt, size, isEmpty), and others (and, or, not, when). For subtract and divide, the <strong>order</strong> of arguments matters.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">NumberBinding</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Bindings</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">priceA</span><span class="p">,</span><span class="w"> </span><span class="n">priceB</span><span class="p">);</span>
+<span class="n">Bindings</span><span class="p">.</span><span class="na">bindContent</span><span class="p">(</span><span class="n">plainList</span><span class="p">,</span><span class="w"> </span><span class="n">observableList</span><span class="p">);</span>
+</code></pre>
+<h2 id="low-level-binding">Low-Level Binding <a class="anchor" aria-label="링크" href="#low-level-binding">#</a></h2>
+<blockquote>
+<p>Create a Binding object yourself; only override <strong>computeValue()</strong>. Bind the sources in an initialization block.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">DoubleProperty</span><span class="w"> </span><span class="n">cost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">(</span><span class="mi">25</span><span class="p">);</span>
+<span class="n">IntegerProperty</span><span class="w"> </span><span class="n">itemCount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleIntegerProperty</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
+
+<span class="n">DoubleBinding</span><span class="w"> </span><span class="n">totalCost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DoubleBinding</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">.</span><span class="na">bind</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span><span class="w"> </span><span class="n">itemCount</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">computeValue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">itemCount</span><span class="p">.</span><span class="na">get</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cost</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

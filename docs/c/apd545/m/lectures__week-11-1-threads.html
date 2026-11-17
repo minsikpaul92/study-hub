@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 11 · Segment 1. Threads · APD545</title><meta name="description" content="Week 11 · Segment 1. Threads · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 11 · Segment 1. Threads</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#motivation">Motivation</a></li><li class="l2"><a href="#what-is-a-thread">What is a Thread?</a></li><li class="l2"><a href="#multi-thread">Multi-thread</a></li><li class="l2"><a href="#concept">Concept</a></li><li class="l2"><a href="#thread-in-java">Thread in Java</a></li><li class="l2"><a href="#life-cycle-of-a-thread">Life cycle of a thread</a></li><li class="l2"><a href="#defining-a-thread">Defining a Thread</a></li><li class="l2"><a href="#runnable-interface">Runnable Interface</a></li><li class="l2"><a href="#creating-and-starting-a-thread">Creating and Starting a Thread</a></li><li class="l2"><a href="#thread-scheduler-in-java">Thread Scheduler in Java</a></li><li class="l2"><a href="#can-we-start-the-same-thread-twice">Can we start the same thread twice?</a></li><li class="l2"><a href="#calling-run-directly">Calling run() directly</a></li><li class="l2"><a href="#sleep">sleep</a></li><li class="l2"><a href="#join">join</a></li><li class="l2"><a href="#thread-methods">Thread methods</a></li><li class="l2"><a href="#thread-pools">Thread Pools</a></li><li class="l2"><a href="#java-executor">Java Executor</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 11 · Segment 1 &quot;Threads&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-11-segment-1-threads">Week 11 · Segment 1. Threads <a class="anchor" aria-label="링크" href="#week-11-segment-1-threads">#</a></h1>
+<h2 id="motivation">Motivation <a class="anchor" aria-label="링크" href="#motivation">#</a></h2>
+<blockquote>
+<p>Single-threaded applications can lead to <strong>poor responsiveness</strong> where lengthy activities must complete before others can begin. Poor utilization of CPU resources.</p>
+</blockquote>
+<h2 id="what-is-a-thread">What is a Thread? <a class="anchor" aria-label="링크" href="#what-is-a-thread">#</a></h2>
+<blockquote>
+<p>A thread is the <strong>flow of execution</strong>, from beginning to end, of a task. Threads organize programs into logically separate paths. Threads can <strong>share access to common resources</strong>.</p>
+</blockquote>
+<h2 id="multi-thread">Multi-thread <a class="anchor" aria-label="링크" href="#multi-thread">#</a></h2>
+<blockquote>
+<p>The process of executing multiple threads simultaneously is known as <strong>multithreading</strong>. Example: while you are writing a word document, your spell checker is also working.</p>
+</blockquote>
+<h2 id="concept">Concept <a class="anchor" aria-label="링크" href="#concept">#</a></h2>
+<blockquote>
+<p>In a single-processor system the multiple threads share the CPU time, also known as <strong>time-sharing</strong>. The OS is responsible for scheduling and allocating resources to them. In a multi-processor system the threads can work on different processors.</p>
+</blockquote>
+<h2 id="thread-in-java">Thread in Java <a class="anchor" aria-label="링크" href="#thread-in-java">#</a></h2>
+<blockquote>
+<p>Each thread has its own <strong>method-call stack</strong> and a <strong>program counter</strong>. All threads in the application share the same resources like <strong>memory</strong> and file handles.</p>
+</blockquote>
+<h2 id="life-cycle-of-a-thread">Life cycle of a thread <a class="anchor" aria-label="링크" href="#life-cycle-of-a-thread">#</a></h2>
+<blockquote>
+<ul>
+<li><strong>New</strong>: an instance of Thread is created, before <code>start()</code> is invoked.</li>
+<li><strong>Runnable</strong>: after <code>start()</code>, but the scheduler has not selected it yet.</li>
+<li><strong>Running</strong>: the thread scheduler has selected it.</li>
+<li><strong>Non-Runnable (Blocked)</strong>: still alive, but currently not eligible to run.</li>
+<li><strong>Terminated</strong>: its <code>run()</code> method exits.</li>
+</ul>
+</blockquote>
+<h2 id="defining-a-thread">Defining a Thread <a class="anchor" aria-label="링크" href="#defining-a-thread">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="c1">// 1. Extend Thread</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyThread</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Thread</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* task */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. Implement Runnable</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyRunnable</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Runnable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">run</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* task */</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="runnable-interface">Runnable Interface <a class="anchor" aria-label="링크" href="#runnable-interface">#</a></h2>
+<blockquote>
+<p>Runnable has only one method named <code>run()</code>. Your class must override <code>run</code> and implement it.</p>
+</blockquote>
+<h2 id="creating-and-starting-a-thread">Creating and Starting a Thread <a class="anchor" aria-label="링크" href="#creating-and-starting-a-thread">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Runnable</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MyRunnable</span><span class="p">();</span>
+<span class="n">Thread</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="n">r</span><span class="p">);</span>
+<span class="n">t</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</code></pre>
+<h2 id="thread-scheduler-in-java">Thread Scheduler in Java <a class="anchor" aria-label="링크" href="#thread-scheduler-in-java">#</a></h2>
+<blockquote>
+<p>The thread scheduler is the part of the JVM that decides which thread should run. There is <strong>no guarantee</strong> which runnable thread will be chosen. <strong>Preemptive</strong>: the highest priority task executes until it enters the waiting or dead states. <strong>Time slicing</strong>: a task executes for a predefined slice of time and then reenters the pool of ready tasks.</p>
+</blockquote>
+<h2 id="can-we-start-the-same-thread-twice">Can we start the same thread twice? <a class="anchor" aria-label="링크" href="#can-we-start-the-same-thread-twice">#</a></h2>
+<blockquote>
+<p>No. If you do so, an <strong>IllegalThreadStateException</strong> is thrown.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">Thread</span><span class="w"> </span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">TestThreadTwice1</span><span class="p">());</span>
+<span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">   </span><span class="c1">// running... then IllegalThreadStateException</span>
+</code></pre>
+<h2 id="calling-run-directly">Calling run() directly <a class="anchor" aria-label="링크" href="#calling-run-directly">#</a></h2>
+<blockquote>
+<p>You can call <code>run()</code> directly, but then it acts as a <strong>normal method</strong> and no multithreading takes place.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">myThreadone</span><span class="p">.</span><span class="na">run</span><span class="p">();</span><span class="w">   </span><span class="c1">// 1 2 3 4</span>
+<span class="n">myThreadtwo</span><span class="p">.</span><span class="na">run</span><span class="p">();</span><span class="w">   </span><span class="c1">// then 1 2 3 4 (one after the other)</span>
+
+<span class="n">myThreadone</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w"> </span><span class="c1">// 1 1 2 2 3 3 4 4 (interleaved)</span>
+<span class="n">myThreadtwo</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</code></pre>
+<h2 id="sleep">sleep <a class="anchor" aria-label="링크" href="#sleep">#</a></h2>
+<blockquote>
+<p><code>public static void sleep(long millis) throws InterruptedException</code>. Causes the current thread to suspend execution for a specified period; the scheduler picks up another thread. InterruptedException is a <strong>checked</strong> exception.</p>
+</blockquote>
+<h2 id="join">join <a class="anchor" aria-label="링크" href="#join">#</a></h2>
+<blockquote>
+<p>You can use the <code>join()</code> method to force one thread to <strong>wait for another thread to finish</strong>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">t1</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">t1</span><span class="p">.</span><span class="na">join</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="n">t2</span><span class="p">.</span><span class="na">start</span><span class="p">();</span><span class="w">   </span><span class="c1">// t2 and t3 start only after t1 has printed 1..5</span>
+<span class="n">t3</span><span class="p">.</span><span class="na">start</span><span class="p">();</span>
+</code></pre>
+<h2 id="thread-methods">Thread methods <a class="anchor" aria-label="링크" href="#thread-methods">#</a></h2>
+<blockquote>
+<p><code>getName()</code>, <code>setName(String)</code>, <code>getId()</code>, <code>currentThread()</code>, <code>isAlive()</code> (true if Ready, Blocked or Running; false if new or finished), <code>interrupt()</code>, <code>isInterrupted()</code>. Each thread has a default priority of <code>Thread.NORM_PRIORITY</code>; change it with <code>setPriority(int)</code> (<code>MIN_PRIORITY</code>, <code>MAX_PRIORITY</code>).</p>
+</blockquote>
+<h2 id="thread-pools">Thread Pools <a class="anchor" aria-label="링크" href="#thread-pools">#</a></h2>
+<blockquote>
+<p>Creating each task and starting each one separately can cause limited throughput and poor performance. A <strong>thread pool</strong> is an ideal way to manage the number of tasks executing concurrently.</p>
+</blockquote>
+<h2 id="java-executor">Java Executor <a class="anchor" aria-label="링크" href="#java-executor">#</a></h2>
+<blockquote>
+<p><code>Executor</code> executes tasks in the pool; <code>ExecutorService</code> (a sub-interface) maintains and controls them.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newFixedThreadPool</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">   </span><span class="c1">// number of threads</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PrintChar</span><span class="p">(</span><span class="sc">'a'</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">));</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PrintNumber</span><span class="p">(</span><span class="mi">50</span><span class="p">));</span>
+<span class="n">executor</span><span class="p">.</span><span class="na">execute</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">PrintString</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">));</span>
+<span class="c1">// one thread: the three tasks run sequentially</span>
+
+<span class="n">ExecutorService</span><span class="w"> </span><span class="n">executor2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Executors</span><span class="p">.</span><span class="na">newCachedThreadPool</span><span class="p">();</span>
+<span class="c1">// new threads are created for waiting tasks: all run concurrently</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

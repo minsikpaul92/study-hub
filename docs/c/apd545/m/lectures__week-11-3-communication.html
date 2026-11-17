@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 11 · Segment 3. Thread Communication · APD545</title><meta name="description" content="Week 11 · Segment 3. Thread Communication · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 11 · Segment 3. Thread Communication</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#java-monitors">Java Monitors</a></li><li class="l2"><a href="#guarded-blocks">Guarded Blocks</a></li><li class="l2"><a href="#inter-thread-communication-process">Inter-thread communication process</a></li><li class="l2"><a href="#example-using-monitor">Example: Using Monitor</a></li><li class="l2"><a href="#wait-method-idiom">wait() Method Idiom</a></li><li class="l2"><a href="#notifyall-method-idiom">notifyAll() Method Idiom</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 11 · Segment 3 &quot;Thread Communication&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-11-segment-3-thread-communication">Week 11 · Segment 3. Thread Communication <a class="anchor" aria-label="링크" href="#week-11-segment-3-thread-communication">#</a></h1>
+<h2 id="java-monitors">Java Monitors <a class="anchor" aria-label="링크" href="#java-monitors">#</a></h2>
+<blockquote>
+<p>A <strong>monitor</strong> is an object with mutual exclusion and synchronization capabilities. Only one thread can execute a method at a time in the monitor. Any object can be a monitor; it becomes one once a thread locks it. A thread can <strong>wait</strong> in a monitor if the condition is not right for it to continue.</p>
+</blockquote>
+<h2 id="guarded-blocks">Guarded Blocks <a class="anchor" aria-label="링크" href="#guarded-blocks">#</a></h2>
+<blockquote>
+<p>The guarded block is the most common coordination idiom. It uses three methods from the <strong>Object</strong> class:</p>
+<ul>
+<li><code>wait()</code>: causes the current thread to wait until another thread invokes <code>notify()</code> or <code>notifyAll()</code> for this object.</li>
+<li><code>notify()</code>: wakes up a <strong>single</strong> thread waiting on this object's monitor.</li>
+<li><code>notifyAll()</code>: wakes up <strong>all</strong> threads waiting on this object's monitor.</li>
+</ul>
+</blockquote>
+<h2 id="inter-thread-communication-process">Inter-thread communication process <a class="anchor" aria-label="링크" href="#inter-thread-communication-process">#</a></h2>
+<blockquote>
+<ol>
+<li>Threads enter to acquire the lock. 2. The lock is acquired by one thread. 3. The thread goes to waiting state if <code>wait()</code> is called (otherwise it releases the lock and exits). 4. After <code>notify()</code>/<code>notifyAll()</code>, it moves to the notified (runnable) state. 5. It can acquire the lock again. 6. After its task, it releases the lock and exits the monitor.</li>
+</ol>
+</blockquote>
+<h2 id="example-using-monitor">Example: Using Monitor <a class="anchor" aria-label="링크" href="#example-using-monitor">#</a></h2>
+<blockquote>
+<p><code>wait()</code>, <code>notify()</code>, <code>notifyAll()</code> must be called in a <strong>synchronized</strong> method or block on the receiving object, otherwise an <strong>IllegalMonitorStateException</strong> occurs. When <code>wait()</code> is invoked, it pauses the thread and <strong>releases the lock</strong>. After being notified, the lock is automatically reacquired.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">ThreadCommunication</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10000</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">withdraw</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"going to withdraw..."</span><span class="p">);</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Less balance; waiting for deposit..."</span><span class="p">);</span>
+<span class="w">            </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">wait</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"withdraw completed..."</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deposit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">amount</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"going to deposit..."</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">amount</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">amount</span><span class="p">;</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"deposit completed..."</span><span class="p">);</span>
+<span class="w">        </span><span class="n">notify</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">ThreadCommunication</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadCommunication</span><span class="p">();</span>
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">withdraw</span><span class="p">(</span><span class="mi">15000</span><span class="p">)).</span><span class="na">start</span><span class="p">();</span>
+<span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">c</span><span class="p">.</span><span class="na">deposit</span><span class="p">(</span><span class="mi">10000</span><span class="p">)).</span><span class="na">start</span><span class="p">();</span>
+</code></pre>
+<h2 id="wait-method-idiom">wait() Method Idiom <a class="anchor" aria-label="링크" href="#wait-method-idiom">#</a></h2>
+<blockquote>
+<p><strong>Always invoke wait inside a loop</strong> that tests for the condition being waited for.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">guardedExamResult</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">examResult</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">wait</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">InterruptedException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Exam Result have been received!"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="notifyall-method-idiom">notifyAll() Method Idiom <a class="anchor" aria-label="링크" href="#notifyall-method-idiom">#</a></h2>
+<blockquote>
+<p>When notifyAll is invoked, it informs <strong>all</strong> threads waiting on a lock that something important has happened. <code>notify</code> wakes up a single thread and doesn't let you choose which one.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">synchronized</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">notifyExamResult</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">examResult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="w">    </span><span class="n">notifyAll</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

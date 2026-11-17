@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 13 · Segment 1. Networking Basics and Sockets · APD545</title><meta name="description" content="Week 13 · Segment 1. Networking Basics and Sockets · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 13 · Segment 1. Networking Basics and Sockets</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#network">Network</a></li><li class="l2"><a href="#clientserver">Client/Server</a></li><li class="l2"><a href="#network-communications-and-ports">Network Communications and Ports</a></li><li class="l2"><a href="#tcp">TCP</a></li><li class="l2"><a href="#communication-steps-tcp">Communication steps TCP</a></li><li class="l2"><a href="#udp">UDP</a></li><li class="l2"><a href="#ipv4-and-ipv6">IPv4 and IPv6</a></li><li class="l2"><a href="#port-numbers">Port numbers</a></li><li class="l2"><a href="#java-networking">Java Networking</a></li><li class="l2"><a href="#sockets">Sockets</a></li><li class="l2"><a href="#what-is-socket">What is Socket?</a></li><li class="l2"><a href="#clientserver-communications">Client/Server Communications</a></li><li class="l2"><a href="#server-steps">Server Steps</a></li><li class="l2"><a href="#socket-and-serversocket-classes">Socket and ServerSocket classes</a></li><li class="l2"><a href="#the-inetaddress-class">The InetAddress Class</a></li><li class="l2"><a href="#client-steps">Client Steps</a></li><li class="l2"><a href="#multi-threaded-server">Multi-threaded Server</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 13 · Segment 1 &quot;Networking and Sockets&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 서버/클라이언트 전체 코드는 슬라이드 단계대로 해설용으로 새로 쓴 예시&gt;</p>
+<h1 id="week-13-segment-1-networking-basics-and-sockets">Week 13 · Segment 1. Networking Basics and Sockets <a class="anchor" aria-label="링크" href="#week-13-segment-1-networking-basics-and-sockets">#</a></h1>
+<h2 id="network">Network <a class="anchor" aria-label="링크" href="#network">#</a></h2>
+<blockquote>
+<p>A network is a system of computers connected together so they can <strong>share resources and communicate</strong>. An <strong>Intranet</strong> is a private network (e.g., printers shared in a business). In networking a machine is usually referred to as a <strong>host</strong>.</p>
+</blockquote>
+<h2 id="clientserver">Client/Server <a class="anchor" aria-label="링크" href="#clientserver">#</a></h2>
+<blockquote>
+<p>One (or more) hosts act as <strong>servers</strong>, and the other hosts are <strong>clients</strong> that connect to the server. The browser is a client; MySQL Workbench is a client that connects to the MySQL database server. Client and server can be on the <strong>same host</strong>.</p>
+</blockquote>
+<h2 id="network-communications-and-ports">Network Communications and Ports <a class="anchor" aria-label="링크" href="#network-communications-and-ports">#</a></h2>
+<blockquote>
+<p>Computers communicate using a transport protocol: <strong>TCP</strong> or <strong>UDP</strong>. A computer usually has one physical connection to the network. How does data get to the targeted application? Answer: <strong>Ports</strong>. Each application that needs data from the network is assigned a port.</p>
+</blockquote>
+<h2 id="tcp">TCP <a class="anchor" aria-label="링크" href="#tcp">#</a></h2>
+<blockquote>
+<p>A <strong>connection-based</strong> protocol that provides a <strong>reliable</strong> flow of data between two computers. Like making a <strong>telephone call</strong>. Used by HTTP, FTP and telnet. The <strong>order</strong> of data is key. Problems: a connection must be established first, held during the whole communication, closed explicitly, and it holds bandwidth even when idle.</p>
+</blockquote>
+<h2 id="communication-steps-tcp">Communication steps TCP <a class="anchor" aria-label="링크" href="#communication-steps-tcp">#</a></h2>
+<blockquote>
+<ol>
+<li>The client opens a connection to the server. 2. The client sends a request. 3. The server sends a response. 4. The client closes the connection. Steps 2 and 3 may be repeated.</li>
+</ol>
+</blockquote>
+<h2 id="udp">UDP <a class="anchor" aria-label="링크" href="#udp">#</a></h2>
+<blockquote>
+<p>A <strong>non-connection based</strong> protocol that sends independent packets called <strong>datagrams</strong>, with <strong>no guarantee</strong> of arrival. Like sending a <strong>letter</strong> through the postal service: order is not guaranteed and each message is independent. Example: a clock server.</p>
+</blockquote>
+<h2 id="ipv4-and-ipv6">IPv4 and IPv6 <a class="anchor" aria-label="링크" href="#ipv4-and-ipv6">#</a></h2>
+<blockquote>
+<p><strong>IPv4</strong>: 32-bit addresses (over 4 billion), four integers separated by dots. <strong>IPv6</strong>: 128-bit addresses, written in hexadecimal separated by colons. The 32-bit IP address identifies the computer; a <strong>16-bit</strong> port number identifies the application.</p>
+</blockquote>
+<h2 id="port-numbers">Port numbers <a class="anchor" aria-label="링크" href="#port-numbers">#</a></h2>
+<blockquote>
+<p>Port numbers range from <strong>0 to 65,535</strong>. Well-known ports <strong>0 to 1023</strong> are reserved for services such as HTTP and FTP; your applications should not bind to them.</p>
+</blockquote>
+<h2 id="java-networking">Java Networking <a class="anchor" aria-label="링크" href="#java-networking">#</a></h2>
+<blockquote>
+<p>The <code>java.net</code> package has a <strong>low-level API</strong> (socket programming) and a <strong>high-level API</strong> (URLs, URIs). We need to know TCP, UDP, IP and ports to make better decisions about which Java classes to use.</p>
+</blockquote>
+<h2 id="sockets">Sockets <a class="anchor" aria-label="링크" href="#sockets">#</a></h2>
+<blockquote>
+<p>A socket is <strong>one endpoint of a two-way communication link</strong> between two programs running on the network. Socket programming can be connection-oriented (TCP) or connection-less (UDP).</p>
+</blockquote>
+<h2 id="what-is-socket">What is Socket? <a class="anchor" aria-label="링크" href="#what-is-socket">#</a></h2>
+<blockquote>
+<p>The server has a socket bound to a specific <strong>port</strong> and waits, listening for a connection request. The client knows the <strong>hostname</strong> and the <strong>port</strong>. When the server accepts, it gets a <strong>new socket</strong> so that it can continue to listen to the original socket for other connection requests.</p>
+</blockquote>
+<h2 id="clientserver-communications">Client/Server Communications <a class="anchor" aria-label="링크" href="#clientserver-communications">#</a></h2>
+<blockquote>
+<p>The server must be running when a client starts. After the server accepts the connection, communication is conducted <strong>the same as for I/O streams</strong>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// Server host</span>
+<span class="n">ServerSocket</span><span class="w"> </span><span class="n">server</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">8000</span><span class="p">);</span>
+<span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">server</span><span class="p">.</span><span class="na">accept</span><span class="p">();</span><span class="w">            </span><span class="c1">// waits for a client</span>
+
+<span class="c1">// Client host</span>
+<span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Socket</span><span class="p">(</span><span class="n">host</span><span class="p">,</span><span class="w"> </span><span class="mi">8000</span><span class="p">);</span><span class="w">     </span><span class="c1">// request a connection</span>
+</code></pre>
+<h2 id="server-steps">Server Steps <a class="anchor" aria-label="링크" href="#server-steps">#</a></h2>
+<blockquote>
+<ol>
+<li>Create a <code>ServerSocket(portNumber, queueLength)</code>. 2. Wait for a connection: <code>accept()</code> returns a Socket. 3. Get the socket's I/O streams (<code>getInputStream</code>, <code>getOutputStream</code>), often wrapped in <code>DataInputStream</code>/<code>DataOutputStream</code> or Object streams. 4. Process. 5. Close.</li>
+</ol>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드: 반지름을 받아 원의 넓이를 돌려주는 서버</span>
+<span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ServerSocket</span><span class="w"> </span><span class="n">serverSocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">8000</span><span class="p">);</span>
+<span class="w">     </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serverSocket</span><span class="p">.</span><span class="na">accept</span><span class="p">();</span>
+<span class="w">     </span><span class="n">DataInputStream</span><span class="w"> </span><span class="n">inputFromClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DataInputStream</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">());</span>
+<span class="w">     </span><span class="n">DataOutputStream</span><span class="w"> </span><span class="n">outputToClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DataOutputStream</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inputFromClient</span><span class="p">.</span><span class="na">readDouble</span><span class="p">();</span>
+<span class="w">    </span><span class="n">outputToClient</span><span class="p">.</span><span class="na">writeDouble</span><span class="p">(</span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">PI</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="socket-and-serversocket-classes">Socket and ServerSocket classes <a class="anchor" aria-label="링크" href="#socket-and-serversocket-classes">#</a></h2>
+<blockquote>
+<p><code>Socket</code>: <code>getInputStream()</code>, <code>getOutputStream()</code>, <code>close()</code>. <code>ServerSocket</code>: <code>accept()</code> returns the socket and establishes a connection between server and client; <code>close()</code>.</p>
+</blockquote>
+<h2 id="the-inetaddress-class">The InetAddress Class <a class="anchor" aria-label="링크" href="#the-inetaddress-class">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">InetAddress</span><span class="w"> </span><span class="n">inetAddress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">.</span><span class="na">getInetAddress</span><span class="p">();</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Client's host name is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inetAddress</span><span class="p">.</span><span class="na">getHostName</span><span class="p">());</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Client's IP Address is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">inetAddress</span><span class="p">.</span><span class="na">getHostAddress</span><span class="p">());</span>
+</code></pre>
+<h2 id="client-steps">Client Steps <a class="anchor" aria-label="링크" href="#client-steps">#</a></h2>
+<blockquote>
+<ol>
+<li>Create a Socket to connect to the server: <code>new Socket(serverAddress, portNumber)</code>. 2. Get the socket's I/O streams. If the server sends with an ObjectOutputStream, the client should read with an <strong>ObjectInputStream</strong> (same format). 3. Process. 4. Close the streams and the socket; the client must determine when the server is finished sending.</li>
+</ol>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드: 위 서버에 접속하는 클라이언트</span>
+<span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Socket</span><span class="p">(</span><span class="s">"localhost"</span><span class="p">,</span><span class="w"> </span><span class="mi">8000</span><span class="p">);</span>
+<span class="w">     </span><span class="n">DataOutputStream</span><span class="w"> </span><span class="n">toServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DataOutputStream</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="na">getOutputStream</span><span class="p">());</span>
+<span class="w">     </span><span class="n">DataInputStream</span><span class="w"> </span><span class="n">fromServer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DataInputStream</span><span class="p">(</span><span class="n">socket</span><span class="p">.</span><span class="na">getInputStream</span><span class="p">()))</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="n">toServer</span><span class="p">.</span><span class="na">writeDouble</span><span class="p">(</span><span class="mf">2.0</span><span class="p">);</span>
+<span class="w">    </span><span class="n">toServer</span><span class="p">.</span><span class="na">flush</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Area: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fromServer</span><span class="p">.</span><span class="na">readDouble</span><span class="p">());</span><span class="w">   </span><span class="c1">// Area: 12.566...</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="multi-threaded-server">Multi-threaded Server <a class="anchor" aria-label="링크" href="#multi-threaded-server">#</a></h2>
+<blockquote>
+<p>Outcomes include the <strong>multi-threaded server</strong>: the server keeps listening and handles each client in its own thread.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드</span>
+<span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">ServerSocket</span><span class="w"> </span><span class="n">serverSocket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ServerSocket</span><span class="p">(</span><span class="mi">8000</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Socket</span><span class="w"> </span><span class="n">socket</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serverSocket</span><span class="p">.</span><span class="na">accept</span><span class="p">();</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">Thread</span><span class="p">(()</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">handleClient</span><span class="p">(</span><span class="n">socket</span><span class="p">)).</span><span class="na">start</span><span class="p">();</span><span class="w">   </span><span class="c1">// one thread per client</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

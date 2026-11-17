@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 12 · Segment 1. Observer, Factory and Decorator Design Patterns · APD545</title><meta name="description" content="Week 12 · Segment 1. Observer, Factory and Decorator Design Patterns · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 12 · Segment 1. Observer, Factory and Decorator Design Patterns</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#outcomes">Outcomes</a></li><li class="l2"><a href="#a-scalable-pizza-app">A Scalable Pizza App</a></li><li class="l2"><a href="#the-factory-pattern">The Factory Pattern</a></li><li class="l2"><a href="#factory-real-world-analogy">Factory: Real-World Analogy</a></li><li class="l2"><a href="#factory-with-map-of-supplier">Factory with Map of Supplier</a></li><li class="l2"><a href="#the-decorator-pattern">The Decorator Pattern</a></li><li class="l2"><a href="#decorator-real-world-analogy">Decorator: Real-World Analogy</a></li><li class="l2"><a href="#decorator-in-code">Decorator in Code</a></li><li class="l2"><a href="#the-observer-pattern">The Observer Pattern</a></li><li class="l2"><a href="#observer-real-world-analogy">Observer: Real-World Analogy</a></li><li class="l2"><a href="#observer-in-code">Observer in Code</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 12 · Segment 1 &quot;Observer, Factory &amp; Decorator Design Patterns&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌. 코드는 슬라이드 개념을 따라 해설용으로 새로 쓴 예시&gt;</p>
+<h1 id="week-12-segment-1-observer-factory-and-decorator-design-patterns">Week 12 · Segment 1. Observer, Factory and Decorator Design Patterns <a class="anchor" aria-label="링크" href="#week-12-segment-1-observer-factory-and-decorator-design-patterns">#</a></h1>
+<h2 id="outcomes">Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h2>
+<blockquote>
+<ul>
+<li>Decoupling Object Creation (<strong>Factory</strong>): we moved the <code>new</code> keyword into a dedicated Factory.</li>
+<li>Composition over Inheritance (<strong>Decorator</strong>): we used wrappers to add &quot;Cheese&quot; and &quot;Olives&quot; instead of creating subclasses.</li>
+<li>Event-Driven Communication (<strong>Observer</strong>): we connected the &quot;Order&quot; button to the &quot;Kitchen Display&quot; without tight coupling.</li>
+</ul>
+</blockquote>
+<h2 id="a-scalable-pizza-app">A Scalable Pizza App <a class="anchor" aria-label="링크" href="#a-scalable-pizza-app">#</a></h2>
+<blockquote>
+<p>We need a desktop app where we can create different base pizzas (Margherita, Pepperoni), add infinite toppings (Cheese, Olives) without creating millions of subclasses, and when an order is placed, the Kitchen (a separate screen) must be notified immediately.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드: 세 패턴이 함께 쓰는 공통 인터페이스</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">Pizza</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">double</span><span class="w"> </span><span class="nf">getCost</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Margherita</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Pizza</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Margherita"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getCost</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">10.0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Pepperoni</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Pizza</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"Pepperoni"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getCost</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="mf">12.0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="the-factory-pattern">The Factory Pattern <a class="anchor" aria-label="링크" href="#the-factory-pattern">#</a></h2>
+<blockquote>
+<p>Defines an interface for creating an object, but lets subclasses decide which class to instantiate. Using the <code>new</code> keyword creates <strong>tight coupling</strong>: if you change the class name, you have to change it everywhere. Delegate object creation to a special factory method.</p>
+</blockquote>
+<h2 id="factory-real-world-analogy">Factory: Real-World Analogy <a class="anchor" aria-label="링크" href="#factory-real-world-analogy">#</a></h2>
+<blockquote>
+<p>A Pizza Shop: you just say, &quot;I want a Pepperoni Pizza.&quot; The Kitchen (Factory) handles the complex creation process and hands you the finished object.</p>
+</blockquote>
+<h2 id="factory-with-map-of-supplier">Factory with Map of Supplier <a class="anchor" aria-label="링크" href="#factory-with-map-of-supplier">#</a></h2>
+<blockquote>
+<p>Replaced if/else chains with a <code>Map&lt;String, Supplier&gt;</code>: O(1) performance and a clean &quot;Recipe Registry&quot; that makes adding new pizzas easy without modifying the core logic.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PizzaFactory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Pizza</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">RECIPES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">RECIPES</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"margherita"</span><span class="p">,</span><span class="w"> </span><span class="n">Margherita</span><span class="p">::</span><span class="k">new</span><span class="p">);</span>
+<span class="w">        </span><span class="n">RECIPES</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="s">"pepperoni"</span><span class="p">,</span><span class="w"> </span><span class="n">Pepperoni</span><span class="p">::</span><span class="k">new</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">Pizza</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">type</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Supplier</span><span class="o">&lt;</span><span class="n">Pizza</span><span class="o">&gt;</span><span class="w"> </span><span class="n">recipe</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RECIPES</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="n">type</span><span class="p">.</span><span class="na">toLowerCase</span><span class="p">());</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">recipe</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IllegalArgumentException</span><span class="p">(</span><span class="s">"Unknown pizza: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">type</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">recipe</span><span class="p">.</span><span class="na">get</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Pizza</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PizzaFactory</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="s">"Pepperoni"</span><span class="p">);</span>
+</code></pre>
+<h2 id="the-decorator-pattern">The Decorator Pattern <a class="anchor" aria-label="링크" href="#the-decorator-pattern">#</a></h2>
+<blockquote>
+<p>Attaches additional responsibilities to an object <strong>dynamically</strong>. Inheritance is static (compile-time); decorators allow you to mix and match behaviors at <strong>runtime</strong>. Key principle: &quot;<strong>Open for Extension, Closed for Modification.</strong>&quot;</p>
+</blockquote>
+<h2 id="decorator-real-world-analogy">Decorator: Real-World Analogy <a class="anchor" aria-label="링크" href="#decorator-real-world-analogy">#</a></h2>
+<blockquote>
+<p>Coffee Shop Orders: you start with Coffee, decorate it with Milk, then with Sugar. You don't create a separate class for CoffeeWithMilkAndSugar; you wrap the coffee in layers.</p>
+</blockquote>
+<h2 id="decorator-in-code">Decorator in Code <a class="anchor" aria-label="링크" href="#decorator-in-code">#</a></h2>
+<blockquote>
+<p>Used wrappers (Cheese, Olives) around base objects: dynamic pricing and descriptions at runtime, avoiding the &quot;<strong>Class Explosion</strong>&quot; problem (e.g., VeggieWithCheeseAndOlives).</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">abstract</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ToppingDecorator</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Pizza</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">;</span><span class="w">          </span><span class="c1">// the wrapped object</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="nf">ToppingDecorator</span><span class="p">(</span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">pizza</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pizza</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Cheese</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">ToppingDecorator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Cheese</span><span class="p">(</span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">(</span><span class="n">pizza</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">pizza</span><span class="p">.</span><span class="na">getDescription</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">", Cheese"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getCost</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">pizza</span><span class="p">.</span><span class="na">getCost</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.5</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Olives</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">ToppingDecorator</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Olives</span><span class="p">(</span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kd">super</span><span class="p">(</span><span class="n">pizza</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getDescription</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">pizza</span><span class="p">.</span><span class="na">getDescription</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">", Olives"</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="nf">getCost</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">pizza</span><span class="p">.</span><span class="na">getCost</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">1.0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">Pizza</span><span class="w"> </span><span class="n">order</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Olives</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Cheese</span><span class="p">(</span><span class="n">PizzaFactory</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="s">"margherita"</span><span class="p">)));</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">order</span><span class="p">.</span><span class="na">getDescription</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" $"</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">order</span><span class="p">.</span><span class="na">getCost</span><span class="p">());</span>
+<span class="c1">// Margherita, Cheese, Olives $12.5</span>
+</code></pre>
+<h2 id="the-observer-pattern">The Observer Pattern <a class="anchor" aria-label="링크" href="#the-observer-pattern">#</a></h2>
+<blockquote>
+<p>Defines a <strong>one-to-many</strong> dependency between objects. When one object (the <strong>Subject</strong>) changes state, all its dependents (<strong>Observers</strong>) are notified and updated automatically. Key principle: &quot;<strong>Loose Coupling</strong>&quot;: the subject knows it has a list of observers, but doesn't care who they are or what they do.</p>
+</blockquote>
+<h2 id="observer-real-world-analogy">Observer: Real-World Analogy <a class="anchor" aria-label="링크" href="#observer-real-world-analogy">#</a></h2>
+<blockquote>
+<p>YouTube Subscriptions: you (the Observer) subscribe to a Channel (the Subject). You don't refresh the channel page every 5 seconds; when a new video is uploaded, the Channel <strong>notifies</strong> you.</p>
+</blockquote>
+<h2 id="observer-in-code">Observer in Code <a class="anchor" aria-label="링크" href="#observer-in-code">#</a></h2>
+<blockquote>
+<p>Decoupled the Order Button (Subject) from the Kitchen Display (Observer). We can add more listeners (e.g., &quot;Inventory System&quot;) later without touching the Controller code.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// 예시 코드</span>
+<span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">OrderListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onOrderPlaced</span><span class="p">(</span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OrderService</span><span class="w"> </span><span class="p">{</span><span class="w">                       </span><span class="c1">// Subject</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">OrderListener</span><span class="o">&gt;</span><span class="w"> </span><span class="n">listeners</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addListener</span><span class="p">(</span><span class="n">OrderListener</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">listeners</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">l</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">removeListener</span><span class="p">(</span><span class="n">OrderListener</span><span class="w"> </span><span class="n">l</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">listeners</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">l</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">placeOrder</span><span class="p">(</span><span class="n">Pizza</span><span class="w"> </span><span class="n">pizza</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">OrderListener</span><span class="w"> </span><span class="n">l</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">listeners</span><span class="p">)</span><span class="w"> </span><span class="n">l</span><span class="p">.</span><span class="na">onOrderPlaced</span><span class="p">(</span><span class="n">pizza</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">OrderService</span><span class="w"> </span><span class="n">service</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OrderService</span><span class="p">();</span>
+<span class="n">service</span><span class="p">.</span><span class="na">addListener</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Kitchen: make "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="na">getDescription</span><span class="p">()));</span>
+<span class="n">service</span><span class="p">.</span><span class="na">addListener</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Inventory: use dough"</span><span class="p">));</span>
+<span class="n">service</span><span class="p">.</span><span class="na">placeOrder</span><span class="p">(</span><span class="n">order</span><span class="p">);</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

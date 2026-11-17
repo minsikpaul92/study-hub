@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 9. 파일 입출력 · APD545</title><meta name="description" content="Week 9. 파일 입출력 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 9</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-9-segment-1-io-basics-files-and-streams">1. 📑 강의 슬라이드: Week 9 · Segment 1. IO Basics: Files and Streams</a></li><li class="l3"><a href="#outcomes">📑 Outcomes</a></li><li class="l3"><a href="#files-and-streams">📑 Files and Streams</a></li><li class="l3"><a href="#streams">📑 Streams</a></li><li class="l3"><a href="#buffers">📑 Buffers</a></li><li class="l3"><a href="#writing-binary-data-fileoutputstream">📑 Writing binary data: FileOutputStream</a></li><li class="l3"><a href="#dataoutputstream">📑 DataOutputStream</a></li><li class="l3"><a href="#reading-binary-data-fileinputstream">📑 Reading binary data: FileInputStream</a></li><li class="l3"><a href="#writing-text-printwriter">📑 Writing text: PrintWriter</a></li><li class="l3"><a href="#reading-text-bufferedreader-and-scanner">📑 Reading text: BufferedReader and Scanner</a></li><li class="l3"><a href="#buffering-and-chained-streams">📑 Buffering and Chained Streams</a></li><li class="l3"><a href="#stream-io-operations">📑 Stream IO Operations</a></li><li class="l3"><a href="#standard-template">📑 Standard Template</a></li><li class="l3"><a href="#try-with-resources-java-7">📑 try-with-resources (Java 7)</a></li><li class="l3"><a href="#byte-stream-vs-character-stream">📑 Byte Stream vs Character Stream</a></li><li class="l2"><a href="#2-강의-슬라이드-week-9-segment-2-reading-and-writing-whole-objects">2. 📑 강의 슬라이드: Week 9 · Segment 2. Reading and Writing Whole Objects</a></li><li class="l3"><a href="#objectoutputstream">📑 ObjectOutputStream</a></li><li class="l3"><a href="#serialization">📑 Serialization</a></li><li class="l3"><a href="#de-serialization">📑 De-Serialization</a></li><li class="l3"><a href="#danger-class-changes">📑 Danger: class changes</a></li><li class="l3"><a href="#transient-and-custom-serialization">📑 transient and custom serialization</a></li><li class="l3"><a href="#serialization-rules">📑 Serialization rules</a></li><li class="l3"><a href="#randomaccessfile">📑 RandomAccessFile</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-9">🧩 이번 주 토이 프로젝트: CafeOrder Week 9</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-9">✅ 시험 대비 체크리스트 (Week 9)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-9-파일-입출력-stream-text-object-randomaccessfile">Week 9. 파일 입출력: Stream, Text, Object, RandomAccessFile <a class="anchor" aria-label="링크" href="#week-9-파일-입출력-stream-text-object-randomaccessfile">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요(JavaFX 없이 <code>main</code>만으로 돼요).</p>
+<p>프로그램을 꺼도 데이터가 남게 하는 방법이에요. Week 6 FileChooser로 고른 파일에 실제로 쓰고 읽는 부분, Week 8 JDBC의 try-with-resources, Week 13 소켓 스트림과 이어져요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stream 4대 뿌리</td>
+<td>InputStream, OutputStream(바이트) / Reader, Writer(문자)</td>
+<td>공통 부모 Stream 클래스는 <strong>없음</strong></td>
+</tr>
+<tr>
+<td>표준 스트림</td>
+<td><code>System.in</code>, <code>System.out</code>, <code>System.err</code></td>
+<td>in은 BufferedInputStream, out은 PrintStream</td>
+</tr>
+<tr>
+<td>FileOutputStream</td>
+<td>바이트 쓰기. <code>(name, true)</code>면 <strong>이어쓰기</strong></td>
+<td>기본은 덮어쓰기</td>
+</tr>
+<tr>
+<td>DataOutput/InputStream</td>
+<td>기본형, <code>writeUTF</code> 통째로. <strong>쓴 순서대로 읽기</strong></td>
+<td>바이너리</td>
+</tr>
+<tr>
+<td>PrintWriter / BufferedReader</td>
+<td>텍스트 줄 쓰기 / <code>readLine()</code></td>
+<td>객체는 <code>toString()</code>으로 저장</td>
+</tr>
+<tr>
+<td>Buffered 스트림</td>
+<td>블록 단위(기본 8192바이트), <strong>다른 스트림에 감싸서</strong>(chain)</td>
+<td><code>flush()</code></td>
+</tr>
+<tr>
+<td>try-with-resources</td>
+<td><code>AutoCloseable</code>이면 자동 <code>close()</code></td>
+<td>여러 개 <code>;</code>로</td>
+</tr>
+<tr>
+<td>Byte vs Character</td>
+<td>8비트 raw vs 16비트 char, Unicode 처리</td>
+<td>바이너리가 더 효율적</td>
+</tr>
+<tr>
+<td>Serialization</td>
+<td><code>implements Serializable</code>(marker), <code>writeObject</code>/<code>readObject</code></td>
+<td>캐스팅, ClassNotFoundException</td>
+</tr>
+<tr>
+<td>저장 안 됨</td>
+<td><strong>static</strong>, <strong>transient</strong> 필드</td>
+<td>역직렬화 때 생성자 <strong>안 불림</strong></td>
+</tr>
+<tr>
+<td>RandomAccessFile</td>
+<td><code>&quot;r&quot;</code>/<code>&quot;rw&quot;</code>, <code>seek(pos)</code>, <code>getFilePointer()</code></td>
+<td>readInt 후 포인터 +4</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li><code>new FileOutputStream(&quot;a.dat&quot;)</code>는 기존 내용을 <strong>지운다</strong>. 이어 쓰려면 두 번째 인자 <code>true</code>.</li>
+<li><code>close()</code>(또는 <code>flush()</code>)를 안 하면 버퍼에 남은 데이터가 <strong>파일에 안 써질 수</strong> 있다.</li>
+<li>파일 열기는 <code>FileNotFoundException</code>, 읽기/쓰기는 <code>IOException</code>. 앞의 것이 뒤의 것의 <strong>자식</strong>이라 catch 순서는 FileNotFound가 먼저.</li>
+<li><code>readObject()</code>는 <code>Object</code>를 반환 → <strong>캐스팅</strong> 필요, 그리고 <code>ClassNotFoundException</code>도 처리.</li>
+<li>객체 안의 다른 객체 필드도 <strong>전부 Serializable</strong>이어야 한다. 아니면 <code>NotSerializableException</code>.</li>
+<li>슬라이드에 &quot;역직렬화하려면 인자 없는 생성자가 있어야 한다&quot;는 문장이 있는데, 아래 해설처럼 <strong>Serializable 클래스 자신은 필요 없다</strong>(직접 돌려서 확인).</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Writing binary data: FileOutputStream</a></td>
+<td>myFile.dat에 HELLO!를 바이트로 쓰고, FileInputStream으로 읽어 숫자 72 69 76 76 79 33이 나오는지 확인</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Writing text: PrintWriter</a></td>
+<td>PrintWriter로 이름, 계좌번호, 잔액을 세 줄로 저장하고 BufferedReader로 다시 읽어 출력</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">try-with-resources (Java 7)</a></td>
+<td>파일 복사 프로그램을 try-with-resources로 쓰기 (입력, 출력 스트림 두 개)</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">De-Serialization</a></td>
+<td>BankAccount를 Serializable로 만들어 writeObject로 저장하고 readObject로 다시 읽기 (transient 필드가 null로 돌아오는지도 확인)</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">RandomAccessFile</a></td>
+<td>int 5개를 쓰고 seek(8)로 세 번째 int를 읽어 20, 포인터 12, 길이 20인지 확인</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-9-segment-1-io-basics-files-and-streams">1. 📑 강의 슬라이드: Week 9 · Segment 1. IO Basics: Files and Streams <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-9-segment-1-io-basics-files-and-streams">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>파일에 <strong>바이트</strong>로, <strong>글자</strong>로 쓰고 읽는 법과, 스트림을 감싸서(chain) 기능을 더하는 Java IO의 구조를 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Outcomes</strong>: 목표: IO 클래스 구조 보기, 스트림 만들고 쓰기, Byte / Character / Buffered 스트림 차이, 파일 IO 프로그램 작성.</li>
+<li>👀 <strong>Files and Streams</strong>: 파일은 전원이 꺼져도 남는 저장소예요. 규칙: 열고 → 읽기/쓰기 → 반드시 닫기.</li>
+<li>👀 <strong>Streams</strong>: 스트림은 파일만이 아니라 네트워크, 다른 프로그램, 키보드/콘솔에도 똑같이 써요.</li>
+<li>👀 <strong>Buffers</strong>: 디스크 접근은 메모리 작업보다 엄청 느려요. 그래서 버퍼(임시 바구니)에 모았다가 한 번에 보내요.</li>
+<li>⌨️ <strong><a href="#practice-1">Writing binary data: FileOutputStream</a></strong>:  (⌨️ myFile.dat에 HELLO!를 바이트로 쓰고, FileInputStream으로 읽어 숫자 72 69 76 76 79 33이 나오는지 확인)</li>
+<li>👀 <strong>DataOutputStream</strong>: int 7293901을 바이트 하나씩 쪼개 쓰는 건 고생이죠.</li>
+<li>👀 <strong>Reading binary data: FileInputStream</strong>: <code>read()</code>는 한 바이트를 int로 돌려주고, 파일 끝이면 -1.</li>
+<li>⌨️ <strong><a href="#practice-2">Writing text: PrintWriter</a></strong>:  (⌨️ PrintWriter로 이름, 계좌번호, 잔액을 세 줄로 저장하고 BufferedReader로 다시 읽어 출력)</li>
+<li>👀 <strong>Reading text: BufferedReader and Scanner</strong>: 텍스트로 저장한 건 문자열로만 돌아와요. 숫자는 <code>Integer.parseInt</code>, <code>Float.parseFloat</code>로 다시 바꾸고, 객체는 생성자로 다시 조립해야 해요.</li>
+<li>👀 <strong>Buffering and Chained Streams</strong>: <code>read()</code> 한 번 = OS 호출 한 번이라 느려요.</li>
+<li>👀 <strong>Stream IO Operations</strong>: 모든 IO의 3단계: 열기 → 읽기/쓰기 → 닫기.</li>
+<li>👀 <strong>Standard Template</strong>: Java 7 이전 방식: <code>finally</code>에서 닫기.</li>
+<li>⌨️ <strong><a href="#practice-3">try-with-resources (Java 7)</a></strong>:  (⌨️ 파일 복사 프로그램을 try-with-resources로 쓰기 (입력, 출력 스트림 두 개))</li>
+<li>👀 <strong>Byte Stream vs Character Stream</strong>: Byte: 1바이트씩, 그림, 소리, <code>.dat</code> 같은 raw 데이터.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 9 · Segment 1 &quot;Java Files and Streams&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="outcomes">📑 Outcomes <a class="anchor" aria-label="링크" href="#outcomes">#</a></h3>
+<blockquote>
+<p>Examine Input/Output classes in java. Create and use I/O streams. Differences between <strong>Byte, Character and Buffered</strong> Streams. Designing and developing File I/O programs.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>목표: IO 클래스 구조 보기, 스트림 만들고 쓰기, <strong>Byte / Character / Buffered</strong> 스트림 차이, 파일 IO 프로그램 작성.</p>
+</div><h3 id="files-and-streams">📑 Files and Streams <a class="anchor" aria-label="링크" href="#files-and-streams">#</a></h3>
+<blockquote>
+<p>To use a file, it must be first <strong>opened</strong>. When done with a file, it <strong>MUST be closed</strong>. The contents of a file is ultimately reduced to a set of numbers from 0 to 255 called bytes. In JAVA, files are represented as <strong>Stream</strong> objects. The information that is put into a stream comes out <strong>in the same order</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>파일은 전원이 꺼져도 남는 저장소예요. 규칙: <strong>열고 → 읽기/쓰기 → 반드시 닫기</strong>. 파일의 내용은 결국 0~255 숫자(바이트)의 나열이고, Java에서는 이걸 <strong>Stream</strong>(흐름) 객체로 다뤄요. 넣은 순서 그대로 나와요(수도관처럼).</p>
+</div><h3 id="streams">📑 Streams <a class="anchor" aria-label="링크" href="#streams">#</a></h3>
+<blockquote>
+<p>Streams provide a way to send or receive information to and from files, networks, different programs, and any I/O devices. When a JAVA program starts, 3 streams are automatically created: <code>System.in</code>, <code>System.out</code>, <code>System.err</code>.</p>
+<p>JAVA contains <strong>four</strong> main stream-related hierarchies: <strong>InputStream, OutputStream</strong> (binary bytes) and <strong>Reader, Writer</strong> (text). There is no common Stream class; these 4 abstract classes are the roots.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>스트림은 파일만이 아니라 <strong>네트워크, 다른 프로그램, 키보드/콘솔</strong>에도 똑같이 써요. 그래서 Week 13 소켓도 <code>getInputStream()</code>으로 같은 방식이에요.</p>
+<p>4대 뿌리(추상 클래스):</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>읽기</th>
+<th>쓰기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>바이트(binary)</td>
+<td><code>InputStream</code></td>
+<td><code>OutputStream</code></td>
+</tr>
+<tr>
+<td>문자(text)</td>
+<td><code>Reader</code></td>
+<td><code>Writer</code></td>
+</tr>
+</tbody>
+</table>
+<p>이름 끝을 보면 종류를 알 수 있어요: <code>...Stream</code>은 바이트, <code>...Reader/Writer</code>는 문자.</p>
+</div><h3 id="buffers">📑 Buffers <a class="anchor" aria-label="링크" href="#buffers">#</a></h3>
+<blockquote>
+<p>I/O is a bottleneck. Buffered output allows data to be collected before it is actually sent; only when the buffer gets full does the data actually get sent. <code>flush()</code> empties the buffer immediately.</p>
+<p><code>System.in</code> is a <code>java.io.BufferedInputStream</code>, <code>System.out</code> is a <code>java.io.PrintStream</code>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>디스크 접근은 메모리 작업보다 <strong>엄청 느려요</strong>. 그래서 버퍼(임시 바구니)에 모았다가 한 번에 보내요. 택배를 하나씩 보내지 않고 상자에 모아 보내는 것. <code>flush()</code> = 상자가 안 찼어도 지금 보내기.</p>
+<p><code>System.out</code>이 <code>PrintStream</code>이라는 것도 기억: 우리가 매일 쓰는 <code>println</code>이 사실 스트림이에요.</p>
+</div><h3 id="writing-binary-data-fileoutputstream">📑 Writing binary data: FileOutputStream <a class="anchor" aria-label="링크" href="#writing-binary-data-fileoutputstream">#</a></h3>
+<blockquote>
+<p><code>new FileOutputStream(String fileName)</code> overwrites an existing file. <code>new FileOutputStream(String fileName, boolean append)</code>: if append = true the new data is appended to the end.</p>
+</blockquote>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: myFile.dat에 HELLO!를 바이트로 쓰고, FileInputStream으로 읽어 숫자 72 69 76 76 79 33이 나오는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FileOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="s">"myFile.dat"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'H'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="mi">69</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="mi">76</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'L'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'O'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">write</span><span class="p">(</span><span class="sc">'!'</span><span class="p">);</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot open file for writing"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot write to file"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Two exceptions may occur: opening a file may generate <strong>FileNotFoundException</strong>; reading or writing may generate <strong>IOException</strong>. In a path string use two backslashes: <code>&quot;F:\\My Documents\\myFile.dat&quot;</code>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>write(int)</code>는 <strong>한 바이트</strong>(0~255)를 써요. <code>'H'</code>(문자)도 숫자 72라서 들어가요. 그래서 파일에는 <code>HELLO!</code>가 들어가요(69=E, 76=L).</p>
+<p>예외 두 개: 파일을 못 열면 <code>FileNotFoundException</code>, 쓰다가 문제면 <code>IOException</code>. FileNotFound가 IOException의 <strong>자식</strong>이라 catch는 <strong>자식 먼저</strong> 써야 해요(반대면 컴파일 에러: unreachable).</p>
+<p>윈도우 경로의 <code>\</code>는 문자열에서 특수문자라 <code>\\</code> 두 번. 맥/리눅스는 <code>/</code>.</p>
+</div><h3 id="dataoutputstream">📑 DataOutputStream <a class="anchor" aria-label="링크" href="#dataoutputstream">#</a></h3>
+<blockquote>
+<p>A &quot;wrapper&quot; around the FileOutputStream that writes whole primitives and Strings: <code>writeInt, writeDouble, writeBoolean, writeChar, writeUTF(String)</code>, ... The output is in binary format.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>int 7293901을 바이트 하나씩 쪼개 쓰는 건 고생이죠. <code>DataOutputStream</code>이 FileOutputStream을 <strong>감싸서</strong> <code>writeInt</code>, <code>writeDouble</code>, <code>writeUTF</code>를 제공해요. 이게 <strong>데코레이터</strong>(wrapper) 패턴이에요(Week 12와 연결).</p>
+<p>읽을 때는 <code>DataInputStream</code>으로 <strong>쓴 순서 그대로</strong> <code>readInt</code>, <code>readUTF</code>, <code>readDouble</code>. 순서가 틀리면 엉뚱한 값이 나와요. 예: <code>writeInt(7)</code>, <code>writeUTF(&quot;Hi&quot;)</code>, <code>writeDouble(1.5)</code> → 파일 크기 16바이트(int 4 + UTF 길이 2 + 글자 2 + double 8). (직접 돌려 확인했어요.)</p>
+</div><h3 id="reading-binary-data-fileinputstream">📑 Reading binary data: FileInputStream <a class="anchor" aria-label="링크" href="#reading-binary-data-fileinputstream">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"myFile.dat"</span><span class="p">);</span>
+<span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">available</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">print</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">read</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="p">);</span>
+<span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<blockquote>
+<p><code>read()</code> reads a single byte. <code>available()</code> returns the number of bytes available to be read.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>read()</code>는 한 바이트를 int로 돌려주고, 파일 끝이면 <strong>-1</strong>. <code>available()</code>은 남은 바이트 수. 출력: <code>72 69 76 76 79 33</code>.</p>
+<p>보통은 <code>while ((b = in.read()) != -1)</code> 패턴도 많이 써요.</p>
+</div><h3 id="writing-text-printwriter">📑 Writing text: PrintWriter <a class="anchor" aria-label="링크" href="#writing-text-printwriter">#</a></h3>
+<blockquote>
+<p>When objects are written to the text file, the <strong>toString()</strong> method is called. PrintWriter behaves just like the System.out console.</p>
+</blockquote>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: PrintWriter로 이름, 계좌번호, 잔액을 세 줄로 저장하고 BufferedReader로 다시 읽어 출력</p>
+<pre class="hl"><code class="language-java"><span class="n">PrintWriter</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrintWriter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileWriter</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getOwner</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getAccountNumber</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">.</span><span class="na">getBalance</span><span class="p">());</span>
+<span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>PrintWriter</code>는 파일용 <code>System.out</code>이에요. <code>println(객체)</code>를 하면 그 객체의 <strong><code>toString()</code></strong> 결과가 저장돼요.</p>
+<p><code>new PrintWriter(new FileWriter(&quot;x.dat&quot;))</code>: FileWriter(문자 단위 파일 쓰기)를 PrintWriter(println 기능)로 감쌈. 텍스트 파일이라 메모장으로 열면 사람이 읽을 수 있어요(바이너리와 차이).</p>
+</div><h3 id="reading-text-bufferedreader-and-scanner">📑 Reading text: BufferedReader and Scanner <a class="anchor" aria-label="링크" href="#reading-text-bufferedreader-and-scanner">#</a></h3>
+<blockquote>
+<p>We can only read in characters and lines of text from a text file, but NOT general objects.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BufferedReader</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">();</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">acc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">());</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">bal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Float</span><span class="p">.</span><span class="na">parseFloat</span><span class="p">(</span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">());</span>
+<span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+
+<span class="n">Scanner</span><span class="w"> </span><span class="n">sc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scanner</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">"myAccount2.dat"</span><span class="p">));</span>
+<span class="n">String</span><span class="w"> </span><span class="n">name2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextLine</span><span class="p">();</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">acc2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextInt</span><span class="p">();</span>
+<span class="kt">float</span><span class="w"> </span><span class="n">bal2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sc</span><span class="p">.</span><span class="na">nextFloat</span><span class="p">();</span>
+<span class="n">sc</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>텍스트로 저장한 건 <strong>문자열</strong>로만 돌아와요. 숫자는 <code>Integer.parseInt</code>, <code>Float.parseFloat</code>로 다시 바꾸고, 객체는 생성자로 <strong>다시 조립</strong>해야 해요.</p>
+<p><code>Scanner</code>를 쓰면 <code>nextInt()</code>, <code>nextFloat()</code>로 바로 숫자. 주의: <code>nextInt()</code> 뒤에 <code>nextLine()</code>을 부르면 남은 줄바꿈만 읽어서 빈 문자열이 나오는 유명한 함정이 있어요.</p>
+</div><h3 id="buffering-and-chained-streams">📑 Buffering and Chained Streams <a class="anchor" aria-label="링크" href="#buffering-and-chained-streams">#</a></h3>
+<blockquote>
+<p>read()/write() of a single byte is inefficient; each call is handled by the OS. Buffering reads/writes a <strong>block</strong> of bytes into a memory buffer (byte array, default <strong>8192</strong> bytes). A buffered stream only provides buffering; it works <strong>chained</strong> with another stream.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BufferedInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedInputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"big.dat"</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>read()</code> 한 번 = OS 호출 한 번이라 느려요. Buffered 스트림은 <strong>8192바이트</strong>씩 미리 읽어 두고 메모리에서 꺼내 줘요.</p>
+<p><strong>Chained streams</strong>: Buffered는 버퍼링만 하고 파일은 몰라요. 그래서 파일 스트림을 <strong>감싸서</strong> 써요.</p>
+<pre class="hl"><code class="language-text">new DataInputStream( new BufferedInputStream( new FileInputStream("a.dat") ) )
+   기본형 읽기             버퍼링                 실제 파일
+</code></pre>
+</div><h3 id="stream-io-operations">📑 Stream IO Operations <a class="anchor" aria-label="링크" href="#stream-io-operations">#</a></h3>
+<blockquote>
+<ol>
+<li>Open stream 2. Read/Write 3. Close stream</li>
+</ol>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>모든 IO의 3단계: <strong>열기 → 읽기/쓰기 → 닫기</strong>. 닫기를 잊으면 파일이 잠기거나(OS 파일 핸들), 쓰기 내용이 버퍼에 남아 사라질 수 있어요.</p>
+</div><h3 id="standard-template">📑 Standard Template <a class="anchor" aria-label="링크" href="#standard-template">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">null</span><span class="p">;</span>
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// read data</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"> </span><span class="k">finally</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">in</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Java 7 이전 방식: <code>finally</code>에서 닫기. 중간에 예외가 나도 <code>finally</code>는 항상 실행되니까요. <code>in</code>이 null일 수 있어서(열기부터 실패) <code>if (in != null)</code> 검사, <code>close()</code>도 예외를 던질 수 있어서 try-catch가 또 필요해요. 복잡하죠. 그래서 다음 문법이 나왔어요.</p>
+<p>참고: 원래 슬라이드는 <code>if(n != null)</code>로 오타가 있어요. <code>in</code>이 맞아요.</p>
+</div><h3 id="try-with-resources-java-7">📑 try-with-resources (Java 7) <a class="anchor" aria-label="링크" href="#try-with-resources-java-7">#</a></h3>
+<blockquote>
+<p>Works with <code>java.lang.AutoCloseable</code>. The stream is closed automatically.</p>
+</blockquote>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: 파일 복사 프로그램을 try-with-resources로 쓰기 (입력, 출력 스트림 두 개)</p>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="n">src</span><span class="p">);</span>
+<span class="w">     </span><span class="n">FileOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// read and write</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>try ( 자원 선언 ) { ... }</code>: 블록이 끝나면(예외가 나도) <strong>자동으로 <code>close()</code></strong>. 조건: 자원이 **<code>AutoCloseable</code>**을 구현해야 해요(Week 2의 &quot;Common Interfaces&quot;). 여러 개는 <code>;</code>로 구분하고, <strong>선언 반대 순서</strong>로 닫혀요.</p>
+<p>Week 8 JDBC의 <code>Connection</code>, <code>PreparedStatement</code>, <code>ResultSet</code>도 이렇게 닫았죠.</p>
+</div><h3 id="byte-stream-vs-character-stream">📑 Byte Stream vs Character Stream <a class="anchor" aria-label="링크" href="#byte-stream-vs-character-stream">#</a></h3>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th>Byte Stream</th>
+<th>Character Stream</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;Raw Data&quot;, byte by byte (8 bits)</td>
+<td>&quot;Character Data&quot;, char by char (16 bits)</td>
+</tr>
+<tr>
+<td>coder converts bytes to characters</td>
+<td>no worries for the coder</td>
+</tr>
+<tr>
+<td>does not always handle Unicode correctly</td>
+<td>handles Unicode appropriately</td>
+</tr>
+</tbody>
+</table>
+<p>Binary I/O does not involve encoding or decoding and is <strong>more efficient</strong> than text I/O.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li>Byte: 1바이트씩, 그림, 소리, <code>.dat</code> 같은 <strong>raw 데이터</strong>. 글자로 바꾸는 건 내 책임.</li>
+<li>Character: Java <code>char</code>(2바이트)씩, **Unicode(한글 등)**를 알아서 인코딩.</li>
+</ul>
+<p>어느 게 더 효율적? <strong>바이너리</strong>(인코딩, 디코딩 과정이 없어서). 시험 단골 질문이에요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-9-segment-2-reading-and-writing-whole-objects">2. 📑 강의 슬라이드: Week 9 · Segment 2. Reading and Writing Whole Objects <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-9-segment-2-reading-and-writing-whole-objects">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>객체를 필드별로 쪼개지 않고 <strong>통째로</strong> 저장하는 **직렬화(Serialization)**와, 파일 중간을 바로 읽고 쓰는 <strong>RandomAccessFile</strong>이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>ObjectOutputStream</strong>: <code>writeObject(obj)</code> 한 줄로 객체 저장.</li>
+<li>👀 <strong>Serialization</strong>: 직렬화 = 객체를 바이트 줄로 펼치기. 조건: <code>implements Serializable</code>.</li>
+<li>⌨️ <strong><a href="#practice-4">De-Serialization</a></strong>:  (⌨️ BankAccount를 Serializable로 만들어 writeObject로 저장하고 readObject로 다시 읽기 (transient 필드가 null로 돌아오는지도 확인))</li>
+<li>👀 <strong>Danger: class changes</strong>: 저장된 바이트에는 클래스 이름, 필드 이름과 타입이 들어 있어요.</li>
+<li>👀 <strong>transient and custom serialization</strong>: <code>transient</code> = &quot;이 필드는 저장하지 마&quot;.</li>
+<li>👀 <strong>Serialization rules</strong>: 부모가 Serializable이면 자식도 자동으로 Serializable.</li>
+<li>⌨️ <strong><a href="#practice-5">RandomAccessFile</a></strong>:  (⌨️ int 5개를 쓰고 seek(8)로 세 번째 int를 읽어 20, 포인터 12, 길이 20인지 확인)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 9 · Segment 2 &quot;Java Files and Streams: Object Writing&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="objectoutputstream">📑 ObjectOutputStream <a class="anchor" aria-label="링크" href="#objectoutputstream">#</a></h3>
+<blockquote>
+<p>Save or load entire JAVA objects with one method call, instead of breaking apart the object into its attributes. ObjectOutputStream is a <strong>wrapper</strong> around the FileOutputStream.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BankAccount</span><span class="w"> </span><span class="n">aBankAccount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BankAccount</span><span class="p">(</span><span class="s">"Rob Banks"</span><span class="p">);</span>
+<span class="n">aBankAccount</span><span class="p">.</span><span class="na">deposit</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectOutputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileOutputStream</span><span class="p">(</span><span class="s">"myAcc.dat"</span><span class="p">));</span>
+<span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">);</span>
+<span class="n">out</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>writeObject(obj)</code> 한 줄로 객체 저장. 역시 FileOutputStream을 <strong>감싸는</strong> 구조예요(객체 → 바이트는 ObjectOutputStream, 바이트 → 파일은 FileOutputStream).</p>
+</div><h3 id="serialization">📑 Serialization <a class="anchor" aria-label="링크" href="#serialization">#</a></h3>
+<blockquote>
+<p><strong>Serialization</strong> is the process of breaking down an object into bytes. The object must implement <strong>java.io.Serializable</strong>. This interface does not have any methods; it acts as a <strong>&quot;flag&quot;</strong> that indicates your permission for this object to be serialized.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">BankAccount</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">java</span><span class="p">.</span><span class="na">io</span><span class="p">.</span><span class="na">Serializable</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>All of the &quot;pieces&quot; of the object must also be serializable. If BankAccount has a <code>Customer owner</code>, then Customer must be Serializable too. Think of a meat grinder: marbles in the meat cannot come out through the grinder.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>직렬화</strong> = 객체를 바이트 줄로 펼치기. 조건: <code>implements Serializable</code>.</p>
+<p><code>Serializable</code>은 메서드가 <strong>하나도 없는 marker interface</strong>예요(Week 4 EventListener와 같은 종류). &quot;직렬화해도 된다&quot;는 <strong>허락 표시</strong>예요. 보안상 아무 객체나 파일이나 네트워크로 나가지 못하게 막는 거죠.</p>
+<p><strong>고기 분쇄기 비유</strong>: 객체 안에 Serializable이 아닌 필드 객체(구슬)가 있으면 갈 수 없어요 → <code>NotSerializableException</code>. 그래서 <code>Customer owner</code>가 있으면 Customer도 Serializable이어야 해요. <code>String</code>, <code>ArrayList</code> 같은 표준 클래스는 대부분 이미 Serializable.</p>
+</div><h3 id="de-serialization">📑 De-Serialization <a class="anchor" aria-label="링크" href="#de-serialization">#</a></h3>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: BankAccount를 Serializable로 만들어 writeObject로 저장하고 readObject로 다시 읽기 (transient 필드가 null로 돌아오는지도 확인)</p>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ObjectInputStream</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"myAcc.dat"</span><span class="p">));</span>
+<span class="w">    </span><span class="n">BankAccount</span><span class="w"> </span><span class="n">aBankAccount</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">BankAccount</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">aBankAccount</span><span class="p">);</span>
+<span class="w">    </span><span class="n">in</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">ClassNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Object's class does not match"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot open file"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Error: Cannot read from file"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Once read in, the object must be <strong>type-casted</strong>. A <strong>ClassNotFoundException</strong> may be generated.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>읽기: <code>(BankAccount) in.readObject()</code>. 반환형이 <code>Object</code>라 <strong>캐스팅</strong>, 그리고 저장된 클래스를 찾지 못하면 <strong><code>ClassNotFoundException</code></strong>(checked라 꼭 처리).</p>
+<p>슬라이드에는 &quot;역직렬화하려면 객체에 <strong>인자 없는 생성자</strong>가 있어야 하고 없으면 IOException&quot;이라는 문장이 있어요. 하지만 같은 강의 뒤쪽 규칙 4번(&quot;Constructor of object is never called&quot;)과 맞지 않고, 실제로 인자 없는 생성자가 <strong>없는</strong> Serializable 클래스도 잘 읽혀요(직접 돌려서 확인, 생성자 출력도 저장할 때 한 번만 찍혀요). 정확한 규칙은: <strong>Serializable이 아닌 첫 번째 부모 클래스</strong>에 인자 없는 생성자가 있어야 한다(보통 <code>Object</code>라서 신경 쓸 일이 없음). 시험에서 이 문장이 나오면 슬라이드 표현과 실제 규칙이 다르다는 것만 기억해 두세요.</p>
+</div><h3 id="danger-class-changes">📑 Danger: class changes <a class="anchor" aria-label="링크" href="#danger-class-changes">#</a></h3>
+<blockquote>
+<p>The saved binary format depends on the class name, attribute types and names. If you change the class definition after it has been saved, it may not be able to be read back in again.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>저장된 바이트에는 클래스 이름, 필드 이름과 타입이 들어 있어요. 저장 후 클래스를 고치면(필드 타입 변경, 삭제 등) 옛 파일을 못 읽을 수 있어요(<code>InvalidClassException</code>). 그래서 실무에서는 <code>private static final long serialVersionUID = 1L;</code>을 직접 적어 버전을 관리해요.</p>
+</div><h3 id="transient-and-custom-serialization">📑 transient and custom serialization <a class="anchor" aria-label="링크" href="#transient-and-custom-serialization">#</a></h3>
+<blockquote>
+<p>Declare any attribute as <strong>transient</strong> (it will not be serialized): <code>private transient String password;</code>. You can write <code>writeObject(ObjectOutputStream)</code> and <code>readObject(ObjectInputStream)</code> to override the default; <code>defaultWriteObject()</code> / <code>defaultReadObject()</code> do the default behavior.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">writeObject</span><span class="p">(</span><span class="n">ObjectOutputStream</span><span class="w"> </span><span class="n">out</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">defaultWriteObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">writeObject</span><span class="p">(</span><span class="n">encrypt</span><span class="p">(</span><span class="n">password</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">readObject</span><span class="p">(</span><span class="n">ObjectInputStream</span><span class="w"> </span><span class="n">in</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="p">,</span><span class="w"> </span><span class="n">ClassNotFoundException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">in</span><span class="p">.</span><span class="na">defaultReadObject</span><span class="p">();</span>
+<span class="w">    </span><span class="n">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">decrypt</span><span class="p">((</span><span class="n">String</span><span class="p">)</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readObject</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>transient</code> = &quot;이 필드는 저장하지 마&quot;. 비밀번호, 캐시, 소켓처럼 저장하면 안 되거나 못 하는 것. 읽어 오면 <strong>기본값</strong>(객체는 null, 숫자는 0)이에요.</p>
+<p>직접 제어하고 싶으면 클래스 안에 <code>private void writeObject(ObjectOutputStream)</code>, <code>private void readObject(ObjectInputStream)</code>를 만들어요. Java가 <strong>알아서 불러 줘요</strong>(우리가 부르지 않음, Week 7 IoC의 callback). 안에서 <code>defaultWriteObject()</code>로 기본 저장을 먼저 하고, 암호화한 값을 추가로 써요. 슬라이드는 <code>public</code>으로 썼지만 Java 규칙상 <strong>private</strong>이어야 이렇게 자동 호출돼요.</p>
+</div><h3 id="serialization-rules">📑 Serialization rules <a class="anchor" aria-label="링크" href="#serialization-rules">#</a></h3>
+<blockquote>
+<ol>
+<li>If a parent class has implemented Serializable then child class doesn't need to implement it, but vice-versa is not true.</li>
+<li>Only non-static data members are saved.</li>
+<li><strong>Static</strong> data members and <strong>transient</strong> data members are <strong>not saved</strong>.</li>
+<li><strong>Constructor of object is never called</strong> when an object is de-serialized.</li>
+<li>Associated objects must be implementing Serializable.</li>
+</ol>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>다섯 개 규칙(시험용):</p>
+<ol>
+<li>부모가 Serializable이면 자식도 자동으로 Serializable. 반대는 아님.
+2~3. <strong>static</strong>(클래스 공용 값)과 <strong>transient</strong>는 저장 안 됨. 예: 저장 후 static 값을 9로 바꾸고 읽으면 9가 보여요(파일에서 온 게 아니니까).</li>
+<li>역직렬화 때 생성자 <strong>안 불림</strong>. 필드는 파일에서 바로 채워져요.</li>
+<li>안에 들어 있는 객체도 Serializable이어야 함.</li>
+</ol>
+<p>내가 돌린 예: <code>owner=&quot;Rob&quot;</code>, <code>balance=100</code>, <code>transient pw=&quot;secret&quot;</code>, <code>static count</code> → 읽은 결과 <code>Rob 100.0 null 9</code>.</p>
+</div><h3 id="randomaccessfile">📑 RandomAccessFile <a class="anchor" aria-label="링크" href="#randomaccessfile">#</a></h3>
+<blockquote>
+<p>All streams so far are read-only or write-only, sequential. <strong>RandomAccessFile</strong> allows a file to be read from and written to at random locations. The <strong>file pointer</strong> is where the next read or write occurs; <code>readInt()</code> moves it 4 bytes ahead.</p>
+</blockquote>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: int 5개를 쓰고 seek(8)로 세 번째 int를 읽어 20, 포인터 12, 길이 20인지 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">RandomAccessFile</span><span class="w"> </span><span class="n">raf</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RandomAccessFile</span><span class="p">(</span><span class="s">"test.dat"</span><span class="p">,</span><span class="w"> </span><span class="s">"rw"</span><span class="p">);</span><span class="w">   </span><span class="c1">// "r" = read only</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span><span class="w"> </span><span class="n">k</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">writeInt</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">raf</span><span class="p">.</span><span class="na">seek</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span><span class="w">                         </span><span class="c1">// jump to byte 8 (the 3rd int)</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">readInt</span><span class="p">();</span><span class="w">               </span><span class="c1">// 20</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">pos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">getFilePointer</span><span class="p">();</span><span class="w">     </span><span class="c1">// 12</span>
+<span class="kt">long</span><span class="w"> </span><span class="n">len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">raf</span><span class="p">.</span><span class="na">length</span><span class="p">();</span><span class="w">             </span><span class="c1">// 20</span>
+<span class="n">raf</span><span class="p">.</span><span class="na">close</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>지금까지 스트림은 <strong>처음부터 순서대로</strong>(sequential)만. 중간 하나를 고치려면 파일을 새로 써야 했어요. RandomAccessFile은 <strong>파일 포인터</strong>를 원하는 위치로 옮겨(<code>seek</code>) 바로 읽고 써요. 동영상 탐색 바처럼요.</p>
+<ul>
+<li>모드: <code>&quot;r&quot;</code> 읽기 전용, <code>&quot;rw&quot;</code> 읽기+쓰기</li>
+<li><code>writeInt</code> 5번 → 20바이트. <code>seek(8)</code> → 세 번째 int(0, 10, <strong>20</strong>) 위치. <code>readInt()</code> 후 포인터는 <strong>12</strong>.</li>
+<li>고정 크기 레코드(예: int 하나 = 4바이트)라면 n번째 레코드 위치 = <code>n * 레코드크기</code>. 그래서 바로 점프할 수 있어요.</li>
+</ul>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-9">🧩 이번 주 토이 프로젝트: CafeOrder Week 9 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-9">#</a></h2>
+<p>완료된 주문을 저장해요. <code>Order</code>와 <code>OrderLine</code>을 <code>Serializable</code>로 만들고, File &gt; Save Orders(FileChooser <code>showSaveDialog</code>)로 <code>ObjectOutputStream</code>에 <code>List&lt;Order&gt;</code>를 통째로 저장, Open으로 다시 불러와 목록에 표시. 영수증은 <code>PrintWriter</code>로 사람이 읽을 수 있는 <code>.txt</code>로 내보내기. 모든 스트림은 try-with-resources. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-9">✅ 시험 대비 체크리스트 (Week 9) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-9">#</a></h2>
+<ul>
+<li>[ ] 4대 스트림 뿌리(InputStream, OutputStream, Reader, Writer)와 바이트/문자 구분을 안다.</li>
+<li>[ ] <code>System.in/out/err</code>의 역할과 클래스(BufferedInputStream, PrintStream)를 안다.</li>
+<li>[ ] FileOutputStream의 덮어쓰기와 append 생성자를 구분한다.</li>
+<li>[ ] FileNotFoundException, IOException의 발생 시점과 catch 순서를 안다.</li>
+<li>[ ] DataOutputStream/DataInputStream으로 기본형을 쓰고 같은 순서로 읽을 수 있다.</li>
+<li>[ ] PrintWriter로 쓰고 BufferedReader(readLine)나 Scanner로 읽을 수 있다.</li>
+<li>[ ] 버퍼링의 이유(8192바이트), flush, chained stream 구조를 설명할 수 있다.</li>
+<li>[ ] finally로 닫는 옛 방식과 try-with-resources(AutoCloseable)를 쓸 수 있다.</li>
+<li>[ ] Byte vs Character 스트림 차이와 어느 쪽이 더 효율적인지 안다.</li>
+<li>[ ] Serializable(marker), writeObject, readObject + 캐스팅, ClassNotFoundException을 쓸 수 있다.</li>
+<li>[ ] static과 transient가 저장되지 않고, 역직렬화 때 생성자가 불리지 않음을 안다.</li>
+<li>[ ] RandomAccessFile의 모드, seek, getFilePointer, length를 쓸 수 있다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li><code>scores.txt</code>에 이름과 점수를 한 줄에 하나씩(<code>Mike,90</code>) 쓰는 메서드와, 다시 읽어 평균을 출력하는 메서드를 try-with-resources로 쓰세요.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">scores</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">PrintWriter</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">PrintWriter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileWriter</span><span class="p">(</span><span class="s">"scores.txt"</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">Map</span><span class="p">.</span><span class="na">Entry</span><span class="o">&lt;</span><span class="n">String</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">scores</span><span class="p">.</span><span class="na">entrySet</span><span class="p">())</span>
+<span class="w">            </span><span class="n">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getKey</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">","</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">printAverage</span><span class="p">()</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">try</span><span class="w"> </span><span class="p">(</span><span class="n">BufferedReader</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BufferedReader</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">FileReader</span><span class="p">(</span><span class="s">"scores.txt"</span><span class="p">)))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">line</span><span class="p">;</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">((</span><span class="n">line</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">in</span><span class="p">.</span><span class="na">readLine</span><span class="p">())</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">parts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">line</span><span class="p">.</span><span class="na">split</span><span class="p">(</span><span class="s">","</span><span class="p">);</span>
+<span class="w">            </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">Integer</span><span class="p">.</span><span class="na">parseInt</span><span class="p">(</span><span class="n">parts</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span><span class="p">.</span><span class="na">trim</span><span class="p">());</span>
+<span class="w">            </span><span class="n">count</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">double</span><span class="p">)</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<ol start="2">
+<li>다음 클래스를 저장하고 읽었을 때 출력은?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">User</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">Serializable</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Ann"</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">transient</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">20</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="n">school</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Seneca"</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// User 저장 → User.school = "York"; → 읽어서</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">u</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">u</span><span class="p">.</span><span class="na">age</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">User</span><span class="p">.</span><span class="na">school</span><span class="p">);</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p><code>Ann 0 York</code>. transient는 저장 안 돼서 int 기본값 0, static은 파일과 상관없이 지금 클래스의 값.</p>
+</details>
+<ol start="3">
+<li>아래 코드는 컴파일 에러가 나요. 이유는?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FileInputStream</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileInputStream</span><span class="p">(</span><span class="s">"a.dat"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">IOException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"IO"</span><span class="p">);</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="n">FileNotFoundException</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"not found"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<details><summary>3번 정답</summary>
+<p><code>FileNotFoundException</code>은 <code>IOException</code>의 자식이라 첫 번째 catch가 이미 다 잡아요. 두 번째 catch에 도달할 수 없어서(unreachable) 컴파일 에러예요. 자식 예외(FileNotFoundException)를 먼저 써야 해요.</p>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w9" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-08.html"><small>← 이전</small>Week 8. ORM과 JDBC</a><a class="next" href="week-10.html"><small>다음 →</small>Week 10. 람다, 스트림, 바인딩</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

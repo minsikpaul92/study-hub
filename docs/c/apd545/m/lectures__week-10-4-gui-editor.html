@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder · APD545</title><meta name="description" content="Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#scene-graph-and-node-size">Scene Graph and Node Size</a></li><li class="l2"><a href="#borderpane-areas">BorderPane areas</a></li><li class="l2"><a href="#layout-settings">Layout settings</a></li><li class="l2"><a href="#radiobutton-and-togglegroup">RadioButton and ToggleGroup</a></li><li class="l2"><a href="#controller-and-event-handler-names">Controller and event handler names</a></li><li class="l2"><a href="#paintercontroller">PainterController</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 10 · Segment 4 &quot;Working with Scene Builder&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-10-segment-4-gui-editor-painter-app-with-scene-builder">Week 10 · Segment 4. GUI Editor: Painter App with Scene Builder <a class="anchor" aria-label="링크" href="#week-10-segment-4-gui-editor-painter-app-with-scene-builder">#</a></h1>
+<h2 id="scene-graph-and-node-size">Scene Graph and Node Size <a class="anchor" aria-label="링크" href="#scene-graph-and-node-size">#</a></h2>
+<blockquote>
+<p>Nodes shouldn't be defined with explicit size. Instead specify a node's range with acceptable size; the <strong>preferred size</strong> properties should be used by the layout in most cases. A node's position should be defined <strong>relative</strong> to its parent.</p>
+</blockquote>
+<h2 id="borderpane-areas">BorderPane areas <a class="anchor" aria-label="링크" href="#borderpane-areas">#</a></h2>
+<blockquote>
+<p>All the areas in the BorderPane are optional. If the top or bottom area is empty, the left, center and right areas expand vertically. If the left or right area is empty, the center expands horizontally.</p>
+</blockquote>
+<h2 id="layout-settings">Layout settings <a class="anchor" aria-label="링크" href="#layout-settings">#</a></h2>
+<blockquote>
+<ul>
+<li>VBox: Spacing 8, Margin 8, Pref size <strong>USE_COMPUTED_SIZE</strong>, Max Height <strong>MAX_VALUE</strong>.</li>
+<li>Drawing Pane (center, <code>fx:id=&quot;drawingAreaPane&quot;</code>): Max Width/Height MAX_VALUE, style <code>-fx-background-color: white</code>.</li>
+<li><strong>TitledPane</strong>: displays a title at its top and is a collapsible panel containing a layout node.</li>
+<li>VBox column: Max Width <strong>USE_PREF_SIZE</strong> (only as wide as it needs to be).</li>
+</ul>
+</blockquote>
+<h2 id="radiobutton-and-togglegroup">RadioButton and ToggleGroup <a class="anchor" aria-label="링크" href="#radiobutton-and-togglegroup">#</a></h2>
+<blockquote>
+<p>RadioButtons function as mutually exclusive options. Add multiple RadioButtons to a <strong>ToggleGroup</strong> to ensure that only one is selected at a time. In Scene Builder set the Toggle Group property to <code>colorToggleGroup</code> / <code>sizeToggleGroup</code>.</p>
+</blockquote>
+<h2 id="controller-and-event-handler-names">Controller and event handler names <a class="anchor" aria-label="링크" href="#controller-and-event-handler-names">#</a></h2>
+<blockquote>
+<p>Controller Class: <code>PainterController</code>. drawingAreaPane On Mouse Dragged: <code>drawingAreaMouseDragged</code>. Color RadioButtons On Action: <code>colorRadioButtonSelected</code>. Size RadioButtons: <code>sizeRadioButtonSelected</code>. Undo: <code>undoButtonPressed</code>. Clear: <code>clearButtonPressed</code>. Scene Builder can generate a skeleton: <strong>View &gt; Show Sample Controller Skeleton</strong>.</p>
+</blockquote>
+<h2 id="paintercontroller">PainterController <a class="anchor" aria-label="링크" href="#paintercontroller">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">PainterController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">enum</span><span class="w"> </span><span class="n">PenSize</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">SMALL</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">MEDIUM</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span><span class="w"> </span><span class="n">LARGE</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+<span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span>
+<span class="w">        </span><span class="n">PenSize</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">radius</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getRadius</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">radius</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">RadioButton</span><span class="w"> </span><span class="n">blackRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">redRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">greenRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">blueRadioButton</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">RadioButton</span><span class="w"> </span><span class="n">smallRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">mediumRadioButton</span><span class="p">,</span><span class="w"> </span><span class="n">largeRadioButton</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">ToggleGroup</span><span class="w"> </span><span class="n">colorToggleGroup</span><span class="p">,</span><span class="w"> </span><span class="n">sizeToggleGroup</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">Pane</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">PenSize</span><span class="w"> </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PenSize</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Paint</span><span class="w"> </span><span class="n">brushColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">blackRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">);</span>
+<span class="w">        </span><span class="n">redRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">RED</span><span class="p">);</span>
+<span class="w">        </span><span class="n">greenRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">GREEN</span><span class="p">);</span>
+<span class="w">        </span><span class="n">blueRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLUE</span><span class="p">);</span>
+<span class="w">        </span><span class="n">smallRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">SMALL</span><span class="p">);</span>
+<span class="w">        </span><span class="n">mediumRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">MEDIUM</span><span class="p">);</span>
+<span class="w">        </span><span class="n">largeRadioButton</span><span class="p">.</span><span class="na">setUserData</span><span class="p">(</span><span class="n">PenSize</span><span class="p">.</span><span class="na">LARGE</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">drawingAreaMouseDragged</span><span class="p">(</span><span class="n">MouseEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Circle</span><span class="w"> </span><span class="n">newCircle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getX</span><span class="p">(),</span><span class="w"> </span><span class="n">event</span><span class="p">.</span><span class="na">getY</span><span class="p">(),</span><span class="w"> </span><span class="n">radius</span><span class="p">.</span><span class="na">getRadius</span><span class="p">(),</span><span class="w"> </span><span class="n">brushColor</span><span class="p">);</span>
+<span class="w">        </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">newCircle</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">colorRadioButtonSelected</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">brushColor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Color</span><span class="p">)</span><span class="w"> </span><span class="n">colorToggleGroup</span><span class="p">.</span><span class="na">getSelectedToggle</span><span class="p">().</span><span class="na">getUserData</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">sizeRadioButtonSelected</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">radius</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PenSize</span><span class="p">)</span><span class="w"> </span><span class="n">sizeToggleGroup</span><span class="p">.</span><span class="na">getSelectedToggle</span><span class="p">().</span><span class="na">getUserData</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">undoButtonPressed</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">size</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">remove</span><span class="p">(</span><span class="n">count</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">clearButtonPressed</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">drawingAreaPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">clear</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>
