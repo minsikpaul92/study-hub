@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 5. MVC 분리 · APD545</title><meta name="description" content="Week 5. MVC 분리 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 5</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-5-segment-1-separating-model-view-and-controller">1. 📑 강의 슬라이드: Week 5 · Segment 1. Separating Model, View and Controller</a></li><li class="l3"><a href="#re-visiting-mvc">📑 Re-visiting MVC</a></li><li class="l3"><a href="#motivation">📑 Motivation</a></li><li class="l3"><a href="#the-need">📑 The need</a></li><li class="l2"><a href="#2-강의-슬라이드-week-5-segment-2-preparing-model-classes">2. 📑 강의 슬라이드: Week 5 · Segment 2. Preparing Model Classes</a></li><li class="l3"><a href="#what-is-the-model">📑 What is the model?</a></li><li class="l3"><a href="#itemlist">📑 ItemList</a></li><li class="l3"><a href="#add-and-remove">📑 add and remove</a></li><li class="l3"><a href="#test-the-model">📑 Test the model</a></li><li class="l2"><a href="#3-강의-슬라이드-week-5-segment-3-preparing-views">3. 📑 강의 슬라이드: Week 5 · Segment 3. Preparing Views</a></li><li class="l3"><a href="#views-as-panes">📑 Views as Panes</a></li><li class="l3"><a href="#update">📑 update()</a></li><li class="l3"><a href="#instance-variables-and-getters">📑 Instance variables and getters</a></li><li class="l3"><a href="#grocerylistview">📑 GroceryListView</a></li><li class="l3"><a href="#why-exactlist">📑 Why exactList?</a></li><li class="l2"><a href="#4-강의-슬라이드-week-5-segment-4-preparing-controller-classes">4. 📑 강의 슬라이드: Week 5 · Segment 4. Preparing Controller Classes</a></li><li class="l3"><a href="#the-controller">📑 The controller</a></li><li class="l3"><a href="#add-items">📑 Add Items</a></li><li class="l3"><a href="#removing-items">📑 Removing Items</a></li><li class="l3"><a href="#extras-disabling-the-remove-button">📑 Extras: Disabling the remove button</a></li><li class="l3"><a href="#extras-disabling-the-add-button">📑 Extras: Disabling the Add button</a></li><li class="l2"><a href="#5-교수님-샘플-코드-week-5-sample-student-manager-properties-manual-di-then-guice">5. 💻 교수님 샘플 코드: Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice)</a></li><li class="l3"><a href="#project-structure">💻 Project Structure</a></li><li class="l3"><a href="#example-student-model-with-properties">💻 Example: Student model with properties</a></li><li class="l3"><a href="#example-repository-interface-and-in-memory-implementation">💻 Example: Repository interface and in-memory implementation</a></li><li class="l3"><a href="#example-appcontext-manual-di-version">💻 Example: AppContext (manual DI version)</a></li><li class="l3"><a href="#example-appcontext-guice-version">💻 Example: AppContext (Guice version)</a></li><li class="l3"><a href="#example-maincontroller-double-click-to-edit">💻 Example: MainController (double click to edit)</a></li><li class="l3"><a href="#example-studenteditcontroller-bindbidirectional">💻 Example: StudentEditController (bindBidirectional)</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-5">🧩 이번 주 토이 프로젝트: CafeOrder Week 5</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-5">✅ 시험 대비 체크리스트 (Week 5)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-5-mvc-분리-model-view-controller">Week 5. MVC 분리: Model, View, Controller <a class="anchor" aria-label="링크" href="#week-5-mvc-분리-model-view-controller">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. 💻 표시는 교수님 샘플 코드(<code>WK_5_Properties_Manual_DI</code>)예요. ⌨️ 표시가 있는 코드는 IntelliJ에서 직접 쳐 보세요.</p>
+<p>**Quiz 4 범위(Week 5~6 + Workshop 3)**였던 주차예요. Quiz 4 연습문제 Q1, Q2, Q3, Q11, Q12가 전부 이 주에서 나왔어요. 샘플 코드의 properties, Repository, Guice는 Week 6~8로 바로 이어져요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model</td>
+<td>비즈니스 로직과 데이터. UI를 모름. <strong>먼저 만들고 테스트</strong></td>
+<td><code>ItemList.add/remove</code></td>
+</tr>
+<tr>
+<td>View</td>
+<td>모델을 <strong>보여줌</strong>. <code>update()</code>로 새로고침, 컴포넌트 getter 제공</td>
+<td>생성자 끝에서 <code>update()</code> 호출 이유</td>
+</tr>
+<tr>
+<td>Controller</td>
+<td>입력을 받아 <strong>모델 변경 → view.update()</strong></td>
+<td>모든 핸들러의 두 가지 일</td>
+</tr>
+<tr>
+<td>MVC 장점 3개</td>
+<td>decouple, complexity 감소, flexibility/maintainability 증가</td>
+<td>performance는 <strong>아님</strong></td>
+</tr>
+<tr>
+<td>선택 없음</td>
+<td><code>getSelectedIndex()</code> = <strong>-1</strong>, <code>getSelectedItem()</code> = <strong>null</strong></td>
+<td><code>if (index &gt;= 0)</code></td>
+</tr>
+<tr>
+<td>KeyReleased</td>
+<td>글자가 들어간 <strong>뒤</strong>에 발생</td>
+<td>KeyPressed는 한 글자 늦음</td>
+</tr>
+<tr>
+<td><code>trim()</code></td>
+<td>앞뒤 공백 제거</td>
+<td>공백만 입력 방지</td>
+</tr>
+<tr>
+<td>JavaFX property</td>
+<td><code>StringProperty name</code> + <code>getName</code>, <code>setName</code>, <code>nameProperty</code></td>
+<td><code>bindBidirectional</code></td>
+</tr>
+<tr>
+<td>Manual DI → Guice</td>
+<td><code>AppContext</code>에서 직접 new → <code>AbstractModule</code> + <code>setControllerFactory</code></td>
+<td>Week 6~7로 연결</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li>핸들러 안에서 모델만 바꾸고 <code>view.update()</code>를 빼먹으면 <strong>화면이 안 바뀐다</strong>.</li>
+<li>반대로 view의 ListView에 직접 <code>getItems().add(...)</code>를 하면 모델과 화면이 <strong>어긋난다</strong>. 항상 모델을 바꾸고 update.</li>
+<li>모델 배열 크기(100) 그대로 <code>setItems</code> 하면 빈 줄 100개. <code>getSize()</code>만큼 <strong>정확한 배열</strong>을 만들어야 한다.</li>
+<li><code>setItems</code>로 목록을 다시 채우면 <strong>선택이 풀린다</strong>. 선택 index를 기억했다가 <code>select(index)</code>.</li>
+<li>Controller 핸들러 메서드는 <strong>private</strong>: 바깥 클래스가 부를 일이 없으니까.</li>
+<li><code>getSource()</code> 대신 View의 getter(<code>view.getAddButton()</code>)로 컴포넌트에 접근하는 구조.</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">add and remove</a></td>
+<td>ItemList에 add, remove를 쓰고 Test the model 코드로 &quot;너무 많이 지우기, 너무 많이 넣기&quot;를 확인</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">GroceryListView</a></td>
+<td>GroceryListView를 쳐서 ItemList에 3개를 넣고 띄웠을 때 정확히 3줄만 보이는지 확인</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Add Items</a></td>
+<td>GroceryListApp에 Add 핸들러를 달고, 빈칸이나 공백만 넣으면 추가되지 않는지 확인</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Removing Items</a></td>
+<td>Remove 핸들러를 달고, 아무것도 선택 안 하고 Remove를 눌러도 에러가 없는지 확인</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Extras: Disabling the Add button</a></td>
+<td>setOnKeyReleased로 입력할 때마다 update()를 불러 Add 버튼이 켜지고 꺼지는지 확인 (KeyPressed로 바꿔서 차이도 보기)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">Example: Student model with properties</a></td>
+<td>Student를 property 3개(name, grade, enrolled)로 만들고, 각각 get, set, xxxProperty 세 메서드를 직접 써 보기</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-5-segment-1-separating-model-view-and-controller">1. 📑 강의 슬라이드: Week 5 · Segment 1. Separating Model, View and Controller <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-5-segment-1-separating-model-view-and-controller">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>Week 1에서 개념만 봤던 MVC를 이번엔 <strong>진짜 GUI 코드로</strong> 셋으로 나눠요. 이 세그먼트는 왜 나누는지만 짧게 말해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Re-visiting MVC</strong>: Week 4에서는 Model과 UI 두 개로 나눴죠.</li>
+<li>👀 <strong>Motivation</strong>: 한 바퀴 흐름: 사용자가 View를 봄 → Controller와 상호작용(버튼 클릭) → Model 변경 → 바뀐 내용이 View에 반영.</li>
+<li>👀 <strong>The need</strong>: 지금까지는 Application 클래스 하나에 화면, 이벤트, 데이터가 다 섞여 있었어요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 5 · Segment 1 &quot;Separating Models, Views and Controller&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="re-visiting-mvc">📑 Re-visiting MVC <a class="anchor" aria-label="링크" href="#re-visiting-mvc">#</a></h3>
+<blockquote>
+<p>The model classes deal with the business logic aspects of the application and the user interface is the &quot;front end&quot;. We can further split the user interface classes into two portions called the view and the controller:</p>
+<ul>
+<li>The <strong>view</strong> displays the necessary information from the model into a form suitable for interaction.</li>
+<li>The <strong>controller</strong> accepts input from the user and modifies the model accordingly.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Week 4에서는 Model과 UI 두 개로 나눴죠. 이번엔 <strong>UI를 또 둘로</strong> 나눠요.</p>
+<ul>
+<li><strong>View</strong>: 보여주기 담당 (눈)</li>
+<li><strong>Controller</strong>: 입력 받아서 모델 바꾸기 담당 (손)</li>
+<li><strong>Model</strong>: 데이터와 규칙 (두뇌)</li>
+</ul>
+<p>식당으로 비유하면 View는 메뉴판과 테이블, Controller는 주문 받는 직원, Model은 주방이에요.</p>
+</div><h3 id="motivation">📑 Motivation <a class="anchor" aria-label="링크" href="#motivation">#</a></h3>
+<blockquote>
+<p>The user sees the view of the application and then interacts with the controller. Such interaction usually results in the model being modified in some way. Then these model changes are reflected back to the view.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>한 바퀴 흐름: 사용자가 <strong>View</strong>를 봄 → <strong>Controller</strong>와 상호작용(버튼 클릭) → <strong>Model</strong> 변경 → 바뀐 내용이 <strong>View</strong>에 반영. Week 4 이벤트 흐름 5단계와 같은 이야기예요.</p>
+</div><h3 id="the-need">📑 The need <a class="anchor" aria-label="링크" href="#the-need">#</a></h3>
+<blockquote>
+<p>So far all our GUI code was lumped together into one Application class. Now we will discuss the &quot;proper&quot; way of splitting up the model, the view and the controller into a nice &amp; clean modular style that allows us to modify and replace any of the three components cleanly.</p>
+<p>There are 3 main advantages of using the MVC architecture:</p>
+<ul>
+<li>it <strong>decouples</strong> the models and views,</li>
+<li>it <strong>reduces the complexity</strong> of the overall architectural design and</li>
+<li>it <strong>increases flexibility and maintainability</strong> of code.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>지금까지는 Application 클래스 하나에 화면, 이벤트, 데이터가 다 섞여 있었어요. 셋을 나누면 하나만 <strong>갈아 끼우기</strong>가 쉬워져요(예: 화면만 FXML로 바꾸기, 모델만 DB로 바꾸기).</p>
+<p><strong>장점 3개를 정확히 외우세요</strong>(Quiz 4 Q1): (1) model과 view를 <strong>decouple</strong>, (2) 전체 설계의 <strong>complexity 감소</strong>, (3) <strong>flexibility와 maintainability</strong> 증가. &quot;실행 속도 향상&quot;은 장점에 <strong>없어요</strong>. 오답 보기로 잘 나와요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-5-segment-2-preparing-model-classes">2. 📑 강의 슬라이드: Week 5 · Segment 2. Preparing Model Classes <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-5-segment-2-preparing-model-classes">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>장보기 목록 앱의 <strong>모델</strong> <code>ItemList</code>를 만들고 <strong>UI 없이 먼저 테스트</strong>해요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>What is the model?</strong>: 모델 찾는 질문: &quot;화면 밑에 무엇이 있나? 우리가 보여주고 바꾸는 게 무엇인가?&quot; 장보기 앱이면 품목 목록이에요.</li>
+<li>👀 <strong>ItemList</strong>: <code>MAXIMUM_SIZE</code> 크기 배열 + 실제 개수 <code>size</code>.</li>
+<li>⌨️ <strong><a href="#practice-1">add and remove</a></strong>:  (⌨️ ItemList에 add, remove를 쓰고 Test the model 코드로 &quot;너무 많이 지우기, 너무 많이 넣기&quot;를 확인)</li>
+<li>👀 <strong>Test the model</strong>: UI 붙이기 전에 모델만 테스트하는 습관. 세 가지 경계 상황을 꼭 시험해요: 정상 추가/삭제, 너무 많이 지우기(빈 목록에서 remove → 아무 일 없음), 너무 많이 넣기(200개 넣어도 100개에서 멈춤).</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 5 · Segment 2 &quot;Model Classes for the GUI&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="what-is-the-model">📑 What is the model? <a class="anchor" aria-label="링크" href="#what-is-the-model">#</a></h3>
+<blockquote>
+<p>To finalize our model classes, we should decide what kinds of methods should be <strong>publicly available</strong> so that the user interface can access, modify and manipulate the model. To figure out the model, understand what &quot;lies beneath&quot; the user interface. What is it that we are displaying and changing? It is the <strong>list of items</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>모델 찾는 질문: &quot;화면 <strong>밑에</strong> 무엇이 있나? 우리가 보여주고 바꾸는 게 무엇인가?&quot; 장보기 앱이면 <strong>품목 목록</strong>이에요. 그래서 모델 이름이 <code>ItemList</code>.</p>
+<p>그리고 UI가 필요로 하는 동작(추가, 삭제)을 <strong>public 메서드</strong>로 열어 둬요. ATM 화면이 아무리 예뻐도 Bank 모델이 동작하지 않으면 의미가 없죠.</p>
+</div><h3 id="itemlist">📑 ItemList <a class="anchor" aria-label="링크" href="#itemlist">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">ItemList</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">MAXIMUM_SIZE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">items</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">ItemList</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">items</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">String</span><span class="o">[</span><span class="n">MAXIMUM_SIZE</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getSize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">size</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="nf">getItems</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">items</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>MAXIMUM_SIZE</code> 크기 배열 + 실제 개수 <code>size</code>. 배열 칸은 100개지만 의미 있는 건 앞의 <code>size</code>개뿐이에요. (Week 3라면 <code>ArrayList</code>를 쓰겠지만, 여기서는 배열로 원리를 보여줘요.)</p>
+</div><h3 id="add-and-remove">📑 add and remove <a class="anchor" aria-label="링크" href="#add-and-remove">#</a></h3>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: ItemList에 add, remove를 쓰고 Test the model 코드로 &quot;너무 많이 지우기, 너무 많이 넣기&quot;를 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">item</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MAXIMUM_SIZE</span><span class="p">)</span><span class="w"> </span><span class="n">items</span><span class="o">[</span><span class="n">size</span><span class="o">++]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">item</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">index</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">index</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">size</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">items</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">items</span><span class="o">[</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">size</span><span class="o">--</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>add</code>: <code>items[size++] = item;</code> 현재 <code>size</code> 칸에 넣고 <strong>그다음</strong> size를 1 늘려요(후위 증가). 꽉 차면 무시.</li>
+<li><code>remove(index)</code>: 유효한 index인지 검사 → 뒤의 원소를 <strong>한 칸씩 앞으로</strong> 당김 → <code>size--</code>.</li>
+</ul>
+<p>둘 다 <strong>경계 검사</strong>를 모델 안에서 해요. 그래서 컨트롤러가 이상한 값을 넘겨도 모델이 망가지지 않아요.</p>
+</div><h3 id="test-the-model">📑 Test the model <a class="anchor" aria-label="링크" href="#test-the-model">#</a></h3>
+<blockquote>
+<p>Once we have the model implemented with useful methods, it is always a good idea to <strong>test it</strong>! Add a few items, remove one, remove too many and add too many.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ItemList</span><span class="w"> </span><span class="n">groceryList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ItemList</span><span class="p">();</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Apples"</span><span class="p">);</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Oranges"</span><span class="p">);</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Bananas"</span><span class="p">);</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w">                       </span><span class="c1">// Oranges, Bananas</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">groceryList</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w">   </span><span class="c1">// too many: size stays 0</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="n">groceryList</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="s">"Item# "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">groceryList</span><span class="p">.</span><span class="na">getSize</span><span class="p">());</span><span class="w">   </span><span class="c1">// 100</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>UI 붙이기 <strong>전에</strong> 모델만 테스트하는 습관. 세 가지 경계 상황을 꼭 시험해요: 정상 추가/삭제, <strong>너무 많이 지우기</strong>(빈 목록에서 remove → 아무 일 없음), <strong>너무 많이 넣기</strong>(200개 넣어도 100개에서 멈춤). 이게 나중에 배우는 단위 테스트의 기초예요.</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-5-segment-3-preparing-views">3. 📑 강의 슬라이드: Week 5 · Segment 3. Preparing Views <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-5-segment-3-preparing-views">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>모델을 화면에 보여 주는 <strong>View</strong> 클래스예요. <code>update()</code> 메서드와 <strong>getter</strong>가 핵심이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Views as Panes</strong>: View를 <code>Pane</code>의 자식 클래스로 만들어요(Week 4 AddressPane과 같은 방식).</li>
+<li>👀 <strong>update()</strong>: <code>update()</code> = &quot;모델을 다시 읽어서 화면을 새로 그려&quot;.</li>
+<li>👀 <strong>Instance variables and getters</strong>: 컴포넌트를 생성자 지역 변수 → 필드로. 그래야 <code>update()</code>와 getter에서 쓸 수 있어요.</li>
+<li>⌨️ <strong><a href="#practice-2">GroceryListView</a></strong>:  (⌨️ GroceryListView를 쳐서 ItemList에 3개를 넣고 띄웠을 때 정확히 3줄만 보이는지 확인)</li>
+<li>👀 <strong>Why exactList?</strong>: 모델 배열은 항상 100칸이에요. 그대로 <code>setItems</code>하면 3개만 넣었어도 ListView에 null 97줄이 생겨요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 5 · Segment 3 &quot;Preparing View(s) for GUI&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="views-as-panes">📑 Views as Panes <a class="anchor" aria-label="링크" href="#views-as-panes">#</a></h3>
+<blockquote>
+<p>In general, there may be many views in an application, just as there may be many models and controllers. To keep things simple, we will develop our views as <strong>Pane</strong> objects that can be placed onto our Application windows.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>View를 <code>Pane</code>의 자식 클래스로 만들어요(Week 4 AddressPane과 같은 방식). 그러면 <code>new Scene(view, ...)</code>처럼 바로 창에 넣을 수 있어요. 앱에는 View가 여러 개 있을 수 있어요.</p>
+</div><h3 id="update">📑 update() <a class="anchor" aria-label="링크" href="#update">#</a></h3>
+<blockquote>
+<p>For the view to work properly it must refresh its look based on the most up-to-date information in the model. A simple way is to write a method called <strong>update()</strong> that will refresh the &quot;look&quot; of the view whenever it is called. The view must have access to the model: pass the model in as a parameter to the view constructor and store it as an attribute.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>update()</code> = &quot;모델을 다시 읽어서 화면을 새로 그려&quot;. View는 모델을 읽어야 하니까 <strong>생성자로 모델을 받아</strong> 필드에 저장해요.</p>
+<p>이 &quot;생성자로 필요한 걸 받기&quot;가 바로 **생성자 주입(DI)**이에요. Week 6~7의 그 DI가 여기서 처음 등장해요.</p>
+</div><h3 id="instance-variables-and-getters">📑 Instance variables and getters <a class="anchor" aria-label="링크" href="#instance-variables-and-getters">#</a></h3>
+<blockquote>
+<p>The ListView is defined as a local variable in the constructor. In order to access it from update(), define the variable as an <strong>instance variable</strong>. The controller needs to access the Button, ListView and TextField objects: make instance variables for all four window components and provide <strong>get methods</strong>.</p>
+<p>It is a good idea to <strong>call the update() method at the end of the constructor</strong>. That way, when the view is first created, it can be refreshed right away to show the true state of the model upon startup.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>두 가지 변경:</p>
+<ol>
+<li>컴포넌트를 생성자 <strong>지역 변수 → 필드</strong>로. 그래야 <code>update()</code>와 getter에서 쓸 수 있어요.</li>
+<li>컨트롤러가 버튼에 핸들러를 달아야 하니까 <strong>getter</strong>(<code>getAddButton()</code> 등) 제공.</li>
+</ol>
+<p>그리고 <strong>생성자 마지막 줄에 <code>update()</code></strong>: 처음 뜰 때부터 모델의 실제 상태를 보여주려고요. Quiz 4 Q11 정답 그대로예요 (&quot;refresh right away&quot;).</p>
+</div><h3 id="grocerylistview">📑 GroceryListView <a class="anchor" aria-label="링크" href="#grocerylistview">#</a></h3>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: GroceryListView를 쳐서 ItemList에 3개를 넣고 띄웠을 때 정확히 3줄만 보이는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GroceryListView</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Pane</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ItemList</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">groceryList</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="n">addButton</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="n">removeButton</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">TextField</span><span class="w"> </span><span class="n">newItemField</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getList</span><span class="p">()</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">groceryList</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="nf">getAddButton</span><span class="p">()</span><span class="w">        </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">addButton</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="nf">getRemoveButton</span><span class="p">()</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">removeButton</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">TextField</span><span class="w"> </span><span class="nf">getNewItemField</span><span class="p">()</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">newItemField</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">GroceryListView</span><span class="p">(</span><span class="n">ItemList</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
+<span class="w">        </span><span class="n">newItemField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="w">        </span><span class="n">newItemField</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">newItemField</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Add"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">addButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">        </span><span class="n">removeButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Remove"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">removeButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="w">        </span><span class="n">removeButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">        </span><span class="n">groceryList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">groceryList</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="w">        </span><span class="n">groceryList</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">newItemField</span><span class="p">,</span><span class="w"> </span><span class="n">addButton</span><span class="p">,</span><span class="w"> </span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="n">groceryList</span><span class="p">);</span>
+<span class="w">        </span><span class="n">update</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">update</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">exactList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">String</span><span class="o">[</span><span class="n">model</span><span class="p">.</span><span class="na">getSize</span><span class="p">()</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getSize</span><span class="p">();</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="w">            </span><span class="n">exactList</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getItems</span><span class="p">()</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="n">groceryList</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="n">exactList</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>구조를 한 번 더: 필드(모델 + 컴포넌트 4개) → getter 4개 → 생성자(모델 저장, 컴포넌트 생성과 배치, <code>getChildren().addAll</code>, <code>update()</code>) → <code>update()</code>.</p>
+<p>View에는 <code>setOnAction</code>이 <strong>하나도 없어요.</strong> 이벤트 연결은 Controller의 일이에요.</p>
+</div><h3 id="why-exactlist">📑 Why exactList? <a class="anchor" aria-label="링크" href="#why-exactlist">#</a></h3>
+<blockquote>
+<p>Our model's array is always of size 100 regardless of how many items have been placed in it. setItems() would end up making a list of 100 items, leaving many blanks. So make a new array with a length <strong>exactly equal to the size</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>모델 배열은 항상 100칸이에요. 그대로 <code>setItems</code>하면 3개만 넣었어도 ListView에 null 97줄이 생겨요. 그래서 <code>model.getSize()</code> 크기의 새 배열에 복사해서 넘겨요.</p>
+</div><hr />
+<h2 id="4-강의-슬라이드-week-5-segment-4-preparing-controller-classes">4. 📑 강의 슬라이드: Week 5 · Segment 4. Preparing Controller Classes <a class="anchor" aria-label="링크" href="#4-강의-슬라이드-week-5-segment-4-preparing-controller-classes">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>모델과 뷰를 잇는 <strong>Controller</strong>예요. &quot;모든 핸들러는 모델을 바꾸고 뷰를 update한다&quot;가 이 주의 제일 중요한 문장이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>The controller</strong>: 이 예제에서는 Application 클래스가 Controller 역할을 해요.</li>
+<li>⌨️ <strong><a href="#practice-3">Add Items</a></strong>:  (⌨️ GroceryListApp에 Add 핸들러를 달고, 빈칸이나 공백만 넣으면 추가되지 않는지 확인)</li>
+<li>⌨️ <strong><a href="#practice-4">Removing Items</a></strong>:  (⌨️ Remove 핸들러를 달고, 아무것도 선택 안 하고 Remove를 눌러도 에러가 없는지 확인)</li>
+<li>👀 <strong>Extras: Disabling the remove button</strong>: UX 개선: 선택이 없으면 Remove 버튼을 비활성화해서 &quot;지금은 못 눌러&quot;를 눈으로 알려줘요.</li>
+<li>⌨️ <strong><a href="#practice-5">Extras: Disabling the Add button</a></strong>:  (⌨️ setOnKeyReleased로 입력할 때마다 update()를 불러 Add 버튼이 켜지고 꺼지는지 확인 (KeyPressed로 바꿔서 차이도 보기))</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 5 · Segment 4 &quot;Preparing Controller Classes for GUI&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="the-controller">📑 The controller <a class="anchor" aria-label="링크" href="#the-controller">#</a></h3>
+<blockquote>
+<p>The controller is responsible for taking in user input and making changes to the model accordingly. These changes can then be refreshed with a simple call to update() in the view class. The controller will be our <strong>Application</strong> class. It will tie together the model and the view.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GroceryListApp</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ItemList</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">GroceryListView</span><span class="w"> </span><span class="n">view</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">primaryStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ItemList</span><span class="p">();</span>
+<span class="w">        </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GroceryListView</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// event handlers are hooked up here</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"My Grocery List"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="mi">285</span><span class="p">,</span><span class="w"> </span><span class="mi">205</span><span class="p">));</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이 예제에서는 <strong>Application 클래스가 Controller</strong> 역할을 해요. <code>start()</code>에서 모델과 뷰를 만들고(<code>new GroceryListView(model)</code>로 모델을 넘김) 이벤트를 연결해요.</p>
+<p>FXML 방식(Week 4, 6)에서는 별도의 Controller 클래스가 이 역할을 해요. 이름은 달라도 하는 일은 같아요.</p>
+</div><h3 id="add-items">📑 Add Items <a class="anchor" aria-label="링크" href="#add-items">#</a></h3>
+<blockquote>
+<p>The code does two main things that ALL of your event handlers should do: <strong>Change the Model, Update the View</strong>. The method is <strong>private</strong>, since no external classes should be calling it.</p>
+</blockquote>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: GroceryListApp에 Add 핸들러를 달고, 빈칸이나 공백만 넣으면 추가되지 않는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handleAddButtonPress</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">getNewItemField</span><span class="p">().</span><span class="na">getText</span><span class="p">().</span><span class="na">trim</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">getNewItemField</span><span class="p">().</span><span class="na">setText</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">view</span><span class="p">.</span><span class="na">getAddButton</span><span class="p">().</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">actionEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">handleAddButtonPress</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<blockquote>
+<p><code>trim()</code> removes any leading and trailing space and tab characters, so we do not add items consisting of only spaces.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>모든 이벤트 핸들러가 하는 두 가지 일</strong>(Quiz 4 Q12): (1) <strong>Change the Model</strong>, (2) <strong>Update the View</strong>.</p>
+<p>세부 포인트:</p>
+<ul>
+<li><code>trim()</code>: <code>&quot;   &quot;</code>를 빈 문자열로. <code>length() &gt; 0</code> 검사로 빈 항목 방지.</li>
+<li><code>setText(&quot;&quot;)</code>: 추가 후 입력칸 비우기(Extras).</li>
+<li>핸들러 메서드는 <code>private</code>, 실제 등록은 <code>view.getAddButton().setOnAction(...)</code>. 익명 클래스 안에서는 <code>handleAddButtonPress()</code> 한 줄만 불러요. 람다로는 <code>view.getAddButton().setOnAction(e -&gt; handleAddButtonPress());</code></li>
+</ul>
+</div><h3 id="removing-items">📑 Removing Items <a class="anchor" aria-label="링크" href="#removing-items">#</a></h3>
+<blockquote>
+<p><code>getSelectionModel().getSelectedIndex()</code> will return <strong>-1 if nothing is selected</strong>, so we should handle that.</p>
+</blockquote>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Remove 핸들러를 달고, 아무것도 선택 안 하고 Remove를 눌러도 에러가 없는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handleRemoveButtonPress</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">getList</span><span class="p">().</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedIndex</span><span class="p">();</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+<span class="w">        </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>getSelectedIndex()</code>는 아무것도 선택 안 했으면 <strong>-1</strong>(Quiz 4 Q3). 그대로 <code>model.remove(-1)</code>을 해도 모델이 검사하니 괜찮지만, 컨트롤러에서 **<code>if (index &gt;= 0)</code>**로 먼저 걸러요. 불필요한 update도 막고요.</p>
+<p><code>getSelectedItem()</code>(값)은 선택이 없으면 <strong>null</strong>이에요. index는 -1, item은 null. 둘을 구분하세요.</p>
+</div><h3 id="extras-disabling-the-remove-button">📑 Extras: Disabling the remove button <a class="anchor" aria-label="링크" href="#extras-disabling-the-remove-button">#</a></h3>
+<blockquote>
+<p>Disable the Remove button when nothing has been selected. Since this is simply a visual change, add a line to the view's update(). Then call update() whenever the user clicks in the list. Repopulating the list unselects the item, so remember the selection and re-select it.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="c1">// in view.update()</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">selectedIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">groceryList</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedIndex</span><span class="p">();</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="n">exactList</span><span class="p">));</span>
+<span class="n">groceryList</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">select</span><span class="p">(</span><span class="n">selectedIndex</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="n">groceryList</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedIndex</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// in controller</span>
+<span class="n">view</span><span class="p">.</span><span class="na">getList</span><span class="p">().</span><span class="na">setOnMousePressed</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">MouseEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">MouseEvent</span><span class="w"> </span><span class="n">mouseEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>UX 개선: 선택이 없으면 Remove 버튼을 <strong>비활성화</strong>해서 &quot;지금은 못 눌러&quot;를 눈으로 알려줘요.</p>
+<ul>
+<li>판단 코드는 **View의 update()**에 넣어요(화면 모양 문제니까).</li>
+<li>리스트를 클릭할 때마다 update를 부르도록 <code>setOnMousePressed</code> 연결.</li>
+<li>문제: update가 <code>setItems</code>로 목록을 새로 채우면 <strong>선택이 풀려요.</strong> 그래서 선택 index를 저장 → setItems → <code>select(index)</code>로 복원.</li>
+</ul>
+</div><h3 id="extras-disabling-the-add-button">📑 Extras: Disabling the Add button <a class="anchor" aria-label="링크" href="#extras-disabling-the-add-button">#</a></h3>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: setOnKeyReleased로 입력할 때마다 update()를 불러 Add 버튼이 켜지고 꺼지는지 확인 (KeyPressed로 바꿔서 차이도 보기)</p>
+<pre class="hl"><code class="language-java"><span class="c1">// in view.update()</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="n">newItemField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">trim</span><span class="p">().</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+
+<span class="c1">// in controller</span>
+<span class="n">view</span><span class="p">.</span><span class="na">getNewItemField</span><span class="p">().</span><span class="na">setOnKeyReleased</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">KeyEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">KeyEvent</span><span class="w"> </span><span class="n">keyEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<blockquote>
+<p>A <strong>KeyPressed</strong> event will not work here because it will generate the event <strong>before</strong> the typed character is part of the text field's data, so we will always be missing one character. A <strong>KeyReleased</strong> event will be generated AFTER the character has been added. Note it will not be called if the user cuts or pastes via a mouse operation.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>입력칸이 비어 있으면 Add 비활성화. 타이핑할 때마다 update를 불러야 해요.</p>
+<p><strong>왜 KeyReleased인가</strong>(Quiz 4 Q2): KeyPressed는 키를 누르는 순간, 글자가 TextField에 <strong>들어가기 전</strong>에 발생해요. 그래서 &quot;a&quot;를 처음 쳤을 때 text는 아직 <code>&quot;&quot;</code>이라 버튼이 안 켜져요(한 글자 늦음). KeyReleased는 글자가 <strong>들어간 뒤</strong>라 정확해요.</p>
+<p>한계: 마우스로 붙여넣기 하면 키 이벤트가 없어서 안 불려요. 그래서 실무에서는 Week 10의 <code>textProperty().addListener(...)</code>를 써요.</p>
+</div><hr />
+<h2 id="5-교수님-샘플-코드-week-5-sample-student-manager-properties-manual-di-then-guice">5. 💻 교수님 샘플 코드: Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice) <a class="anchor" aria-label="링크" href="#5-교수님-샘플-코드-week-5-sample-student-manager-properties-manual-di-then-guice">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>교수님 Week 5 샘플은 강의(ItemList)보다 한 걸음 앞서 있어요: <strong>JavaFX property</strong>, <strong>Repository 인터페이스</strong>, <strong>수동 DI</strong>, 그리고 <strong>Guice</strong>까지. Week 6 Segment 5, Week 7 Guice를 미리 보는 코드예요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Project Structure</strong>: 폴더가 곧 계층이에요: models(데이터), repositories(데이터 보관), services(규칙: 로그인 인증), controllers(화면 동작), utility(객체 연결).</li>
+<li>⌨️ <strong><a href="#practice-6">Example: Student model with properties</a></strong>:  (⌨️ Student를 property 3개(name, grade, enrolled)로 만들고, 각각 get, set, xxxProperty 세 메서드를 직접 써 보기)</li>
+<li>⌨️ <strong>Example: Repository interface and in-memory implementation</strong>: Repository = 데이터를 어디에 저장하는지 숨기는 층.</li>
+<li>⌨️ <strong>Example: AppContext (manual DI version)</strong>: Manual DI: 객체를 한곳(AppContext)에서 직접 만들어 static으로 보관하고, 컨트롤러 생성자에 넘겨요.</li>
+<li>⌨️ <strong>Example: AppContext (Guice version)</strong>: 같은 AppContext를 Guice 모듈로 바꾼 버전이에요(Week 7에서 자세히).</li>
+<li>⌨️ <strong>Example: MainController (double click to edit)</strong>: <code>@Inject</code> 생성자로 Repository를 받아요(Guice가 넣어 줌).</li>
+<li>⌨️ <strong>Example: StudentEditController (bindBidirectional)</strong>: <code>bindBidirectional</code>: 두 property를 양방향으로 묶어요.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 5 교수님 샘플 코드 WK_5_Properties_Manual_DI 발췌 (구조와 핵심 메서드만)</p>
+</blockquote>
+<h3 id="project-structure">💻 Project Structure <a class="anchor" aria-label="링크" href="#project-structure">#</a></h3>
+<pre class="hl"><code class="language-jsx"><span class="nx">models</span><span class="o">/</span><span class="w">        </span><span class="nx">Student</span><span class="w"> </span><span class="p">(</span><span class="nx">JavaFX</span><span class="w"> </span><span class="nx">properties</span><span class="p">),</span><span class="w"> </span><span class="nx">User</span>
+<span class="nx">repositories</span><span class="o">/</span><span class="w">  </span><span class="nx">IStudentRepository</span><span class="p">,</span><span class="w"> </span><span class="nx">InMemoryStudentRepository</span>
+<span class="nx">services</span><span class="o">/</span><span class="w">      </span><span class="nx">IUserService</span><span class="p">,</span><span class="w"> </span><span class="nx">UserService</span>
+<span class="nx">controllers</span><span class="o">/</span><span class="w">   </span><span class="nx">LoginController</span><span class="p">,</span><span class="w"> </span><span class="nx">MainController</span><span class="p">,</span><span class="w"> </span><span class="nx">StudentEditController</span>
+<span class="nx">utility</span><span class="o">/</span><span class="w">       </span><span class="nx">AppContext</span><span class="w"> </span><span class="p">(</span><span class="nx">manual</span><span class="w"> </span><span class="nx">DI</span><span class="w"> </span><span class="nx">first</span><span class="p">,</span><span class="w"> </span><span class="nx">then</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="nx">Guice</span><span class="w"> </span><span class="nx">module</span><span class="p">)</span>
+<span class="nx">resources</span><span class="o">/</span><span class="w">     </span><span class="nx">login</span><span class="o">-</span><span class="nx">view</span><span class="p">.</span><span class="nx">fxml</span><span class="p">,</span><span class="w"> </span><span class="nx">student</span><span class="o">-</span><span class="nx">manager</span><span class="p">.</span><span class="nx">fxml</span><span class="p">,</span><span class="w"> </span><span class="nx">student</span><span class="o">-</span><span class="nx">editor</span><span class="p">.</span><span class="nx">fxml</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>폴더가 곧 계층이에요: models(데이터), repositories(데이터 보관), services(규칙: 로그인 인증), controllers(화면 동작), utility(객체 연결). Week 3 Service Layer + Week 5 MVC + Repository가 다 합쳐진 모양이에요.</p>
+</div><h3 id="example-student-model-with-properties">💻 Example: Student model with properties <a class="anchor" aria-label="링크" href="#example-student-model-with-properties">#</a></h3>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: Student를 property 3개(name, grade, enrolled)로 만들고, 각각 get, set, xxxProperty 세 메서드를 직접 써 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">DoubleProperty</span><span class="w"> </span><span class="n">grade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">BooleanProperty</span><span class="w"> </span><span class="n">enrolled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleBooleanProperty</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Student</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">grade</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">enrolled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">grade</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">grade</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">enrolled</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">enrolled</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="nf">nameProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// grade and enrolled: same three methods (isEnrolled for boolean)</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JavaFX <strong>bean 규칙</strong>: 필드 하나마다 메서드 3개.</p>
+<ul>
+<li><code>getName()</code>: <code>name.get()</code></li>
+<li><code>setName(String)</code>: <code>name.set(...)</code></li>
+<li><code>nameProperty()</code>: property 객체 <strong>자체</strong>를 반환 (binding, listener용)</li>
+</ul>
+<p>boolean은 getter가 <code>isEnrolled()</code>. Quiz 4 Q20이 이 패턴을 쓰라는 문제였어요. 일반 <code>String name</code> 대신 <code>StringProperty</code>를 쓰는 이유: 값이 바뀌면 <strong>알림</strong>을 보낼 수 있어서 화면과 자동으로 동기화돼요.</p>
+</div><h3 id="example-repository-interface-and-in-memory-implementation">💻 Example: Repository interface and in-memory implementation <a class="anchor" aria-label="링크" href="#example-repository-interface-and-in-memory-implementation">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">IStudentRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllStudents</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InMemoryStudentRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllStudents</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">students</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">students</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">students</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>Repository = 데이터를 <strong>어디에</strong> 저장하는지 숨기는 층. 인터페이스 <code>IStudentRepository</code>에 &quot;목록 주기, 추가, 삭제&quot;만 정하고, 지금은 메모리(<code>ObservableList</code>)로 구현. 나중에 Week 8처럼 DB 구현으로 바꿔도 컨트롤러는 그대로예요.</p>
+<p><code>getAllStudents()</code>가 <code>ObservableList</code>를 돌려주니까 ListView에 <code>setItems</code>로 연결하면, 추가/삭제가 <strong>자동으로</strong> 화면에 반영돼요. 강의의 <code>update()</code>가 필요 없어지는 이유예요.</p>
+</div><h3 id="example-appcontext-manual-di-version">💻 Example: AppContext (manual DI version) <a class="anchor" aria-label="링크" href="#example-appcontext-manual-di-version">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppContext</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">IUserService</span><span class="w"> </span><span class="n">userService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserService</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InMemoryStudentRepository</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">IUserService</span><span class="w"> </span><span class="nf">getUserService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userService</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="nf">getStudentRepository</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// in HelloApplication.start</span>
+<span class="n">LoginController</span><span class="w"> </span><span class="n">loginController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginController</span><span class="p">(</span><span class="n">AppContext</span><span class="p">.</span><span class="na">getUserService</span><span class="p">());</span>
+<span class="n">fxmlLoader</span><span class="p">.</span><span class="na">setController</span><span class="p">(</span><span class="n">loginController</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>Manual DI</strong>: 객체를 한곳(AppContext)에서 직접 만들어 static으로 보관하고, 컨트롤러 생성자에 넘겨요. <code>fxmlLoader.setController(loginController)</code>: FXMLLoader에게 &quot;컨트롤러는 내가 만든 이 객체를 써&quot;라고 알려줘요.</p>
+<p>주의: <code>setController</code>를 쓸 때는 FXML에 <code>fx:controller</code>가 <strong>없어야</strong> 해요. 둘 다 있으면 &quot;Controller value already specified&quot; 에러가 나요. 실제 샘플을 보면 <code>student-editor.fxml</code>에는 <code>fx:controller</code>가 없고(그래서 <code>setController</code>), <code>login-view.fxml</code>과 <code>student-manager.fxml</code>에는 있어요(그래서 <code>setControllerFactory</code>). <code>setControllerFactory</code>는 <code>fx:controller</code>에 적힌 클래스를 <strong>어떻게 만들지</strong>만 바꾸는 거라 같이 써도 돼요.</p>
+</div><h3 id="example-appcontext-guice-version">💻 Example: AppContext (Guice version) <a class="anchor" aria-label="링크" href="#example-appcontext-guice-version">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppContext</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">AbstractModule</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configure</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">IUserService</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">to</span><span class="p">(</span><span class="n">UserService</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">Scopes</span><span class="p">.</span><span class="na">SINGLETON</span><span class="p">);</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">IStudentRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">to</span><span class="p">(</span><span class="n">InMemoryStudentRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">Scopes</span><span class="p">.</span><span class="na">SINGLETON</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// in HelloApplication</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">injector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">AppContext</span><span class="p">());</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// in start</span>
+<span class="n">fxmlLoader</span><span class="p">.</span><span class="na">setControllerFactory</span><span class="p">(</span><span class="n">injector</span><span class="p">::</span><span class="n">getInstance</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>같은 AppContext를 Guice 모듈로 바꾼 버전이에요(Week 7에서 자세히).</p>
+<ul>
+<li><code>bind(인터페이스).to(구현).in(Scopes.SINGLETON)</code>: 이 인터페이스를 달라면 이 구현을, 앱 전체에 <strong>하나만</strong>.</li>
+<li><code>init()</code>: <code>start()</code>보다 <strong>먼저</strong> 불리는 Application 메서드. 여기서 Injector를 만들어요.</li>
+<li><code>setControllerFactory(injector::getInstance)</code>: FXMLLoader가 컨트롤러를 만들 때 Guice에게 부탁 → <code>@Inject</code> 생성자에 Repository를 넣어 줘요.</li>
+</ul>
+</div><h3 id="example-maincontroller-double-click-to-edit">💻 Example: MainController (double click to edit) <a class="anchor" aria-label="링크" href="#example-maincontroller-double-click-to-edit">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="nd">@Inject</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">MainController</span><span class="p">(</span><span class="n">IStudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">_studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nd">@FXML</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">studentListView</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">_studentRepository</span><span class="p">.</span><span class="na">getAllStudents</span><span class="p">());</span>
+<span class="w">    </span><span class="n">studentListView</span><span class="p">.</span><span class="na">setOnMouseClicked</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getClickCount</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Student</span><span class="w"> </span><span class="n">selected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentListView</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedItem</span><span class="p">();</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">selected</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">openAddEditWindow</span><span class="p">(</span><span class="n">selected</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">openAddEditWindow</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FXMLLoader</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">HelloApplication</span><span class="p">.</span><span class="na">class</span><span class="p">.</span><span class="na">getResource</span><span class="p">(</span><span class="s">"student-editor.fxml"</span><span class="p">));</span>
+<span class="w">    </span><span class="n">loader</span><span class="p">.</span><span class="na">setController</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">StudentEditController</span><span class="p">(</span><span class="n">student</span><span class="p">));</span>
+<span class="w">    </span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Stage</span><span class="p">();</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="na">load</span><span class="p">()));</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">showAndWait</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>@Inject</code> 생성자로 Repository를 받아요(Guice가 넣어 줌).</li>
+<li><code>event.getClickCount() == 2</code>: <strong>더블클릭</strong> 감지.</li>
+<li>편집 창은 <code>new Stage()</code> + <code>showAndWait()</code>: 창이 닫힐 때까지 다음 줄로 안 넘어가요(Week 7 Multiple Views).</li>
+<li>편집 컨트롤러는 Student를 생성자로 받아야 해서 Guice 대신 <code>new StudentEditController(student)</code> + <code>setController</code>. 이렇게 <strong>실행 중에 정해지는 값</strong>은 직접 넘기는 게 자연스러워요.</li>
+</ul>
+<p>원본 코드는 ListCell의 <code>updateItem</code> 안에서 property listener를 매번 새로 붙이고, grade listener는 <code>setText(newValue.toString())</code>로 <strong>점수만</strong> 표시해요. 이름과 등록 여부가 사라지는 버그예요. 셋 다 <code>setText(student.toString())</code>이어야 하고, listener를 매번 붙이면 계속 쌓이니 실무에서는 다른 방법(<code>refresh()</code> 또는 extractor)을 써요.</p>
+</div><h3 id="example-studenteditcontroller-bindbidirectional">💻 Example: StudentEditController (bindBidirectional) <a class="anchor" aria-label="링크" href="#example-studenteditcontroller-bindbidirectional">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="nd">@FXML</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nameField</span><span class="p">.</span><span class="na">textProperty</span><span class="p">().</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">student</span><span class="p">.</span><span class="na">nameProperty</span><span class="p">());</span>
+<span class="w">    </span><span class="n">gradeSpinner</span><span class="p">.</span><span class="na">setValueFactory</span><span class="p">(</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">SpinnerValueFactory</span><span class="p">.</span><span class="na">DoubleSpinnerValueFactory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getGrade</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">gradeSpinner</span><span class="p">.</span><span class="na">valueProperty</span><span class="p">().</span><span class="na">addListener</span><span class="p">((</span><span class="n">obs</span><span class="p">,</span><span class="w"> </span><span class="n">oldV</span><span class="p">,</span><span class="w"> </span><span class="n">newV</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">setGrade</span><span class="p">(</span><span class="n">newV</span><span class="p">));</span>
+<span class="w">    </span><span class="n">enrolledCheckBox</span><span class="p">.</span><span class="na">selectedProperty</span><span class="p">().</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">student</span><span class="p">.</span><span class="na">enrolledProperty</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">onClose</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">((</span><span class="n">Stage</span><span class="p">)</span><span class="w"> </span><span class="n">nameField</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">()).</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>bindBidirectional</code>: 두 property를 <strong>양방향</strong>으로 묶어요. TextField를 고치면 <code>student.name</code>이 바뀌고, 모델을 바꾸면 TextField도 바뀌어요. 저장 버튼이 필요 없어요.</p>
+<ul>
+<li>Spinner는 <code>valueProperty()</code>가 <code>ObjectProperty&lt;Double&gt;</code>, Student는 <code>DoubleProperty</code>라서 타입이 달라 bindBidirectional 대신 <strong>listener</strong>로 한쪽만 연결했어요.</li>
+<li>창 닫기: <code>nameField.getScene().getWindow()</code>로 지금 창(Stage)을 얻어 <code>close()</code>. 컨트롤러에 Stage 필드가 없을 때 쓰는 단골 패턴이에요.</li>
+</ul>
+<p>Workshop 3 함정(Quiz 4 Q17)과 연결: 이렇게 묶인 객체를 그대로 저장하면, 폼을 고칠 때 저장된 것도 같이 바뀌어요. 그래서 복사본(<code>new Customer(customer)</code>)을 저장했죠.</p>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-5">🧩 이번 주 토이 프로젝트: CafeOrder Week 5 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-5">#</a></h2>
+<p>Week 4 화면을 MVC로 쪼개요. <code>Order</code>(모델: 품목 목록, 합계 계산), <code>OrderView extends Pane</code>(컴포넌트 + getter + <code>update()</code>), <code>CafeOrderApp</code>(컨트롤러: 핸들러에서 모델 변경 후 <code>view.update()</code>). 장바구니가 비면 Checkout 버튼 비활성화, 메뉴를 선택 안 하면 Add 비활성화까지. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-5">✅ 시험 대비 체크리스트 (Week 5) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-5">#</a></h2>
+<ul>
+<li>[ ] Model, View, Controller 각각의 책임을 한 문장으로 말할 수 있다.</li>
+<li>[ ] MVC 장점 3개(decouple, complexity 감소, flexibility/maintainability)를 안다. performance는 아니다.</li>
+<li>[ ] 모델을 UI 없이 먼저 테스트하는 이유와 경계 상황(너무 많이 넣기, 지우기)을 안다.</li>
+<li>[ ] View가 모델을 생성자로 받고, 컴포넌트를 필드 + getter로 두는 이유를 안다.</li>
+<li>[ ] View 생성자 끝에서 <code>update()</code>를 부르는 이유를 안다.</li>
+<li>[ ] 모든 핸들러의 두 가지 일(모델 변경, view.update)을 안다.</li>
+<li>[ ] <code>getSelectedIndex()</code>가 -1, <code>getSelectedItem()</code>이 null인 경우를 처리할 수 있다.</li>
+<li>[ ] KeyReleased와 KeyPressed의 차이를 설명할 수 있다.</li>
+<li>[ ] JavaFX property의 get, set, xxxProperty 세 메서드를 쓸 수 있다.</li>
+<li>[ ] <code>bindBidirectional</code>로 TextField와 model property를 묶을 수 있다.</li>
+<li>[ ] Manual DI(AppContext + setController)와 Guice(setControllerFactory)의 차이를 안다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li>모델 <code>Counter</code>(필드 <code>count</code>, <code>increment()</code>, <code>reset()</code>, <code>getCount()</code>)와 View <code>CounterView extends Pane</code>(Label, <code>+1</code> 버튼, Reset 버튼, getter, <code>update()</code>), 그리고 컨트롤러 <code>start()</code>를 MVC 규칙대로 쓰세요.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">class</span> <span class="nc">Counter</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">increment</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">count</span><span class="o">++</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">reset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">getCount</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">CounterView</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Pane</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Counter</span><span class="w"> </span><span class="n">model</span><span class="p">;</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Label</span><span class="w"> </span><span class="n">label</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="n">plus</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"+1"</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="n">reset</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Reset"</span><span class="p">);</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="nf">getPlus</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">plus</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Button</span><span class="w"> </span><span class="nf">getReset</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">reset</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">CounterView</span><span class="p">(</span><span class="n">Counter</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m</span><span class="p">;</span>
+<span class="w">        </span><span class="n">label</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">        </span><span class="n">plus</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">);</span>
+<span class="w">        </span><span class="n">reset</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">);</span>
+<span class="w">        </span><span class="n">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="w"> </span><span class="n">plus</span><span class="p">,</span><span class="w"> </span><span class="n">reset</span><span class="p">);</span>
+<span class="w">        </span><span class="n">update</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">update</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">label</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Count: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">getCount</span><span class="p">());</span>
+<span class="w">        </span><span class="n">reset</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="na">getCount</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// controller</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Counter</span><span class="w"> </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Counter</span><span class="p">();</span>
+<span class="w">    </span><span class="n">CounterView</span><span class="w"> </span><span class="n">view</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CounterView</span><span class="p">(</span><span class="n">model</span><span class="p">);</span>
+<span class="w">    </span><span class="n">view</span><span class="p">.</span><span class="na">getPlus</span><span class="p">().</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">increment</span><span class="p">();</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="n">view</span><span class="p">.</span><span class="na">getReset</span><span class="p">().</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">model</span><span class="p">.</span><span class="na">reset</span><span class="p">();</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">update</span><span class="p">();</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">view</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">));</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<ol start="2">
+<li>아래 핸들러의 문제 두 가지는?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="n">view</span><span class="p">.</span><span class="na">getRemoveButton</span><span class="p">().</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">view</span><span class="p">.</span><span class="na">getList</span><span class="p">().</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedIndex</span><span class="p">();</span>
+<span class="w">    </span><span class="n">view</span><span class="p">.</span><span class="na">getList</span><span class="p">().</span><span class="na">getItems</span><span class="p">().</span><span class="na">remove</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+<details><summary>2번 정답</summary>
+<p>(1) 모델을 바꾸지 않고 View의 리스트를 직접 고쳐서 모델과 화면이 어긋나요. <code>model.remove(i); view.update();</code>여야 해요. (2) 선택이 없으면 <code>i</code>가 -1이라 <code>remove(-1)</code>에서 예외가 나요. <code>if (i &gt;= 0)</code> 검사가 필요해요.</p>
+</details>
+<ol start="3">
+<li><code>Book</code> 모델에 <code>title</code>을 JavaFX property 규칙대로 쓰고, <code>titleField</code>(TextField)와 양방향으로 묶는 한 줄을 쓰세요.</li>
+</ol>
+<details><summary>3번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="n">title</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">();</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getTitle</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">title</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setTitle</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">title</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">t</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="kd">public</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="nf">titleProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">title</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="n">titleField</span><span class="p">.</span><span class="na">textProperty</span><span class="p">().</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">book</span><span class="p">.</span><span class="na">titleProperty</span><span class="p">());</span>
+</code></pre>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w5" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-04.html"><small>← 이전</small>Week 4. JavaFX 기초</a><a class="next" href="week-07.html"><small>다음 →</small>Week 7. 여러 화면과 IoC</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

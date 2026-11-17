@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 4 · Segment 2. Components and Containers · APD545</title><meta name="description" content="Week 4 · Segment 2. Components and Containers · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 4 · Segment 2. Components and Containers</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#scene-and-scene-graph">Scene and Scene Graph</a></li><li class="l2"><a href="#window-component">Window Component</a></li><li class="l2"><a href="#button-and-its-settings">Button and its settings</a></li><li class="l2"><a href="#example-fruitlistapp">Example: FruitListApp</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 4 · Segment 2 &quot;Components and Containers&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-4-segment-2-components-and-containers">Week 4 · Segment 2. Components and Containers <a class="anchor" aria-label="링크" href="#week-4-segment-2-components-and-containers">#</a></h1>
+<h2 id="scene-and-scene-graph">Scene and Scene Graph <a class="anchor" aria-label="링크" href="#scene-and-scene-graph">#</a></h2>
+<blockquote>
+<p>The scene is arranged as a tree-like graph containing Node objects, called the <strong>scene graph</strong>. It begins with a <strong>root node</strong>. If node c is contained within another node p, then c is called a <strong>child</strong> of p and p is the <strong>parent</strong> of c.</p>
+</blockquote>
+<h2 id="window-component">Window Component <a class="anchor" aria-label="링크" href="#window-component">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Parent</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aComponent</span><span class="p">.</span><span class="na">getParent</span><span class="p">();</span>
+<span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span><span class="w"> </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aParent</span><span class="p">.</span><span class="na">getChildren</span><span class="p">();</span>
+<span class="n">Node</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">children</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre>
+<h2 id="button-and-its-settings">Button and its settings <a class="anchor" aria-label="링크" href="#button-and-its-settings">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Button</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Press Me"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Don't Press Me"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+
+<span class="n">Image</span><span class="w"> </span><span class="n">anImage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Image</span><span class="p">(</span><span class="n">getClass</span><span class="p">().</span><span class="na">getResourceAsStream</span><span class="p">(</span><span class="s">"brain.gif"</span><span class="p">));</span>
+<span class="n">Button</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Brain"</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ImageView</span><span class="p">(</span><span class="n">anImage</span><span class="p">));</span>
+<span class="n">b2</span><span class="p">.</span><span class="na">setGraphic</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ImageView</span><span class="p">(</span><span class="n">anImage</span><span class="p">));</span>
+
+<span class="n">b</span><span class="p">.</span><span class="na">setStyle</span><span class="p">(</span><span class="s">"-fx-font: 22 arial; -fx-base: rgb(170,0,0); -fx-text-fill: rgb(255,255,255);"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">     </span><span class="c1">// cannot be controlled</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setVisible</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span><span class="w">    </span><span class="c1">// cannot be seen nor controlled</span>
+<span class="n">b</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span><span class="w">     </span><span class="c1">// x, y relative to its parent (top-left corner)</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w"> </span><span class="c1">// width, height</span>
+</code></pre>
+<h2 id="example-fruitlistapp">Example: FruitListApp <a class="anchor" aria-label="링크" href="#example-fruitlistapp">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Pane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pane</span><span class="p">();</span>
+
+<span class="n">TextField</span><span class="w"> </span><span class="n">newItemField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="n">newItemField</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">newItemField</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">addButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Add"</span><span class="p">);</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">removeButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Remove"</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fruitList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">fruits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"Apples"</span><span class="p">,</span><span class="w"> </span><span class="s">"Oranges"</span><span class="p">,</span><span class="w"> </span><span class="s">"Bananas"</span><span class="p">,</span><span class="w"> </span><span class="s">"Cherries"</span><span class="p">};</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="n">fruits</span><span class="p">));</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">);</span>
+
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">newItemField</span><span class="p">,</span><span class="w"> </span><span class="n">addButton</span><span class="p">,</span><span class="w"> </span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="n">fruitList</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"My Fruit List"</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setResizable</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">aPane</span><span class="p">,</span><span class="w"> </span><span class="mi">285</span><span class="p">,</span><span class="w"> </span><span class="mi">205</span><span class="p">));</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

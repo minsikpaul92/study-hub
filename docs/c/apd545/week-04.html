@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 4. JavaFX 기초 · APD545</title><meta name="description" content="Week 4. JavaFX 기초 · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../c/apd545/index.html">APD545</a><span>/</span><span>Week 4</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기</a></li><li class="l2"><a href="#1-강의-슬라이드-week-4-segment-1-user-interfaces-and-javafx-applications">1. 📑 강의 슬라이드: Week 4 · Segment 1. User Interfaces and JavaFX Applications</a></li><li class="l3"><a href="#model-user-interface-gui">📑 Model, User Interface, GUI</a></li><li class="l3"><a href="#what-is-gui">📑 What is GUI?</a></li><li class="l3"><a href="#history-of-gui-with-java">📑 History of GUI with Java</a></li><li class="l3"><a href="#javafx-vs-swing">📑 JavaFX vs Swing</a></li><li class="l3"><a href="#scene-builder-and-fxml">📑 Scene Builder and FXML</a></li><li class="l3"><a href="#basic-structure-of-javafx">📑 Basic Structure of JavaFX</a></li><li class="l3"><a href="#display-a-simple-shape">📑 Display a simple shape</a></li><li class="l3"><a href="#components-of-javafx">📑 Components of JavaFX</a></li><li class="l3"><a href="#welcome-application-fxml-project">📑 Welcome Application (FXML project)</a></li><li class="l2"><a href="#2-강의-슬라이드-week-4-segment-2-components-and-containers">2. 📑 강의 슬라이드: Week 4 · Segment 2. Components and Containers</a></li><li class="l3"><a href="#scene-and-scene-graph">📑 Scene and Scene Graph</a></li><li class="l3"><a href="#window-component">📑 Window Component</a></li><li class="l3"><a href="#button-and-its-settings">📑 Button and its settings</a></li><li class="l3"><a href="#example-fruitlistapp">📑 Example: FruitListApp</a></li><li class="l2"><a href="#3-강의-슬라이드-week-4-segment-3-grouping-components-together">3. 📑 강의 슬라이드: Week 4 · Segment 3. Grouping Components Together</a></li><li class="l3"><a href="#organizing-components">📑 Organizing Components</a></li><li class="l3"><a href="#example-addresspane">📑 Example: AddressPane</a></li><li class="l3"><a href="#combobox">📑 ComboBox</a></li><li class="l3"><a href="#reusing-the-pane">📑 Reusing the pane</a></li><li class="l2"><a href="#4-강의-슬라이드-week-4-segment-4-event-driven-programming">4. 📑 강의 슬라이드: Week 4 · Segment 4. Event Driven Programming</a></li><li class="l3"><a href="#three-important-definitions">📑 Three important definitions</a></li><li class="l3"><a href="#understanding-events-flow">📑 Understanding events flow</a></li><li class="l3"><a href="#handling-events">📑 Handling Events</a></li><li class="l3"><a href="#registering-a-handler">📑 Registering a handler</a></li><li class="l3"><a href="#one-handler-for-many-buttons-keypad">📑 One handler for many buttons: Keypad</a></li><li class="l3"><a href="#example-calculator">📑 Example: Calculator</a></li><li class="l2"><a href="#5-교수님-샘플-코드-week-4-sample-wk_4_grocery_check">5. 💻 교수님 샘플 코드: Week 4 · Sample: WK_4_Grocery_Check</a></li><li class="l3"><a href="#example-groceryapplication-load-fxml">💻 Example: GroceryApplication (load FXML)</a></li><li class="l3"><a href="#example-grocery-viewfxml-key-parts">💻 Example: grocery-view.fxml (key parts)</a></li><li class="l3"><a href="#example-grocerycontroller">💻 Example: GroceryController</a></li><li class="l2"><a href="#이번-주-토이-프로젝트-cafeorder-week-4">🧩 이번 주 토이 프로젝트: CafeOrder Week 4</a></li><li class="l2"><a href="#시험-대비-체크리스트-week-4">✅ 시험 대비 체크리스트 (Week 4)</a></li><li class="l2"><a href="#손으로-써-보기">✍️ 손으로 써 보기</a></li></ol></nav>
+<article class="md"><h1 id="week-4-javafx-기초-화면-구조-컴포넌트-이벤트">Week 4. JavaFX 기초: 화면 구조, 컴포넌트, 이벤트 <a class="anchor" aria-label="링크" href="#week-4-javafx-기초-화면-구조-컴포넌트-이벤트">#</a></h1>
+<blockquote>
+<p><strong>읽는 법</strong>: 📑 표시는 교수님 슬라이드의 핵심 문장(영어 원문 그대로 짧게 발췌)이고, 바로 아래 <strong>🇰🇷 한글 해설</strong>이 이어져요. 💻 표시는 교수님 샘플 코드(<code>WK_4_Grocery_Check</code>)예요. ⌨️ 표시가 있는 코드는 IntelliJ JavaFX 프로젝트에서 직접 쳐 보세요.</p>
+<p>드디어 창이 뜨는 프로그램이에요. <strong>Stage ⊃ Scene ⊃ Node</strong> 구조와 <strong>이벤트 핸들러 등록</strong>은 Week 5~8 내내 그대로 써요.</p>
+</blockquote>
+<h2 id="0-이번-주-한눈에-보기">0. 이번 주 한눈에 보기 <a class="anchor" aria-label="링크" href="#0-이번-주-한눈에-보기">#</a></h2>
+<table>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정리</th>
+<th>시험에 나오는 모양</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Model vs UI</td>
+<td>모델은 비즈니스 로직, UI를 <strong>몰라야</strong> 함 (println도 가정 X)</td>
+<td>&quot;모델에 둘 코드인가?&quot;</td>
+</tr>
+<tr>
+<td>Stage / Scene / Node</td>
+<td>창 / 창에 보이는 화면(scene graph) / 그 안의 모든 요소</td>
+<td>포함 관계</td>
+</tr>
+<tr>
+<td><code>Application</code></td>
+<td><code>start(Stage)</code>를 override, <code>main</code>에서 <code>launch(args)</code></td>
+<td>실행 순서</td>
+</tr>
+<tr>
+<td>FXML + Scene Builder</td>
+<td>화면은 XML(선언형), 동작은 Controller(Java)</td>
+<td><code>fx:controller</code>, <code>fx:id</code>, <code>onAction=&quot;#메서드&quot;</code></td>
+</tr>
+<tr>
+<td>Pane</td>
+<td>자식을 가지는 기본 컨테이너. <code>getChildren().add(...)</code></td>
+<td>절대 좌표 <code>relocate(x, y)</code></td>
+</tr>
+<tr>
+<td>컴포넌트 설정</td>
+<td><code>setPrefSize</code>, <code>setStyle</code>, <code>setDisable</code>, <code>setVisible</code>, <code>setEditable</code></td>
+<td>disable vs invisible</td>
+</tr>
+<tr>
+<td>재사용 Pane</td>
+<td><code>class AddressPane extends Pane</code>로 묶어서 컴포넌트처럼</td>
+<td>추가 순서 = 그리는 순서</td>
+</tr>
+<tr>
+<td>이벤트 3요소</td>
+<td>event, <strong>source</strong>(이벤트가 생긴 컴포넌트), handler</td>
+<td><code>getSource()</code> 캐스팅</td>
+</tr>
+<tr>
+<td>핸들러 등록</td>
+<td><code>setOnAction(EventHandler&lt;ActionEvent&gt;)</code>. 안 하면 안 불림</td>
+<td><code>handle(T event)</code> 하나</td>
+</tr>
+</tbody>
+</table>
+<p><strong>함정 모음</strong></p>
+<ul>
+<li><code>start()</code> 안에서 <code>stage.show()</code>를 빼먹으면 <strong>창이 안 뜬다</strong>.</li>
+<li><code>getChildren().add(x)</code>를 안 하면 만든 컴포넌트가 <strong>안 보인다</strong>.</li>
+<li><code>event.getSource()</code>는 <code>Object</code>를 돌려준다. <code>getText()</code>를 쓰려면 <code>((Button) e.getSource())</code>로 <strong>캐스팅</strong>.</li>
+<li><code>&quot;&quot; + x</code>로 숫자를 문자열로, <code>Integer.parseInt(s)</code> 등으로 문자열을 숫자로. 빈 문자열을 parse하면 <code>NumberFormatException</code>.</li>
+<li><code>setDisable(true)</code>는 보이지만 못 누름, <code>setVisible(false)</code>는 안 보이고 못 누름.</li>
+<li>같은 Node 객체는 scene graph에 <strong>한 번만</strong> 들어갈 수 있다(부모가 하나).</li>
+</ul>
+<p><strong>⌨️ IntelliJ에서 직접 쳐 볼 것 (이 순서대로)</strong></p>
+<p>어디 칸을 누르면 그 코드로 바로 가요. 코드 위에도 ⌨️ 표시가 있어요.</p>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>어디</th>
+<th>무엇을</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><a href="#practice-1">Basic Structure of JavaFX</a></td>
+<td>JavaFXBasic을 쳐서 OK 버튼 하나짜리 창 띄우기</td>
+</tr>
+<tr>
+<td>2</td>
+<td><a href="#practice-2">Display a simple shape</a></td>
+<td>ShowCircle을 쳐서 Pane 위에 원 그리기, 반지름과 색을 바꿔 보기</td>
+</tr>
+<tr>
+<td>3</td>
+<td><a href="#practice-3">Example: FruitListApp</a></td>
+<td>FruitListApp을 쳐서 TextField, 버튼 2개, ListView 배치를 그대로 만들어 보기</td>
+</tr>
+<tr>
+<td>4</td>
+<td><a href="#practice-4">Example: AddressPane</a></td>
+<td>AddressPane을 만들고 OneApp, TwoApp에서 제목만 바꿔 두 번 재사용해 보기</td>
+</tr>
+<tr>
+<td>5</td>
+<td><a href="#practice-5">Registering a handler</a></td>
+<td>SimpleEventTest를 쳐서 버튼을 누를 때마다 콘솔에 메시지가 찍히는지 확인</td>
+</tr>
+<tr>
+<td>6</td>
+<td><a href="#practice-6">One handler for many buttons: Keypad</a></td>
+<td>4x3 키패드를 만들고 getSource()로 어떤 버튼이 눌렸는지 출력</td>
+</tr>
+<tr>
+<td>7</td>
+<td><a href="#practice-7">Example: Calculator</a></td>
+<td>CalculatorApp을 쳐서 값 입력 후 Compute로 제곱과 제곱근 표시</td>
+</tr>
+</tbody>
+</table>
+<p>나머지 👀 표시는 읽고 이해만 하면 돼요. 같은 개념을 위 예제에서 이미 타이핑해요.</p>
+<hr />
+<h2 id="1-강의-슬라이드-week-4-segment-1-user-interfaces-and-javafx-applications">1. 📑 강의 슬라이드: Week 4 · Segment 1. User Interfaces and JavaFX Applications <a class="anchor" aria-label="링크" href="#1-강의-슬라이드-week-4-segment-1-user-interfaces-and-javafx-applications">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>GUI 프로그램이 무엇인지, JavaFX 앱의 <strong>기본 뼈대</strong>(Application, Stage, Scene)가 어떻게 생겼는지 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Model, User Interface, GUI</strong>: Model: 앱의 두뇌(계산, 규칙, 데이터).</li>
+<li>👀 <strong>What is GUI?</strong>: GUI는 컴포넌트(control, widget)로 조립해요: 버튼, 텍스트필드, 리스트...</li>
+<li>👀 <strong>History of GUI with Java</strong>: AWT → Swing → JavaFX 순서만 기억하면 돼요.</li>
+<li>👀 <strong>JavaFX vs Swing</strong>: JavaFX 장점: 그래픽, 멀티미디어까지 하나의 API, CSS로 디자인, GPU 가속, 더 나은 스레드 지원, Scene Builder가 IDE와 상관없이 같은 코드를 만듦.</li>
+<li>👀 <strong>Scene Builder and FXML</strong>: FXML = 화면 배치를 적은 XML 파일. Scene Builder는 FXML을 드래그 앤 드롭으로 편집하는 도구예요.</li>
+<li>⌨️ <strong><a href="#practice-1">Basic Structure of JavaFX</a></strong>:  (⌨️ JavaFXBasic을 쳐서 OK 버튼 하나짜리 창 띄우기)</li>
+<li>⌨️ <strong><a href="#practice-2">Display a simple shape</a></strong>:  (⌨️ ShowCircle을 쳐서 Pane 위에 원 그리기, 반지름과 색을 바꿔 보기)</li>
+<li>👀 <strong>Components of JavaFX</strong>: Stage에는 활성 Scene이 하나만 있어요(Week 7에서 갈아 끼우기).</li>
+<li>👀 <strong>Welcome Application (FXML project)</strong>: <code>.fxml</code>: 화면 배치</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 4 · Segment 1 &quot;GUI with JavaFX&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="model-user-interface-gui">📑 Model, User Interface, GUI <a class="anchor" aria-label="링크" href="#model-user-interface-gui">#</a></h3>
+<blockquote>
+<ul>
+<li>The <strong>model</strong> of an application consists of all classes that represent the &quot;business logic&quot; part of the application. The model is always developed separately from the user interface. It should not assume any knowledge about the user interface at all (e.g., model classes should not assume that <code>System.out.println()</code> is available).</li>
+<li>The <strong>user interface</strong> is the part of the application that is attached to the model which handles interaction with the user and does NOT deal with the business logic. It often causes the model to change, and the changes are reflected back on the user interface.</li>
+<li>A <strong>graphical user interface (GUI)</strong> is a user interface that makes use of one or more windows to interact with the user.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 단어 구분이 핵심이에요.</p>
+<ul>
+<li><strong>Model</strong>: 앱의 두뇌(계산, 규칙, 데이터). 은행이라면 계좌 잔액 계산.</li>
+<li><strong>User Interface</strong>: 사용자와 대화하는 부분. 모델을 <strong>불러서</strong> 바꾸고, 바뀐 결과를 보여 줘요. 계산은 안 해요.</li>
+<li><strong>GUI</strong>: 창(window)을 쓰는 UI.</li>
+</ul>
+<p>모델이 UI를 모른다는 게 중요해요. 모델 안에 <code>System.out.println</code>이 있으면 콘솔 앱에서만 쓸 수 있어요. 이게 Week 5 MVC의 출발점이에요.</p>
+</div><h3 id="what-is-gui">📑 What is GUI? <a class="anchor" aria-label="링크" href="#what-is-gui">#</a></h3>
+<blockquote>
+<p>GUIs are built from GUI components, also called <strong>controls</strong> or <strong>widgets</strong> (window gadgets). There should always be a <strong>separation</strong> in your code between the model classes and the user interface classes. Such a separation allows you to share the same model classes with different interfaces.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>GUI는 <strong>컴포넌트</strong>(control, widget)로 조립해요: 버튼, 텍스트필드, 리스트... 그리고 다시 강조: <strong>모델 클래스와 UI 클래스는 코드에서 분리</strong>. 그래야 같은 모델을 콘솔, JavaFX, 웹 화면이 함께 쓸 수 있어요.</p>
+</div><h3 id="history-of-gui-with-java">📑 History of GUI with Java <a class="anchor" aria-label="링크" href="#history-of-gui-with-java">#</a></h3>
+<blockquote>
+<p>AWT (original) → Swing (Java SE 1.2) → <strong>JavaFX</strong> (current GUI, graphics and multimedia API).</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>AWT → Swing → JavaFX 순서만 기억하면 돼요.</p>
+</div><h3 id="javafx-vs-swing">📑 JavaFX vs Swing <a class="anchor" aria-label="링크" href="#javafx-vs-swing">#</a></h3>
+<blockquote>
+<ul>
+<li>JavaFX provides one API for GUI, graphics and multimedia (images, animation, audio, video). Swing is only for GUIs.</li>
+<li>JavaFX Scene Builder produces the same code regardless of the IDE.</li>
+<li>Complete control over look-and-feel via <strong>CSS</strong>.</li>
+<li>Better threading support; uses the <strong>GPU</strong> for hardware-accelerated rendering.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>JavaFX 장점: 그래픽, 멀티미디어까지 <strong>하나의 API</strong>, <strong>CSS</strong>로 디자인, <strong>GPU</strong> 가속, 더 나은 스레드 지원, Scene Builder가 IDE와 상관없이 같은 코드를 만듦.</p>
+</div><h3 id="scene-builder-and-fxml">📑 Scene Builder and FXML <a class="anchor" aria-label="링크" href="#scene-builder-and-fxml">#</a></h3>
+<blockquote>
+<p>JavaFX Scene Builder lets you create GUIs by dragging and dropping components. It generates <strong>FXML</strong>, an XML vocabulary for defining and arranging JavaFX GUI controls. This is an example of <strong>declarative</strong> programming. The separation of the interface (the GUI) from the implementation (the Java code) makes it easier to debug, modify and maintain.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><strong>FXML</strong> = 화면 배치를 적은 XML 파일. Scene Builder는 FXML을 드래그 앤 드롭으로 편집하는 도구예요.</p>
+<p>&quot;declarative(선언형)&quot; = <strong>무엇을</strong> 보여줄지만 적고, <strong>어떻게</strong> 만드는지는 JavaFX가 알아서. HTML과 비슷해요.</p>
+<p>장점: 화면(FXML)과 동작(Java 코드)이 분리돼서 디자이너와 개발자가 따로 일할 수 있고 유지보수가 쉬워요.</p>
+</div><h3 id="basic-structure-of-javafx">📑 Basic Structure of JavaFX <a class="anchor" aria-label="링크" href="#basic-structure-of-javafx">#</a></h3>
+<blockquote>
+<p>Application → override the <strong>start(Stage)</strong> method. Stage, Scene, and Nodes.</p>
+</blockquote>
+<p class="typeit" id="practice-1">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: JavaFXBasic을 쳐서 OK 버튼 하나짜리 창 띄우기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">JavaFXBasic</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">primaryStage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">btOK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"OK"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">btOK</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">250</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"JavaFX Basic Structure"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">        </span><span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">launch</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>뼈대를 외우세요.</p>
+<ol>
+<li><code>extends Application</code></li>
+<li><code>start(Stage primaryStage)</code> override: JavaFX가 <strong>창을 만들어서 넘겨줘요</strong>. 우리는 내용만 채워요.</li>
+<li>컴포넌트 만들기 → <code>new Scene(루트, 너비, 높이)</code> → <code>stage.setScene(scene)</code> → <code>stage.show()</code>.</li>
+<li><code>main</code>에서 <code>launch(args)</code>: JavaFX를 시작하고, JavaFX가 <code>start</code>를 <strong>불러줘요</strong>.</li>
+</ol>
+<p>마지막 줄이 Week 7 IoC의 &quot;Don't call us, we'll call you&quot; 예시예요. 우리는 <code>start</code>를 직접 부르지 않아요.</p>
+</div><h3 id="display-a-simple-shape">📑 Display a simple shape <a class="anchor" aria-label="링크" href="#display-a-simple-shape">#</a></h3>
+<p class="typeit" id="practice-2">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: ShowCircle을 쳐서 Pane 위에 원 그리기, 반지름과 색을 바꿔 보기</p>
+<pre class="hl"><code class="language-java"><span class="n">Circle</span><span class="w"> </span><span class="n">circle</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Circle</span><span class="p">();</span>
+<span class="n">circle</span><span class="p">.</span><span class="na">setCenterX</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">circle</span><span class="p">.</span><span class="na">setCenterY</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">circle</span><span class="p">.</span><span class="na">setRadius</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">circle</span><span class="p">.</span><span class="na">setStroke</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">BLACK</span><span class="p">);</span>
+<span class="n">circle</span><span class="p">.</span><span class="na">setFill</span><span class="p">(</span><span class="n">Color</span><span class="p">.</span><span class="na">WHITE</span><span class="p">);</span>
+
+<span class="n">Pane</span><span class="w"> </span><span class="n">pane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pane</span><span class="p">();</span>
+<span class="n">pane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">circle</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">pane</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">200</span><span class="p">));</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>Pane</code>은 <strong>절대 좌표</strong> 컨테이너예요. 원의 중심을 (100, 100)에 두면 그 자리에 그려져요. 좌표는 <strong>왼쪽 위가 (0, 0)</strong>, 오른쪽이 x+, <strong>아래쪽이 y+</strong>(수학과 반대).</p>
+<p><code>setStroke</code>는 테두리 색, <code>setFill</code>은 안쪽 색.</p>
+</div><h3 id="components-of-javafx">📑 Components of JavaFX <a class="anchor" aria-label="링크" href="#components-of-javafx">#</a></h3>
+<blockquote>
+<ul>
+<li><strong>Stage</strong>: the window in which a JavaFX app's GUI is displayed (<code>javafx.stage</code>).</li>
+<li><strong>Scene</strong>: the stage contains one active scene that defines the GUI as a <strong>scene graph</strong>, a tree data structure of an app's visual elements (<code>javafx.scene</code>).</li>
+<li><strong>Node</strong>: each visual element in the scene graph is a node.</li>
+<li><strong>Container / Layout container</strong>: nodes that have children; arrange their child nodes. Base class: <strong>Pane</strong>.</li>
+<li><strong>Controls</strong>: Labels, TextFields, Buttons and more.</li>
+<li><strong>Controller class</strong>: an FXML GUI's event handlers are defined in a controller class.</li>
+<li><strong>Event handler</strong>: a method that responds to a user interaction.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>용어 정리 표:</p>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>뜻</th>
+<th>비유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stage</td>
+<td>창</td>
+<td>극장 무대</td>
+</tr>
+<tr>
+<td>Scene</td>
+<td>무대 위 장면 (scene graph 루트를 가짐)</td>
+<td>한 장면</td>
+</tr>
+<tr>
+<td>Node</td>
+<td>scene graph의 모든 요소</td>
+<td>배우, 소품</td>
+</tr>
+<tr>
+<td>Pane (Container)</td>
+<td>자식 Node를 가지는 Node</td>
+<td>소품 상자</td>
+</tr>
+<tr>
+<td>Control</td>
+<td>사용자와 상호작용하는 Node (Button, TextField)</td>
+<td></td>
+</tr>
+<tr>
+<td>Controller class</td>
+<td>FXML 화면의 이벤트 핸들러를 모은 클래스</td>
+<td></td>
+</tr>
+<tr>
+<td>Event handler</td>
+<td>사용자 동작에 반응하는 메서드</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Stage에는 <strong>활성 Scene이 하나</strong>만 있어요(Week 7에서 갈아 끼우기).</p>
+</div><h3 id="welcome-application-fxml-project">📑 Welcome Application (FXML project) <a class="anchor" aria-label="링크" href="#welcome-application-fxml-project">#</a></h3>
+<blockquote>
+<ul>
+<li><code>Welcome.fxml</code>: the FXML markup for GUI.</li>
+<li><code>Main.java</code>: creates the GUI from the FXML file and displays it in a window.</li>
+<li><code>WelcomeController.java</code>: the class in which you'd define the GUI's event handlers.</li>
+</ul>
+<p>In Scene Builder: add a <strong>VBox</strong>, make it the root (Edit &gt; Trim Document to Selection), set Alignment to CENTER, Pref Width 450, Pref Height 300, add a Label and an ImageView.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>FXML 프로젝트의 3파일 역할:</p>
+<ul>
+<li><code>.fxml</code>: 화면 배치</li>
+<li><code>Main</code>(Application): FXML을 <strong>로드</strong>해서 창에 띄움</li>
+<li><code>Controller</code>: 버튼 눌렀을 때 할 일</li>
+</ul>
+<p>Scene Builder 순서: VBox를 루트로(Trim Document to Selection) → Alignment CENTER → Label, ImageView 추가. 루트의 Pref Size가 처음 창 크기가 돼요.</p>
+<p>슬라이드는 Eclipse 기준이지만 우리는 IntelliJ의 JavaFX 템플릿(<code>hello-view.fxml</code>, <code>HelloApplication</code>, <code>HelloController</code>)이 같은 구조예요.</p>
+</div><hr />
+<h2 id="2-강의-슬라이드-week-4-segment-2-components-and-containers">2. 📑 강의 슬라이드: Week 4 · Segment 2. Components and Containers <a class="anchor" aria-label="링크" href="#2-강의-슬라이드-week-4-segment-2-components-and-containers">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>버튼, 텍스트필드, 리스트 같은 <strong>컴포넌트</strong>를 코드로 만들고 꾸미는 법, 그리고 <strong>scene graph</strong>(부모-자식 나무)를 봐요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Scene and Scene Graph</strong>: scene graph = 나무 구조. 루트 하나에서 시작해 Pane 안에 Pane, 그 안에 Button...</li>
+<li>👀 <strong>Window Component</strong>: 양방향으로 이동할 수 있어요: 자식 → <code>getParent()</code>, 부모 → <code>getChildren()</code>.</li>
+<li>👀 <strong>Button and its settings</strong>: <code>setText</code>, <code>setGraphic(new ImageView(...))</code>: 글자, 그림</li>
+<li>⌨️ <strong><a href="#practice-3">Example: FruitListApp</a></strong>:  (⌨️ FruitListApp을 쳐서 TextField, 버튼 2개, ListView 배치를 그대로 만들어 보기)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 4 · Segment 2 &quot;Components and Containers&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="scene-and-scene-graph">📑 Scene and Scene Graph <a class="anchor" aria-label="링크" href="#scene-and-scene-graph">#</a></h3>
+<blockquote>
+<p>The scene is arranged as a tree-like graph containing Node objects, called the <strong>scene graph</strong>. It begins with a <strong>root node</strong>. If node c is contained within another node p, then c is called a <strong>child</strong> of p and p is the <strong>parent</strong> of c.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>scene graph = <strong>나무 구조</strong>. 루트 하나에서 시작해 Pane 안에 Pane, 그 안에 Button... 부모(parent)와 자식(child) 관계예요. Week 3 Collection처럼 <code>getChildren()</code>이 <strong>리스트</strong>를 돌려줘요.</p>
+</div><h3 id="window-component">📑 Window Component <a class="anchor" aria-label="링크" href="#window-component">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">Parent</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aComponent</span><span class="p">.</span><span class="na">getParent</span><span class="p">();</span>
+<span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span><span class="w"> </span><span class="n">children</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">aParent</span><span class="p">.</span><span class="na">getChildren</span><span class="p">();</span>
+<span class="n">Node</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">children</span><span class="p">.</span><span class="na">get</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>양방향으로 이동할 수 있어요: 자식 → <code>getParent()</code>, 부모 → <code>getChildren()</code>. <code>getChildren()</code>의 타입은 <code>ObservableList&lt;Node&gt;</code>: 바뀌면 화면이 <strong>자동으로 다시 그려지는</strong> 리스트예요.</p>
+</div><h3 id="button-and-its-settings">📑 Button and its settings <a class="anchor" aria-label="링크" href="#button-and-its-settings">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">Button</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Press Me"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Don't Press Me"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setAlignment</span><span class="p">(</span><span class="n">Pos</span><span class="p">.</span><span class="na">CENTER</span><span class="p">);</span>
+
+<span class="n">Image</span><span class="w"> </span><span class="n">anImage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Image</span><span class="p">(</span><span class="n">getClass</span><span class="p">().</span><span class="na">getResourceAsStream</span><span class="p">(</span><span class="s">"brain.gif"</span><span class="p">));</span>
+<span class="n">Button</span><span class="w"> </span><span class="n">b2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Brain"</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ImageView</span><span class="p">(</span><span class="n">anImage</span><span class="p">));</span>
+<span class="n">b2</span><span class="p">.</span><span class="na">setGraphic</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ImageView</span><span class="p">(</span><span class="n">anImage</span><span class="p">));</span>
+
+<span class="n">b</span><span class="p">.</span><span class="na">setStyle</span><span class="p">(</span><span class="s">"-fx-font: 22 arial; -fx-base: rgb(170,0,0); -fx-text-fill: rgb(255,255,255);"</span><span class="p">);</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span><span class="w">     </span><span class="c1">// cannot be controlled</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setVisible</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span><span class="w">    </span><span class="c1">// cannot be seen nor controlled</span>
+<span class="n">b</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span><span class="w"> </span><span class="mi">60</span><span class="p">);</span><span class="w">     </span><span class="c1">// x, y relative to its parent (top-left corner)</span>
+<span class="n">b</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span><span class="w"> </span><span class="c1">// width, height</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>자주 쓰는 설정 정리:</p>
+<ul>
+<li><code>setText</code>, <code>setGraphic(new ImageView(...))</code>: 글자, 그림</li>
+<li><code>setStyle(&quot;-fx-...&quot;)</code>: CSS. <code>-fx-font</code>, <code>-fx-base</code>(배경), <code>-fx-text-fill</code>(글자색)</li>
+<li><code>setDisable(true)</code>: 회색, 못 누름 / <code>setVisible(false)</code>: 아예 안 보임</li>
+<li><code>relocate(x, y)</code>: <strong>부모 기준</strong> 왼쪽 위 좌표 / <code>setPrefSize(w, h)</code>: 원하는 크기</li>
+</ul>
+<p>이미지는 <code>getClass().getResourceAsStream(&quot;brain.gif&quot;)</code>로 읽어요. 파일을 코드와 같은 리소스 폴더에 둬야 해요.</p>
+</div><h3 id="example-fruitlistapp">📑 Example: FruitListApp <a class="anchor" aria-label="링크" href="#example-fruitlistapp">#</a></h3>
+<p class="typeit" id="practice-3">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: FruitListApp을 쳐서 TextField, 버튼 2개, ListView 배치를 그대로 만들어 보기</p>
+<pre class="hl"><code class="language-java"><span class="n">Pane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pane</span><span class="p">();</span>
+
+<span class="n">TextField</span><span class="w"> </span><span class="n">newItemField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="n">newItemField</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">newItemField</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">addButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Add"</span><span class="p">);</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">removeButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Remove"</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">175</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+
+<span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fruitList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">fruits</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"Apples"</span><span class="p">,</span><span class="w"> </span><span class="s">"Oranges"</span><span class="p">,</span><span class="w"> </span><span class="s">"Bananas"</span><span class="p">,</span><span class="w"> </span><span class="s">"Cherries"</span><span class="p">};</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="n">fruits</span><span class="p">));</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">);</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span><span class="w"> </span><span class="mi">150</span><span class="p">);</span>
+
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">newItemField</span><span class="p">,</span><span class="w"> </span><span class="n">addButton</span><span class="p">,</span><span class="w"> </span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="n">fruitList</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"My Fruit List"</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setResizable</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">aPane</span><span class="p">,</span><span class="w"> </span><span class="mi">285</span><span class="p">,</span><span class="w"> </span><span class="mi">205</span><span class="p">));</span>
+<span class="n">primaryStage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>흐름: Pane 하나 만들고 → 컴포넌트마다 <code>relocate</code> + <code>setPrefSize</code> → <code>aPane.getChildren().addAll(...)</code> → Scene에 Pane.</p>
+<p><code>fruitList.setItems(FXCollections.observableArrayList(fruits))</code>: 배열을 ListView가 쓰는 <code>ObservableList</code>로 바꿔 넣어요. Week 5 MVC에서 매번 나오는 줄이에요.</p>
+<p><code>setResizable(false)</code>로 크기를 고정하면 창이 테두리만큼 살짝 커져서 슬라이드는 Scene 크기를 12x8 줄였어요. 이런 픽셀 계산이 불편해서 다음 주와 Week 6에 <strong>레이아웃 Pane</strong>(VBox, GridPane, BorderPane)을 써요. 그리고 이 앱의 Add, Remove 버튼은 아직 아무 일도 안 해요. 이벤트는 Segment 4.</p>
+</div><hr />
+<h2 id="3-강의-슬라이드-week-4-segment-3-grouping-components-together">3. 📑 강의 슬라이드: Week 4 · Segment 3. Grouping Components Together <a class="anchor" aria-label="링크" href="#3-강의-슬라이드-week-4-segment-3-grouping-components-together">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>여러 컴포넌트를 <strong>Pane 하나로 묶어서</strong> 하나의 부품처럼 재사용하는 법이에요. Week 2의 상속(<code>extends Pane</code>)이 GUI에서 쓰이는 첫 예예요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Organizing Components</strong>: 이름, 주소, 전화번호 입력칸이 여러 창에 반복된다면? 매번 10줄씩 복사하지 말고 Pane 클래스 하나로 만들어 한 줄로 붙여요.</li>
+<li>⌨️ <strong><a href="#practice-4">Example: AddressPane</a></strong>:  (⌨️ AddressPane을 만들고 OneApp, TwoApp에서 제목만 바꿔 두 번 재사용해 보기)</li>
+<li>👀 <strong>ComboBox</strong>: ComboBox = 드롭다운. 선택된 하나만 보여요(ListView는 여러 개가 다 보임).</li>
+<li>👀 <strong>Reusing the pane</strong>: 같은 클래스로 객체를 두 개 만들어 위치만 다르게.</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 4 · Segment 3 &quot;Grouping Components Together&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="organizing-components">📑 Organizing Components <a class="anchor" aria-label="링크" href="#organizing-components">#</a></h3>
+<blockquote>
+<p>It is a good idea to share component layouts among the similar windows within an application so that the amount of code you write is reduced. We often lay out components onto a <strong>Pane</strong> and then place the Pane on our window. We can have a Pane within another Pane.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>이름, 주소, 전화번호 입력칸이 여러 창에 반복된다면? 매번 10줄씩 복사하지 말고 <strong>Pane 클래스 하나</strong>로 만들어 한 줄로 붙여요. Pane 안에 Pane도 넣을 수 있어요.</p>
+</div><h3 id="example-addresspane">📑 Example: AddressPane <a class="anchor" aria-label="링크" href="#example-addresspane">#</a></h3>
+<p class="typeit" id="practice-4">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: AddressPane을 만들고 OneApp, TwoApp에서 제목만 바꿔 두 번 재사용해 보기</p>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AddressPane</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Pane</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">AddressPane</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">title</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Pane</span><span class="w"> </span><span class="n">innerPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pane</span><span class="p">();</span>
+<span class="w">        </span><span class="n">innerPane</span><span class="p">.</span><span class="na">setStyle</span><span class="p">(</span><span class="s">"-fx-background-color: white; -fx-border-color: gray; -fx-padding: 4 4;"</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Label</span><span class="w"> </span><span class="n">label1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">(</span><span class="s">"Name:"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">label1</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">        </span><span class="n">label1</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="w">        </span><span class="n">TextField</span><span class="w"> </span><span class="n">nameField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="w">        </span><span class="n">nameField</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">);</span>
+<span class="w">        </span><span class="n">nameField</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// ... Street, City, Province, Postal Code the same way</span>
+
+<span class="w">        </span><span class="n">innerPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">label1</span><span class="p">,</span><span class="w"> </span><span class="n">nameField</span><span class="w"> </span><span class="cm">/* , ... */</span><span class="p">);</span>
+
+<span class="w">        </span><span class="n">Label</span><span class="w"> </span><span class="n">titleLabel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">(</span><span class="n">title</span><span class="p">);</span>
+<span class="w">        </span><span class="n">titleLabel</span><span class="p">.</span><span class="na">setStyle</span><span class="p">(</span><span class="s">"-fx-background-color: white; -fx-translate-y: -8; -fx-translate-x: 10;"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">innerPane</span><span class="p">,</span><span class="w"> </span><span class="n">titleLabel</span><span class="p">);</span><span class="w">   </span><span class="c1">// order matters: title drawn on top</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>The order of adding is important because we want the titleLabel to be drawn <strong>on top of</strong> the innerPane. The AddressPane class itself is not a runnable application. It will be &quot;treated&quot; as a <strong>single component</strong>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>AddressPane extends Pane</code>이니까 AddressPane <strong>is a</strong> Pane이에요. 그래서 <code>aPane.getChildren().add(myPanel)</code>처럼 다른 컴포넌트와 똑같이 넣을 수 있어요.</p>
+<ul>
+<li>생성자 매개변수 <code>title</code>로 테두리 제목만 바꿔요.</li>
+<li><code>getChildren().addAll(innerPane, titleLabel)</code>: 이 클래스 <strong>자신</strong>의 자식 목록(<code>this.getChildren()</code>).</li>
+<li><strong>나중에 추가한 게 위에 그려져요.</strong> 제목 라벨이 테두리 선을 덮어야 하니 마지막에 추가.</li>
+<li><code>-fx-translate-y: -8</code>: 라벨을 위로 8px 올려 테두리 선에 걸치게.</li>
+<li><code>main</code>이 없으니 혼자 실행되는 앱이 아니라 <strong>부품</strong>이에요.</li>
+</ul>
+</div><h3 id="combobox">📑 ComboBox <a class="anchor" aria-label="링크" href="#combobox">#</a></h3>
+<blockquote>
+<p>A ComboBox represents a drop-down list. Only the selected item is shown.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">options</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span>
+<span class="w">        </span><span class="s">"Home Address"</span><span class="p">,</span><span class="w"> </span><span class="s">"Work Address"</span><span class="p">,</span><span class="w"> </span><span class="s">"Alternate Address"</span><span class="p">);</span>
+<span class="n">ComboBox</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">addressBox</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ComboBox</span><span class="o">&lt;&gt;</span><span class="p">(</span><span class="n">options</span><span class="p">);</span>
+<span class="n">addressBox</span><span class="p">.</span><span class="na">setPromptText</span><span class="p">(</span><span class="s">"Choose address type"</span><span class="p">);</span>
+<span class="n">addressBox</span><span class="p">.</span><span class="na">setValue</span><span class="p">(</span><span class="s">"Work Address"</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>ComboBox = 드롭다운. 선택된 하나만 보여요(ListView는 여러 개가 다 보임).</p>
+<ul>
+<li><code>setPromptText(&quot;...&quot;)</code>: 아무것도 안 골랐을 때 안내 문구</li>
+<li><code>setValue(&quot;Work Address&quot;)</code>: 처음 선택값</li>
+<li><code>getValue()</code>: 지금 선택값 (나중에 이벤트에서 씀)</li>
+</ul>
+<p>슬라이드는 <code>new ComboBox(options)</code>처럼 raw type을 쓰는데, Week 3에서 배운 대로 <code>ComboBox&lt;String&gt;</code>이 맞아요.</p>
+</div><h3 id="reusing-the-pane">📑 Reusing the pane <a class="anchor" aria-label="링크" href="#reusing-the-pane">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="n">AddressPane</span><span class="w"> </span><span class="n">myPanel1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AddressPane</span><span class="p">(</span><span class="s">"HOME ADDRESS"</span><span class="p">);</span>
+<span class="n">myPanel1</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">170</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="n">AddressPane</span><span class="w"> </span><span class="n">myPanel2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AddressPane</span><span class="p">(</span><span class="s">"ALTERNATE ADDRESS"</span><span class="p">);</span>
+<span class="n">myPanel2</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">170</span><span class="p">,</span><span class="w"> </span><span class="mi">230</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">myPanel1</span><span class="p">,</span><span class="w"> </span><span class="n">myPanel2</span><span class="p">);</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>같은 클래스로 <strong>객체를 두 개</strong> 만들어 위치만 다르게. 이게 객체지향 재사용이에요. AddressPane 코드를 한 줄도 안 고쳤어요.</p>
+</div><hr />
+<h2 id="4-강의-슬라이드-week-4-segment-4-event-driven-programming">4. 📑 강의 슬라이드: Week 4 · Segment 4. Event Driven Programming <a class="anchor" aria-label="링크" href="#4-강의-슬라이드-week-4-segment-4-event-driven-programming">#</a></h2>
+<div class="sum" data-kind="read">
+<p><strong>🧭 먼저 한국어로</strong> · 👀 읽고 이해하기 (타이핑 안 해도 돼요)</p>
+<p>버튼을 누르면 무언가 일어나게 하는 <strong>이벤트 처리</strong>예요. 이벤트, source, handler 세 단어와 &quot;<strong>등록해야 불린다</strong>&quot;가 핵심이에요.</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>👀 <strong>Three important definitions</strong>: 세 단어를 문장으로: &quot;사용자가 Button(source)을 클릭하면 ActionEvent(event)가 생기고, 등록된 handler가 실행된다.</li>
+<li>👀 <strong>Understanding events flow</strong>: 흐름 5단계를 외우세요: 사용자 동작 → 이벤트 생성 → 핸들러 호출 → 모델 변경 → 화면 갱신.</li>
+<li>👀 <strong>Handling Events</strong>: <code>EventHandler&lt;T&gt;</code>는 메서드가 <code>handle(T event)</code> 하나인 제네릭 인터페이스예요.</li>
+<li>⌨️ <strong><a href="#practice-5">Registering a handler</a></strong>:  (⌨️ SimpleEventTest를 쳐서 버튼을 누를 때마다 콘솔에 메시지가 찍히는지 확인)</li>
+<li>⌨️ <strong><a href="#practice-6">One handler for many buttons: Keypad</a></strong>:  (⌨️ 4x3 키패드를 만들고 getSource()로 어떤 버튼이 눌렸는지 출력)</li>
+<li>⌨️ <strong><a href="#practice-7">Example: Calculator</a></strong>:  (⌨️ CalculatorApp을 쳐서 값 입력 후 Compute로 제곱과 제곱근 표시)</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 4 · Segment 4 &quot;Event Handling&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌</p>
+</blockquote>
+<h3 id="three-important-definitions">📑 Three important definitions <a class="anchor" aria-label="링크" href="#three-important-definitions">#</a></h3>
+<blockquote>
+<ul>
+<li>An <strong>event</strong> is something that happens in the program based on some kind of triggering input, typically caused by user interaction such as pressing a key, moving the mouse, or pressing a mouse button.</li>
+<li>The <strong>source</strong> of an event is the component for which the event was generated (i.e., when handling button clicks, the Button is the source).</li>
+<li>An <strong>event handler</strong> is a procedure that contains the code to be executed when a specific type of event occurs.</li>
+</ul>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>세 단어를 문장으로: &quot;사용자가 <strong>Button</strong>(source)을 클릭하면 <strong>ActionEvent</strong>(event)가 생기고, 등록된 <strong>handler</strong>가 실행된다.&quot;</p>
+</div><h3 id="understanding-events-flow">📑 Understanding events flow <a class="anchor" aria-label="링크" href="#understanding-events-flow">#</a></h3>
+<blockquote>
+<p>The user causes an event → events are generated → the appropriate event handler is called → the event handling code <strong>changes the model</strong> → the user interface is <strong>updated</strong> to reflect these changes.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>흐름 5단계를 외우세요: 사용자 동작 → 이벤트 생성 → 핸들러 호출 → <strong>모델 변경</strong> → <strong>화면 갱신</strong>. 마지막 두 단계가 Week 5 Controller의 두 가지 일(Model 바꾸기, View update)과 똑같아요.</p>
+</div><h3 id="handling-events">📑 Handling Events <a class="anchor" aria-label="링크" href="#handling-events">#</a></h3>
+<blockquote>
+<p>Application logic is contained in the event filters and handlers, which are objects of the <strong>EventHandler</strong> interface.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">EventHandler</span><span class="o">&lt;</span><span class="n">T</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Event</span><span class="o">&gt;</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">EventListener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">T</span><span class="w"> </span><span class="n">event</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>EventHandler is a generic interface in <code>javafx.event</code>. EventListener is a <strong>marker interface</strong> (empty, no methods) in <code>java.util</code>.</p>
+</blockquote>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>EventHandler&lt;T&gt;</code>는 메서드가 <code>handle(T event)</code> <strong>하나</strong>인 제네릭 인터페이스예요. 메서드가 하나라서 Week 7부터 쓰는 <strong>람다</strong> <code>e -&gt; ...</code>로 줄여 쓸 수 있어요.</p>
+<p><strong>marker interface</strong> = 메서드가 하나도 없는 인터페이스. &quot;나는 이런 종류야&quot;라고 표시만 해요. 예: <code>EventListener</code>, <code>Serializable</code>(Week 9).</p>
+</div><h3 id="registering-a-handler">📑 Registering a handler <a class="anchor" aria-label="링크" href="#registering-a-handler">#</a></h3>
+<blockquote>
+<p>For every event that we want to handle, we must not only write the event handler but also <strong>register</strong> that event handler too. Like signing up on a webpage to receive an email notification.</p>
+</blockquote>
+<p class="typeit" id="practice-5">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: SimpleEventTest를 쳐서 버튼을 누를 때마다 콘솔에 메시지가 찍히는지 확인</p>
+<pre class="hl"><code class="language-java"><span class="n">aButton</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"That felt good!"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>new EventHandler&lt;ActionEvent&gt;() { ... }</code>는 <strong>익명 내부 클래스</strong>: 이름 없는 클래스를 그 자리에서 만들고 객체까지 만들어요.</p>
+<p>등록(<code>setOnAction</code>)을 안 하면 아무리 handle을 잘 써도 <strong>안 불려요</strong>. 이메일 알림 구독과 같아요.</p>
+<p>같은 코드를 람다로:</p>
+<pre class="hl"><code class="language-java"><span class="n">aButton</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"That felt good!"</span><span class="p">));</span>
+</code></pre>
+</div><h3 id="one-handler-for-many-buttons-keypad">📑 One handler for many buttons: Keypad <a class="anchor" aria-label="링크" href="#one-handler-for-many-buttons-keypad">#</a></h3>
+<p class="typeit" id="practice-6">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: 4x3 키패드를 만들고 getSource()로 어떤 버튼이 눌렸는지 출력</p>
+<pre class="hl"><code class="language-java"><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">labels</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="s">"1"</span><span class="p">,</span><span class="s">"2"</span><span class="p">,</span><span class="s">"3"</span><span class="p">,</span><span class="s">"4"</span><span class="p">,</span><span class="s">"5"</span><span class="p">,</span><span class="s">"6"</span><span class="p">,</span><span class="s">"7"</span><span class="p">,</span><span class="s">"8"</span><span class="p">,</span><span class="s">"9"</span><span class="p">,</span><span class="s">"*"</span><span class="p">,</span><span class="s">"0"</span><span class="p">,</span><span class="s">"#"</span><span class="p">};</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">row</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span><span class="w"> </span><span class="n">col</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">buttons</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="n">labels</span><span class="o">[</span><span class="n">row</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col</span><span class="o">]</span><span class="p">);</span>
+<span class="w">        </span><span class="n">buttons</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">70</span><span class="p">);</span>
+<span class="w">        </span><span class="n">buttons</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">.</span><span class="na">setPrefSize</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span><span class="w"> </span><span class="mi">65</span><span class="p">);</span>
+<span class="w">        </span><span class="n">buttons</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">actionEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Button "</span><span class="w"> </span><span class="o">+</span>
+<span class="w">                    </span><span class="p">((</span><span class="n">Button</span><span class="p">)</span><span class="w"> </span><span class="n">actionEvent</span><span class="p">.</span><span class="na">getSource</span><span class="p">()).</span><span class="na">getText</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" was pressed."</span><span class="p">);</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">        </span><span class="p">});</span>
+<span class="w">        </span><span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">buttons</span><span class="o">[</span><span class="n">row</span><span class="o">][</span><span class="n">col</span><span class="o">]</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>버튼 12개를 2중 for문으로 만들어요. 위치 <code>relocate(10 + col*70, 10 + row*70)</code>: 칸마다 70px 간격. 라벨 인덱스 <code>row*3 + col</code>: 2차원 → 1차원 변환.</p>
+<p><strong><code>actionEvent.getSource()</code></strong>: 이벤트가 생긴 버튼. 반환형이 <code>Object</code>라서 <code>(Button)</code>으로 캐스팅해야 <code>getText()</code>를 쓸 수 있어요. 시험 단골이에요.</p>
+<p>참고: 슬라이드 설명은 &quot;Pane이 EventHandler를 implements&quot;하는 방식을 말하지만, 실제 코드는 버튼마다 익명 클래스를 새로 만들어요. 진짜 하나만 쓰려면 handler를 변수에 한 번 만들어 두고 모든 버튼에 같은 변수를 넘기면 돼요.</p>
+</div><h3 id="example-calculator">📑 Example: Calculator <a class="anchor" aria-label="링크" href="#example-calculator">#</a></h3>
+<blockquote>
+<p>Convert text to numbers: <code>Float.parseFloat(s)</code>, <code>Integer.parseInt(s)</code>, <code>Double.parseDouble(s)</code>, <code>Boolean.parseBoolean(s)</code>. Convert a number into a String: <code>aTextField.setText(&quot;&quot; + x);</code>. Output-only fields: <code>setEditable(false)</code>.</p>
+</blockquote>
+<p class="typeit" id="practice-7">⌨️ <b>이 코드는 IntelliJ에서 직접 쳐 보세요</b>: CalculatorApp을 쳐서 값 입력 후 Compute로 제곱과 제곱근 표시</p>
+<pre class="hl"><code class="language-java"><span class="n">computeButton</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">actionEvent</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">valueField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">length</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">float</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Float</span><span class="p">.</span><span class="na">parseFloat</span><span class="p">(</span><span class="n">valueField</span><span class="p">.</span><span class="na">getText</span><span class="p">());</span>
+<span class="w">            </span><span class="n">squareField</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">""</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
+<span class="w">            </span><span class="n">rootField</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">""</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">Math</span><span class="p">.</span><span class="na">sqrt</span><span class="p">(</span><span class="n">value</span><span class="p">));</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>입력 → 숫자 변환 → 계산 → 출력 패턴이에요.</p>
+<ul>
+<li><code>valueField.getText().length() &gt; 0</code>: 빈칸이면 계산 안 함 (빈 문자열을 parse하면 <code>NumberFormatException</code>)</li>
+<li><code>Float.parseFloat(...)</code>: 문자열 → 숫자</li>
+<li><code>&quot;&quot; + value * value</code>: 숫자 → 문자열 (곱셈이 먼저 계산돼요)</li>
+<li><code>setEditable(false)</code>: 결과 칸은 읽기 전용</li>
+</ul>
+<p><code>&quot;abc&quot;</code>를 넣으면 여전히 예외가 나요. try-catch로 감싸는 게 더 안전해요.</p>
+</div><hr />
+<h2 id="5-교수님-샘플-코드-week-4-sample-wk_4_grocery_check">5. 💻 교수님 샘플 코드: Week 4 · Sample: WK_4_Grocery_Check <a class="anchor" aria-label="링크" href="#5-교수님-샘플-코드-week-4-sample-wk_4_grocery_check">#</a></h2>
+<div class="sum" data-kind="type">
+<p><strong>🧭 먼저 한국어로</strong> · ⌨️ IntelliJ에서 직접 쳐 보기</p>
+<p>할 일: IntelliJ 새 JavaFX 프로젝트에서 FXML + Controller로 장보기 목록 앱 만들기 (버튼 이름과 방향 버그도 고쳐 보기)</p>
+<p><strong>이 챕터 구성</strong></p>
+<ul>
+<li>⌨️ <strong>Example: GroceryApplication (load FXML)</strong>: <code>FXMLLoader</code>가 FXML을 읽어 Node 나무를 만들고(<code>load()</code>), 동시에 <code>fx:controller</code>에 적힌 컨트롤러 객체도 만들어요.</li>
+<li>⌨️ <strong>Example: grocery-view.fxml (key parts)</strong>: <code>fx:controller=&quot;...GroceryController&quot;</code>: 이 화면의 컨트롤러 클래스</li>
+<li>⌨️ <strong>Example: GroceryController</strong>: <code>@FXML</code>: FXML이 이 필드, 메서드를 볼 수 있게 해요(private이어도).</li>
+</ul>
+</div>
+<blockquote>
+<p>원문 출처: APD545 Week 4 교수님 샘플 코드 WK_4_Grocery_Check 발췌 (FXML + Controller)</p>
+</blockquote>
+<h3 id="example-groceryapplication-load-fxml">💻 Example: GroceryApplication (load FXML) <a class="anchor" aria-label="링크" href="#example-groceryapplication-load-fxml">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GroceryApplication</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">Application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">FXMLLoader</span><span class="w"> </span><span class="n">fxmlLoader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">GroceryApplication</span><span class="p">.</span><span class="na">class</span><span class="p">.</span><span class="na">getResource</span><span class="p">(</span><span class="s">"grocery-view.fxml"</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Scene</span><span class="w"> </span><span class="n">scene</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">fxmlLoader</span><span class="p">.</span><span class="na">load</span><span class="p">());</span>
+<span class="w">        </span><span class="n">stage</span><span class="p">.</span><span class="na">setTitle</span><span class="p">(</span><span class="s">"Hello!"</span><span class="p">);</span>
+<span class="w">        </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="n">scene</span><span class="p">);</span>
+<span class="w">        </span><span class="n">stage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p><code>FXMLLoader</code>가 FXML을 읽어 Node 나무를 만들고(<code>load()</code>), 동시에 <code>fx:controller</code>에 적힌 컨트롤러 객체도 만들어요. <code>getResource(&quot;grocery-view.fxml&quot;)</code>는 이 클래스와 <strong>같은 패키지의 resources 폴더</strong>에서 찾아요. 경로가 틀리면 <code>Location is not set</code> 에러.</p>
+</div><h3 id="example-grocery-viewfxml-key-parts">💻 Example: grocery-view.fxml (key parts) <a class="anchor" aria-label="링크" href="#example-grocery-viewfxml-key-parts">#</a></h3>
+<pre class="hl"><code class="language-xml"><span class="nt">&lt;GridPane</span><span class="w"> </span><span class="na">fx:controller=</span><span class="s">"ca.senecacollege.application.controllers.GroceryController"</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<span class="w">   </span><span class="nt">&lt;children&gt;</span>
+<span class="w">      </span><span class="nt">&lt;Label</span><span class="w"> </span><span class="na">text=</span><span class="s">"Grocery List"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;Label</span><span class="w"> </span><span class="na">text=</span><span class="s">"Checked List"</span><span class="w"> </span><span class="na">GridPane.columnIndex=</span><span class="s">"2"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;ListView</span><span class="w"> </span><span class="na">fx:id=</span><span class="s">"groceryLV"</span><span class="w"> </span><span class="na">GridPane.rowIndex=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;ListView</span><span class="w"> </span><span class="na">fx:id=</span><span class="s">"checkedLV"</span><span class="w"> </span><span class="na">GridPane.columnIndex=</span><span class="s">"2"</span><span class="w"> </span><span class="na">GridPane.rowIndex=</span><span class="s">"1"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;VBox</span><span class="w"> </span><span class="na">alignment=</span><span class="s">"CENTER"</span><span class="w"> </span><span class="na">spacing=</span><span class="s">"30.0"</span><span class="w"> </span><span class="na">GridPane.columnIndex=</span><span class="s">"1"</span><span class="w"> </span><span class="na">GridPane.rowIndex=</span><span class="s">"1"</span><span class="nt">&gt;</span>
+<span class="w">         </span><span class="nt">&lt;Button</span><span class="w"> </span><span class="na">onAction=</span><span class="s">"#onClickMoveGroceryLeftToRight"</span><span class="w"> </span><span class="na">text=</span><span class="s">"&amp;gt;&amp;gt;&amp;gt;"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">         </span><span class="nt">&lt;Button</span><span class="w"> </span><span class="na">onAction=</span><span class="s">"#onClickMoveGroceryRightToLeft"</span><span class="w"> </span><span class="na">text=</span><span class="s">"&amp;lt;&amp;lt;&amp;lt;"</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">      </span><span class="nt">&lt;/VBox&gt;</span>
+<span class="w">   </span><span class="nt">&lt;/children&gt;</span>
+<span class="nt">&lt;/GridPane&gt;</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<p>FXML과 Java를 잇는 세 가지:</p>
+<ul>
+<li><code>fx:controller=&quot;...GroceryController&quot;</code>: 이 화면의 컨트롤러 클래스</li>
+<li><code>fx:id=&quot;groceryLV&quot;</code>: 컨트롤러의 <code>@FXML private ListView&lt;String&gt; groceryLV;</code> 필드와 <strong>이름이 같아야</strong> 연결</li>
+<li><code>onAction=&quot;#onClickMoveGroceryLeftToRight&quot;</code>: 버튼 클릭 시 부를 컨트롤러 메서드 (<code>#</code> 붙임)</li>
+</ul>
+<p>GridPane 3열: 왼쪽 리스트, 가운데 버튼 VBox, 오른쪽 리스트. <code>&amp;gt;</code>는 XML에서 <code>&gt;</code> 문자예요.</p>
+</div><h3 id="example-grocerycontroller">💻 Example: GroceryController <a class="anchor" aria-label="링크" href="#example-grocerycontroller">#</a></h3>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">GroceryController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">checkedLV</span><span class="p">;</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">groceryLV</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">grocery_list</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="s">"Apple"</span><span class="p">,</span><span class="w"> </span><span class="s">"Orange"</span><span class="p">,</span><span class="w"> </span><span class="s">"PineApple"</span><span class="p">,</span><span class="w"> </span><span class="s">"Cherry"</span><span class="p">);</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">checked_list</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">();</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">groceryLV</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">grocery_list</span><span class="p">);</span>
+<span class="w">        </span><span class="n">checkedLV</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">checked_list</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onClickMoveGroceryLeftToRight</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">checkedLV</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedItem</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">grocery_list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="w">            </span><span class="n">checkedLV</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">clearSelection</span><span class="p">();</span>
+<span class="w">            </span><span class="n">checked_list</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@FXML</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">onClickMoveGroceryRightToLeft</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">groceryLV</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedItem</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">temp</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">checked_list</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="w">            </span><span class="n">groceryLV</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">clearSelection</span><span class="p">();</span>
+<span class="w">            </span><span class="n">grocery_list</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="ko"><p><strong>🇰🇷 한글 해설</strong></p>
+<ul>
+<li><code>@FXML</code>: FXML이 이 필드, 메서드를 볼 수 있게 해요(private이어도).</li>
+<li><code>initialize()</code>: FXMLLoader가 <code>@FXML</code> 필드를 다 채운 <strong>뒤에</strong> 자동으로 불러요. 생성자에서는 <code>groceryLV</code>가 아직 null이라 여기서 <code>setItems</code>를 해요.</li>
+<li><code>getSelectionModel().getSelectedItem()</code>: 선택 안 했으면 <strong>null</strong> → <code>if (temp != null)</code> 검사.</li>
+<li><code>ObservableList</code>를 바꾸면(<code>add</code>, <code>remove</code>) ListView가 <strong>자동 갱신</strong>돼요. 그래서 원본 코드의 <code>setItems</code> 재호출은 사실 필요 없어요(여기서는 뺐어요).</li>
+</ul>
+<p>버그 찾기: <code>&gt;&gt;&gt;</code> 버튼은 왼쪽 → 오른쪽으로 옮겨야 자연스러운데 <code>onClickMoveGroceryLeftToRight</code>는 실제로 **오른쪽(checked) → 왼쪽(grocery)**으로 옮겨요. 메서드 이름과 동작이 뒤바뀌어 있어요. 두 메서드 이름을 서로 바꾸거나 FXML의 <code>onAction</code>을 바꿔 연결하면 고쳐져요.</p>
+</div><hr />
+<h2 id="이번-주-토이-프로젝트-cafeorder-week-4">🧩 이번 주 토이 프로젝트: CafeOrder Week 4 <a class="anchor" aria-label="링크" href="#이번-주-토이-프로젝트-cafeorder-week-4">#</a></h2>
+<p>콘솔이던 CafeOrder에 첫 화면을 붙여요. 왼쪽 <code>ListView</code>에 메뉴, 오른쪽 <code>ListView</code>에 장바구니, 가운데 <code>Add &gt;&gt;</code>, <code>&lt;&lt; Remove</code> 버튼, 아래 <code>Label</code>에 합계. FXML + Controller로 만들고, 버튼 핸들러에서 서비스(Week 3)를 부르고 합계 라벨을 갱신해요. (토이 가이드는 준비 중이에요.)</p>
+<h2 id="시험-대비-체크리스트-week-4">✅ 시험 대비 체크리스트 (Week 4) <a class="anchor" aria-label="링크" href="#시험-대비-체크리스트-week-4">#</a></h2>
+<ul>
+<li>[ ] Model, UI, GUI의 역할과 &quot;모델은 UI를 모른다&quot;를 설명할 수 있다.</li>
+<li>[ ] Stage, Scene, Node, Pane, Control의 관계를 말할 수 있다.</li>
+<li>[ ] <code>Application</code>, <code>start(Stage)</code>, <code>launch(args)</code>, <code>setScene</code>, <code>show()</code>로 창을 띄울 수 있다.</li>
+<li>[ ] FXML의 <code>fx:controller</code>, <code>fx:id</code>, <code>onAction=&quot;#...&quot;</code>과 컨트롤러의 <code>@FXML</code>, <code>initialize()</code>를 연결할 수 있다.</li>
+<li>[ ] <code>relocate</code>, <code>setPrefSize</code>, <code>setStyle</code>, <code>setDisable</code>, <code>setVisible</code>, <code>setEditable</code>을 구분한다.</li>
+<li>[ ] <code>extends Pane</code>으로 재사용 가능한 부품을 만들 수 있다.</li>
+<li>[ ] ComboBox의 <code>setPromptText</code>, <code>setValue</code>, <code>getValue</code>를 안다.</li>
+<li>[ ] event, source, handler를 정의하고, 핸들러를 등록해야 불린다는 것을 안다.</li>
+<li>[ ] <code>EventHandler&lt;ActionEvent&gt;</code>를 익명 클래스와 람다 두 가지로 쓸 수 있다.</li>
+<li>[ ] <code>getSource()</code> 캐스팅, <code>parseInt</code>/<code>parseDouble</code>, <code>&quot;&quot; + x</code> 변환을 쓸 수 있다.</li>
+</ul>
+<h2 id="손으로-써-보기">✍️ 손으로 써 보기 <a class="anchor" aria-label="링크" href="#손으로-써-보기">#</a></h2>
+<ol>
+<li>TextField 하나, Button <code>Greet</code> 하나, Label 하나를 Pane에 두고, 버튼을 누르면 Label에 <code>Hello, &lt;이름&gt;!</code>이 나오는 <code>start</code> 메서드를 쓰세요. 이름이 비어 있으면 <code>Enter a name</code>.</li>
+</ol>
+<details><summary>1번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">TextField</span><span class="w"> </span><span class="n">nameField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="w">    </span><span class="n">nameField</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Button</span><span class="w"> </span><span class="n">greet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Greet"</span><span class="p">);</span>
+<span class="w">    </span><span class="n">greet</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">180</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Label</span><span class="w"> </span><span class="n">out</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Label</span><span class="p">();</span>
+<span class="w">    </span><span class="n">out</span><span class="p">.</span><span class="na">relocate</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">greet</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nameField</span><span class="p">.</span><span class="na">getText</span><span class="p">().</span><span class="na">trim</span><span class="p">();</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">.</span><span class="na">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Enter a name"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="n">out</span><span class="p">.</span><span class="na">setText</span><span class="p">(</span><span class="s">"Hello, "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"!"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="n">Pane</span><span class="w"> </span><span class="n">pane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Pane</span><span class="p">();</span>
+<span class="w">    </span><span class="n">pane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">nameField</span><span class="p">,</span><span class="w"> </span><span class="n">greet</span><span class="p">,</span><span class="w"> </span><span class="n">out</span><span class="p">);</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">pane</span><span class="p">,</span><span class="w"> </span><span class="mi">260</span><span class="p">,</span><span class="w"> </span><span class="mi">90</span><span class="p">));</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">show</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<ol start="2">
+<li>버튼 <code>A</code>, <code>B</code>, <code>C</code>가 같은 핸들러 하나를 공유하고, 눌린 버튼의 글자를 출력하게 하세요. 핸들러는 <strong>한 번만</strong> 만드세요.</li>
+</ol>
+<details><summary>2번 예시 답</summary>
+<pre class="hl"><code class="language-java"><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="w"> </span><span class="n">handler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Button</span><span class="w"> </span><span class="n">src</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Button</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getSource</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="n">src</span><span class="p">.</span><span class="na">getText</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">" pressed"</span><span class="p">);</span>
+<span class="p">};</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">String</span><span class="o">[]</span><span class="p">{</span><span class="s">"A"</span><span class="p">,</span><span class="w"> </span><span class="s">"B"</span><span class="p">,</span><span class="w"> </span><span class="s">"C"</span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Button</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="n">b</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">handler</span><span class="p">);</span>
+<span class="w">    </span><span class="n">pane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">b</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</details>
+<ol start="3">
+<li>아래 컨트롤러에서 실행하면 <code>NullPointerException</code>이 나요. 이유와 고치는 법은?</li>
+</ol>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">MyController</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@FXML</span><span class="w"> </span><span class="kd">private</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">MyController</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">list</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span><span class="w"> </span><span class="s">"b"</span><span class="p">));</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<details><summary>3번 정답</summary>
+<p>생성자가 실행될 때는 FXMLLoader가 아직 <code>@FXML</code> 필드를 채우지 않아서 <code>list</code>가 null이에요. 이 코드를 <code>@FXML public void initialize() { ... }</code>로 옮기면 돼요. FXML의 <code>fx:id=&quot;list&quot;</code> 이름이 필드와 같은지도 확인하세요.</p>
+</details>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:32px"><a class="pill" href="quiz.html">📝 퀴즈 풀기</a></div>
+<button class="mark-done" data-key="apd545-w4" aria-pressed="false">☐ 이번 주 공부 완료로 표시</button><nav class="pager"><a href="week-03.html"><small>← 이전</small>Week 3. 컬렉션, 제네릭, 서비스 계층</a><a class="next" href="week-05.html"><small>다음 →</small>Week 5. MVC 분리</a></nav>
+<script>(function(){var b=document.querySelector('.mark-done'),K='studyhub-done';var d={};try{d=JSON.parse(localStorage.getItem(K)||'{}');}catch(e){}
+function p(){var on=!!d[b.dataset.key];b.setAttribute('aria-pressed',on);b.textContent=(on?'☑ 완료한 주차예요':'☐ 이번 주 공부 완료로 표시');}
+b.onclick=function(){d[b.dataset.key]=!d[b.dataset.key];try{localStorage.setItem(K,JSON.stringify(d));}catch(e){}p();};p();})();</script></article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../assets/sync.js?v=eafba866"></script><script src="../../assets/timer.js?v=eafba866"></script><script src="../../assets/snack.js?v=eafba866"></script><script src="../../assets/resume.js?v=eafba866"></script>
+</body></html>

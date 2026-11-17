@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice) · APD545</title><meta name="description" content="Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice) · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice)</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#project-structure">Project Structure</a></li><li class="l2"><a href="#example-student-model-with-properties">Example: Student model with properties</a></li><li class="l2"><a href="#example-repository-interface-and-in-memory-implementation">Example: Repository interface and in-memory implementation</a></li><li class="l2"><a href="#example-appcontext-manual-di-version">Example: AppContext (manual DI version)</a></li><li class="l2"><a href="#example-appcontext-guice-version">Example: AppContext (Guice version)</a></li><li class="l2"><a href="#example-maincontroller-double-click-to-edit">Example: MainController (double click to edit)</a></li><li class="l2"><a href="#example-studenteditcontroller-bindbidirectional">Example: StudentEditController (bindBidirectional)</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 5 교수님 샘플 코드 WK_5_Properties_Manual_DI 발췌 (구조와 핵심 메서드만)&gt;</p>
+<h1 id="week-5-sample-student-manager-properties-manual-di-then-guice">Week 5 · Sample: Student Manager (Properties + Manual DI, then Guice) <a class="anchor" aria-label="링크" href="#week-5-sample-student-manager-properties-manual-di-then-guice">#</a></h1>
+<h2 id="project-structure">Project Structure <a class="anchor" aria-label="링크" href="#project-structure">#</a></h2>
+<pre class="hl"><code class="language-text">models/        Student (JavaFX properties), User
+repositories/  IStudentRepository, InMemoryStudentRepository
+services/      IUserService, UserService
+controllers/   LoginController, MainController, StudentEditController
+utility/       AppContext (manual DI first, then a Guice module)
+resources/     login-view.fxml, student-manager.fxml, student-editor.fxml
+</code></pre>
+<h2 id="example-student-model-with-properties">Example: Student model with properties <a class="anchor" aria-label="링크" href="#example-student-model-with-properties">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Student</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleStringProperty</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">DoubleProperty</span><span class="w"> </span><span class="n">grade</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleDoubleProperty</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="n">BooleanProperty</span><span class="w"> </span><span class="n">enrolled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SimpleBooleanProperty</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">Student</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">double</span><span class="w"> </span><span class="n">grade</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">enrolled</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">grade</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">grade</span><span class="p">);</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="na">enrolled</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">enrolled</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">String</span><span class="w"> </span><span class="nf">getName</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">.</span><span class="na">get</span><span class="p">();</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setName</span><span class="p">(</span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">this</span><span class="p">.</span><span class="na">name</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">name</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">StringProperty</span><span class="w"> </span><span class="nf">nameProperty</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">name</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="c1">// grade and enrolled: same three methods (isEnrolled for boolean)</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="example-repository-interface-and-in-memory-implementation">Example: Repository interface and in-memory implementation <a class="anchor" aria-label="링크" href="#example-repository-interface-and-in-memory-implementation">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">IStudentRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllStudents</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">InMemoryStudentRepository</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="n">students</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">FXCollections</span><span class="p">.</span><span class="na">observableArrayList</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Student</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">getAllStudents</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">students</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">addStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="n">students</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">deleteStudent</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">students</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="example-appcontext-manual-di-version">Example: AppContext (manual DI version) <a class="anchor" aria-label="링크" href="#example-appcontext-manual-di-version">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppContext</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">IUserService</span><span class="w"> </span><span class="n">userService</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">UserService</span><span class="p">();</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InMemoryStudentRepository</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">IUserService</span><span class="w"> </span><span class="nf">getUserService</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">userService</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="n">IStudentRepository</span><span class="w"> </span><span class="nf">getStudentRepository</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// in HelloApplication.start</span>
+<span class="n">LoginController</span><span class="w"> </span><span class="n">loginController</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LoginController</span><span class="p">(</span><span class="n">AppContext</span><span class="p">.</span><span class="na">getUserService</span><span class="p">());</span>
+<span class="n">fxmlLoader</span><span class="p">.</span><span class="na">setController</span><span class="p">(</span><span class="n">loginController</span><span class="p">);</span>
+</code></pre>
+<h2 id="example-appcontext-guice-version">Example: AppContext (Guice version) <a class="anchor" aria-label="링크" href="#example-appcontext-guice-version">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppContext</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">AbstractModule</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configure</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">IUserService</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">to</span><span class="p">(</span><span class="n">UserService</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">Scopes</span><span class="p">.</span><span class="na">SINGLETON</span><span class="p">);</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">IStudentRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">to</span><span class="p">(</span><span class="n">InMemoryStudentRepository</span><span class="p">.</span><span class="na">class</span><span class="p">).</span><span class="na">in</span><span class="p">(</span><span class="n">Scopes</span><span class="p">.</span><span class="na">SINGLETON</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// in HelloApplication</span>
+<span class="nd">@Override</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">init</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">injector</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Guice</span><span class="p">.</span><span class="na">createInjector</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">AppContext</span><span class="p">());</span><span class="w"> </span><span class="p">}</span>
+
+<span class="c1">// in start</span>
+<span class="n">fxmlLoader</span><span class="p">.</span><span class="na">setControllerFactory</span><span class="p">(</span><span class="n">injector</span><span class="p">::</span><span class="n">getInstance</span><span class="p">);</span>
+</code></pre>
+<h2 id="example-maincontroller-double-click-to-edit">Example: MainController (double click to edit) <a class="anchor" aria-label="링크" href="#example-maincontroller-double-click-to-edit">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="nd">@Inject</span>
+<span class="kd">public</span><span class="w"> </span><span class="nf">MainController</span><span class="p">(</span><span class="n">IStudentRepository</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">_studentRepository</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentRepository</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nd">@FXML</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">studentListView</span><span class="p">.</span><span class="na">setItems</span><span class="p">(</span><span class="n">_studentRepository</span><span class="p">.</span><span class="na">getAllStudents</span><span class="p">());</span>
+<span class="w">    </span><span class="n">studentListView</span><span class="p">.</span><span class="na">setOnMouseClicked</span><span class="p">(</span><span class="n">event</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">event</span><span class="p">.</span><span class="na">getClickCount</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">Student</span><span class="w"> </span><span class="n">selected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">studentListView</span><span class="p">.</span><span class="na">getSelectionModel</span><span class="p">().</span><span class="na">getSelectedItem</span><span class="p">();</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">selected</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">)</span><span class="w"> </span><span class="n">openAddEditWindow</span><span class="p">(</span><span class="n">selected</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kd">private</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">openAddEditWindow</span><span class="p">(</span><span class="n">Student</span><span class="w"> </span><span class="n">student</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">IOException</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">FXMLLoader</span><span class="w"> </span><span class="n">loader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FXMLLoader</span><span class="p">(</span><span class="n">HelloApplication</span><span class="p">.</span><span class="na">class</span><span class="p">.</span><span class="na">getResource</span><span class="p">(</span><span class="s">"student-editor.fxml"</span><span class="p">));</span>
+<span class="w">    </span><span class="n">loader</span><span class="p">.</span><span class="na">setController</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">StudentEditController</span><span class="p">(</span><span class="n">student</span><span class="p">));</span>
+<span class="w">    </span><span class="n">Stage</span><span class="w"> </span><span class="n">stage</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Stage</span><span class="p">();</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">setScene</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Scene</span><span class="p">(</span><span class="n">loader</span><span class="p">.</span><span class="na">load</span><span class="p">()));</span>
+<span class="w">    </span><span class="n">stage</span><span class="p">.</span><span class="na">showAndWait</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="example-studenteditcontroller-bindbidirectional">Example: StudentEditController (bindBidirectional) <a class="anchor" aria-label="링크" href="#example-studenteditcontroller-bindbidirectional">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="nd">@FXML</span>
+<span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">initialize</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">nameField</span><span class="p">.</span><span class="na">textProperty</span><span class="p">().</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">student</span><span class="p">.</span><span class="na">nameProperty</span><span class="p">());</span>
+<span class="w">    </span><span class="n">gradeSpinner</span><span class="p">.</span><span class="na">setValueFactory</span><span class="p">(</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">SpinnerValueFactory</span><span class="p">.</span><span class="na">DoubleSpinnerValueFactory</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">getGrade</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">));</span>
+<span class="w">    </span><span class="n">gradeSpinner</span><span class="p">.</span><span class="na">valueProperty</span><span class="p">().</span><span class="na">addListener</span><span class="p">((</span><span class="n">obs</span><span class="p">,</span><span class="w"> </span><span class="n">oldV</span><span class="p">,</span><span class="w"> </span><span class="n">newV</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">student</span><span class="p">.</span><span class="na">setGrade</span><span class="p">(</span><span class="n">newV</span><span class="p">));</span>
+<span class="w">    </span><span class="n">enrolledCheckBox</span><span class="p">.</span><span class="na">selectedProperty</span><span class="p">().</span><span class="na">bindBidirectional</span><span class="p">(</span><span class="n">student</span><span class="p">.</span><span class="na">enrolledProperty</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="nd">@FXML</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">onClose</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">event</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">((</span><span class="n">Stage</span><span class="p">)</span><span class="w"> </span><span class="n">nameField</span><span class="p">.</span><span class="na">getScene</span><span class="p">().</span><span class="na">getWindow</span><span class="p">()).</span><span class="na">close</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>
