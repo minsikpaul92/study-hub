@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 6 · Segment 5. Dependency Injection &amp; Repository Pattern · APD545</title><meta name="description" content="Week 6 · Segment 5. Dependency Injection &amp; Repository Pattern · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 6 · Segment 5. Dependency Injection &amp; Repository Pattern</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#dependency-injection">Dependency Injection</a></li><li class="l2"><a href="#dependency-injection-in-practice">Dependency Injection in Practice</a></li><li class="l2"><a href="#repository-pattern">Repository Pattern</a></li><li class="l2"><a href="#how-do-they-both-work-together">How do they both work together?</a></li><li class="l2"><a href="#service-design-pattern">Service Design Pattern</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 6 · Segment 5 &quot;Dependency Injection &amp; Repository Patterns&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-6-segment-5-dependency-injection-repository-pattern">Week 6 · Segment 5. Dependency Injection &amp; Repository Pattern <a class="anchor" aria-label="링크" href="#week-6-segment-5-dependency-injection-repository-pattern">#</a></h1>
+<h2 id="dependency-injection">Dependency Injection <a class="anchor" aria-label="링크" href="#dependency-injection">#</a></h2>
+<blockquote>
+<p><strong>Dependency Injection (DI)</strong> is a design pattern where objects receive their dependencies from an external source rather than creating them internally. Promotes <strong>loose coupling</strong> between classes. Makes code easier to test and maintain. Common in frameworks like Guice, Spring, and Jakarta EE.</p>
+<p>Problem: classes often create their own dependencies → <strong>tight coupling</strong>. Solution: give (inject) dependencies from outside. Analogy: instead of a chef growing their own vegetables, the restaurant delivers them.</p>
+</blockquote>
+<h2 id="dependency-injection-in-practice">Dependency Injection in Practice <a class="anchor" aria-label="링크" href="#dependency-injection-in-practice">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">AppModule</span><span class="w"> </span><span class="kd">extends</span><span class="w"> </span><span class="n">AbstractModule</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">protected</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">configure</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bind</span><span class="p">(</span><span class="n">PlayerRepository</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">to</span><span class="p">(</span><span class="n">InMemoryPlayerRepository</span><span class="p">.</span><span class="na">class</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">in</span><span class="p">(</span><span class="n">Singleton</span><span class="p">.</span><span class="na">class</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<blockquote>
+<p>Guice decides which implementation to provide. Controllers don't care how the repository is built.</p>
+</blockquote>
+<h2 id="repository-pattern">Repository Pattern <a class="anchor" aria-label="링크" href="#repository-pattern">#</a></h2>
+<blockquote>
+<p>The Repository Pattern separates the logic that retrieves data from the business logic that uses the data, acting as a <strong>mediator</strong> between the domain and data mapping layers. Allows <strong>swapping between memory, database, or API</strong> without changing business code. Analogy: a library catalog, you don't search shelves yourself, you ask the catalog.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="kd">public</span><span class="w"> </span><span class="kd">interface</span> <span class="nc">PlayerRepository</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">ObservableList</span><span class="o">&lt;</span><span class="n">Player</span><span class="o">&gt;</span><span class="w"> </span><span class="nf">findAll</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">add</span><span class="p">(</span><span class="n">Player</span><span class="w"> </span><span class="n">player</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="n">Player</span><span class="w"> </span><span class="n">player</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<h2 id="how-do-they-both-work-together">How do they both work together? <a class="anchor" aria-label="링크" href="#how-do-they-both-work-together">#</a></h2>
+<blockquote>
+<p>Controller asks for data → via DI, gets a PlayerRepository. Repository provides data → doesn't matter if memory, DB, or file. <strong>DI + Repository = Decoupled, testable design.</strong></p>
+</blockquote>
+<h2 id="service-design-pattern">Service Design Pattern <a class="anchor" aria-label="링크" href="#service-design-pattern">#</a></h2>
+<blockquote>
+<p>Introduces a dedicated layer that encapsulates business logic and workflows, separating them from both the UI (controllers) and data access (repositories). Keeps controllers focused on UI events only.</p>
+<ul>
+<li>Current: <strong>Controller → Repository → Data</strong></li>
+<li>Improved: <strong>Controller → Service → Repository → Data</strong></li>
+</ul>
+</blockquote>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

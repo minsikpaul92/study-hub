@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 6 · Segment 2. Working with Menus · APD545</title><meta name="description" content="Week 6 · Segment 2. Working with Menus · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 6 · Segment 2. Working with Menus</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#working-with-menus">Working with Menus</a></li><li class="l2"><a href="#menubar-and-menus">MenuBar and Menus</a></li><li class="l2"><a href="#menuitems-separator-and-accelerators">MenuItems, separator and accelerators</a></li><li class="l2"><a href="#radiomenuitem-and-togglegroup">RadioMenuItem and ToggleGroup</a></li><li class="l2"><a href="#cascaded-menu-and-checkmenuitem">Cascaded menu and CheckMenuItem</a></li><li class="l2"><a href="#contextmenu">ContextMenu</a></li><li class="l2"><a href="#menu-event-handlers">Menu event handlers</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 6 · Segment 2 &quot;Working with Menus&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-6-segment-2-working-with-menus">Week 6 · Segment 2. Working with Menus <a class="anchor" aria-label="링크" href="#week-6-segment-2-working-with-menus">#</a></h1>
+<h2 id="working-with-menus">Working with Menus <a class="anchor" aria-label="링크" href="#working-with-menus">#</a></h2>
+<blockquote>
+<p>A menu is a list of commands presented to the user at his/her request. Menus can be attached to a menu bar at the top of an application or they may be pop-up menus. Classes: <strong>MenuBar, Menu, ContextMenu, MenuItem, CheckMenuItem, SeparatorMenuItem, RadioMenuItem</strong>.</p>
+</blockquote>
+<h2 id="menubar-and-menus">MenuBar and Menus <a class="anchor" aria-label="링크" href="#menubar-and-menus">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">VBox</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">VBox</span><span class="p">();</span>
+<span class="n">Menu</span><span class="w"> </span><span class="n">fileMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Menu</span><span class="p">(</span><span class="s">"_File"</span><span class="p">);</span>
+<span class="n">Menu</span><span class="w"> </span><span class="n">editMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Menu</span><span class="p">(</span><span class="s">"_Edit"</span><span class="p">);</span>
+<span class="n">Menu</span><span class="w"> </span><span class="n">settingsMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Menu</span><span class="p">(</span><span class="s">"_Settings"</span><span class="p">);</span>
+
+<span class="n">MenuBar</span><span class="w"> </span><span class="n">menuBar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuBar</span><span class="p">();</span>
+<span class="n">menuBar</span><span class="p">.</span><span class="na">getMenus</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">fileMenu</span><span class="p">,</span><span class="w"> </span><span class="n">editMenu</span><span class="p">,</span><span class="w"> </span><span class="n">settingsMenu</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="n">menuBar</span><span class="p">);</span>
+</code></pre>
+<h2 id="menuitems-separator-and-accelerators">MenuItems, separator and accelerators <a class="anchor" aria-label="링크" href="#menuitems-separator-and-accelerators">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">MenuItem</span><span class="w"> </span><span class="n">newItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"New"</span><span class="p">);</span>
+<span class="n">MenuItem</span><span class="w"> </span><span class="n">openItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Open..."</span><span class="p">);</span>
+<span class="n">MenuItem</span><span class="w"> </span><span class="n">closeItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Close"</span><span class="p">);</span>
+<span class="n">fileMenu</span><span class="p">.</span><span class="na">getItems</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">newItem</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SeparatorMenuItem</span><span class="p">(),</span><span class="w"> </span><span class="n">openItem</span><span class="p">,</span><span class="w"> </span><span class="n">closeItem</span><span class="p">);</span>
+
+<span class="n">newItem</span><span class="p">.</span><span class="na">setAccelerator</span><span class="p">(</span><span class="n">KeyCombination</span><span class="p">.</span><span class="na">keyCombination</span><span class="p">(</span><span class="s">"Ctrl+N"</span><span class="p">));</span>
+<span class="n">openItem</span><span class="p">.</span><span class="na">setAccelerator</span><span class="p">(</span><span class="n">KeyCombination</span><span class="p">.</span><span class="na">keyCombination</span><span class="p">(</span><span class="s">"Ctrl+O"</span><span class="p">));</span>
+<span class="n">closeItem</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+</code></pre>
+<blockquote>
+<p>Accelerators are &quot;quick key&quot; presses that allow the user to select the menu item without having to go through the menus.</p>
+</blockquote>
+<h2 id="radiomenuitem-and-togglegroup">RadioMenuItem and ToggleGroup <a class="anchor" aria-label="링크" href="#radiomenuitem-and-togglegroup">#</a></h2>
+<blockquote>
+<p>Each RadioMenuItem is added to a <strong>ToggleGroup</strong>, to ensure that only one can be selected at a time.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ToggleGroup</span><span class="w"> </span><span class="n">settingGroup</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ToggleGroup</span><span class="p">();</span>
+<span class="n">RadioMenuItem</span><span class="w"> </span><span class="n">smallItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RadioMenuItem</span><span class="p">(</span><span class="s">"Small"</span><span class="p">);</span>
+<span class="n">smallItem</span><span class="p">.</span><span class="na">setToggleGroup</span><span class="p">(</span><span class="n">settingGroup</span><span class="p">);</span>
+<span class="n">RadioMenuItem</span><span class="w"> </span><span class="n">largeItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">RadioMenuItem</span><span class="p">(</span><span class="s">"Large"</span><span class="p">);</span>
+<span class="n">largeItem</span><span class="p">.</span><span class="na">setToggleGroup</span><span class="p">(</span><span class="n">settingGroup</span><span class="p">);</span>
+<span class="n">settingsMenu</span><span class="p">.</span><span class="na">getItems</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">smallItem</span><span class="p">,</span><span class="w"> </span><span class="n">largeItem</span><span class="p">);</span>
+</code></pre>
+<h2 id="cascaded-menu-and-checkmenuitem">Cascaded menu and CheckMenuItem <a class="anchor" aria-label="링크" href="#cascaded-menu-and-checkmenuitem">#</a></h2>
+<pre class="hl"><code class="language-java"><span class="n">Menu</span><span class="w"> </span><span class="n">searchMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Menu</span><span class="p">(</span><span class="s">"Search"</span><span class="p">);</span>
+<span class="n">searchMenu</span><span class="p">.</span><span class="na">getItems</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Find"</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Replace"</span><span class="p">));</span>
+<span class="n">CheckMenuItem</span><span class="w"> </span><span class="n">gridItem</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CheckMenuItem</span><span class="p">(</span><span class="s">"Use GridLines"</span><span class="p">);</span>
+<span class="n">editMenu</span><span class="p">.</span><span class="na">getItems</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="n">gridItem</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SeparatorMenuItem</span><span class="p">(),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Copy"</span><span class="p">),</span><span class="w"> </span><span class="n">searchMenu</span><span class="p">);</span>
+</code></pre>
+<h2 id="contextmenu">ContextMenu <a class="anchor" aria-label="링크" href="#contextmenu">#</a></h2>
+<blockquote>
+<p>A menu that will pop up wherever we right click. It is created like any other menu. However, <strong>it is not added to anything</strong>. We use the show() method in a mouse handler.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">ContextMenu</span><span class="w"> </span><span class="n">popupMenu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ContextMenu</span><span class="p">();</span>
+<span class="n">popupMenu</span><span class="p">.</span><span class="na">getItems</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Help"</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">MenuItem</span><span class="p">(</span><span class="s">"Inspect"</span><span class="p">));</span>
+
+<span class="n">aPane</span><span class="p">.</span><span class="na">setOnMouseClicked</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">MouseEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">MouseEvent</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="na">getButton</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MouseButton</span><span class="p">.</span><span class="na">SECONDARY</span><span class="p">)</span>
+<span class="w">            </span><span class="n">popupMenu</span><span class="p">.</span><span class="na">show</span><span class="p">(</span><span class="n">aPane</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getScreenX</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getScreenY</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">25</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+</code></pre>
+<h2 id="menu-event-handlers">Menu event handlers <a class="anchor" aria-label="링크" href="#menu-event-handlers">#</a></h2>
+<blockquote>
+<p>We simply add it to the MenuItem instead of the Button. For a CheckMenuItem, use <strong>isSelected()</strong>. We need to type-cast because getSource() returns an Object type.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">gridItem</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">EventHandler</span><span class="o">&lt;</span><span class="n">ActionEvent</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">handle</span><span class="p">(</span><span class="n">ActionEvent</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(((</span><span class="n">CheckMenuItem</span><span class="p">)</span><span class="w"> </span><span class="n">e</span><span class="p">.</span><span class="na">getSource</span><span class="p">()).</span><span class="na">isSelected</span><span class="p">())</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"USE GRIDLINES has been selected"</span><span class="p">);</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"USE GRIDLINES has been unselected"</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">});</span>
+
+<span class="n">newItem</span><span class="p">.</span><span class="na">setOnAction</span><span class="p">(</span><span class="n">e</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">closeItem</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">false</span><span class="p">);</span>
+<span class="w">    </span><span class="n">newItem</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="w">    </span><span class="n">openItem</span><span class="p">.</span><span class="na">setDisable</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>

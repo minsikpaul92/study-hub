@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Week 6 · Segment 1. Automatic Resizing using Layouts · APD545</title><meta name="description" content="Week 6 · Segment 1. Automatic Resizing using Layouts · APD545">
+<script>(function(){var t='dark';try{t=localStorage.getItem('studyhub-theme')||'dark';}catch(e){}document.documentElement.dataset.theme=t;})();</script>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../../../assets/site.css?v=eafba866">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📚</text></svg>">
+</head><body>
+<header class="topbar"><div class="in">
+<a class="brand" href="../../../index.html">study<span>-hub</span></a>
+<nav class="crumbs"><span>/</span><a href="../../../c/apd545/index.html">APD545</a><span>/</span><a href="../../../c/apd545/materials.html">자료</a><span>/</span><span>Week 6 · Segment 1. Automatic Resizing using Layouts</span></nav><div class="spacer"></div><button class="iconbtn toc-toggle" id="toc-toggle" aria-label="목차">☰ 목차</button>
+<button class="iconbtn" id="theme" aria-label="테마 바꾸기">🌙<span class="t"> 다크</span></button>
+</div></header>
+<div class="doc"><nav class="toc" aria-label="목차"><div class="t">목차</div><ol><li class="l2"><a href="#why-layout-panes">Why layout panes?</a></li><li class="l2"><a href="#flowpane">FlowPane</a></li><li class="l2"><a href="#hbox-vbox">HBox / VBox</a></li><li class="l2"><a href="#borderpane">BorderPane</a></li><li class="l2"><a href="#simple-gridpane">Simple GridPane</a></li><li class="l2"><a href="#more-complicated-gridpane">More Complicated GridPane</a></li></ol></nav>
+<article class="md"><p>Source: &lt;APD545 Week 6 · Segment 1 &quot;Automatic Resizing using Layouts&quot; 강의 슬라이드 (Mahboob Ali, Seneca) 핵심 문장 발췌&gt;</p>
+<h1 id="week-6-segment-1-automatic-resizing-using-layouts">Week 6 · Segment 1. Automatic Resizing using Layouts <a class="anchor" aria-label="링크" href="#week-6-segment-1-automatic-resizing-using-layouts">#</a></h1>
+<h2 id="why-layout-panes">Why layout panes? <a class="anchor" aria-label="링크" href="#why-layout-panes">#</a></h2>
+<blockquote>
+<p>JavaFX provides a mechanism called a <strong>Layout Pane</strong> that allows the automatic arrangement of the components as the window is resized. Why? We would not have to compute locations and sizes; our components will resize automatically; our interface will appear &quot;nicely&quot; on all platforms. We will discuss FlowPane, BorderPane, HBox, VBox, and GridPane.</p>
+</blockquote>
+<h2 id="flowpane">FlowPane <a class="anchor" aria-label="링크" href="#flowpane">#</a></h2>
+<blockquote>
+<p>Components are arranged horizontally from left to right, like lines of words in a paragraph. If no space remains on the current line, components flow (or <strong>wrap around</strong>) to the next &quot;line&quot;. The height of each line is the maximum height of any component on that line.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">FlowPane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FlowPane</span><span class="p">();</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"one"</span><span class="p">));</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"two"</span><span class="p">));</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">add</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"three"</span><span class="p">));</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setVgap</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span><span class="w">                              </span><span class="c1">// gap between rows</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setHgap</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span><span class="w">                              </span><span class="c1">// gap between columns</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w"> </span><span class="mi">40</span><span class="p">));</span><span class="w">   </span><span class="c1">// top, right, bottom, left</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">25</span><span class="p">));</span><span class="w">               </span><span class="c1">// same on all 4 sides</span>
+</code></pre>
+<h2 id="hbox-vbox">HBox / VBox <a class="anchor" aria-label="링크" href="#hbox-vbox">#</a></h2>
+<blockquote>
+<p>Similar to the FlowPane in that it arranges components one after another, either horizontally or vertically. It <strong>does not have a wrap-around effect</strong>. Any components that do not fit on the line are simply not shown.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">HBox</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">HBox</span><span class="p">();</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setSpacing</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+</code></pre>
+<h2 id="borderpane">BorderPane <a class="anchor" aria-label="링크" href="#borderpane">#</a></h2>
+<blockquote>
+<p>Places components at one of <strong>five anchored positions</strong> (top, left, bottom, right or center). As the window resizes, components stay &quot;anchored&quot; and grow accordingly. You may place <strong>at most one component</strong> in each of the 5 positions, but this one component may be a container such as another Pane.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">BorderPane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">BorderPane</span><span class="p">();</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+
+<span class="n">FlowPane</span><span class="w"> </span><span class="n">buttonPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FlowPane</span><span class="p">();</span>
+<span class="n">buttonPane</span><span class="p">.</span><span class="na">setHgap</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">buttonPane</span><span class="p">.</span><span class="na">getChildren</span><span class="p">().</span><span class="na">addAll</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Add"</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Remove"</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Edit"</span><span class="p">));</span>
+
+<span class="n">aPane</span><span class="p">.</span><span class="na">setBottom</span><span class="p">(</span><span class="n">buttonPane</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setCenter</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">TextArea</span><span class="p">());</span>
+
+<span class="n">TextField</span><span class="w"> </span><span class="n">statusField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">(</span><span class="s">"This is like a status pane"</span><span class="p">);</span>
+<span class="n">BorderPane</span><span class="p">.</span><span class="na">setMargin</span><span class="p">(</span><span class="n">statusField</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+</code></pre>
+<h2 id="simple-gridpane">Simple GridPane <a class="anchor" aria-label="링크" href="#simple-gridpane">#</a></h2>
+<blockquote>
+<p>Excellent for arranging a 2-dimensional grid of components. Components are added by specifying their <strong>column and row</strong>: <code>aGridPane.add(aComponent, col, row);</code>. JAVA determines the number of rows and columns from the add() calls. <code>setHgap()</code>, <code>setVgap()</code>, <code>setPadding()</code>.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">GridPane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GridPane</span><span class="p">();</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setHgap</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setVgap</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">row</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">6</span><span class="p">;</span><span class="w"> </span><span class="n">row</span><span class="o">++</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">col</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"> </span><span class="n">col</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">Button</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">();</span>
+<span class="w">        </span><span class="n">b</span><span class="p">.</span><span class="na">setPrefWidth</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="w">        </span><span class="n">b</span><span class="p">.</span><span class="na">setPrefHeight</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+<span class="w">        </span><span class="n">aPane</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">col</span><span class="p">,</span><span class="w"> </span><span class="n">row</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+</code></pre>
+<h2 id="more-complicated-gridpane">More Complicated GridPane <a class="anchor" aria-label="링크" href="#more-complicated-gridpane">#</a></h2>
+<blockquote>
+<p>Imagine lines between components to form a grid, number the columns and rows starting at 0 at the top left. A component can <strong>span</strong> multiple rows and columns.</p>
+</blockquote>
+<pre class="hl"><code class="language-java"><span class="n">GridPane</span><span class="w"> </span><span class="n">aPane</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">GridPane</span><span class="p">();</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">setPadding</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">10</span><span class="p">));</span>
+
+<span class="n">TextField</span><span class="w"> </span><span class="n">newItemField</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TextField</span><span class="p">();</span>
+<span class="n">newItemField</span><span class="p">.</span><span class="na">setMinHeight</span><span class="p">(</span><span class="mi">30</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">newItemField</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">GridPane</span><span class="p">.</span><span class="na">setMargin</span><span class="p">(</span><span class="n">newItemField</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">addButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Add"</span><span class="p">);</span>
+<span class="n">addButton</span><span class="p">.</span><span class="na">setMinSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">addButton</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<span class="n">GridPane</span><span class="p">.</span><span class="na">setMargin</span><span class="p">(</span><span class="n">addButton</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">));</span>
+
+<span class="n">ListView</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span><span class="w"> </span><span class="n">fruitList</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ListView</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setPrefWidth</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">);</span><span class="w">   </span><span class="c1">// take all the extra space</span>
+<span class="n">fruitList</span><span class="p">.</span><span class="na">setPrefHeight</span><span class="p">(</span><span class="n">Integer</span><span class="p">.</span><span class="na">MAX_VALUE</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">fruitList</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">Button</span><span class="w"> </span><span class="n">removeButton</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Button</span><span class="p">(</span><span class="s">"Remove"</span><span class="p">);</span>
+<span class="n">removeButton</span><span class="p">.</span><span class="na">setMinSize</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">);</span>
+<span class="n">aPane</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+<span class="n">GridPane</span><span class="p">.</span><span class="na">setMargin</span><span class="p">(</span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">Insets</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">));</span>
+<span class="n">GridPane</span><span class="p">.</span><span class="na">setValignment</span><span class="p">(</span><span class="n">removeButton</span><span class="p">,</span><span class="w"> </span><span class="n">VPos</span><span class="p">.</span><span class="na">TOP</span><span class="p">);</span>
+</code></pre>
+</article></div>
+<script>(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.remove('active');});var a=map[e.target.id];if(a){a.classList.add('active');a.scrollIntoView({block:'nearest'});}}});},{rootMargin:'-70px 0px -75% 0px'});
+document.querySelectorAll('.md h2[id], .md h3[id]').forEach(function(h){io.observe(h);});})();</script>
+<script>
+(function(){var b=document.getElementById('theme');function lab(){var d=document.documentElement.dataset.theme==='dark';b.innerHTML=d?'☀️<span class="t"> 라이트</span>':'🌙<span class="t"> 다크</span>';b.title=d?'라이트 모드로':'다크 모드로';}lab();b.onclick=function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('studyhub-theme',n);}catch(e){}lab();};
+var t=document.getElementById('toc-toggle'),toc=document.querySelector('.toc');if(t&&toc){t.onclick=function(){toc.classList.toggle('open');};toc.addEventListener('click',function(e){if(e.target.closest('a'))toc.classList.remove('open');});}
+document.querySelectorAll('.md pre').forEach(function(p){var c=document.createElement('button');c.className='copy';c.textContent='복사';c.onclick=function(){navigator.clipboard.writeText(p.querySelector('code').innerText).then(function(){c.textContent='복사됨';setTimeout(function(){c.textContent='복사';},1200);});};p.appendChild(c);});
+})();
+</script>
+<script src="../../../assets/sync.js?v=eafba866"></script><script src="../../../assets/timer.js?v=eafba866"></script><script src="../../../assets/snack.js?v=eafba866"></script><script src="../../../assets/resume.js?v=eafba866"></script>
+</body></html>
